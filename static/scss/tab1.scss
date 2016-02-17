@@ -1,0 +1,46 @@
+#sub {
+	.card {
+		min-height: 200px;
+		&.ng-enter {
+			transform: rotate(-20deg) translate(-90px);
+			transition: all .5s;
+			opacity: 0;
+			border-bottom: 2px solid #e1e1e7;
+			border-radius: 2px;
+			&.ng-enter-active {
+				opacity: 1;
+				transform: rotate(0deg) translate(0px);
+			}
+		}
+	}
+}
+
+.card-container {
+	&.flatten-3d {
+		&.rotateX {
+			perspective: none;
+			.card {
+				transform-style: flat;
+			}
+		}
+	}
+	&.ng-leave {
+		transition: all .5s;
+		opacity: 1;
+		&.ng-leave-active {
+			opacity: 0;
+			transform: translate(200px);
+		}
+	}
+}
+
+
+/* file upload */
+
+.drop-box {
+	height: 100%;
+}
+
+.dragover {
+	border: 5px dashed blue;
+}

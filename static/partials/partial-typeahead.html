@@ -1,0 +1,4 @@
+<ul class="typeahead-list">
+	<li ng-class="{active:$index==focusIndex}" ng-mouseover="hoverIndex($index)" ng-mousedown="submitByClick($index,$event)" ng-repeat="result in filteredResult"><span>{{result.name}}</span></li>
+	<li ng-if="filteredResult.length==0">결과가 없습니다</li>
+</ul>

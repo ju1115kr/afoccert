@@ -1,0 +1,95 @@
+.sin-editor {
+@import "component.scss";
+	position: relative;
+	.sin-editor-default,
+	.sin-editor-inline,
+	.sin-editor-default-edit{
+		min-height: 90px;
+		-webkit-user-select: initial;
+      		padding: 16px 10px 26px;
+      		font-size: 14px;
+      		&::selection,
+      		*::selection {
+        			background: #fff2a8;
+      		}
+	}
+	[contenteditable="true"] {
+		&:focus {
+			border: none;
+			outline: none;
+		}
+		&::selection {
+			background: #fff2a8;
+		}
+	}
+	footer{
+		position: relative;
+	}
+	.sin-editor-default + footer{
+		border-top: 1px solid #f1f1f5;
+		text-align: right;
+		padding: 6px 15px;
+		button{
+			@extend .btn-primary;
+			width: 100px;
+		}
+	}
+	.sin-editor-inline {
+		float: left;
+		width: calc(100% - 55px);
+		margin-right: 5px;
+		&+footer{
+			float: left;
+			width : 45px;
+			.btn{
+				@extend .btn-primary, .btn-transparent, .btn-block, .btn-sm;
+			}
+		}
+	}
+	.sin-editor-default-edit + footer{
+		border-top: 1px solid #f1f1f5;
+		text-align: right;
+		padding: 6px 15px;
+		margin-bottom: -25px;
+		button{
+			@extend .btn-warning;
+			width: 100px;
+		}
+	}
+	.sin-editor-inline-edit {
+		float: left;
+		width: calc(100% - 55px);
+		margin-right: 5px;	
+		&+footer{
+			float: left;
+			width : 45px;
+			.btn{
+				@extend .btn-primary, .btn-transparent, .btn-block, .btn-sm;
+			}
+		}
+	}
+	&::before,
+	&::after{
+		display:block;
+		content:"";
+		clear:both;
+	}
+}
+.hash-input {
+	border: none;
+	outline: none;
+	border-bottom: 2px solid #F9BF3B;
+	line-height: 1.2;
+	&.readonly {
+		padding: 1px 4px;
+		background: #F9BF3B;
+		color: white;
+		border-radius: 2px;
+		margin: 1px 2px;
+		-webkit-user-select: none;
+	}
+}
+
+#hash-form {
+	display: inline-block;
+}

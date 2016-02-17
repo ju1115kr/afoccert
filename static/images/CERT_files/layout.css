@@ -1,0 +1,32 @@
+body {
+  background: #f1f1f1; }
+
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #e74c3c;
+  width: 100%;
+  height: 50px;
+  color: white;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  line-height: 30px;
+  z-index: 1000; }
+  #header ul {
+    float: right; }
+    #header ul li {
+      display: block;
+      float: left;
+      line-height: 30px;
+      margin: 0px 10px; }
+
+#content-area {
+  height: 100%;
+  padding: 50px 0 0 0;
+  background: #f1f1f1; }
+  #content-area > .pages {
+    width: 600px;
+    margin: 20px 40px;
+    float: right;
+    -webkit-user-select: none; }

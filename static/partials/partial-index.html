@@ -1,0 +1,27 @@
+
+<div id="header" ng-if="global.isLoggedIn()" ng-animate="{enter:'animate-enter'}">
+	<div class="global-width margin-auto">
+		<ul>
+			<li ng-repeat="button in navObject.header.buttons" ng-click="link_provider.navigate(section, button.link)"><span class="{{button.icon}}"></span></li>
+		</ul>
+	</div>
+</div>
+<div id="main-nav" ng-if="global.isLoggedIn()">
+	<ul>
+		<li ng-repeat="button in navObject.sub.buttons" ng-click="link_provider.navigate(section, button.link)" ng-class="{'active': (section+'.'+button.link | routeSegmentStartsWith)}"><span class="{{button.icon}} icon"></span><span>{{button.name}}</span></li>
+	</ul>
+</div>
+<div class="wallpaper" ng-class="{leave:'animate-leave'}" ng-if="!global.isLoggedIn()">
+	<div class="wallpaper-partition shadow"></div>
+	<div class="wallpaper-partition shadow"></div>
+</div>
+<form id="signForm" class="shadow" ng-submit="signin()" ng-if="!global.isLoggedIn()" ng-class="{leave:'animate-leave'}">
+	<input type="text" ng-model="user.id" class="form-input lg" placeholder="아이디">
+	<input type="password" ng-model="user.pw" class="form-input lg" placeholder="비밀번호">
+	<input type="password" ng-model="user.pwcf" class="form-input lg" ng-if="signupForm" placeholder="비밀번호 확인">
+	<input type="text" ng-model="user.name" class="form-input lg" ng-if="signupForm" placeholder="이름">
+	<button type="submit" class="btn btn-primary btn-block btn-lg ng-animate-disabled" ng-disabled="user.loading" ng-if="!signupForm">로그인</button>
+	<hr class="or" ng-if="!signupForm">
+	<button type="button" class="btn btn-block btn-lg" ng-class="{'btn-default':!signupForm, 'btn-warning':signupForm}" ng-disabled="user.loading" ng-click="signup()">가입</button>
+</form>
+<div id="content-area" app-view-segment="1" ng-if="global.isLoggedIn()" ng-animate="{enter:'animate-enter'}"></div>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!-- saved from url=(0028)http://localhost:8080/#/tab1 -->
+<html ng-app="certApp" class="ng-scope"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+	<meta charset="utf-8">
+	<title>CERT</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="./CERT_files/base.css">
+	<link rel="stylesheet" href="./CERT_files/bootstrap.min.css">
+	<link rel="stylesheet" href="./CERT_files/layout.css">
+	<link rel="stylesheet" href="./CERT_files/tab1.css">
+	<link rel="stylesheet" href="./CERT_files/glyphicons.css">
+    <link rel="stylesheet" href="./CERT_files/glyphicons-bootstrap.css">
+	<script type="text/javascript" src="./CERT_files/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="./CERT_files/jquery.hotkeys.js"></script>
+	<script type="text/javascript" src="./CERT_files/jquery.auto-grow-input.min.js"></script>
+<style>.ngf-hide{display:none !important}</style></head>
+<body>
+
+	<!-- appViewSegment: 0 --><div id="body" class="global-width margin-auto ng-scope" app-view-segment="0">
+<div id="header" class="ng-scope">
+	<div class="global-width margin-auto">
+		<!-- ngRepeat: header in sidebarObjects --><ul ng-repeat="header in sidebarObjects" class="ng-scope">
+			<!-- ngRepeat: button in header.buttons --><li ng-repeat="button in header.buttons" ng-click="link_provider.navigate(section, button.link)" class="ng-binding ng-scope">신송</li><!-- end ngRepeat: button in header.buttons --><li ng-repeat="button in header.buttons" ng-click="link_provider.navigate(section, button.link)" class="ng-binding ng-scope">맘터</li><!-- end ngRepeat: button in header.buttons --><li ng-repeat="button in header.buttons" ng-click="link_provider.navigate(section, button.link)" class="ng-binding ng-scope">먹고싶으셰여?</li><!-- end ngRepeat: button in header.buttons --><li ng-repeat="button in header.buttons" ng-click="link_provider.navigate(section, button.link)" class="ng-binding ng-scope">=이주영 극혐</li><!-- end ngRepeat: button in header.buttons -->
+		</ul><!-- end ngRepeat: header in sidebarObjects -->
+	</div>
+</div>
+<!-- appViewSegment: 1 --><div id="content-area" app-view-segment="1" class="ng-scope"><div class="pages ng-scope">
+	<div id="editor" sin-editor="" sin-submit="submit(todo)" class="ng-isolate-scope"><div class="toolbar">                <ul>                    <!-- ngRepeat: option in toolbar --><li ng-repeat="option in toolbar" class="ng-scope">                      <button ng-click="option.func()"><span class="glyphicons glyphicons-bold"></span></button>                    </li><!-- end ngRepeat: option in toolbar --><li ng-repeat="option in toolbar" class="ng-scope">                      <button ng-click="option.func()"><span class="glyphicons glyphicons-italic"></span></button>                    </li><!-- end ngRepeat: option in toolbar --><li ng-repeat="option in toolbar" class="ng-scope">                      <button ng-click="option.func()"><span class="glyphicons glyphicons-text-underline"></span></button>                    </li><!-- end ngRepeat: option in toolbar --><li ng-repeat="option in toolbar" class="ng-scope">                      <button ng-click="option.func()"><span class="glyphicons glyphicons-text-strike"></span></button>                    </li><!-- end ngRepeat: option in toolbar --><li ng-repeat="option in toolbar" class="ng-scope">                      <button ng-click="option.func()"><span class="glyphicons glyphicons-align-center"></span></button>                    </li><!-- end ngRepeat: option in toolbar --><li ng-repeat="option in toolbar" class="ng-scope">                      <button ng-click="option.func()"><span class="glyphicons glyphicons-text-size"></span></button>                    </li><!-- end ngRepeat: option in toolbar -->                </ul>            </div>            <div id="note" sin-note="" sin-hash="hash" contenteditable="true" ng-focus="finishHash()" ng-blur="finishHash(e)" ng-model="editor.value" autofocus="" class="ng-valid ng-binding ng-isolate-scope ng-dirty ng-valid-parse ng-touched">sdfsadf</div>            <div sin-typeahead="" sin-hash="hash" class="typeahead ng-isolate-scope" ng-class="{show:hash.constructed}"><ul class="hash-list">                    <!-- ngRepeat: result in filteredResult -->                    <!-- ngIf: filteredResult.length==0 -->                </ul></div>            <div class="bottom">                <button ng-click="pushTodo(editor.value)" ng-disabled="!editor.value">작성완료</button>또는 <span class="emphasize" ng-class="{disabled:!editor.value}"><span class="key">alt</span>+<span class="key">s</span></span>            </div></div>
+	<!-- ngRepeat: todo in todos | reverse -->
+	<!--  Drop File:
+    <div ngf-drop ngf-select ng-model="files" class="drop-box" 
+        ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+        accept="image/*,application/pdf" 
+        ngf-pattern="'image/*,application/pdf'">Drop pdfs or images here or click to upload</div>
+    Files:
+    <ul>
+        <li ng-repeat="f in files" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}</li>
+    </ul>
+    Upload Log:
+    <pre>{{log}}</pre>
+    <img ngf-src="!files[0].$error && files[0]"> -->
+
+
+    <!-- <input ng-model="text.value" style="width: 400px;"> -->
+    <!-- <input ng-model="hash.typed"> -->
+    <!-- http://jsfiddle.net/MWe8U/ -->
+    <!-- http://jsfiddle.net/lsiv568/fsfPe/10/ -->
+</div>
+</div>
+</div>
+
+	<script type="text/javascript" src="./CERT_files/angular.js"></script>
+	<script type="text/javascript" src="./CERT_files/angular-resource.min.js"></script>
+	<script type="text/javascript" src="./CERT_files/angular-route.min.js"></script>
+	<script type="text/javascript" src="./CERT_files/angular-animate.min.js"></script>
+	<script type="text/javascript" src="./CERT_files/angular-route-segment.min.js"></script>
+	<script type="text/javascript" src="./CERT_files/angular-sanitize.min.js"></script>
+	<script type="text/javascript" src="./CERT_files/ng-file-upload.js"></script>
+	<script type="text/javascript" src="./CERT_files/app.js"></script>
+	<script type="text/javascript" src="./CERT_files/config.js"></script>
+	<script type="text/javascript" src="./CERT_files/ctrl-index.js"></script>
+	<script type="text/javascript" src="./CERT_files/ctrl-tab1.js"></script>
+
+
+	<script type="text/javascript" src="./CERT_files/route-link-provider.js"></script>
+	<script type="text/javascript" src="./CERT_files/hash-list.js"></script>
+	<script type="text/javascript" src="./CERT_files/toolbar.js"></script>
+
+	<script type="text/javascript" src="./CERT_files/contenteditable.js"></script>
+	<script type="text/javascript" src="./CERT_files/hotkeys.js"></script>
+	<script type="text/javascript" src="./CERT_files/autogrow.js"></script>
+	<script type="text/javascript" src="./CERT_files/krinput.js"></script>
+	<script type="text/javascript" src="./CERT_files/dir-sin-editor.js"></script>
+
+
+	<script type="text/javascript" src="./CERT_files/reverse.js"></script>
+
+	
+
+
+
+
+<script type="text/javascript">document.write('<script src="' + (location.protocol || 'http:') + '//' + (location.hostname || 'localhost') + ':35729/livereload.js?snipver=1" type="text/javascript"><\/script>')</script><script src="./CERT_files/livereload.js" type="text/javascript"></script>
+
+
+</body></html>
