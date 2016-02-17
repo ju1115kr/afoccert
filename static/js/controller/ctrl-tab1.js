@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('certApp')
-    .controller('Tab1Ctrl', ['$scope', '$sce', '$rootScope', '$uibModal', 'News', '$http', '$window', 'Comments', '$q', 'Store', 'modalUtils', '$timeout', 'Global',
-        function ($scope, $sce, $rootScope, $uibModal, News, $http, $window, Comments, $q, Store, modalUtils, $timeout, Global) {
+    .controller('Tab1Ctrl',function ($scope, $sce, $rootScope, $uibModal, News, $http, $window, Comments, $q, Store, modalUtils, $timeout, Global, PopoverProvider) {
             /**
              * prevent ctrl+f : find
              */
@@ -14,6 +13,16 @@ angular.module('certApp')
             $scope.newses = [];
             $scope.fetching = false;
             $scope.fetchedAll = false;
+            function processingNews(news){
+                    news.trustText = $sce.trustAsHtml(news.context);
+                    serializer(news, 'context', 'text');
+                    news.created = {};
+                    news.created.date = new Date().format('YY년 MM월 dd일', news.created_at);
+                    news.created.time = new Date().format('hh:mm', news.created_at);
+                    news.comments = [];
+                    news.comments.newsId = news.id;
+                    return news;
+            };
             function fetchNewPage(startPage) {
                 return function () {
                     $scope.fetching = true;
@@ -24,19 +33,16 @@ angular.module('certApp')
                             tempNews = result.news;
                             if(tempNews.length!==0){
                             angular.forEach(tempNews, function (news, index) {
-                                news.trustText = $sce.trustAsHtml(news.context);
-                                serializer(news, 'context', 'text');
+                                news = processingNews(news);
                                 Comments.fromNews({newsId: news.id}, function (result) {
                                     var commentArr = result.comments;
                                     angular.forEach(commentArr, function (comment) {
                                         serializer(comment, 'context', 'text');
                                         comment.trustText = $sce.trustAsHtml(comment.text);
                                     });
-
                                     $q.all(commentArr).then(function () {
                                         news.comments = commentArr;
                                         news.comments.newsId = news.id;
-                                        console.log($scope.newses)
                                     })
                                 })
                             })
@@ -66,16 +72,12 @@ angular.module('certApp')
                     text: text
                 };
                 
-                 News.save({'context': obj.text}, function (data, headers) {
-                 $http({method: 'GET', url: headers('Location')}).success(function (data, stauts, headers, config) {
-                 data.trustText = $sce.trustAsHtml(data.context);
-                 serializer(data, 'context', 'text');
-                 data.comments=[];
-                 data.comments.newsId = data.id;
-                 model.unshift(data);
-
-                 })
-                 })
+                News.save({'context': obj.text}, function (data, headers) {
+                    $http({method: 'GET', url: headers('Location')}).success(function (data, stauts, headers, config) {
+                        data = processingNews(data);
+                        model.unshift(data);
+                    })
+                })
             };
             $scope.editNewsEnd = function (id, text) {
                 $scope.popover.model.edit = false;
@@ -91,7 +93,7 @@ angular.module('certApp')
             $scope.editCommentStart = function(comment){
                 // $http({method: 'GET', url: comment.author}).success(function(data){
                     if(Global.user['userId']==comment.author){
-                       $scope.comment.edit = true;
+                       comment.edit = true;
                     }
                 // })
             }
@@ -198,7 +200,6 @@ angular.module('certApp')
                         data.trustText = $sce.trustAsHtml(data.context);
                         serializer(data, 'context', 'text');
                         model.push(data);
-                        console.log(data)
                     })
                 })
             }
@@ -210,10 +211,18 @@ angular.module('certApp')
                     console.log(err);
                 })
             }
+            $scope.google = function(){
+        PopoverProvider.open({
+            controller : 'byeCtrl',
+            position : 'bottom',
+            templateUrl : '/partials/partial-push-popover.html'
+        });
+    }
         }
-    ])
+    )
     .controller('ModalDeleteCtrl', function ($scope, $uibModalInstance, news, News, Store) {
         $scope.deleteList = news;
+        console.log(news)
         $scope.delete = function (item) {
             News.delete({newsId: item.id}, function () {
                 item.deleted = true;

@@ -1,4 +1,4 @@
-*.wsgi
+*.pyc
 *~
 migrations/
 venv/

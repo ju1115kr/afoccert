@@ -1,3 +1,5 @@
+@import "variable.scss";
+
 input{
   appearance: none;
   -moz-appearance: none;
@@ -115,17 +117,58 @@ button,input[type="submit"],input[type="button"]{
 }
 
 
+
+//== Popovers
+//
+//##
+
+//** Popover body background color
+$popover-bg:                          #fff !default;
+//** Popover maximum width
+$popover-max-width:                   276px !default;
+//** Popover minimum width
+$popover-min-width:                   100px !default;
+//** Popover border color
+$popover-border-color:                rgba(0,0,0,.2) !default;
+//** Popover fallback border color
+$popover-fallback-border-color:       #ccc !default;
+
+//** Popover title background color
+$popover-title-bg:                    darken($popover-bg, 3%) !default;
+
+//** Popover arrow width
+$popover-arrow-width:                 10px !default;
+//** Popover arrow color
+$popover-arrow-color:                 $popover-bg !default;
+
+//** Popover outer arrow width
+$popover-arrow-outer-width:           ($popover-arrow-width + 1) !default;
+//** Popover outer arrow color
+$popover-arrow-outer-color:           fade_in($popover-border-color, 0.05) !default;
+//** Popover outer arrow fallback color
+$popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%) !default;
+
+.popover-container{
+  position: relative;
+  display: block;
+  clear: both;
+}
+
 .popover {
   position: absolute;
+  z-index : 999;
+  max-width: $popover-max-width;
+  min-width: $popover-min-width;
+  padding: 1px;
   background: #fff;
   border: 1px solid #e1e1e7;
   border-bottom: 2px solid #e1e1e7;
   border-radius: 0;
-  width: 100px;
   padding: 10px 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  color: #222;
+  font-size: $font-default;
   li {
     cursor: pointer;
     padding: 5px 10px;
@@ -138,12 +181,97 @@ button,input[type="submit"],input[type="button"]{
       font-weight: bold;
     }
   }
+  &.top { margin-top: -$popover-arrow-width}
+  &.right { margin-left: $popover-arrow-width}
+  &.bottom { margin-top: $popover-arrow-width}
+  &.left { margin-left: -$popover-arrow-width}
+}
+
+.popover > .arrow {
+  &,
+  &:after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+  }
+}
+.popover > .arrow {
+  border-width: $popover-arrow-outer-width;
+}
+.popover > .arrow:after {
+  border-width: $popover-arrow-width;
+  content: "";
+}
+
+.popover {
+  &.top > .arrow {
+    left: 50%;
+    margin-left: -$popover-arrow-outer-width;
+    border-bottom-width: 0;
+    border-top-color: $popover-arrow-outer-fallback-color; // IE8 fallback
+    border-top-color: $popover-arrow-outer-color;
+    bottom: -$popover-arrow-outer-width;
+    &:after {
+      content: " ";
+      bottom: 1px;
+      margin-left: -$popover-arrow-width;
+      border-bottom-width: 0;
+      border-top-color: $popover-arrow-color;
+    }
+  }
+  &.right > .arrow {
+    top: 50%;
+    left: -$popover-arrow-outer-width;
+    margin-top: -$popover-arrow-outer-width;
+    border-left-width: 0;
+    border-right-color: $popover-arrow-outer-fallback-color; // IE8 fallback
+    border-right-color: $popover-arrow-outer-color;
+    &:after {
+      content: " ";
+      left: 1px;
+      bottom: -$popover-arrow-width;
+      border-left-width: 0;
+      border-right-color: $popover-arrow-color;
+    }
+  }
+  &.bottom > .arrow {
+    left: 50%;
+    margin-left: -$popover-arrow-outer-width;
+    border-top-width: 0;
+    border-bottom-color: $popover-arrow-outer-fallback-color; // IE8 fallback
+    border-bottom-color: $popover-arrow-outer-color;
+    top: -$popover-arrow-outer-width;
+    &:after {
+      content: " ";
+      top: 1px;
+      margin-left: -$popover-arrow-width;
+      border-top-width: 0;
+      border-bottom-color: $popover-arrow-color;
+    }
+  }
+
+  &.left > .arrow {
+    top: 50%;
+    right: -$popover-arrow-outer-width;
+    margin-top: -$popover-arrow-outer-width;
+    border-right-width: 0;
+    border-left-color: $popover-arrow-outer-fallback-color; // IE8 fallback
+    border-left-color: $popover-arrow-outer-color;
+    &:after {
+      content: " ";
+      right: 1px;
+      border-right-width: 0;
+      border-left-color: $popover-arrow-color;
+      bottom: -$popover-arrow-width;
+    }
+  }
 }
 
 .popover-right {
-  // float: right;
   margin-left: -100px;
-  // left:100%;
 }
 
 /**
@@ -176,7 +304,7 @@ button,input[type="submit"],input[type="button"]{
     }
     .body {
       -webkit-user-select: initial;
-      padding: 16px 10px 26px;
+      padding: 16px 20px 26px;
       &::selection,
       *::selection {
         background: #fff2a8;
@@ -193,7 +321,7 @@ button,input[type="submit"],input[type="button"]{
     }
     .comments {
       -webkit-user-select: none;
-      padding: 8px 13px;
+      padding: 8px 10px 8px 20px;
       border-top: 2px solid #f1f1f5;
       background: #f6f6f9;
       //			backface-visibility: hidden !important;
