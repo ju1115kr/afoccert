@@ -44,7 +44,7 @@
 								<span ng-bind-html="comment.trustText"></span>
 								<a class="options glyphicons glyphicons-pencil btn ng-animate-disabled" ng-click="editCommentStart(comment)"></a>	
 							</article>
-							<sin-editor sin-class="edit" class="ng-animate-disabled" value="comment" sin-autofocus="true" sin-submit="editCommentEnd(id, news)" ng-if="comment.edit" sin-mode="inline-edit"></sin-editor>
+							<sin-editor sin-class="edit" class="ng-animate-disabled" value="comment" sin-autofocus="true" sin-submit="editCommentEnd(id, comment)" ng-if="comment.edit" sin-mode="inline-edit"></sin-editor>
 						</li>
 					</ul>
 					<sin-editor class="comment-input" sin-entries="news.comments" sin-submit="addComment(text,model)" sin-mode="inline"></sin-editor>
