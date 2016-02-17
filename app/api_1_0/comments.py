@@ -50,7 +50,7 @@ def post_comments_comment(comment_id):
     return resp
 
 
-@api.route('/comment/<int:comment_id>', methods=['PUT'])  # 특정 덧글 수정
+@api.route('/comments/<int:comment_id>', methods=['PUT'])  # 특정 덧글 수정
 @auth.login_required
 def put_comment(comment_id):
     if request.json is None:  # 요청이 올바르지 않은 경우 - 덧글의 내용이 없다던가
