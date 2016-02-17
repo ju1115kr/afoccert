@@ -100,7 +100,7 @@ angular.module('certApp')
 
             $scope.editCommentEnd = function (id, comment) {
                 Comments.update(
-                    {commentId: id}, {context: comment.text},
+                    {commentId: id}, {context: comment},
                     function (data, stauts, headers, config) {
                         console.log(data);
                     },
