@@ -69,7 +69,7 @@ def delete_news(news_id):
     news = News.query.filter_by(id=news_id).first()
     if news is None:
         return not_found('News does not exist')
-    if g.current_user.id is not news.author_id:  # 다른 유저의 신송을 삭제하려고 하는 경우
+    if g.current_user.id != news.author_id:  # 다른 유저의 신송을 삭제하려고 하는 경우
         return forbidden('Cannot delete other user\'s news')
     Comment.query.filter(Comment.news_id==news.id).delete()
     db.session.delete(news)
