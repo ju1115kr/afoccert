@@ -3,3 +3,4 @@
 *~
 migrations/
 venv/
+static/scss/*.map

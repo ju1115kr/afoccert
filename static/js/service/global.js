@@ -95,9 +95,11 @@ BaseGlobal.prototype.login = function (username, password, success, failure) {
                     global.user = user;
                 }
         }
-            success();
+            if(success)
+                success();
         },function (data, status, headers, config) {
-            failure();
+            if(failure)
+                failure();
         });
     } else {
         if (username === 'test' && password === 'test') {
