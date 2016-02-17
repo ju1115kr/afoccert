@@ -4,7 +4,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    SECRET_KEY = '@n5nym0u$$c3rt0!88$M@rtC3rt' # Flask 기본값 사용
+    SECRET_KEY = '@n5nym0u$$c3rt0!88$M@rtC3rt'  # Flask 기본값 사용
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     
     @staticmethod
@@ -25,5 +25,5 @@ config = {
     'development': DevelopmentConfig,
     'production': ProductionConfig,
 
-    'default':ProductionConfig 
+    'default': ProductionConfig
 }
