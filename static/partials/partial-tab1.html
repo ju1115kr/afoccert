@@ -20,6 +20,11 @@
 	<!-- editor end -->
 	<!-- news list start -->
 		<article class="card card-default" ng-class="{'card-in-action shadow':news.edit}" ng-repeat="news in newses" ng-if="!news.deleted" ng-animate="{leave:'animate-leave', enter:'animate-enter'}">
+				<span class="news-info">
+					<span class="news-timestamp">{{news.created.date}}</span>
+					<span class="news-timestamp">{{news.created.time}}</span>
+					<span class="news-author">{{news.author_name}}</span>
+				</span>
 				<div class="title">
 					<span>{{news.id}}</span>
 					<a class="options pull-right ng-animate-disabled" ng-if="!news.edit" ng-click="popoverToggle($event,news)">

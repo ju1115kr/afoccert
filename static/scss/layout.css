@@ -41,7 +41,8 @@ body {
   width: 180px;
   padding-top: 50px;
   height: 100%;
-  background: #2C3E50; }
+  background: #2C3E50;
+  z-index: 999; }
   #main-nav.ng-enter {
     transform: translateX(-100px);
     transition: all 1s; }

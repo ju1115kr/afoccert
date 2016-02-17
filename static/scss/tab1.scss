@@ -34,6 +34,27 @@
 	}
 }
 
+.news-info{
+	position: absolute;
+	display: block;
+	width: 150px;
+	margin-left: -150px;
+	margin-top: 20px;
+	left: -20px;
+	font-size: 12px;
+	.news-timestamp{
+		color: #bbb;
+		display: block;
+		text-align: right;
+	}
+	.news-author{
+		color: #2ABB9B;
+    	text-align: right;
+    	display: block;
+	}
+}
+
+
 
 /* file upload */
 
