@@ -123,7 +123,6 @@ class News(db.Model):
 
     def __init__(self, context, author=None, created_at=datetime.utcnow()):
         self.context = context
-        self.created_at = created_at
         if author is not None:
             self.author_name = author.realname
             self.author_id = author.id
