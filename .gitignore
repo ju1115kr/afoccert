@@ -4,3 +4,4 @@
 migrations/
 venv/
 static/scss/*.map
+static/js/api.js
