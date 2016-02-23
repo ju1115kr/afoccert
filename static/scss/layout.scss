@@ -41,6 +41,16 @@ body{
 		}
 	}
 }
+@media (max-width:950px){
+	#header{
+		ul{
+			margin-right:100px;
+		}
+	}
+}
+
+
+
 #main-nav{
 	position: fixed;
 	left: 0;
@@ -69,7 +79,7 @@ body{
 				&.icon{
 					margin-right: 18px;
 					font-size:16px;
-					color: #336E7B;
+					color: #3C8090;
 				}
 			}
 			&:hover{
@@ -108,3 +118,17 @@ body{
 	}
 }
 
+@media (max-width:950px){
+	#main-nav{
+		width: 80px;
+		li{
+			text-align:center;
+			.icon{
+				margin:0;
+			}
+			.desc{
+				display:none;
+			}
+		}
+	}
+}

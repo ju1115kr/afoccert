@@ -113,6 +113,28 @@ button,input[type="submit"],input[type="button"]{
         color : #f9bf3b;
       }
     }
+    &.btn-info{
+      background: #699AE4;
+      border: 1px solid #568FE4;
+      transition: background .2s;
+      color: #fff;
+      &:hover{
+        background: #568FE4;
+        border-bottom: 1px solid #4878BF;
+      }
+      &:disabled{
+        background-color: #A1C6FF !important;
+        border-color:#BCD4F9 !important;
+      }
+       &.btn-transparent{
+        color : #568FE4;
+      }
+    }
+    .glyphicons{
+      margin-left: .3em;
+      margin-top: -.2em;
+      margin-right: .3em;
+    }
   }
 }
 
@@ -159,12 +181,10 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
   z-index : 999;
   max-width: $popover-max-width;
   min-width: $popover-min-width;
-  padding: 1px;
   background: #fff;
   border: 1px solid #e1e1e7;
   border-bottom: 2px solid #e1e1e7;
   border-radius: 0;
-  padding: 10px 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   color: #222;

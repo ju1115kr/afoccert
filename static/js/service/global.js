@@ -21,6 +21,7 @@ function BaseGlobal(http, resource, location, window) {
         var user = JSON.parse(user_string);
         if (user) {
             this.user = user;
+            this.user.isExpired = false;
         }
     }
 }
@@ -35,6 +36,7 @@ function BaseGlobal(http, resource, location, window) {
 BaseGlobal.prototype.isLoggedIn = function () {
     return this.user !== null;
 };
+
 
 
 /**
@@ -80,36 +82,27 @@ BaseGlobal.prototype.login = function (username, password, success, failure) {
     var window = this.window;
     var global = this;
     var base64 = new Base64();
-    if (!window.test_version) {
-        http({
-            method: 'GET',
-            url: window.api_url + '/token',
-            headers : {'Authorization': 'Basic ' + base64.encode(username+ ":" +password)}
-        }).then(function (data, status, headers, config) {
-            var jsonString = {token : data.data.token, userId : username};
-            window.localStorage.setItem('user', JSON.stringify(jsonString));
-             var user_string = window.localStorage['user'];
-            if (user_string) {
-                var user = JSON.parse(user_string);
-                if (user) {
-                    global.user = user;
-                }
+    http({
+        method: 'GET',
+        url: window.api_url + '/token',
+        headers : {'Authorization': 'Basic ' + base64.encode(username+ ":" +password)}
+    }).then(function (data, status, headers, config) {
+        var jsonString = {token : data.data.token, userId : username};
+        window.localStorage.setItem('user', JSON.stringify(jsonString));
+         var user_string = window.localStorage['user'];
+        if (user_string) {
+            var user = JSON.parse(user_string);
+            if (user) {
+                global.user = user;
+                global.user.isExpired = false;
+            }
         }
-            if(success)
-                success();
-        },function (data, status, headers, config) {
-            if(failure)
-                failure();
-        });
-    } else {
-        if (username === 'test' && password === 'test') {
-            window.localStorage.setItem('user', JSON.stringify({'id': username}));
-            global.user = {'id': username};
+        if(success)
             success();
-        } else {
+    },function (data, status, headers, config) {
+        if(failure)
             failure();
-        }
-    }
+    });    
 };
 
 /**
@@ -144,8 +137,8 @@ BaseGlobal.prototype.updateData = function (data) {
             }
         }
     }
-    http.defaults.headers.common.AuthToken = user.token;
-    window.localStorage.setItem('user', JSON.stringify(user));
+    // http.defaults.headers.common.AuthToken = user.token;
+    // window.localStorage.setItem('user', JSON.stringify(user));
     this.user = user;
 }
 
@@ -242,28 +235,7 @@ angular.module('certApp')
         var base64 = new Base64();
         return base64;
     })
-    .factory('Userservice', function($window){
-        var service = this;
-        var currentuser = null;
-        var window = $window;
-
-        service.setCurrentUser = function(user){
-            currentuser = user;
-            window.localStorage.setItem('user', JSON.stringify(user));
-            return currentuser;
-        }
-
-        service.getCurrentUser = function(){
-            if(!currentuser){
-                currentuser = window.localStorage['user'] ? JSON.parse(window.localStorage['user']) : null;
-                return currentuser
-            }else{
-                return currentuser;
-            }
-        }
-        return service;
-    })
-    .factory('APIIntercepter', function($rootScope, $window, $q, Userservice){
+    .factory('APIIntercepter', function($rootScope, $window, $q){
             return{
                 request : function(config){
                     var user_string = window.localStorage['user'];
@@ -278,8 +250,13 @@ angular.module('certApp')
                 },
 
                 responseError : function(response){
+                    var deferred = $q.defer();
+                    var req = {
+                        config : response.config,
+                        deferred : deferred
+                    }
                     switch (response.status){
-                        case 401 : $rootScope.$broadcast('unauthorized');break;
+                        case 401 : $rootScope.unauthorizedReq.push(req);$rootScope.$broadcast('unauthorized');return deferred.promise;
                         case 403 : $rootScope.$broadcast('forbidden');break;
                     }
                     return $q.reject(response);

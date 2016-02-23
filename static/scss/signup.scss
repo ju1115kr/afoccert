@@ -30,14 +30,17 @@
 }
 
 #signForm{
-  position: fixed;
-  top:30%;
-  left:50%;
-  margin-left:-150px;
-  width: 300px;
+  min-width: 240px;
   padding: 30px 32px;
   background: white;
-  border-radius: 8px;
+  &.fixed{
+    width:300px;
+    position: fixed;
+    top:30%;
+    left:50%;
+    margin-left:-150px;
+    border-radius: 8px;
+  }
   .btn{
     margin-top:10px;
   }
@@ -73,5 +76,10 @@
     &.ng-leave-active {
       opacity: 0;
     }
+  }
+}
+.popover{
+  #signForm{
+    padding: 20px;
   }
 }

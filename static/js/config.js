@@ -17,6 +17,7 @@ app.config(function($routeSegmentProvider, $routeProvider, $locationProvider, $a
         .when('/', 'index')
         .when('/tab1', 'index.tab1')
         .when("/tab2", 'index.tab2')
+        .when('/tab3', 'index.tab3')
 
         .segment('index', {
             templateUrl: '/partials/partial-index.html',
@@ -31,8 +32,12 @@ app.config(function($routeSegmentProvider, $routeProvider, $locationProvider, $a
                 templateUrl: '/partials/partial-tab2.html',
                 controller: 'Tab2Ctrl'
             })
+            .segment('tab3', {
+                templateUrl: '/partials/partial-tab2.html',
+                controller: 'Tab3Ctrl'
+            })
         .up()
-    $routeProvider.otherwise({redirectTo: '/'});
+    $routeProvider.otherwise({redirectTo: '/tab1'});
     // $locationProvider.html5Mode(true);
 
     $animateProvider.classNameFilter(/^(?:(?!ng-animate-disabled).)*$/);

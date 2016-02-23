@@ -90,6 +90,23 @@
           border-color: #ffc53b !important; }
         .sin-editor button.btn.btn-warning.btn-transparent, .sin-editor .sin-editor-inline + footer button.btn.btn-warning, .sin-editor .sin-editor-inline + footer .sin-editor-default-edit + footer button.btn, .sin-editor .sin-editor-default-edit + footer .sin-editor-inline + footer button.btn, .sin-editor .sin-editor-default-edit + footer button.btn.btn-transparent, .sin-editor .sin-editor-default-edit + footer .sin-editor-inline-edit + footer button.btn, .sin-editor .sin-editor-inline-edit + footer .sin-editor-default-edit + footer button.btn, .sin-editor .sin-editor-inline-edit + footer button.btn.btn-warning, .sin-editor input[type="submit"].btn.btn-warning.btn-transparent, .sin-editor .sin-editor-inline + footer input[type="submit"].btn.btn-warning, .sin-editor .sin-editor-inline-edit + footer input[type="submit"].btn.btn-warning, .sin-editor input[type="button"].btn.btn-warning.btn-transparent, .sin-editor .sin-editor-inline + footer input[type="button"].btn.btn-warning, .sin-editor .sin-editor-inline-edit + footer input[type="button"].btn.btn-warning {
           color: #f9bf3b; }
+      .sin-editor button.btn.btn-info, .sin-editor input[type="submit"].btn.btn-info, .sin-editor input[type="button"].btn.btn-info {
+        background: #699AE4;
+        border: 1px solid #568FE4;
+        transition: background .2s;
+        color: #fff; }
+        .sin-editor button.btn.btn-info:hover, .sin-editor input[type="submit"].btn.btn-info:hover, .sin-editor input[type="button"].btn.btn-info:hover {
+          background: #568FE4;
+          border-bottom: 1px solid #4878BF; }
+        .sin-editor button.btn.btn-info:disabled, .sin-editor input[type="submit"].btn.btn-info:disabled, .sin-editor input[type="button"].btn.btn-info:disabled {
+          background-color: #A1C6FF !important;
+          border-color: #BCD4F9 !important; }
+        .sin-editor button.btn.btn-info.btn-transparent, .sin-editor .sin-editor-inline + footer button.btn.btn-info, .sin-editor .sin-editor-inline-edit + footer button.btn.btn-info, .sin-editor input[type="submit"].btn.btn-info.btn-transparent, .sin-editor .sin-editor-inline + footer input[type="submit"].btn.btn-info, .sin-editor .sin-editor-inline-edit + footer input[type="submit"].btn.btn-info, .sin-editor input[type="button"].btn.btn-info.btn-transparent, .sin-editor .sin-editor-inline + footer input[type="button"].btn.btn-info, .sin-editor .sin-editor-inline-edit + footer input[type="button"].btn.btn-info {
+          color: #568FE4; }
+      .sin-editor button.btn .glyphicons, .sin-editor input[type="submit"].btn .glyphicons, .sin-editor input[type="button"].btn .glyphicons {
+        margin-left: .3em;
+        margin-top: -.2em;
+        margin-right: .3em; }
   .sin-editor .popover-container {
     position: relative;
     display: block;
@@ -99,12 +116,10 @@
     z-index: 999;
     max-width: 276px;
     min-width: 100px;
-    padding: 1px;
     background: #fff;
     border: 1px solid #e1e1e7;
     border-bottom: 2px solid #e1e1e7;
     border-radius: 0;
-    padding: 10px 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     color: #222;
@@ -374,6 +389,10 @@
     position: fixed;
     width: 100%;
     height: 100%; }
+@font-face {
+  .sin-editor .modal {
+    font-family: 'NanumBarunGothic';
+    src: url("/fonts/NanumBarunGothic.ttf"); } }
     .sin-editor .modal a, .sin-editor .modal abbr, .sin-editor .modal acronym, .sin-editor .modal address, .sin-editor .modal applet, .sin-editor .modal article, .sin-editor .modal aside, .sin-editor .modal audio, .sin-editor .modal b, .sin-editor .modal big, .sin-editor .modal blockquote, .sin-editor .modal body, .sin-editor .modal canvas, .sin-editor .modal caption, .sin-editor .modal center, .sin-editor .modal cite, .sin-editor .modal code, .sin-editor .modal dd, .sin-editor .modal del, .sin-editor .modal details, .sin-editor .modal dfn, .sin-editor .modal div, .sin-editor .modal dl, .sin-editor .modal dt, .sin-editor .modal em, .sin-editor .modal embed, .sin-editor .modal fieldset, .sin-editor .modal figcaption, .sin-editor .modal figure, .sin-editor .modal footer, .sin-editor .modal form, .sin-editor .modal h1, .sin-editor .modal h2, .sin-editor .modal h3, .sin-editor .modal h4, .sin-editor .modal h5, .sin-editor .modal h6, .sin-editor .modal header, .sin-editor .modal hgroup, .sin-editor .modal html, .sin-editor .modal i, .sin-editor .modal iframe, .sin-editor .modal img, .sin-editor .modal ins, .sin-editor .modal kbd, .sin-editor .modal label, .sin-editor .modal legend, .sin-editor .modal li, .sin-editor .modal mark, .sin-editor .modal menu, .sin-editor .modal nav, .sin-editor .modal object, .sin-editor .modal ol, .sin-editor .modal output, .sin-editor .modal p, .sin-editor .modal pre, .sin-editor .modal q, .sin-editor .modal ruby, .sin-editor .modal s, .sin-editor .modal samp, .sin-editor .modal section, .sin-editor .modal small, .sin-editor .modal span, .sin-editor .modal strike, .sin-editor .modal strong, .sin-editor .modal sub, .sin-editor .modal summary, .sin-editor .modal sup, .sin-editor .modal table, .sin-editor .modal tbody, .sin-editor .modal td, .sin-editor .modal tfoot, .sin-editor .modal th, .sin-editor .modal thead, .sin-editor .modal time, .sin-editor .modal tr, .sin-editor .modal tt, .sin-editor .modal u, .sin-editor .modal ul, .sin-editor .modal var, .sin-editor .modal video {
       margin: 0;
       padding: 0;
@@ -382,7 +401,7 @@
     .sin-editor .modal article, .sin-editor .modal aside, .sin-editor .modal details, .sin-editor .modal figcaption, .sin-editor .modal figure, .sin-editor .modal footer, .sin-editor .modal header, .sin-editor .modal hgroup, .sin-editor .modal menu, .sin-editor .modal nav, .sin-editor .modal section {
       display: block; }
     .sin-editor .modal body {
-      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-family: "NanumBarunGothic",Helvetica,Arial,sans-serif;
       font-size: 14px;
       line-height: 1.42857143;
       color: #333; }
