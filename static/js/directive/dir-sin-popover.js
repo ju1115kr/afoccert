@@ -3,66 +3,56 @@
 var app = angular.module('certApp');
 
 app.
-directive("sinPopover", function($compile,PopoverProvider, $rootScope){
+directive("sinPopover", function($compile,PopoverProvider, $rootScope, $timeout){
+	function Popover(){
+		this.triggered = false;
+		this.options = {};
+		this.ele = null;
+		this.domEle = null;
+	}
+	Popover.prototype.toggleTrigger = function(value){
+		if(value!==true && value !==false){
+			this.triggered = !this.triggered;
+		}else{
+			this.triggered = value;
+		}
+	}
 	return {
 		restrict : "A",
 		scope : {
 			triggerFn: "&sinPopover"
 		},
 		link: function(scope, element, attrs){
-			scope.triggered = false;
-			var popover;
-			element.bind("click",function(event){
-				scope.triggerFn();
-				var isOpened = scope.triggered;
-				scope.$apply(function(){
-					scope.triggered = isOpened ? false : true;
-				})
-				if(!scope.triggered){
-					PopoverProvider.close();
-				}else{
-					PopoverProvider.element = element;
-				}
-				if(!popover){
-					scope.data = PopoverProvider.target;
-					popover = angular.element('<popover ng-if="triggered" ctrl="'+scope.data.controller+'" html="data.templateUrl" position="data.position" class="popover-container"></popover>');
-					popover.appendTo(element);
-					$compile(popover)(scope);
-				}
-			});
-			$rootScope.$on("popoverCloseAll",function(){
-				console.log(PopoverProvider.element==element);
-				
-				if(PopoverProvider.element!=element){
-					scope.$apply(function(){
-							scope.triggered = false;
-					})
-				}else{
-					if(!element[0].contains(PopoverProvider.ev.originalEvent.target)){
-					//element 기준 popover 바깥을 누른경우
-					console.log('dd')
-						scope.$apply(function(){
-							scope.triggered = false;
-						})
-						PopoverProvider.close();
-					}
-				}
-			})
-
-
-
+			var _popover = scope.popover;
+			_popover.ele = element;
 			angular.element("body").click(function(event){
-					PopoverProvider.ev = event;
-					PopoverProvider.closeAll();
+				if(!element[0].contains(event.target)){
+					_popover.toggleTrigger(false);
+					scope.$digest();
+				}else{
+					scope.triggerFn();
+					if(!_popover.domEle){
+						_popover.options = PopoverProvider.target;
+						_popover.domEle = angular.element('<popover ng-if="popover.triggered" ctrl="'+_popover.options.controller+'" html="popover.options.templateUrl" position="popover.options.position" class="popover-container"></popover>');
+						_popover.domEle.appendTo(element);
+						$compile(_popover.domEle)(scope);
+					}
+					_popover.toggleTrigger();
+					scope.$digest()
+				}
 			})
 			
 		},
 		controller: function($scope, $rootScope, PopoverProvider){
+			$scope.popover = new Popover();
+			$rootScope.$on("popoverCloseAll",function(){
+				$scope.popover.toggleTrigger(false);
+			});
 		}
 	}
 	
 }).
-directive("popover", function(){
+directive("popover", function($timeout){
 	return{
 		scope: {
 			inner : '=html',
@@ -78,7 +68,7 @@ directive("popover", function(){
 			scope.loaded = function(){
 				var popover = element.find(".popover");
 				switch(scope.position){
-					case 'bottom' : scope.style = 'left : 50%;margin-left : ' + (-1)*popover.width()/2+'px';
+					case 'bottom' : $timeout(function(){scope.style = 'left : 50%;margin-left : ' + (-1)*popover.width()/2+'px';})
 				}
 			}
 		}
@@ -89,7 +79,7 @@ factory("PopoverProvider", function($rootScope){
 		target :{},
 		element : null,
 		ev : null,
-		open :function(data){
+		open : function(data){
 			this.target = data;
 			if(this.target.resolve){
 				var keys = Object.keys(this.target.resolve);

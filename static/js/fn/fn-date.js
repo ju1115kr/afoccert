@@ -17,7 +17,7 @@ Date.prototype.format = function(f, input){
 			case "dd": return d.getDate();
 			case "E": return weekday[d.getDay()];
 			case "hh": return d.getHours();
-			case "mm": return d.getMinutes();
+			case "mm": return d.getMinutes()<10 ? '0'+d.getMinutes() : d.getMinutes();
 			case "ss": return d.getSeconds();
 			case "a/p": return d.getHours()<12 ? "오전" : "오후";
 			default : return token;

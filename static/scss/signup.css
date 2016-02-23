@@ -24,14 +24,16 @@
       transform: scale(4); }
 
 #signForm {
-  position: fixed;
-  top: 30%;
-  left: 50%;
-  margin-left: -150px;
-  width: 300px;
+  min-width: 240px;
   padding: 30px 32px;
-  background: white;
-  border-radius: 8px; }
+  background: white; }
+  #signForm.fixed {
+    width: 300px;
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    margin-left: -150px;
+    border-radius: 8px; }
   #signForm .btn {
     margin-top: 10px; }
   #signForm hr.or {
@@ -62,5 +64,8 @@
     transition: all 1s; }
     #signForm.ng-leave.ng-leave-active {
       opacity: 0; }
+
+.popover #signForm {
+  padding: 20px; }
 
 /*# sourceMappingURL=signup.css.map */

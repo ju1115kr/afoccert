@@ -86,6 +86,23 @@ button, input[type="submit"], input[type="button"] {
         border-color: #ffc53b !important; }
       button.btn.btn-warning.btn-transparent, input[type="submit"].btn.btn-warning.btn-transparent, input[type="button"].btn.btn-warning.btn-transparent {
         color: #f9bf3b; }
+    button.btn.btn-info, input[type="submit"].btn.btn-info, input[type="button"].btn.btn-info {
+      background: #699AE4;
+      border: 1px solid #568FE4;
+      transition: background .2s;
+      color: #fff; }
+      button.btn.btn-info:hover, input[type="submit"].btn.btn-info:hover, input[type="button"].btn.btn-info:hover {
+        background: #568FE4;
+        border-bottom: 1px solid #4878BF; }
+      button.btn.btn-info:disabled, input[type="submit"].btn.btn-info:disabled, input[type="button"].btn.btn-info:disabled {
+        background-color: #A1C6FF !important;
+        border-color: #BCD4F9 !important; }
+      button.btn.btn-info.btn-transparent, input[type="submit"].btn.btn-info.btn-transparent, input[type="button"].btn.btn-info.btn-transparent {
+        color: #568FE4; }
+    button.btn .glyphicons, input[type="submit"].btn .glyphicons, input[type="button"].btn .glyphicons {
+      margin-left: .3em;
+      margin-top: -.2em;
+      margin-right: .3em; }
 
 .popover-container {
   position: relative;
@@ -97,12 +114,10 @@ button, input[type="submit"], input[type="button"] {
   z-index: 999;
   max-width: 276px;
   min-width: 100px;
-  padding: 1px;
   background: #fff;
   border: 1px solid #e1e1e7;
   border-bottom: 2px solid #e1e1e7;
   border-radius: 0;
-  padding: 10px 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   color: #222;
@@ -385,6 +400,10 @@ button, input[type="submit"], input[type="button"] {
   position: fixed;
   width: 100%;
   height: 100%; }
+@font-face {
+  .modal {
+    font-family: 'NanumBarunGothic';
+    src: url("/fonts/NanumBarunGothic.ttf"); } }
   .modal a, .modal abbr, .modal acronym, .modal address, .modal applet, .modal article, .modal aside, .modal audio, .modal b, .modal big, .modal blockquote, .modal body, .modal canvas, .modal caption, .modal center, .modal cite, .modal code, .modal dd, .modal del, .modal details, .modal dfn, .modal div, .modal dl, .modal dt, .modal em, .modal embed, .modal fieldset, .modal figcaption, .modal figure, .modal footer, .modal form, .modal h1, .modal h2, .modal h3, .modal h4, .modal h5, .modal h6, .modal header, .modal hgroup, .modal html, .modal i, .modal iframe, .modal img, .modal ins, .modal kbd, .modal label, .modal legend, .modal li, .modal mark, .modal menu, .modal nav, .modal object, .modal ol, .modal output, .modal p, .modal pre, .modal q, .modal ruby, .modal s, .modal samp, .modal section, .modal small, .modal span, .modal strike, .modal strong, .modal sub, .modal summary, .modal sup, .modal table, .modal tbody, .modal td, .modal tfoot, .modal th, .modal thead, .modal time, .modal tr, .modal tt, .modal u, .modal ul, .modal var, .modal video {
     margin: 0;
     padding: 0;
@@ -393,7 +412,7 @@ button, input[type="submit"], input[type="button"] {
   .modal article, .modal aside, .modal details, .modal figcaption, .modal figure, .modal footer, .modal header, .modal hgroup, .modal menu, .modal nav, .modal section {
     display: block; }
   .modal body {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "NanumBarunGothic",Helvetica,Arial,sans-serif;
     font-size: 14px;
     line-height: 1.42857143;
     color: #333; }
