@@ -9,7 +9,7 @@ from errors import not_found, forbidden, bad_request
 
 # 유저 회원 가입
 @api.route('/users', methods=['POST'])
-def set_user():
+def post_user():
     user = User.from_json(request.json)
     db.session.add(user)
     db.session.commit()
