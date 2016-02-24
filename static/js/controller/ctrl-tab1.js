@@ -27,6 +27,7 @@ angular.module('certApp')
                 return function () {
                     $scope.fetching = true;
                     var tempNews;
+
                     News.query(
                         {page: startPage, per_page: 20},
                         function (result) {
@@ -58,6 +59,25 @@ angular.module('certApp')
                     });
                 }
             }
+
+            function asyncNews(startPage, per_page){
+                var deferred = $q.defer();
+                News.query({page:startPage, per_page:per_page},function(newses){
+                    deferred.resolve(newses);
+                })
+                return deferred.promise;
+            }
+            function asyncComment(newsID){
+                var deferred = $q.defer();
+                Comments.fromNews({newsId:newsID}, function(comments){
+                    deferred.resolve(comments);
+                })
+                return deferred.promise;
+            }
+
+
+
+
             var fetchNewses = fetchNewPage(1);
             fetchNewses();
             $scope.$on('scrollBottom', function () {
@@ -222,7 +242,6 @@ angular.module('certApp')
     )
     .controller('ModalDeleteCtrl', function ($scope, $uibModalInstance, news, News, Store) {
         $scope.deleteList = news;
-        console.log(news)
         $scope.delete = function (item) {
             News.delete({newsId: item.id}, function () {
                 item.deleted = true;

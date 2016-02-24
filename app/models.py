@@ -64,16 +64,16 @@ class User(db.Model):
             return None
         return User.query.get(data['id'])
         
-    def to_json(self):
+    def to_json(self):  # json 출력 루틴
         json_user = {
             'id': self.id,
-            'username': self.username,  # TODO: 임시 테스트용 루틴 추후 삭제검토 필요
+            'username': self.username,
             'realname': self.realname
         }
         return json_user
     
     @staticmethod
-    def from_json(json_user):
+    def from_json(json_user):  # json 입력 루틴
         user_id = json_user.get('id')
         user_pw = json_user.get('pw')
         user_name = json_user.get('name')
@@ -88,7 +88,7 @@ class User(db.Model):
         return User(username=user_id, realname=user_name, password=user_pw)
     
     @staticmethod
-    def generate_fake(count=100):  # Testing 용 루틴
+    def generate_fake(count=100):  # 개발용 fake data 생성 루틴
         from sqlalchemy.exc import IntegrityError
         from random import seed
         import forgery_py
@@ -121,7 +121,7 @@ class News(db.Model):
                            backref='news')
     comments = db.relationship('Comment', backref='news', lazy='dynamic')
 
-    def __init__(self, context, author=None, created_at=datetime.utcnow()):
+    def __init__(self, context, author=None):
         self.context = context
         if author is not None:
             self.author_name = author.realname
@@ -131,7 +131,7 @@ class News(db.Model):
         return '<News [%r](%r):%r>' % \
             self.created_at, self.author_name, self.context
 
-    def to_json(self):
+    def to_json(self):  # json 출력 루틴
         json_news = {
             # 'url': url_for('api.get_news', _external=True),
             'id': self.id,
@@ -144,7 +144,7 @@ class News(db.Model):
         return json_news
 
     @staticmethod
-    def from_json(json_news):
+    def from_json(json_news):  # json 입력 루틴
         context = json_news.get('context')
         # author = g.current_user
         if context is None or context == '':
@@ -152,7 +152,7 @@ class News(db.Model):
         return News(context=context)
 
     @staticmethod
-    def generate_fake(count=100):  # Testing 용 루틴
+    def generate_fake(count=100):  # 개발용 fake data 생성 루틴
         from random import seed, randint
         import forgery_py
 
@@ -178,22 +178,21 @@ class Comment(db.Model):
     parent_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
     comments = db.relationship('Comment', lazy='dynamic')
 
-    def __init__(self, context, news_id=None, created_at=datetime.utcnow()):
+    def __init__(self, context, news_id=None):
         self.context = context
         self.news_id = news_id
 
     def __repr__(self):
-        return '<Comment #%r[%r]: %r>' %\
-            (self.news_id, self.author_name, self.context)
+        return '<Comment #%r[%r]: %r>' % (self.news_id, self.author_name, self.context)
 
     @staticmethod
-    def from_json(json_comment):
+    def from_json(json_comment):  # json 입력 루틴
         context = json_comment.get('context')
         if context is None or context == '':
             raise ValidationError('comment does not have a context')
         return Comment(context=context)
     
-    def to_json(self):
+    def to_json(self):  # json 출력 루틴
         json_comment = {
             #'url': url_for('api.get_comment', _external=True),
             'id': self.id,
@@ -208,7 +207,7 @@ class Comment(db.Model):
         return json_comment
 
     @staticmethod
-    def generate_fake(count=300):
+    def generate_fake(count=300):  # 개발용 fake data 생성 루틴
         from random import seed, randint
         import forgery_py
 
@@ -229,8 +228,7 @@ class Tag(db.Model):
     __tablename__ = 'tags'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, unique=True, nullable=False)
-    
-    # news = db.relationship('News', backref='tag', lazy='dynamic')
+    news = db.relationship('News', backref='tag', lazy='dynamic')
 
     def __init__(self, name):
         self.name = name

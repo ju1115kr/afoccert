@@ -2,20 +2,20 @@
 <div id="header" ng-if="global.isLoggedIn()" ng-animate="{enter:'animate-enter'}">
 	<div class="global-width margin-auto">
 		<ul>
-			<li ng-repeat="button in navObject.header.buttons" sin-popover="button.popover()"><span class="{{button.icon}}"></span></li>
+			<li id="{{button.id}}" ng-repeat="button in navObject.header.buttons" sin-popover="button.popover()"><span class="{{button.icon}}"></span></li>
 		</ul>
 	</div>
 </div>
 <div id="main-nav" ng-if="global.isLoggedIn()">
 	<ul>
-		<li ng-repeat="button in navObject.sub.buttons" ng-click="link_provider.navigate(section, button.link)" ng-class="{'active': (section+'.'+button.link | routeSegmentStartsWith)}"><span class="{{button.icon}} icon"></span><span>{{button.name}}</span></li>
+		<li ng-repeat="button in navObject.sub.buttons" ng-click="link_provider.navigate(section, button.link)" ng-class="{'active': (section+'.'+button.link | routeSegmentStartsWith)}"><span class="{{button.icon}} icon"></span><span class="desc">{{button.name}}</span></li>
 	</ul>
 </div>
 <div class="wallpaper" ng-class="{leave:'animate-leave'}" ng-if="!global.isLoggedIn()">
 	<div class="wallpaper-partition shadow"></div>
 	<div class="wallpaper-partition shadow"></div>
 </div>
-<form id="signForm" class="shadow" ng-submit="submit()" ng-if="!global.isLoggedIn()" ng-class="{leave:'animate-leave'}">
+<form id="signForm" class="shadow fixed" ng-submit="submit()" ng-if="!global.isLoggedIn()" ng-class="{leave:'animate-leave'}">
 	<h3 class="pull-right ng-animate-disabled" ng-if="signupForm"><a class="glyphicons glyphicons-remove-2 btn" ng-click="toggleSignup()"></a></h3>
 	<input type="text" ng-model="user.id" class="form-input lg" placeholder="아이디">
 	<input type="password" ng-model="user.pw" class="form-input lg" placeholder="비밀번호">

@@ -13,6 +13,8 @@ app.factory('User',function($resource){
                 method:'POST'
             },update:{
                 method:'PUT'
+            },get:{
+                method:'GET'
             },getNews:{
                 url:window.api_url+'/users/:userId/news',
                 method:'GET'

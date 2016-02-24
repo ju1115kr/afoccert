@@ -5,7 +5,17 @@
 
 var app = angular.module('certApp');
 
-app.run(function($http, $rootScope){
+app.run(function($http, $rootScope, Global, $timeout){
+	$rootScope.unauthorizedReq = [];
 	$rootScope.$on('forbidden', function(){
-	})
+
+	});
+	$rootScope.$on('unauthorized', function(){
+		if(Global.isLoggedIn()){
+			Global.updateData({isExpired :  true})
+			$timeout(function(){
+				angular.element("#btn-2").click();
+			})
+		}
+	});
 })

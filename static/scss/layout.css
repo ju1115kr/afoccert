@@ -34,6 +34,9 @@ body {
     #header.ng-enter.ng-enter-active {
       transform: translateY(0); }
 
+@media (max-width: 950px) {
+  #header ul {
+    margin-right: 100px; } }
 #main-nav {
   position: fixed;
   left: 0;
@@ -58,7 +61,7 @@ body {
     #main-nav ul li span.icon {
       margin-right: 18px;
       font-size: 16px;
-      color: #336E7B; }
+      color: #3C8090; }
     #main-nav ul li:hover {
       background: #364c5f;
       color: #ffffff; }
@@ -85,5 +88,15 @@ body {
     #content-area.ng-enter.ng-enter-active {
       transform: scale(1);
       opacity: 1; }
+
+@media (max-width: 950px) {
+  #main-nav {
+    width: 80px; }
+    #main-nav li {
+      text-align: center; }
+      #main-nav li .icon {
+        margin: 0; }
+      #main-nav li .desc {
+        display: none; } }
 
 /*# sourceMappingURL=layout.css.map */
