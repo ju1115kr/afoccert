@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import jsonify, g, request
+from flask import jsonify, g, request, current_app
 from flask.ext.httpauth import HTTPBasicAuth
 from . import api
 from errors import unauthorized, not_found, bad_request
@@ -54,3 +54,9 @@ def get_token():
 def delete_token():
 pass
 """
+
+
+
+
+
+    

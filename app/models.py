@@ -8,15 +8,15 @@ from datetime import datetime
 
 # 태그-신송 간 Many-to-Many 관계 테이블
 news_tag_relationship = db.Table('tag_relationship',
-                                 db.Column('news_id',
-                                           db.Integer,
-                                           db.ForeignKey('news.id'),
-                                           nullable=False),
-                                 db.Column('tags_id',
-                                           db.Integer,
-                                           db.ForeignKey('tags.id'),
-                                           nullable=False),
+                                 db.Column('news_id', db.Integer, db.ForeignKey('news.id'), nullable=False),
+                                 db.Column('tags_id', db.Integer, db.ForeignKey('tags.id'), nullable=False),
                                  db.PrimaryKeyConstraint('news_id', 'tags_id'))
+
+# 유저-역할 간 Many-to-Many 관계 테이블
+user_role_relationship = db.Table('role_relationship',
+                                  db.Column('user_id', db.Integer, db.ForeignKey('users.id'), nullable=False),
+                                  db.Column('role_id', db.Integer, db.ForeignKey('roles.id'), nullable=False),
+                                  db.PrimaryKeyConstraint('user_id', 'role_id'))
 
 
 class User(db.Model):
@@ -27,6 +27,7 @@ class User(db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean)
 
+    roles = db.relationship('Role', secondary=user_role_relationship)
     news = db.relationship('News', backref='author', lazy='dynamic')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
 
@@ -103,6 +104,21 @@ class User(db.Model):
                 db.session.commit()
             except IntegrityError:
                 db.session.rollback()
+
+
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True, index=True)
+    description = db.Column(db.Text)
+
+    users = db.relationship('User', secondary=user_role_relationship)
+
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return '<Role [%r](%r):%r>' % self.id, self.name, self.description
             
 
 class News(db.Model):
@@ -116,9 +132,8 @@ class News(db.Model):
     modified_at = db.Column(db.DateTime)
     parent_id = db.Column(db.Integer)
 
-    tags = db.relationship('Tag',
-                           secondary=news_tag_relationship,
-                           backref='news')
+    permission = db.Column(db.PickleType)  # 신송의 공개범위 Permission 객체 저장용 컬럼 
+    tags = db.relationship('Tag', secondary=news_tag_relationship)
     comments = db.relationship('Comment', backref='news', lazy='dynamic')
 
     def __init__(self, context, author=None):
@@ -146,6 +161,8 @@ class News(db.Model):
     @staticmethod
     def from_json(json_news):  # json 입력 루틴
         context = json_news.get('context')
+        # for role in json_news.get('permission').get('roles'): TODO 160224 오늘 개발합시다
+            
         # author = g.current_user
         if context is None or context == '':
             raise ValidationError('news does not have a context')
@@ -228,7 +245,8 @@ class Tag(db.Model):
     __tablename__ = 'tags'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, unique=True, nullable=False)
-    news = db.relationship('News', backref='tag', lazy='dynamic')
+    # news = db.relationship('News', backref='tag', lazy='dynamic')
+    news = db.relationship('News', secondary=news_tag_relationship)
 
     def __init__(self, name):
         self.name = name

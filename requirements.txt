@@ -1,5 +1,6 @@
 alembic==0.8.3
 autopep8==1.2.1
+blinker==1.4
 cffi==1.5.0
 characteristic==14.3.0
 cryptography==1.2.2
@@ -10,6 +11,7 @@ Flask==0.10.1
 Flask-Cors==2.1.2
 Flask-HTTPAuth==2.7.0
 Flask-Migrate==1.6.0
+Flask-Principal==0.4.0
 Flask-Script==2.0.5
 Flask-SQLAlchemy==2.0
 ForgeryPy==0.1
@@ -24,6 +26,7 @@ lxml==3.5.0
 Mako==1.0.3
 MarkupSafe==0.23
 mccabe==0.3.1
+MySQL-python==1.2.5
 pep8==1.5.7
 pyasn1==0.1.9
 pyasn1-modules==0.0.8
