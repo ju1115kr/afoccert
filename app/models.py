@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 from flask import url_for, current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -143,8 +144,7 @@ class News(db.Model):
             self.author_id = author.id
     
     def __repr__(self):
-        return '<News [%r](%r):%r>' % \
-            self.created_at, self.author_name, self.context
+        return '<News [%r](%r):%r>' % (self.created_at, self.author_name, self.context)
 
     def to_json(self):  # json 출력 루틴
         json_news = {
@@ -154,19 +154,28 @@ class News(db.Model):
             'author_name': self.author_name,
             'context': self.context,
             'created_at': self.created_at,
-            'modified_at': self.modified_at
+            'modified_at': self.modified_at,
+            'tags': [tag.to_json() for tag in self.tags]
         }
         return json_news
 
     @staticmethod
     def from_json(json_news):  # json 입력 루틴
         context = json_news.get('context')
-        # for role in json_news.get('permission').get('roles'): TODO 160224 오늘 개발합시다
+        tags = json_news.get('tags')
+        #        for role in json_news.get('permission').get('roles'):  # TODO: 권한 시스템 구현 예정
             
         # author = g.current_user
         if context is None or context == '':
             raise ValidationError('news does not have a context')
-        return News(context=context)
+        tag_names = [tag.get('name') for tag in tags]
+        if len(tag_names) != len(list(set(tag_names))):  # 중복된 태그가 태깅되었을 경우(같은 태그가 2개 이상)
+            raise ValidationError('tag\'s name confilct in tags')
+        news = News(context=context)
+        if type(tags) == list and tags is not None and len(tags) >= 1:  # 신송에 태깅된 태그가 존재 한다면
+            news.tags = [Tag.query.filter_by(name=tag.get('name')).first() for tag in tags  # 실제로 존재하는 태그에 대하여만 신송에 태깅
+                         if Tag.query.filter_by(name=tag.get('name')).count() != 0]
+        return news
 
     @staticmethod
     def generate_fake(count=100):  # 개발용 fake data 생성 루틴
@@ -244,7 +253,7 @@ class Comment(db.Model):
 class Tag(db.Model):
     __tablename__ = 'tags'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Text, unique=True, nullable=False)
+    name = db.Column(db.Text, nullable=False)
     # news = db.relationship('News', backref='tag', lazy='dynamic')
     news = db.relationship('News', secondary=news_tag_relationship)
 
@@ -254,7 +263,6 @@ class Tag(db.Model):
     def __repr__(self):
         return '<Tag [%r]>' % self.name
 
-    @staticmethod
     def to_json(self):
         json_tag = {
             'id': self.id,
