@@ -498,6 +498,10 @@
       color: #dddddd; }
     .sin-editor .modal .ng-hide.ng-hide-animate {
       display: none !important; }
+    .sin-editor .modal .glyphicons.flip-x {
+      transform: rotateY(180deg); }
+    .sin-editor .modal .glyphicons.flip-y {
+      transform: rotateX(180deg); }
     .sin-editor .modal .modal-dialog {
       position: fixed;
       top: 30%;

@@ -92,4 +92,9 @@ a {
 .ng-hide.ng-hide-animate {
   display: none !important; }
 
+.glyphicons.flip-x {
+  transform: rotateY(180deg); }
+.glyphicons.flip-y {
+  transform: rotateX(180deg); }
+
 /*# sourceMappingURL=base.css.map */
