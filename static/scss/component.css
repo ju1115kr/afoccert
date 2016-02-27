@@ -477,18 +477,18 @@ button, input[type="submit"], input[type="button"] {
     float: right !important; }
   .modal .pull-left {
     left: left !important; }
-  .modal a.default {
-    color: #2ABB9B;
+  .modal a {
     cursor: pointer; }
-    .modal a.default:hover {
-      text-decoration: underline; }
-  .modal a.btn {
-    cursor: pointer;
-    opacity: 0.5;
-    text-decoration: none;
-    transition: all .2s; }
-    .modal a.btn:hover {
-      opacity: 1; }
+    .modal a.default {
+      color: #2ABB9B; }
+      .modal a.default:hover {
+        text-decoration: underline; }
+    .modal a.btn {
+      opacity: 0.5;
+      text-decoration: none;
+      transition: all .2s; }
+      .modal a.btn:hover {
+        opacity: 1; }
   .modal .close {
     position: absolute;
     right: 10px;

@@ -466,18 +466,18 @@
       float: right !important; }
     .sin-editor .modal .pull-left {
       left: left !important; }
-    .sin-editor .modal a.default {
-      color: #2ABB9B;
+    .sin-editor .modal a {
       cursor: pointer; }
-      .sin-editor .modal a.default:hover {
-        text-decoration: underline; }
-    .sin-editor .modal a.btn {
-      cursor: pointer;
-      opacity: 0.5;
-      text-decoration: none;
-      transition: all .2s; }
-      .sin-editor .modal a.btn:hover {
-        opacity: 1; }
+      .sin-editor .modal a.default {
+        color: #2ABB9B; }
+        .sin-editor .modal a.default:hover {
+          text-decoration: underline; }
+      .sin-editor .modal a.btn {
+        opacity: 0.5;
+        text-decoration: none;
+        transition: all .2s; }
+        .sin-editor .modal a.btn:hover {
+          opacity: 1; }
     .sin-editor .modal .close {
       position: absolute;
       right: 10px;

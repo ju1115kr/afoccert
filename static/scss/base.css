@@ -55,18 +55,18 @@ table {
 .pull-left {
   left: left !important; }
 
-a.default {
-  color: #2ABB9B;
+a {
   cursor: pointer; }
-  a.default:hover {
-    text-decoration: underline; }
-a.btn {
-  cursor: pointer;
-  opacity: 0.5;
-  text-decoration: none;
-  transition: all .2s; }
-  a.btn:hover {
-    opacity: 1; }
+  a.default {
+    color: #2ABB9B; }
+    a.default:hover {
+      text-decoration: underline; }
+  a.btn {
+    opacity: 0.5;
+    text-decoration: none;
+    transition: all .2s; }
+    a.btn:hover {
+      opacity: 1; }
 
 .close {
   position: absolute;
