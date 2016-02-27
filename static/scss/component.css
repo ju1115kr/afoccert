@@ -250,13 +250,21 @@ button, input[type="submit"], input[type="button"] {
         .card.card-default .body [contenteditable="true"]::selection {
           background: #fff2a8; }
     .card.card-default .comments {
-      -webkit-user-select: none;
+      -webkit-user-select: initial;
+      -moz-user-select: initial;
+      -ms-user-select: initial;
+      user-select: initial;
       padding: 8px 10px 8px 20px;
       border-top: 2px solid #f1f1f5;
       background: #f6f6f9; }
-      .card.card-default .comments .comment-input {
+      .card.card-default .comments::selection,
+      .card.card-default .comments *::selection {
+        background: #fff2a8; }
+      .card.card-default .comments .comment-input,
+      .card.card-default .comments .comment .comment-input {
         position: relative; }
-        .card.card-default .comments .comment-input #fn-note {
+        .card.card-default .comments .comment-input #fn-note,
+        .card.card-default .comments .comment .comment-input #fn-note {
           position: relative;
           min-height: 30px;
           padding: 4px 8.2px;
@@ -269,17 +277,43 @@ button, input[type="submit"], input[type="button"] {
         font-size: 12px;
         margin-bottom: 12px; }
         .card.card-default .comments .comment .usertag {
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
           font-weight: 800; }
-        .card.card-default .comments .comment .options {
+        .card.card-default .comments .comment .area-comment .options {
           visibility: hidden;
           transition: none;
           color: #ccc; }
-        .card.card-default .comments .comment:hover .options {
+        .card.card-default .comments .comment .area-comment:hover .options {
           visibility: visible; }
         .card.card-default .comments .comment #fn-note {
           position: relative; }
           .card.card-default .comments .comment #fn-note.edit {
             background: #dedee1; }
+        .card.card-default .comments .comment .area-reply {
+          padding-left: 30px; }
+          .card.card-default .comments .comment .area-reply .replies li {
+            padding: 2px 10px;
+            border-left: 2px solid #e1e1e7; }
+            .card.card-default .comments .comment .area-reply .replies li.recent {
+              border-left: 2px solid #2ABB9B; }
+            .card.card-default .comments .comment .area-reply .replies li .options {
+              visibility: hidden;
+              transition: none;
+              color: #ccc; }
+            .card.card-default .comments .comment .area-reply .replies li:hover .options {
+              visibility: visible; }
+          .card.card-default .comments .comment .area-reply .comment-input {
+            border-left: 2px solid #e1e1e7; }
+            .card.card-default .comments .comment .area-reply .comment-input #fn-note {
+              min-height: 22px;
+              padding: 2px 8.2px;
+              font-size: 12px;
+              margin-left: 10px;
+              margin-top: 2px;
+              width: calc(100% - 100px); }
   .card.card-in-action {
     border-left: 4px solid #F9BF3B; }
   .card .tabbar {
@@ -443,6 +477,11 @@ button, input[type="submit"], input[type="button"] {
     float: right !important; }
   .modal .pull-left {
     left: left !important; }
+  .modal a.default {
+    color: #2ABB9B;
+    cursor: pointer; }
+    .modal a.default:hover {
+      text-decoration: underline; }
   .modal a.btn {
     cursor: pointer;
     opacity: 0.5;

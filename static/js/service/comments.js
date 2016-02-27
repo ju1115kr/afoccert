@@ -20,4 +20,14 @@ app.factory('Comments', function($resource){
 			method:'PUT'
 		}
 	})
+}).factory('Reply', function($resource){
+	return $resource(window.api_url+'/comments/:commentId', {}, {
+		toComment: {
+			method: 'POST'
+		},
+		fromComment: {
+			method: 'GET',
+			url : window.api_url+'/comments/:commentId/comments'
+		}
+	})
 })
