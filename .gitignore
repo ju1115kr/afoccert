@@ -1,3 +1,4 @@
+*/*.sqlite
 *.wsgi
 *.pyc
 *~
