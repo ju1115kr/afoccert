@@ -95,7 +95,7 @@ angular.module('certApp')
                     text: text
                 };
                 
-                News.save({'context': obj.text}, function (data, headers) {
+                News.save({'context': obj.text, 'tags':[]}, function (data, headers) {
                     $http({method: 'GET', url: headers('Location')}).success(function (data, stauts, headers, config) {
                         data = processingNews(data);
                         model.unshift(data);
@@ -105,7 +105,7 @@ angular.module('certApp')
             $scope.editNewsEnd = function (id, text) {
                 $scope.popover.model.edit = false;
                 News.update(
-                    {newsId: id}, {context: text},
+                    {newsId: id}, {'context': text, 'tags':[]},
                     function (data, stauts, headers, config) {
 
                     },
