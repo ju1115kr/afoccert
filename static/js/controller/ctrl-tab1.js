@@ -6,9 +6,11 @@ angular.module('certApp')
              * prevent ctrl+f : find
              */
             window.addEventListener("keydown", function (e) {
+                /*
                 if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
                     e.preventDefault();
                 }
+                */
             })
             $scope.newses = [];
             $scope.fetching = false;
