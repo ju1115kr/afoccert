@@ -340,12 +340,20 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
       }
     }
     .comments {
-      -webkit-user-select: none;
+      -webkit-user-select: initial;
+      -moz-user-select: initial;
+      -ms-user-select: initial;
+      user-select: initial;
+      &::selection,
+      *::selection {
+        background: #fff2a8;
+      }
       padding: 8px 10px 8px 20px;
       border-top: 2px solid #f1f1f5;
       background: #f6f6f9;
       //			backface-visibility: hidden !important;
-      .comment-input {
+      .comment-input,
+      .comment .comment-input {
         position: relative;
         #fn-note {
           position: relative;
@@ -365,22 +373,61 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
         font-size: 12px;
         margin-bottom: 12px;
           .usertag{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
             font-weight: 800;
           }
-          .options{
-            visibility: hidden;
-            transition: none;
-            color: #ccc;
-          }
-        &:hover {         
+          .area-comment{
             .options{
-              visibility: visible;
+              visibility: hidden;
+              transition: none;
+              color: #ccc;
             }
-        }
+            &:hover {
+                .options{
+                  visibility: visible;
+                }
+            }
+          }
         #fn-note {
           position: relative;
           &.edit {
             background: #dedee1;
+          }
+        }
+        .area-reply{
+          padding-left: 30px;
+          .replies{
+            li{
+              padding : 2px 10px;
+              border-left: 2px solid #e1e1e7;
+              &.recent{
+                border-left: 2px solid #2ABB9B;
+              }
+              .options{
+                visibility: hidden;
+                transition: none;
+                color: #ccc;
+              }
+              &:hover {
+                .options{
+                  visibility: visible;
+                }
+              }
+            }
+          }
+          .comment-input{
+            border-left : 2px solid #e1e1e7;
+            #fn-note{
+              min-height : 22px;
+              padding : 2px 8.2px;
+              font-size: 12px;
+              margin-left: 10px;
+              margin-top: 2px;
+              width: calc(100% - 100px);
+            }
           }
         }
       }

@@ -154,7 +154,7 @@ app
 					hashInput = $scope.hash.ele,
 					hashInputTyped,
 					editor = element,
-					hashChar = '@';
+					referedChar = '@';
 
 				editor
 					.bind("blur keyup change", function () {
@@ -172,7 +172,10 @@ app
 							$scope.hash.constructed = true;
 							$compile(hashInput)($scope);
 						}
-					});
+					})
+					.bind('keydown', 'shift+3', function (event) {
+						alert('태그 준비중')
+					})
 
 				hashInput
 					.bind('keydown', 'space esc', function (e) {
@@ -185,7 +188,7 @@ app
 						if ($scope.hash.typed.length === 0) {
 							$scope.finishHash();
 						} else {
-							if ($scope.hash.typed.charAt(0) !== hashChar) {
+							if ($scope.hash.typed.charAt(0) !== referedChar) {
 								$scope.finishHash();
 							}
 						}

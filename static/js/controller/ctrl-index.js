@@ -2,7 +2,7 @@
 
 angular.module('certApp').
 controller('IndexCtrl', function($scope, $rootScope, $location, RouteLinkProvider, Global, User, popoverUtils, PopoverProvider){
-    $scope.section = '';
+    $scope.section = 'index';
     $scope.link_provider = RouteLinkProvider;
     $scope.navObject =
     {

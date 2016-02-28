@@ -24,13 +24,21 @@ ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:befor
 .pull-left{
 	left: left !important;
 }
-a.btn{
+a{
 	cursor: pointer;
-	opacity :0.5;
-	text-decoration:none;
-	transition: all .2s;
-	&:hover{
-		opacity :1;
+	&.default{
+		color: #2ABB9B;
+		&:hover{
+			text-decoration: underline;
+		}
+	}
+	&.btn{
+		opacity :0.5;
+		text-decoration:none;
+		transition: all .2s;
+		&:hover{
+			opacity :1;
+		}
 	}
 }
 .close{
@@ -57,4 +65,12 @@ a.btn{
 }
 .ng-hide.ng-hide-animate{
 	display: none !important;
+}
+.glyphicons{
+	&.flip-x{
+		transform:rotateY(180deg);
+	}
+	&.flip-y{
+		transform:rotateX(180deg);
+	}
 }

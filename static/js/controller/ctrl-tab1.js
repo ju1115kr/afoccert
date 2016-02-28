@@ -1,14 +1,16 @@
 'use strict';
 
 angular.module('certApp')
-    .controller('Tab1Ctrl',function ($scope, $sce, $rootScope, $uibModal, News, $http, $window, Comments, $q, Store, modalUtils, $timeout, Global, PopoverProvider) {
+    .controller('Tab1Ctrl',function ($scope, $sce, $rootScope, $uibModal, News, $http, $window, Comments, Reply, $q, Store, modalUtils, $timeout, Global, PopoverProvider) {
             /**
              * prevent ctrl+f : find
              */
             window.addEventListener("keydown", function (e) {
+                /*
                 if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
                     e.preventDefault();
                 }
+                */
             })
             $scope.newses = [];
             $scope.fetching = false;
@@ -27,7 +29,6 @@ angular.module('certApp')
                 return function () {
                     $scope.fetching = true;
                     var tempNews;
-
                     News.query(
                         {page: startPage, per_page: 20},
                         function (result) {
@@ -40,6 +41,7 @@ angular.module('certApp')
                                     angular.forEach(commentArr, function (comment) {
                                         serializer(comment, 'context', 'text');
                                         comment.trustText = $sce.trustAsHtml(comment.text);
+                                        
                                     });
                                     $q.all(commentArr).then(function () {
                                         news.comments = commentArr;
@@ -75,7 +77,9 @@ angular.module('certApp')
                 return deferred.promise;
             }
 
-
+            /**
+             * 뉴스 관련 함수
+             */
 
 
             var fetchNewses = fetchNewPage(1);
@@ -86,13 +90,12 @@ angular.module('certApp')
                 }
             })
 
-            $scope.editList = [];
             $scope.addNews = function (text, model) {
                 var obj = {
                     text: text
                 };
                 
-                News.save({'context': obj.text}, function (data, headers) {
+                News.save({'context': obj.text, 'tags':[]}, function (data, headers) {
                     $http({method: 'GET', url: headers('Location')}).success(function (data, stauts, headers, config) {
                         data = processingNews(data);
                         model.unshift(data);
@@ -102,7 +105,7 @@ angular.module('certApp')
             $scope.editNewsEnd = function (id, text) {
                 $scope.popover.model.edit = false;
                 News.update(
-                    {newsId: id}, {context: text},
+                    {newsId: id}, {'context': text, 'tags':[]},
                     function (data, stauts, headers, config) {
 
                     },
@@ -110,54 +113,8 @@ angular.module('certApp')
                         $scope.editNewsStart();
                     });
             }
-            $scope.editCommentStart = function(comment){
-                // $http({method: 'GET', url: comment.author}).success(function(data){
-                    if(Global.user['userId']==comment.author){
-                       comment.edit = true;
-                    }
-                // })
-            }
+ 
 
-            $scope.editCommentEnd = function (id, comment) {
-                Comments.update(
-                    {commentId: id}, {context: comment},
-                    function (data, stauts, headers, config) {
-                        console.log(data);
-                    },
-                    function (err) {
-                    });
-            }
-
-            $scope.popover = {
-                visible: false,
-                x: 0,
-                y: 0,
-                model: null,
-                event: null
-            }
-
-            $scope.popoverToggle = function ($event, news) {
-                $event.stopPropagation();
-                $event.preventDefault();
-                $rootScope.rootPopover = $scope.popover;
-
-
-                if (news == $scope.popover.model) {
-                    $scope.popover.visible = !$scope.popover.visible;
-                } else {
-                    $scope.popover.model = news;
-                    $scope.popover.visible = true;
-                }
-                $scope.popover.event = $event;
-                $scope.popover.x = $($event.currentTarget).offset().left + $($event.currentTarget).width();
-                $scope.popover.y = $($event.currentTarget).offset().top + $($event.currentTarget).height();
-            }
-
-
-            /**
-             * delete news related functions
-             * delete & undo
-             */
             $scope.deleteNewsStart = function () {
                 $scope.popover.visible = false;
                 if(Global.user['userId']==$scope.popover.model.author){
@@ -203,10 +160,6 @@ angular.module('certApp')
             $scope.deleteNewsUndo = function (news) {
                 news.readyToDelete = false;
             }
-            /**
-             * edit news related function
-             * edit & confirm & undo
-             */
 
             $scope.editNewsStart = function () {
                 if(Global.user['userId']==$scope.popover.model.author){
@@ -214,6 +167,10 @@ angular.module('certApp')
                 }
             }
 
+
+            /**
+             *  comments
+             */
             $scope.addComment = function (text, model) {
                 Comments.toNews({newsId: model.newsId}, {'context': text}, function (data, headers) {
                     $http({method: 'GET', url: headers('Location')}).success(function (data, stauts, headers, config) {
@@ -231,13 +188,94 @@ angular.module('certApp')
                     console.log(err);
                 })
             }
-            $scope.google = function(){
-        PopoverProvider.open({
-            controller : 'byeCtrl',
-            position : 'bottom',
-            templateUrl : '/partials/partial-push-popover.html'
-        });
-    }
+
+            $scope.editCommentStart = function(comment){
+                if(Global.user['userId']==comment.author){
+                   comment.edit = true;
+                }
+            }
+
+            $scope.editCommentEnd = function (id, comment) {
+                Comments.update(
+                    {commentId: id}, {context: comment},
+                    function (data, stauts, headers, config) {
+                    },
+                    function (err) {
+                    });
+            }
+
+            $scope.replyToCommentStart = function (comment){
+                comment.replyDisplay = true;
+                comment.replies =[];
+                comment.replies.commentId = comment.id;
+            }
+
+            $scope.addReplyToComment = function(text, model){
+                Reply.toComment({commentId: model.commentId}, {'context': text}, function(data, headers){
+                    $http({method: 'GET', url:headers('Location')}).success(function(data){
+                        serializer(data, 'context', 'text');
+                        data.trustText = $sce.trustAsHtml(data.text);
+                        data.recent = true;
+                        model.push(data);
+                    })
+                })
+            }
+
+            $scope.deleteReply = function(reply){
+                $scope.deleteComment(reply);
+            }
+            
+            $scope.editReplyStart = function(reply){
+                $scope.editCommentStart(reply);
+            }
+
+            $scope.editReplyEnd = function(id, reply){
+                $scope.editCommentEnd(id, reply);
+            }
+
+            $scope.hasReply = function(comment){
+                return comment.count_reply
+            }
+
+            $scope.showReplies = function(comment){
+                comment.replyDisplay = true;
+                Reply.fromComment({commentId: comment.id},function(data){
+                    comment.replies = data.reply_comments;
+                    angular.forEach(comment.replies, function (reply) {
+                        serializer(reply, 'context', 'text');
+                        reply.trustText = $sce.trustAsHtml(reply.text);                                
+                    });
+                    comment.replies.commentId = comment.id;
+                })
+            }
+            /**
+             *  Popover
+             */
+
+            $scope.popover = {
+                visible: false,
+                x: 0,
+                y: 0,
+                model: null,
+                event: null
+            }
+
+            $scope.popoverToggle = function ($event, news) {
+                $event.stopPropagation();
+                $event.preventDefault();
+                $rootScope.rootPopover = $scope.popover;
+
+
+                if (news == $scope.popover.model) {
+                    $scope.popover.visible = !$scope.popover.visible;
+                } else {
+                    $scope.popover.model = news;
+                    $scope.popover.visible = true;
+                }
+                $scope.popover.event = $event;
+                $scope.popover.x = $($event.currentTarget).offset().left + $($event.currentTarget).width();
+                $scope.popover.y = $($event.currentTarget).offset().top + $($event.currentTarget).height();
+            }
         }
     )
     .controller('ModalDeleteCtrl', function ($scope, $uibModalInstance, news, News, Store) {

@@ -1,5 +1,8 @@
+*/*.sqlite
+*.wsgi
 *.pyc
 *~
 venv/
 static/scss/*.map
 static/js/api.js
+app/data-test.sqlite

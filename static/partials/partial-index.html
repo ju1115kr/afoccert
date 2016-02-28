@@ -2,13 +2,17 @@
 <div id="header" ng-if="global.isLoggedIn()" ng-animate="{enter:'animate-enter'}">
 	<div class="global-width margin-auto">
 		<ul>
-			<li id="{{button.id}}" ng-repeat="button in navObject.header.buttons" sin-popover="button.popover()"><span class="{{button.icon}}"></span></li>
+			<li id="{{button.id}}" ng-repeat="button in navObject.header.buttons" sin-popover="button.popover()">
+				<a><span class="{{button.icon}}"></span></a>
+			</li>
 		</ul>
 	</div>
 </div>
 <div id="main-nav" ng-if="global.isLoggedIn()">
 	<ul>
-		<li ng-repeat="button in navObject.sub.buttons" ng-click="link_provider.navigate(section, button.link)" ng-class="{'active': (section+'.'+button.link | routeSegmentStartsWith)}"><span class="{{button.icon}} icon"></span><span class="desc">{{button.name}}</span></li>
+		<li ng-repeat="button in navObject.sub.buttons" ng-class="{'active': (section+'.'+button.link | routeSegmentStartsWith)}">
+			<a ng-click="link_provider.navigate(button.link)"><span class="{{button.icon}} icon"></span><span class="desc">{{button.name}}</span></a>
+		</li>
 	</ul>
 </div>
 <div class="wallpaper" ng-class="{leave:'animate-leave'}" ng-if="!global.isLoggedIn()">
