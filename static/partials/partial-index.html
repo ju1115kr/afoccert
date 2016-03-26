@@ -1,6 +1,10 @@
 
 <div id="header" ng-if="global.isLoggedIn()" ng-animate="{enter:'animate-enter'}">
 	<div class="global-width margin-auto">
+		<div id="searchBar-wrap">
+			<input id="searchBar" class="form-input transparent" type="text" ng-model="searchBar.value" kr-input ng-focus="searchFocused()">
+			<span class="glyphicons glyphicons-search placeholder"></span>
+		</div>
 		<ul>
 			<li id="{{button.id}}" ng-repeat="button in navObject.header.buttons" sin-popover="button.popover()">
 				<a><span class="{{button.icon}}"></span></a>
@@ -31,3 +35,9 @@
 	<button type="submit" class="btn btn-block btn-lg btn-warning ng-animate-disabled" ng-disabled="user.loading" ng-if="signupForm">가입</button>
 </form>
 <div id="content-area" app-view-segment="1" ng-if="global.isLoggedIn()" ng-animate="{enter:'animate-enter'}"></div>
+<div id="searchResult">
+	<aside>
+		<li ng-repeat="news in searchResult" ng-bind-html="news.trustText"></li>
+	</aside>
+	<section></section>
+</div>

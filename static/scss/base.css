@@ -55,6 +55,9 @@ table {
 .pull-left {
   left: left !important; }
 
+input {
+  font-family: "NanumBarunGothic",Helvetica,Arial,sans-serif; }
+
 a {
   cursor: pointer; }
   a.default {

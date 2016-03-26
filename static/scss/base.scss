@@ -24,6 +24,9 @@ ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:befor
 .pull-left{
 	left: left !important;
 }
+input{
+	font-family: "NanumBarunGothic",Helvetica,Arial,sans-serif;
+}
 a{
 	cursor: pointer;
 	&.default{

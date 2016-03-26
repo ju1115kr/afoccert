@@ -19,28 +19,31 @@ app.config(function($routeSegmentProvider, $routeProvider, $locationProvider, $a
         .when("/tab2", 'index.tab2')
         .when('/tab3', 'index.tab3')
 
-        .segment('index', {
+    .segment('index', {
             templateUrl: '/partials/partial-index.html',
             controller: 'IndexCtrl'
         })
         .within()
-            .segment('tab1', {
-                templateUrl: '/partials/partial-tab1.html',
-                controller: 'Tab1Ctrl'
-            })
-            .segment('tab2', {
-                templateUrl: '/partials/partial-tab2.html',
-                controller: 'Tab2Ctrl'
-            })
-            .segment('tab3', {
-                templateUrl: '/partials/partial-tab2.html',
-                controller: 'Tab3Ctrl'
-            })
+        .segment('tab1', {
+            templateUrl: '/partials/partial-tab1.html',
+            controller: 'Tab1Ctrl'
+        })
+        .segment('tab2', {
+            templateUrl: '/partials/partial-tab2.html',
+            controller: 'Tab2Ctrl'
+        })
+        .segment('tab3', {
+            templateUrl: '/partials/partial-tab2.html',
+            controller: 'Tab3Ctrl'
+        })
         .up()
-    $routeProvider.otherwise({redirectTo: '/tab1'});
+    $routeProvider.otherwise({
+        redirectTo: '/tab1'
+    });
     // $locationProvider.html5Mode(true);
 
     $animateProvider.classNameFilter(/^(?:(?!ng-animate-disabled).)*$/);
 
     $httpProvider.interceptors.push('APIIntercepter');
-}) ;
+
+});
