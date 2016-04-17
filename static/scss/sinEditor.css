@@ -27,6 +27,8 @@
         font-size: 16px; }
       .sin-editor input.form-input.lg {
         height: 40px; }
+      .sin-editor input.form-input.transparent {
+        background: transparent; }
   .sin-editor button, .sin-editor input[type="submit"], .sin-editor input[type="button"] {
     cursor: pointer;
     appearance: none;
@@ -466,6 +468,8 @@
       float: right !important; }
     .sin-editor .modal .pull-left {
       left: left !important; }
+    .sin-editor .modal input {
+      font-family: "NanumBarunGothic",Helvetica,Arial,sans-serif; }
     .sin-editor .modal a {
       cursor: pointer; }
       .sin-editor .modal a.default {

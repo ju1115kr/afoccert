@@ -4,6 +4,14 @@ body{
 	background :#f1f1f1;
 	overflow-x: hidden;
 }
+#body{
+	// position: relative;
+}
+@media all and (min-width:1280px){	
+	#content-area{
+		margin-right: 100px;
+	}
+}
 #header{
 	position: fixed;
 	top :0;
@@ -17,6 +25,35 @@ body{
 	line-height : 30px;
 	z-index:$header-z;
 	font-size: 18px;
+	#searchBar-wrap{
+		float: right;
+		position: relative;
+		margin-right: 500px;
+		margin-top: 4px;
+		max-width: 300px;
+		width: calc(100% - 400px);
+		color: white;
+		#searchBar{
+			border: none;
+			background: #299C7D;
+			border-radius: 20px;
+	    	padding: 6px 15px;
+	    	margin: 0;
+	    	color: white;
+	    	&:focus{
+		      	font-size: 14px;
+	    	}
+		}
+		.placeholder{
+			position:absolute;
+			right: 0;
+			top:0;
+			margin-top: 7px;
+			margin-right: 10px;
+			font-size: 12px;
+			line-height: 1.4;
+		}
+	}
 	ul{
 		float: right;
 		li{
@@ -132,7 +169,58 @@ body{
 		}
 	}
 }
-
+#searchResult{
+	position: fixed;
+	width: 400px;
+	height: 100%;
+	left: 0;
+	top:0;
+	z-index: 1000;
+	background: #fff;
+	header{
+		background: #4183d7;
+		height: 50px;
+		text-align: center;
+		line-height: 50px;
+		color: white;
+	}
+	aside{
+		float: left;
+		width: 100%;
+		height: calc(100% - 50px);
+		overflow-y: scroll;
+		li{
+			position: relative;
+			display: block;
+			cursor: pointer;
+			width: 100%;
+			padding: 10px 20px;
+			border-bottom: 1px solid #e1e1e7;
+			overflow: hidden;
+			transition: all .2s;
+			div.index{
+				color: #428bca;
+				border-bottom: 1px solid #f1f1f5;
+			}
+			&.fold{
+				height: 96px;
+			}
+			&:hover{
+				background: #f1f1f5;
+				&:before{
+					position: absolute;
+					background: #4183d7;
+					display: block;
+					width: 4px;
+					height: 100%;
+					left:0;
+					top:0;
+					content: '';
+				}
+			}
+		}
+	}
+}
 @media (max-width:950px){
 	#main-nav{
 		width: 80px;
@@ -144,6 +232,11 @@ body{
 			.desc{
 				display:none;
 			}
+		}
+	}
+	#header{
+		#searchBar-wrap{
+			margin-right: 0;
 		}
 	}
 }

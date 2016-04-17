@@ -2,16 +2,7 @@
 
 angular.module('certApp')
     .controller('Tab1Ctrl',function ($scope, $sce, $rootScope, $uibModal, News, $http, $window, Comments, Reply, $q, Store, modalUtils, $timeout, Global, PopoverProvider) {
-            /**
-             * prevent ctrl+f : find
-             */
-            window.addEventListener("keydown", function (e) {
-                /*
-                if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
-                    e.preventDefault();
-                }
-                */
-            })
+                      
             $scope.newses = [];
             $scope.fetching = false;
             $scope.fetchedAll = false;

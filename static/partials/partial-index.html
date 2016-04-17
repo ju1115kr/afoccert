@@ -6,6 +6,11 @@
 				<a><span class="{{button.icon}}"></span></a>
 			</li>
 		</ul>
+		<div id="searchBar-wrap">
+			<input id="searchBar" class="form-input transparent" type="text" ng-model="searchBar.value" kr-input ng-focus="searchFocused()">
+			<span class="glyphicons glyphicons-search placeholder" ng-if="!searchBar.value"></span>
+			<a class="close placeholder" ng-if="searchBar.value" ng-click="searchBar.clear()"></a>
+		</div>
 	</div>
 </div>
 <div id="main-nav" ng-if="global.isLoggedIn()">
@@ -31,3 +36,19 @@
 	<button type="submit" class="btn btn-block btn-lg btn-warning ng-animate-disabled" ng-disabled="user.loading" ng-if="signupForm">가입</button>
 </form>
 <div id="content-area" app-view-segment="1" ng-if="global.isLoggedIn()" ng-animate="{enter:'animate-enter'}"></div>
+<div id="searchResult" class="shadow" ng-if="!searchBar.hide">
+	<header><u>{{searchBar.value}}</u> 검색결과
+		<a class="close" ng-click="searchBar.hide=true"></a>
+	</header>
+	<aside>
+		<li ng-repeat="news in searchResult" ng-click="searchBar.toggleFold(news)" ng-class="{'fold':news.fold}">
+			<div class="index">
+				<span>#{{news.id}}</span>
+				<span>{{news.author_name}}</span>
+				<span>{{news.created.date}}</span>
+			</div>
+			<span ng-bind-html="news.trustText"></span>
+		</li>
+	</aside>
+	<section></section>
+</div>
