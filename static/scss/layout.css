@@ -19,9 +19,9 @@ body {
   z-index: 1000;
   font-size: 18px; }
   #header #searchBar-wrap {
+    float: right;
     position: relative;
-    display: inline-block;
-    margin-left: 110px;
+    margin-right: 500px;
     margin-top: 4px;
     max-width: 300px;
     width: calc(100% - 400px);
@@ -128,21 +128,48 @@ body {
 
 #searchResult {
   position: fixed;
-  width: calc(100% - 200px);
-  height: 224px;
-  left: 140px;
-  bottom: 0;
+  width: 400px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 1000;
   background: #fff; }
+  #searchResult header {
+    background: #4183d7;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    color: white; }
   #searchResult aside {
     float: left;
-    width: 200px;
-    height: 100%;
+    width: 100%;
+    height: calc(100% - 50px);
     overflow-y: scroll; }
     #searchResult aside li {
+      position: relative;
       display: block;
+      cursor: pointer;
       width: 100%;
-      height: 40px;
-      oveflow: hidden; }
+      padding: 10px 20px;
+      border-bottom: 1px solid #e1e1e7;
+      overflow: hidden;
+      transition: all .2s; }
+      #searchResult aside li div.index {
+        color: #428bca;
+        border-bottom: 1px solid #f1f1f5; }
+      #searchResult aside li.fold {
+        height: 96px; }
+      #searchResult aside li:hover {
+        background: #f1f1f5; }
+        #searchResult aside li:hover:before {
+          position: absolute;
+          background: #4183d7;
+          display: block;
+          width: 4px;
+          height: 100%;
+          left: 0;
+          top: 0;
+          content: ''; }
 
 @media (max-width: 950px) {
   #main-nav {
@@ -152,6 +179,9 @@ body {
       #main-nav li .icon {
         margin: 0; }
       #main-nav li .desc {
-        display: none; } }
+        display: none; }
+
+  #header #searchBar-wrap {
+    margin-right: 0; } }
 
 /*# sourceMappingURL=layout.css.map */

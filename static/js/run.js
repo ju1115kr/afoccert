@@ -27,10 +27,17 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 		ele: function() {
 			return angular.element("#searchBar")[0];
 		},
-		data: []
+		data: [],
+		hide: true,
+		toggleFold: function(news){
+			news.fold = !news.fold;
+		},
+		clear: function(){
+			this.value = '';
+		}
 	}
 
-	var perPage = 100;
+	var perPage = 10;
 	var fetchNews = fetchNewsPage(1);
 
 	function fetchNewsPage(startPage) {
@@ -80,13 +87,22 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 	}
 
 	$rootScope.$watch('searchBar.value', function(newValue) {
-		var arr = getFilteredResult(newValue);
-		angular.forEach(arr, function(result) {
-			result.trustText = $sce.trustAsHtml(result.context);
-		});
-		$q.all(arr).then(function() {
-			$rootScope.searchResult = arr;
-		})
+		if (newValue.length == 0) {
+			$rootScope.searchBar.hide = true;
+		} else {
+			$rootScope.searchBar.hide = false;
+			var arr = getFilteredResult(newValue);
+			angular.forEach(arr, function(result) {
+				result.trustText = $sce.trustAsHtml(result.context);
+				result.created = {};
+				result.created.date = new Date().format('YY년 MM월 dd일', result.created_at);
+				result.created.time = new Date().format('hh:mm', result.created_at);
+				result.fold = true;
+			});
+			$q.all(arr).then(function() {
+				$rootScope.searchResult = arr;
+			})
+		}
 		console.log($rootScope.searchResult)
 	})
 
