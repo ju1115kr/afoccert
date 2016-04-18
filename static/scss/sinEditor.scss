@@ -24,11 +24,20 @@
 	}
 	footer{
 		position: relative;
+		height: 42px;
 	}
 	.sin-editor-default + footer{
 		border-top: 1px solid #f1f1f5;
 		text-align: right;
 		padding: 6px 15px;
+		.hash-list{
+			float: left;
+			width: calc(100% - 100px);
+			padding: 0 10px;
+			height: 100%;
+			text-align: left;
+			line-height: 2;
+		}
 		button{
 			@extend .btn-primary;
 			width: 100px;
@@ -51,6 +60,13 @@
 		text-align: right;
 		padding: 6px 15px;
 		margin-bottom: -25px;
+		.hash-list{
+			float: left;
+			width: calc(100% - 100px);
+			padding: 0 10px;
+			height: 100%;
+			text-align: left;
+		}
 		button{
 			@extend .btn-warning;
 			width: 100px;
@@ -78,15 +94,23 @@
 .hash-input {
 	border: none;
 	outline: none;
-	border-bottom: 2px solid #F9BF3B;
 	line-height: 1.2;
 	&.readonly {
 		padding: 1px 4px;
+		border-bottom: 2px solid #F9BF3B;
 		background: #F9BF3B;
 		color: white;
 		border-radius: 2px;
 		margin: 1px 2px;
 		-webkit-user-select: none;
+		&.hash-refer{
+			border-bottom: 2px solid #F9BF3B;
+			background: #F9BF3B;
+		}
+		&.hash-stuff{
+			border-bottom: 2px solid #4183D7;
+			background: #4183D7;
+		}
 	}
 }
 
