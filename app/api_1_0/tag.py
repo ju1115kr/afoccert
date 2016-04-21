@@ -5,6 +5,7 @@ from authentication import auth
 from .. import db
 from ..models import Tag
 from errors import not_found, bad_request
+from flask.ext.cors import cross_origin
 
 
 # 전체 태그 요청
