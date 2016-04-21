@@ -42,6 +42,11 @@ controller('IndexCtrl', function($scope, $rootScope, $location, RouteLinkProvide
                     name: '위키',
                     link: 'tab3',
                     icon: 'glyphicons glyphicons-book'
+                },
+                {
+                    name: '관리자',
+                    link: 'admin',
+                    icon: 'glyphicons glyphicons-keys'
                 }
             ]
         }

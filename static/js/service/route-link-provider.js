@@ -8,7 +8,6 @@ angular.module('certApp').factory('RouteLinkProvider', function($location) {
                 var path = arguments[i];
                 pathString +=  path;
             }
-
             $location.path(pathString);
         }
     };

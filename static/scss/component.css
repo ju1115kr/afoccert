@@ -19,11 +19,15 @@ input {
     transition: border .2s; }
     input.form-input:focus {
       border-bottom: 1px solid #4d92e7;
-      font-size: 16px; }
+      font-size: 16px;
+      margin-bottom: 7px; }
     input.form-input.lg {
       height: 40px; }
     input.form-input.transparent {
       background: transparent; }
+    input.form-input.primary:focus {
+      border-bottom: 1px solid #2ABB9B;
+      font-size: 16px; }
 
 button, input[type="submit"], input[type="button"] {
   cursor: pointer;
@@ -625,5 +629,52 @@ button, input[type="submit"], input[type="button"] {
 #loading-target {
   display: block;
   margin: 0 auto; }
+
+.well {
+  background: #6c7a89;
+  border-bottom: 1px solid #f1f1f5;
+  border-radius: 2px;
+  padding: 16px 20px;
+  color: #fff;
+  margin: 10px 0; }
+
+.namespace {
+  position: relative;
+  padding: 8px 8px 8px 16px;
+  border-radius: 1px;
+  background: #fff;
+  border-bottom: 1px #f1f1f5;
+  height: 40px;
+  line-height: 30px;
+  color: #222;
+  margin-right: 12px; }
+  .namespace:before {
+    display: block;
+    position: absolute;
+    width: 4px;
+    height: 100%;
+    content: '';
+    background: #2ABB9B;
+    top: 0;
+    left: 0; }
+  .namespace .content {
+    display: inline-block;
+    vertical-align: middle; }
+  .namespace .options {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -4px; }
+  .namespace.empty {
+    border: 1px dashed #fff;
+    background: transparent;
+    color: white;
+    padding: 0; }
+    .namespace.empty form {
+      display: inline-block; }
+      .namespace.empty form input {
+        background: transparent;
+        padding: 8px 16px; }
+    .namespace.empty:before {
+      display: none; }
 
 /*# sourceMappingURL=component.css.map */

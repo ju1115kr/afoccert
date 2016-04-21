@@ -1,0 +1,10 @@
+<form ng-submit="tagInput.create()">
+			<input id="tagInput" type="text" class="form-input primary" ng-model="tagInput.value" autogrow placeholder="새로운 태그 추가">
+			<button class="btn btn-transparent btn-primary" type="submit"><span class="glyphicons glyphicons-plus"></span></button>
+		</form>
+<div class="well">
+	<span class="namespace" ng-repeat="tag in tags">
+		<span class="content">{{tag.name}}</span>
+		<span class="options light"><span class="glyphicons glyphicons-remove-2"></span></span>
+	</span>
+</div>

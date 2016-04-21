@@ -26,12 +26,19 @@ input{
     &:focus{
       border-bottom: 1px solid #4d92e7;
       font-size: 16px;
+      margin-bottom: 7px;
     }
     &.lg{
       height: 40px;
     }
     &.transparent{
       background: transparent;
+    }
+    &.primary{
+     &:focus{
+        border-bottom: 1px solid #2ABB9B;
+        font-size: 16px;
+      } 
     }
   }
 }
@@ -725,4 +732,60 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
 #loading-target{
   display: block;
   margin: 0 auto;
+}
+
+.well{
+  background: #6c7a89;
+  border-bottom: 1px solid #f1f1f5;
+  border-radius: 2px;
+  padding: 16px 20px;
+  color: #fff;
+  margin: 10px 0;
+}
+
+.namespace{
+  position: relative;
+  padding: 8px 8px 8px 16px;
+  border-radius: 1px;
+  background: #fff;
+  border-bottom: 1px #f1f1f5;
+  height: 40px;
+  line-height: 30px;
+  color: #222;
+  margin-right: 12px;
+  &:before{
+    display: block;
+    position: absolute;
+    width: 4px;
+    height: 100%;
+    content: '';
+    background: #2ABB9B;
+    top: 0;
+    left:0;
+  }
+  .content{
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .options{
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -4px;
+  }
+  &.empty{
+    border: 1px dashed #fff;
+    background: transparent;
+    color: white;
+    padding: 0;
+    form{
+      display: inline-block;
+      input{
+        background:transparent;
+        padding: 8px 16px;
+      }
+    }
+    &:before{
+      display: none;
+    }
+  }
 }

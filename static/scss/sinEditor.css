@@ -24,11 +24,15 @@
       transition: border .2s; }
       .sin-editor input.form-input:focus {
         border-bottom: 1px solid #4d92e7;
-        font-size: 16px; }
+        font-size: 16px;
+        margin-bottom: 7px; }
       .sin-editor input.form-input.lg {
         height: 40px; }
       .sin-editor input.form-input.transparent {
         background: transparent; }
+      .sin-editor input.form-input.primary:focus {
+        border-bottom: 1px solid #2ABB9B;
+        font-size: 16px; }
   .sin-editor button, .sin-editor input[type="submit"], .sin-editor input[type="button"] {
     cursor: pointer;
     appearance: none;
@@ -612,6 +616,51 @@
   .sin-editor #loading-target {
     display: block;
     margin: 0 auto; }
+  .sin-editor .well {
+    background: #6c7a89;
+    border-bottom: 1px solid #f1f1f5;
+    border-radius: 2px;
+    padding: 16px 20px;
+    color: #fff;
+    margin: 10px 0; }
+  .sin-editor .namespace {
+    position: relative;
+    padding: 8px 8px 8px 16px;
+    border-radius: 1px;
+    background: #fff;
+    border-bottom: 1px #f1f1f5;
+    height: 40px;
+    line-height: 30px;
+    color: #222;
+    margin-right: 12px; }
+    .sin-editor .namespace:before {
+      display: block;
+      position: absolute;
+      width: 4px;
+      height: 100%;
+      content: '';
+      background: #2ABB9B;
+      top: 0;
+      left: 0; }
+    .sin-editor .namespace .content {
+      display: inline-block;
+      vertical-align: middle; }
+    .sin-editor .namespace .options {
+      display: inline-block;
+      vertical-align: middle;
+      margin-top: -4px; }
+    .sin-editor .namespace.empty {
+      border: 1px dashed #fff;
+      background: transparent;
+      color: white;
+      padding: 0; }
+      .sin-editor .namespace.empty form {
+        display: inline-block; }
+        .sin-editor .namespace.empty form input {
+          background: transparent;
+          padding: 8px 16px; }
+      .sin-editor .namespace.empty:before {
+        display: none; }
   .sin-editor .sin-editor-default,
   .sin-editor .sin-editor-inline,
   .sin-editor .sin-editor-default-edit {

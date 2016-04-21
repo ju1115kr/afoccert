@@ -1,0 +1,10 @@
+<div id="labeled-container">
+<aside class="aside-label">
+<ul>
+    <li ng-repeat="button in navBtn" ng-class="{'active': (section+'.'+button.link | routeSegmentStartsWith)}">
+        <a ng-click="link_provider.navigate(root+'/'+button.link)"><span class="{{button.icon}} icon"></span><span class="desc">{{button.name}}</span></a>
+    </li>
+</ul>
+</aside>
+<div class="labeled-contents" app-view-segment="2"></div>
+</div>

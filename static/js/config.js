@@ -18,6 +18,10 @@ app.config(function($routeSegmentProvider, $routeProvider, $locationProvider, $a
         .when('/tab1', 'index.tab1')
         .when("/tab2", 'index.tab2')
         .when('/tab3', 'index.tab3')
+        .when('/admin', 'index.admin')
+        .when('/admin/tags', 'index.admin.tags')
+        .when('/admin/groups', 'index.admin.groups')
+        .when('/admin/users', 'index.admin.users')
 
     .segment('index', {
             templateUrl: '/partials/partial-index.html',
@@ -36,6 +40,22 @@ app.config(function($routeSegmentProvider, $routeProvider, $locationProvider, $a
             templateUrl: '/partials/partial-tab2.html',
             controller: 'Tab3Ctrl'
         })
+        .segment('admin', {
+            templateUrl: '/partials/admin/admin-layout.html',
+            controller: 'AdminCtrl'
+        })
+            .within()
+            .segment('tags',{
+                templateUrl: 'partials/admin/admin-tags.html',
+                controller: 'TagsCtrl'
+            })
+            .segment('groups',{
+                templateUrl: 'partials/admin/admin-groups.html'
+            })
+            .segment('userss',{
+                templateUrl: 'partials/admin/admin-groups.html'
+            })
+            .up()
         .up()
     $routeProvider.otherwise({
         redirectTo: '/tab1'

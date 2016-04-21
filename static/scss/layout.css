@@ -2,7 +2,7 @@ body {
   background: #f1f1f1;
   overflow-x: hidden; }
 
-@media all and (min-width: 1280px) {
+@media all and (min-width: 968px) {
   #content-area {
     margin-right: 100px; } }
 #header {
@@ -118,6 +118,48 @@ body {
     width: calc(100% - 720px);
     margin-top: 20px;
     margin-left: 40px; }
+  #content-area > #labeled-container {
+    width: 100%;
+    padding: 40px 5px; }
+    #content-area > #labeled-container .aside-label {
+      width: 150px;
+      float: left; }
+      #content-area > #labeled-container .aside-label li {
+        position: relative;
+        display: block;
+        height: 60px;
+        padding: 0 14px;
+        text-align: center;
+        transition: all .2s;
+        margin-left: 15px;
+        line-height: 60px;
+        color: #e1e1e7; }
+        #content-area > #labeled-container .aside-label li > a {
+          display: block;
+          width: 100%;
+          height: 100%; }
+        #content-area > #labeled-container .aside-label li:hover {
+          background: #f1f1f5;
+          color: #222; }
+        #content-area > #labeled-container .aside-label li.active {
+          background: #fff;
+          margin-left: 0;
+          color: #2ABB9B; }
+          #content-area > #labeled-container .aside-label li.active:before {
+            display: block;
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: #2ABB9B; }
+    #content-area > #labeled-container .labeled-contents {
+      float: right;
+      width: calc(100% - 150px);
+      min-height: 400px;
+      background: #fff;
+      padding: 30px 40px; }
   #content-area.ng-enter {
     transform: scale(0.8);
     opacity: 0;
@@ -171,7 +213,7 @@ body {
           top: 0;
           content: ''; }
 
-@media (max-width: 950px) {
+@media (max-width: 968px) {
   #main-nav {
     width: 80px; }
     #main-nav li {
