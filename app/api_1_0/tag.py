@@ -31,6 +31,7 @@ def get_tag(tag_name):
 # TODO: 관리자급 계정만 가능하게
 @api.route('/tags', methods=['POST'])
 @auth.login_required
+@cross_origin(expose_headers='Location')
 def post_tag():
     if request.json is None:
         return bad_request('JSON Request is invaild')
