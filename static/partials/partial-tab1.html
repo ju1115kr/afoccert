@@ -1,7 +1,7 @@
-<ul id="newsPopover" class="popover shadow popover-right ng-animate-disabled" ng-if="popover.visible" ng-style="{'left':popover.x, 'top':popover.y}">
+<!-- <ul id="newsPopover" class="popover shadow popover-right ng-animate-disabled" ng-if="popover.visible" ng-style="{'left':popover.x, 'top':popover.y}">
 	<li ng-click="editNewsStart()">수정</li>
 	<li ng-click="deleteNewsStart()">삭제</li>
-</ul>
+</ul> -->
 
 
 <div id="sub">
@@ -19,7 +19,8 @@
 	</div>
 	<!-- editor end -->
 	<!-- news list start -->
-		<article class="card card-default" ng-class="{'card-in-action shadow':news.edit}" ng-repeat="news in newses" ng-if="!news.deleted" ng-animate="{leave:'animate-leave', enter:'animate-enter'}">
+	<news model="news" ng-repeat="news in newses" ng-if="!news.deleted" ng-animate="{leave:'animate-leave', enter:'animate-enter'}"></news>
+		<!-- <article class="card card-default" ng-class="{'card-in-action shadow':news.edit}" ng-repeat="news in newses" ng-if="!news.deleted" ng-animate="{leave:'animate-leave', enter:'animate-enter'}">
 				<span class="news-info">
 					<span class="news-timestamp">{{news.created.date}}</span>
 					<span class="news-timestamp">{{news.created.time}}</span>
@@ -71,14 +72,14 @@
 					</ul>
 					<sin-editor class="comment-input" sin-entries="news.comments" sin-submit="addComment(text,model)" sin-mode="inline"></sin-editor>
 				</div>
-		</article>
+		</article> -->
 		<!-- news list end -->
 		<loading ng-if="!fetchedAll" ></loading>
 	<footer></footer>
 	<!--  Drop File:
-    <div ngf-drop ngf-select ng-model="files" class="drop-box" 
+    <div ngf-drop ngf-select ng-model="files" class="drop-box"
         ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
-        accept="image/*,application/pdf" 
+        accept="image/*,application/pdf"
         ngf-pattern="'image/*,application/pdf'">Drop pdfs or images here or click to upload</div>
     Files:
     <ul>

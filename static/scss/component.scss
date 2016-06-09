@@ -230,6 +230,9 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
 }
 
 .popover {
+  .popover-tmpl{
+    display: flex;
+  }
   &.top > .arrow {
     left: 50%;
     margin-left: -$popover-arrow-outer-width;
@@ -301,6 +304,7 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
  * card style
  */
 .card {
+  position: relative;
   border-radius: 2px;
   margin-bottom: 20px;
   -webkit-user-select: none;
@@ -311,7 +315,6 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
     border: 1px solid #e0e0eb;
     border-bottom: 2px solid #e1e1e7;
     .title {
-      position: relative;
       padding: 5px 3px;
       margin: 0 10px;
       border-bottom: 1px solid #f1f1f5;
@@ -458,6 +461,9 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
       }
     }
   }
+}
+news{
+  display: block;
   &.ng-leave {
     transition: all .5s;
     opacity: 1;
@@ -659,7 +665,7 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
           height: calc(100% - 110px);
           padding: 5px 15px;
           text-overflow: ellipsis;
-          word-wrap: break-word;  
+          word-wrap: break-word;
           li {
             display: block;
             min-height: 40px;
