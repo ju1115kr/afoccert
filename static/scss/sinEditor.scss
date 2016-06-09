@@ -24,7 +24,6 @@
 	}
 	footer{
 		position: relative;
-		height: 42px;
 	}
 	.sin-editor-default + footer{
 		border-top: 1px solid #f1f1f5;
@@ -75,7 +74,7 @@
 	.sin-editor-inline-edit {
 		float: left;
 		width: calc(100% - 55px);
-		margin-right: 5px;	
+		margin-right: 5px;
 		&+footer{
 			float: left;
 			width : 45px;

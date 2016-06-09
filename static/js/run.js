@@ -31,6 +31,15 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 		hide: true,
 		toggleFold: function(news){
 			news.fold = !news.fold;
+			var modalInstance = $uibModal.open({
+					templateUrl: '/partials/partial-news-modal.html',
+					controller: 'ModalNewsCtrl',
+					resolve: {
+							modalNews: function () {
+									return news
+							}
+					}
+			})
 		},
 		clear: function(){
 			this.value = '';
@@ -103,7 +112,6 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 				$rootScope.searchResult = arr;
 			})
 		}
-		console.log($rootScope.searchResult)
 	})
 
 	function getFilteredResult(input) {

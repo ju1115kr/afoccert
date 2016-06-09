@@ -160,6 +160,8 @@
   .sin-editor .popover > .arrow:after {
     border-width: 10px;
     content: ""; }
+  .sin-editor .popover .popover-tmpl {
+    display: flex; }
   .sin-editor .popover.top > .arrow {
     left: 50%;
     margin-left: -11px;
@@ -215,6 +217,7 @@
   .sin-editor .popover-right {
     margin-left: -100px; }
   .sin-editor .card {
+    position: relative;
     border-radius: 2px;
     margin-bottom: 20px;
     -webkit-user-select: none;
@@ -225,7 +228,6 @@
       border: 1px solid #e0e0eb;
       border-bottom: 2px solid #e1e1e7; }
       .sin-editor .card.card-default .title {
-        position: relative;
         padding: 5px 3px;
         margin: 0 10px;
         border-bottom: 1px solid #f1f1f5;
@@ -328,17 +330,19 @@
         text-align: center; }
         .sin-editor .card.card-primary .footer a.btn {
           color: #4B77BE; }
-    .sin-editor .card.ng-leave {
+  .sin-editor news {
+    display: block; }
+    .sin-editor news.ng-leave {
       transition: all .5s;
       opacity: 1; }
-      .sin-editor .card.ng-leave.ng-leave-active {
+      .sin-editor news.ng-leave.ng-leave-active {
         opacity: 0;
         transform: translate(200px); }
-    .sin-editor .card.ng-enter {
+    .sin-editor news.ng-enter {
       transition: all .5s;
       opacity: 0;
       transform: translateY(-100px); }
-      .sin-editor .card.ng-enter.ng-enter-active {
+      .sin-editor news.ng-enter.ng-enter-active {
         opacity: 1;
         transform: translateY(0); }
   .sin-editor .typeahead {
@@ -681,8 +685,7 @@
   .sin-editor [contenteditable="true"]::selection {
     background: #fff2a8; }
   .sin-editor footer {
-    position: relative;
-    height: 42px; }
+    position: relative; }
   .sin-editor .sin-editor-default + footer {
     border-top: 1px solid #f1f1f5;
     text-align: right;

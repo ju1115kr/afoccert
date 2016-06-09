@@ -162,6 +162,8 @@ button, input[type="submit"], input[type="button"] {
   border-width: 10px;
   content: ""; }
 
+.popover .popover-tmpl {
+  display: flex; }
 .popover.top > .arrow {
   left: 50%;
   margin-left: -11px;
@@ -222,6 +224,7 @@ button, input[type="submit"], input[type="button"] {
  * card style
  */
 .card {
+  position: relative;
   border-radius: 2px;
   margin-bottom: 20px;
   -webkit-user-select: none;
@@ -232,7 +235,6 @@ button, input[type="submit"], input[type="button"] {
     border: 1px solid #e0e0eb;
     border-bottom: 2px solid #e1e1e7; }
     .card.card-default .title {
-      position: relative;
       padding: 5px 3px;
       margin: 0 10px;
       border-bottom: 1px solid #f1f1f5;
@@ -335,17 +337,20 @@ button, input[type="submit"], input[type="button"] {
       text-align: center; }
       .card.card-primary .footer a.btn {
         color: #4B77BE; }
-  .card.ng-leave {
+
+news {
+  display: block; }
+  news.ng-leave {
     transition: all .5s;
     opacity: 1; }
-    .card.ng-leave.ng-leave-active {
+    news.ng-leave.ng-leave-active {
       opacity: 0;
       transform: translate(200px); }
-  .card.ng-enter {
+  news.ng-enter {
     transition: all .5s;
     opacity: 0;
     transform: translateY(-100px); }
-    .card.ng-enter.ng-enter-active {
+    news.ng-enter.ng-enter-active {
       opacity: 1;
       transform: translateY(0); }
 
