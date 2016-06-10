@@ -108,7 +108,7 @@ controller('IndexCtrl', function($scope, $rootScope, $location, RouteLinkProvide
     $scope.getPush = function(){
         PopoverTrigger({
             controller : 'helloCtrl',
-            position : 'top',
+            position : 'bottom',
             templateUrl : '/partials/partial-push-popover.html',
             resolve : {
                 Init : function(){

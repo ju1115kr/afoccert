@@ -1,60 +1,54 @@
 <article class="card card-default" ng-class="{'card-in-action shadow':news.edit}">
-  <ul id="newsPopover" class="popover shadow popover-right ng-animate-disabled" ng-if="popover.visible" ng-style="{'left':popover.x, 'top':popover.y}">
-    <li ng-click="editNewsStart()">수정</li>
-    <li ng-click="deleteNewsStart()">삭제</li>
-  </ul>
     <span class="news-info">
-      <span class="news-timestamp">{{news.created.date}}</span>
-      <span class="news-timestamp">{{news.created.time}}</span>
-      <span class="news-author">{{news.author_name}}</span>
+        <span class="news-timestamp">{{news.created.date}}</span>
+        <span class="news-timestamp">{{news.created.time}}</span>
+        <span class="news-author">{{news.author_name}}</span>
     </span>
     <div class="title">
-      <span>{{news.id}}</span>
-      <a class="options pull-right ng-animate-disabled" ng-if="!news.edit" ng-click="popoverToggle($event,news)">
-        <span class="glyphicons glyphicons-more"></span>
-      </a>
-      <a class="options pull-right ng-animate-disabled" ng-if="!news.edit" sin-popover="news.showPopover()">
-        <span class="glyphicons glyphicons-more"></span>
-      </a>
+        <span>{{news.id}}</span>
+        <a class="options pull-right ng-animate-disabled" ng-if="news.optionEnabled && !news.edit" sin-popover="news.showPopover()">
+            <span class="glyphicons glyphicons-more"></span>
+        </a>
     </div>
     <div class="body ng-animate-disabled" ng-bind-html="news.trustText" ng-if="!news.edit"></div>
     <sin-editor class="body ng-animate-disabled" sin-class="" value="news" sin-submit="editNewsEnd(id, text)" ng-if="news.edit" sin-autofocus="true" sin-mode="default-edit"></sin-editor>
     <div class="comments" ng-if="!news.edit" ng-animate="{leave:'animate-leave', enter : 'animate-enter'}">
-      <ul>
-        <li class="comment ng-animate-disabled" ng-repeat="comment in news.comments" ng-if="!comment.deleted">
-          <section class="area-comment">
-            <figure class="usertag">
-              {{comment.author_name}}
-              <a class="options glyphicons glyphicons-remove-2 btn ng-animate-disabled pull-right" ng-if="!comment.edit" ng-click="deleteComment(comment)"></a>
-            </figure>
-            <article ng-if="!comment.edit">
-              <span ng-bind-html="comment.trustText"></span>
-              <a class="options glyphicons glyphicons-pencil btn ng-animate-disabled" ng-click="editCommentStart(comment)"></a>
-              <a class="options glyphicons glyphicons-comments btn flip-x ng-animate-disabled" ng-click="replyToCommentStart(comment)" ng-if="!hasReply(comment) && !comment.replyDisplay"></a>
-            </article>
-            <sin-editor sin-class="edit" class="ng-animate-disabled" value="comment" sin-autofocus="true" sin-submit="editCommentEnd(id, text)" ng-if="comment.edit" sin-mode="inline-edit"></sin-editor>
-          </section>
-          <section class="area-reply">
-            <a class="default" ng-if="hasReply(comment) && !comment.replyDisplay" ng-click="showReplies(comment)">
-              <span class="glyphicons glyphicons-comments flip-x"></span> {{comment.count_reply}}개의 답글이 있습니다.
-            </a>
-            <ul class="replies" ng-if="comment.replyDisplay">
-              <li ng-repeat="reply in comment.replies" ng-if="!reply.deleted" ng-class="{'recent':reply.recent}">
-                <figure class="usertag">
-                  {{reply.author_name}}
-                  <a class="options glyphicons glyphicons-remove-2 btn ng-animate-disabled pull-right" ng-if="!comment.edit" ng-click="deleteReply(reply)"></a>
-                </figure>
-                <article ng-if="!reply.edit">
-                  <span ng-bind-html="reply.trustText"></span>
-                  <a class="options glyphicons glyphicons-pencil btn ng-animate-disabled" ng-click="editReplyStart(reply)"></a>
-                </article>
-                <sin-editor sin-class="edit" class="ng-animate-disabled" value="reply" sin-autofocus="true" sin-submit="editReplyEnd(id, text)" ng-if="reply.edit" sin-mode="inline-edit"></sin-editor>
-              </li>
-            </ul>
-            <sin-editor class="comment-input" class="ng-animate-disabled" sin-autofocus="true" sin-entries="comment.replies" sin-submit="addReplyToComment(text,model)" ng-if="comment.replyDisplay" sin-mode="inline"></sin-editor>
-          </section>
-        </li>
-      </ul>
-      <sin-editor class="comment-input" sin-entries="news.comments" sin-submit="addComment(text,model)" sin-mode="inline"></sin-editor>
+        <loading ng-if="news.fetchingComment" size="40"></loading>
+        <ul ng-if="!news.fetchingComment">
+            <li class="comment ng-animate-disabled" ng-repeat="comment in news.comments" ng-if="!comment.deleted">
+                <section class="area-comment">
+                    <figure class="usertag">
+                        {{comment.author_name}}
+                        <a class="options glyphicons glyphicons-remove-2 btn ng-animate-disabled pull-right" ng-if="!comment.edit" ng-click="deleteComment(comment)"></a>
+                    </figure>
+                    <article ng-if="!comment.edit">
+                        <span ng-bind-html="comment.trustText"></span>
+                        <a class="options glyphicons glyphicons-pencil btn ng-animate-disabled" ng-click="editCommentStart(comment)"></a>
+                        <a class="options glyphicons glyphicons-comments btn flip-x ng-animate-disabled" ng-click="replyToCommentStart(comment)" ng-if="!hasReply(comment) && !comment.replyDisplay"></a>
+                    </article>
+                    <sin-editor sin-class="edit" class="ng-animate-disabled" value="comment" sin-autofocus="true" sin-submit="editCommentEnd(id, text)" ng-if="comment.edit" sin-mode="inline-edit"></sin-editor>
+                </section>
+                <section class="area-reply">
+                    <a class="default" ng-if="hasReply(comment) && !comment.replyDisplay" ng-click="showReplies(comment)">
+                        <span class="glyphicons glyphicons-comments flip-x"></span> {{comment.count_reply}}개의 답글이 있습니다.
+                    </a>
+                    <ul class="replies" ng-if="comment.replyDisplay">
+                        <li ng-repeat="reply in comment.replies" ng-if="!reply.deleted" ng-class="{'recent':reply.recent}">
+                            <figure class="usertag">
+                                {{reply.author_name}}
+                                <a class="options glyphicons glyphicons-remove-2 btn ng-animate-disabled pull-right" ng-if="!comment.edit" ng-click="deleteReply(reply)"></a>
+                            </figure>
+                            <article ng-if="!reply.edit">
+                                <span ng-bind-html="reply.trustText"></span>
+                                <a class="options glyphicons glyphicons-pencil btn ng-animate-disabled" ng-click="editReplyStart(reply)"></a>
+                            </article>
+                            <sin-editor sin-class="edit" class="ng-animate-disabled" value="reply" sin-autofocus="true" sin-submit="editReplyEnd(id, text)" ng-if="reply.edit" sin-mode="inline-edit"></sin-editor>
+                        </li>
+                    </ul>
+                    <sin-editor class="comment-input" class="ng-animate-disabled" sin-autofocus="true" sin-entries="comment.replies" sin-submit="addReplyToComment(text,model)" ng-if="comment.replyDisplay" sin-mode="inline"></sin-editor>
+                </section>
+            </li>
+        </ul>
+        <sin-editor class="comment-input" sin-entries="news.comments" sin-submit="addComment(text,model)" sin-mode="inline"></sin-editor>
     </div>
 </article>

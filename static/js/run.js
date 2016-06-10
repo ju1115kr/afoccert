@@ -5,7 +5,7 @@
 
 var app = angular.module('certApp');
 
-app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibModal, modalUtils, News) {
+app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibModal, modalUtils, News, Comments) {
 	$rootScope.unauthorizedReq = [];
 	$rootScope.$on('forbidden', function() {
 
@@ -30,13 +30,13 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 		data: [],
 		hide: true,
 		toggleFold: function(news){
-			news.fold = !news.fold;
+			// news.fold = !news.fold;
 			var modalInstance = $uibModal.open({
 					templateUrl: '/partials/partial-news-modal.html',
 					controller: 'ModalNewsCtrl',
 					resolve: {
 							modalNews: function () {
-									return news
+									return news;
 							}
 					}
 			})
@@ -46,7 +46,7 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 		}
 	}
 
-	var perPage = 10;
+	var perPage = 100;
 	var fetchNews = fetchNewsPage(1);
 
 	function fetchNewsPage(startPage) {
@@ -57,7 +57,7 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 				per_page: perPage
 			}, function(result) {
 				++startPage;
-				deferred.resolve(result.news);
+				deferred.resolve(result);
 			}, function() {
 				fetchClosure();
 			})
@@ -70,28 +70,45 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 		var result = [];
 		var deferred = $q.defer();
 		promise.then(function(newsArr) {
-			result = newsArr
+			result = newsArr;
 			if (result.length != 0) {
 				$rootScope.searchBar.data = $rootScope.searchBar.data.concat(result);
 				deferred.resolve(fetchRecursive());
 			} else {
 				deferred.resolve($rootScope.searchBar.data);
-				return deferred.promise;
 			}
 		})
 		return deferred.promise;
 	}
+
+	function fetchComment(newses){
+		var deferred = $q.defer();
+        angular.forEach(newses, function(news, index){
+            Comments.fromNews({newsId: news.id}, function (result) {
+                news.comments = result;
+                news.fetchingComment = false;
+                news.comments.newsId = news.id;
+            }, function(){
+
+			})
+        })
+		$q.all(newses).then(function(){
+			deferred.resolve(newses);
+		});
+		return deferred.promise;
+    }
 	window.addEventListener("keydown", function(e) {
 		if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
 			$rootScope.searchBar.ele().focus();
 			e.preventDefault();
 		}
-
 	})
 
 	$rootScope.searchFocused = function() {
 		fetchRecursive().then(function(data) {
-			$rootScope.searchResult = getFilteredResult($rootScope.searchBar.value);
+			// fetchComment(data).then(function(){
+				$rootScope.searchResult = getFilteredResult($rootScope.searchBar.value);
+			// })
 		});
 	}
 
@@ -101,25 +118,25 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 		} else {
 			$rootScope.searchBar.hide = false;
 			var arr = getFilteredResult(newValue);
-			angular.forEach(arr, function(result) {
-				result.trustText = $sce.trustAsHtml(result.context);
-				result.created = {};
-				result.created.date = new Date().format('YY년 MM월 dd일', result.created_at);
-				result.created.time = new Date().format('hh:mm', result.created_at);
-				result.fold = true;
-			});
-			$q.all(arr).then(function() {
-				$rootScope.searchResult = arr;
-			})
+			$rootScope.searchResult = arr;
 		}
 	})
 
 	function getFilteredResult(input) {
 		var output = $filter('filter')($rootScope.searchBar.data, function(value, index, array) {
-			// if (removeEscapeChar(value.context).toLowerCase().indexOf(input.toLowerCase()) > -1) {
 			var reg = new RegExp(input, "gi");
-			if (removeEscapeChar(value.context).search(reg) != -1) {
+			if (removeEscapeChar(value.text).search(reg) != -1) {
 				return true;
+			}else{
+				var inArray = false;
+				$filter('filter')(value.comments,function(value, index, array){
+					if (removeEscapeChar(value.text).search(reg) != -1) {
+						inArray = true;
+					}
+				})
+				if(inArray){
+					return true;
+				}
 			}
 		});
 		return output;
