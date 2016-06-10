@@ -32,4 +32,19 @@
     padding: 10px 20px;
     background: #fff; }
 
+#options {
+  width: 90px;
+  padding: 0; }
+  #options > ul li {
+    cursor: pointer;
+    padding: 5px 10px;
+    font-size: 12px;
+    text-indent: 5px;
+    color: #222;
+    text-align: left; }
+    #options > ul li:hover {
+      background: #F9BF3B;
+      color: #fff;
+      font-weight: bold; }
+
 /*# sourceMappingURL=popovers.css.map */

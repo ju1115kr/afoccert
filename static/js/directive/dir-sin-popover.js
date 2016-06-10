@@ -30,7 +30,7 @@ directive("sinPopover", function($compile, PopoverTrigger, popoverPromise, $root
 						popoverInstance.closeDeferred.resolve(message);
 						scope.popover.toggleTrigger(false);
 					};
-					popoverInstance.element = angular.element('<popover ng-if="popover.triggered" instance="popoverInstance" class="popover-container"></popover>');
+					popoverInstance.element = angular.element('<popover ng-if="popover.triggered" instance="popoverInstance" class="popover-container {{popoverInstance.options.position}}"></popover>');
 					scope.popoverInstance = popoverInstance;
 					if(!scope.popover){
 						scope.popover = new Popover(popoverInstance);
@@ -65,7 +65,7 @@ directive("popover", function($timeout, $controller, $compile, $rootScope){
 		scope: {
 			instance: '=instance'
 		},
-		template : '<div class="popover {{instance.options.position}}" style="{{style}}"><div class="arrow"></div></div>',
+		template : '<div class="popover" style="{{style}}"><div class="arrow"></div></div>',
 		link: function(scope, element, attrs){
 			element.bind("click",function(event){
 				event.stopPropagation();
@@ -88,11 +88,13 @@ directive("popover", function($timeout, $controller, $compile, $rootScope){
 				scope.instance.ctrlInstance = $controller(scope.instance.options.controller, ctrlLocals);
 			}
 			$compile(tmpl)(scope.instance.scope);
+			/*
 			switch(scope.instance.options.position){
 				case 'top' : $timeout(function(){scope.style = 'left: 50%; margin-left: ' + (-1)*offsetX/2+'px; align-self:flex-end;';});break;
 				case 'bottom' : $timeout(function(){scope.style = 'left: 50%; margin-left: ' + (-1)*offsetX/2+'px';});break;
 				case 'bottom-left' : $timeout(function(){scope.style = 'left: 50%; margin-left: ' + (-1)*offsetX+'px';});break;
 			}
+			*/
 		}
 	}
 }).
