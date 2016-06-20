@@ -22,6 +22,7 @@ directive("sinPopover", function($compile, PopoverTrigger, popoverPromise, $root
 			triggerFn: "&sinPopover"
 		},
 		link: function(scope, element, attrs){
+			element.css({'display':'inline-block'})
 			angular.element("body").click(function(event){
 				scope.deferred = $q.defer();
 				scope.triggerFn();
@@ -88,13 +89,6 @@ directive("popover", function($timeout, $controller, $compile, $rootScope){
 				scope.instance.ctrlInstance = $controller(scope.instance.options.controller, ctrlLocals);
 			}
 			$compile(tmpl)(scope.instance.scope);
-			/*
-			switch(scope.instance.options.position){
-				case 'top' : $timeout(function(){scope.style = 'left: 50%; margin-left: ' + (-1)*offsetX/2+'px; align-self:flex-end;';});break;
-				case 'bottom' : $timeout(function(){scope.style = 'left: 50%; margin-left: ' + (-1)*offsetX/2+'px';});break;
-				case 'bottom-left' : $timeout(function(){scope.style = 'left: 50%; margin-left: ' + (-1)*offsetX+'px';});break;
-			}
-			*/
 		}
 	}
 }).

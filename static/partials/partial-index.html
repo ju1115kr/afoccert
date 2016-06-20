@@ -1,16 +1,16 @@
 
-<div id="header" ng-if="global.isLoggedIn()" ng-animate="{enter:'animate-enter'}">
-	<div class="global-width margin-auto">
-		<ul>
-			<li id="{{button.id}}" ng-repeat="button in navObject.header.buttons" sin-popover="button.popover()">
-				<a><span class="{{button.icon}}"></span></a>
-			</li>
-		</ul>
+<div id="header" ng-if="global.isLoggedIn()" ng-animate="{enter:'animate-enter'}" ng-class="{'enter-searchResult': !searchBar.hide}">
+	<div id="header-wrapper" class="global-width margin-auto">
 		<div id="searchBar-wrap">
 			<input id="searchBar" class="form-input transparent" type="text" ng-model="searchBar.value" kr-input ng-focus="searchFocused()">
 			<span class="glyphicons glyphicons-search placeholder" ng-if="!searchBar.value"></span>
 			<a class="close placeholder" ng-if="searchBar.value" ng-click="searchBar.clear()"></a>
 		</div>
+		<ul id="glb">
+			<li id="{{button.id}}" ng-repeat="button in navObject.header.buttons" sin-popover="button.popover()">
+				<a><span class="{{button.icon}}"></span></a>
+			</li>
+		</ul>
 	</div>
 </div>
 <div id="main-nav" ng-if="global.isLoggedIn()">
@@ -37,11 +37,11 @@
 </form>
 <div id="content-area" app-view-segment="1" ng-if="global.isLoggedIn()" ng-animate="{enter:'animate-enter'}"></div>
 <div id="searchResult" class="shadow" ng-if="!searchBar.hide">
-	<header><u>{{searchBar.value}}</u> 검색결과
+	<header ng-class="{loading:searchBar.loading}"><u>{{searchBar.value}}</u> <span ng-if="searchBar.loading">검색중...</span><span ng-if="!searchBar.loading">검색결과</span>
 		<a class="close" ng-click="searchBar.hide=true"></a>
 	</header>
 	<aside>
-		<li ng-repeat="news in searchResult" ng-click="searchBar.toggleFold(news)" ng-class="{'fold':news.fold}">
+		<li ng-repeat="news in searchResult" ng-click="searchBar.toggleFold(news)" ng-class="{'fold':news.fold,'selected':news.selected}">
 			<div class="index">
 				<span>#{{news.id}}</span>
 				<span>{{news.author_name}}</span>
@@ -49,6 +49,8 @@
 			</div>
 			<span ng-bind-html="news.trustText"></span>
 		</li>
+		<loading ng-if="searchBar.loading" size="140"></loading>
 	</aside>
-	<section></section>
+	<section class="search-detail">
+	</section>
 </div>

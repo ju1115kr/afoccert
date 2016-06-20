@@ -147,12 +147,36 @@ app
                         });
                         comment.replies.commentId = comment.id;
                     })
+                };
+
+                $scope.optionsFromUser = function(name){
+                    PopoverTrigger({
+                        controller : 'userOptionsCtrl',
+                        position : 'bottom-left',
+                        templateUrl : '/partials/partial-user-options-popover.html',
+                        resolve : {
+                            name : function(){
+                                return name;
+                            }
+                        }
+                    }).then(function(){
+                    })
                 }
             },
             link: function($scope, element, attrs){
 
             }
         }
+    })
+    .controller("userOptionsCtrl", function($scope, $popoverInstance, name){
+        $scope.name = name;
+        $scope.options = [
+            {
+                name:'신송조회',
+                triggerFn : function(){
+                }
+            }
+        ]
     })
     .controller("newsOptionsCtrl", function($scope, $popoverInstance, news, deleteFn, editFn){
         $scope.options = [
