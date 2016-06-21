@@ -33,7 +33,7 @@ table {
 * {
   box-sizing: border-box; }
 
-#body, body, html {
+body, html {
   height: 100%; }
 
 .global-width {

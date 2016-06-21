@@ -2,6 +2,7 @@
   /**
    * card style
    */
+  /* news card style in modal context */
   position: relative; }
   .sin-editor input {
     appearance: none;
@@ -66,18 +67,22 @@
           border-bottom: 1px solid #d4d4da; }
         .sin-editor button.btn.btn-default.btn-transparent, .sin-editor .sin-editor-inline + footer button.btn.btn-default, .sin-editor .sin-editor-inline-edit + footer button.btn.btn-default, .sin-editor input[type="submit"].btn.btn-default.btn-transparent, .sin-editor .sin-editor-inline + footer input[type="submit"].btn.btn-default, .sin-editor .sin-editor-inline-edit + footer input[type="submit"].btn.btn-default, .sin-editor input[type="button"].btn.btn-default.btn-transparent, .sin-editor .sin-editor-inline + footer input[type="button"].btn.btn-default, .sin-editor .sin-editor-inline-edit + footer input[type="button"].btn.btn-default {
           color: #232323; }
-      .sin-editor button.btn.btn-primary, .sin-editor .sin-editor-default + footer button.btn, .sin-editor .sin-editor-inline + footer button.btn, .sin-editor .sin-editor-inline-edit + footer button.btn, .sin-editor input[type="submit"].btn.btn-primary, .sin-editor .sin-editor-inline + footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit + footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-primary, .sin-editor .sin-editor-inline + footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit + footer input[type="button"].btn {
+      .sin-editor button.btn.btn-primary, .sin-editor .sin-editor-default + footer button.btn,
+      .sin-editor .sin-editor-default + .sin-editor-footer button.btn, .sin-editor .sin-editor-inline + footer button.btn, .sin-editor .sin-editor-inline-edit + footer button.btn, .sin-editor input[type="submit"].btn.btn-primary, .sin-editor .sin-editor-inline + footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit + footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-primary, .sin-editor .sin-editor-inline + footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit + footer input[type="button"].btn {
         background: #2ABB9B;
         border: 1px solid #2aae8e;
         transition: background .2s;
         color: #fff; }
-        .sin-editor button.btn.btn-primary:hover, .sin-editor .sin-editor-default + footer button.btn:hover, .sin-editor .sin-editor-inline + footer button.btn:hover, .sin-editor .sin-editor-inline-edit + footer button.btn:hover, .sin-editor input[type="submit"].btn.btn-primary:hover, .sin-editor .sin-editor-inline + footer input[type="submit"].btn:hover, .sin-editor .sin-editor-inline-edit + footer input[type="submit"].btn:hover, .sin-editor input[type="button"].btn.btn-primary:hover, .sin-editor .sin-editor-inline + footer input[type="button"].btn:hover, .sin-editor .sin-editor-inline-edit + footer input[type="button"].btn:hover {
+        .sin-editor button.btn.btn-primary:hover, .sin-editor .sin-editor-default + footer button.btn:hover,
+        .sin-editor .sin-editor-default + .sin-editor-footer button.btn:hover, .sin-editor .sin-editor-inline + footer button.btn:hover, .sin-editor .sin-editor-inline-edit + footer button.btn:hover, .sin-editor input[type="submit"].btn.btn-primary:hover, .sin-editor .sin-editor-inline + footer input[type="submit"].btn:hover, .sin-editor .sin-editor-inline-edit + footer input[type="submit"].btn:hover, .sin-editor input[type="button"].btn.btn-primary:hover, .sin-editor .sin-editor-inline + footer input[type="button"].btn:hover, .sin-editor .sin-editor-inline-edit + footer input[type="button"].btn:hover {
           background: #2aa888;
           border-bottom: 1px solid #299c7d; }
-        .sin-editor button.btn.btn-primary:disabled, .sin-editor .sin-editor-default + footer button.btn:disabled, .sin-editor .sin-editor-inline + footer button.btn:disabled, .sin-editor .sin-editor-inline-edit + footer button.btn:disabled, .sin-editor input[type="submit"].btn.btn-primary:disabled, .sin-editor .sin-editor-inline + footer input[type="submit"].btn:disabled, .sin-editor .sin-editor-inline-edit + footer input[type="submit"].btn:disabled, .sin-editor input[type="button"].btn.btn-primary:disabled, .sin-editor .sin-editor-inline + footer input[type="button"].btn:disabled, .sin-editor .sin-editor-inline-edit + footer input[type="button"].btn:disabled {
+        .sin-editor button.btn.btn-primary:disabled, .sin-editor .sin-editor-default + footer button.btn:disabled,
+        .sin-editor .sin-editor-default + .sin-editor-footer button.btn:disabled, .sin-editor .sin-editor-inline + footer button.btn:disabled, .sin-editor .sin-editor-inline-edit + footer button.btn:disabled, .sin-editor input[type="submit"].btn.btn-primary:disabled, .sin-editor .sin-editor-inline + footer input[type="submit"].btn:disabled, .sin-editor .sin-editor-inline-edit + footer input[type="submit"].btn:disabled, .sin-editor input[type="button"].btn.btn-primary:disabled, .sin-editor .sin-editor-inline + footer input[type="button"].btn:disabled, .sin-editor .sin-editor-inline-edit + footer input[type="button"].btn:disabled {
           background-color: #30ddba !important;
           border-color: #30ddba !important; }
-        .sin-editor button.btn.btn-primary.btn-transparent, .sin-editor .sin-editor-default + footer button.btn.btn-transparent, .sin-editor .sin-editor-inline + footer button.btn, .sin-editor .sin-editor-inline-edit + footer button.btn, .sin-editor input[type="submit"].btn.btn-primary.btn-transparent, .sin-editor .sin-editor-inline + footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit + footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-primary.btn-transparent, .sin-editor .sin-editor-inline + footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit + footer input[type="button"].btn {
+        .sin-editor button.btn.btn-primary.btn-transparent, .sin-editor .sin-editor-default + footer button.btn.btn-transparent,
+        .sin-editor .sin-editor-default + .sin-editor-footer button.btn.btn-transparent, .sin-editor .sin-editor-inline + footer button.btn, .sin-editor .sin-editor-inline-edit + footer button.btn, .sin-editor input[type="submit"].btn.btn-primary.btn-transparent, .sin-editor .sin-editor-inline + footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit + footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-primary.btn-transparent, .sin-editor .sin-editor-inline + footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit + footer input[type="button"].btn {
           color: #2ABB9B; }
       .sin-editor button.btn.btn-warning, .sin-editor .sin-editor-default-edit + footer button.btn, .sin-editor input[type="submit"].btn.btn-warning, .sin-editor input[type="button"].btn.btn-warning {
         background: #F9BF3B;
@@ -113,104 +118,207 @@
     position: relative;
     display: block;
     clear: both; }
+    .sin-editor .popover-container.top {
+      top: 0px; }
+      .sin-editor .popover-container.top .popover {
+        align-items: flex-end;
+        left: 50%; }
+        .sin-editor .popover-container.top .popover .arrow {
+          left: 50%;
+          margin-left: -11px;
+          border-bottom-width: 0;
+          border-top-color: #999999;
+          border-top-color: #e1e1e7;
+          bottom: -10px; }
+          .sin-editor .popover-container.top .popover .arrow:after {
+            content: " ";
+            bottom: 2px;
+            margin-left: -10px;
+            border-bottom-width: 0;
+            border-top-color: #fff; }
+        .sin-editor .popover-container.top .popover .popover-tmpl {
+          position: relative;
+          transform: translate(-50%, 0%); }
+    .sin-editor .popover-container.right {
+      top: 50%;
+      left: 10px; }
+      .sin-editor .popover-container.right .popover {
+        align-items: flex-start;
+        left: 100%; }
+        .sin-editor .popover-container.right .popover .arrow {
+          top: 50%;
+          left: -11px;
+          margin-top: -11px;
+          border-left-width: 0;
+          border-right-color: #999999;
+          border-right-color: #e1e1e7; }
+          .sin-editor .popover-container.right .popover .arrow:after {
+            content: " ";
+            left: 1px;
+            bottom: -10px;
+            border-left-width: 0;
+            border-right-color: #fff; }
+        .sin-editor .popover-container.right .popover .popover-tmpl {
+          position: relative;
+          transform: translate(0%, -50%); }
+    .sin-editor .popover-container.bottom {
+      top: 10px; }
+      .sin-editor .popover-container.bottom .popover {
+        align-items: flex-start;
+        left: 50%; }
+        .sin-editor .popover-container.bottom .popover .arrow {
+          left: 50%;
+          margin-left: -11px;
+          border-top-width: 0;
+          border-bottom-color: #999999;
+          border-bottom-color: #e1e1e7;
+          top: -11px;
+          margin-top: 1px; }
+          .sin-editor .popover-container.bottom .popover .arrow:after {
+            content: " ";
+            top: 1px;
+            margin-left: -10px;
+            border-top-width: 0;
+            border-bottom-color: #fff; }
+        .sin-editor .popover-container.bottom .popover .popover-tmpl {
+          position: relative;
+          transform: translate(-50%, 0%); }
+    .sin-editor .popover-container.left {
+      top: 50%;
+      right: 10px; }
+      .sin-editor .popover-container.left .popover {
+        align-items: flex-start;
+        left: 0%; }
+        .sin-editor .popover-container.left .popover .arrow {
+          top: 50%;
+          right: -11px;
+          margin-top: -11px;
+          border-right-width: 0;
+          border-left-color: #999999;
+          border-left-color: #e1e1e7; }
+          .sin-editor .popover-container.left .popover .arrow:after {
+            content: " ";
+            right: 1px;
+            border-right-width: 0;
+            border-left-color: #fff;
+            bottom: -10px; }
+        .sin-editor .popover-container.left .popover .popover-tmpl {
+          position: relative;
+          transform: translate(-100%, -50%); }
+    .sin-editor .popover-container.bottom-left {
+      top: 10px; }
+      .sin-editor .popover-container.bottom-left .popover {
+        align-items: flex-start;
+        left: 100%; }
+        .sin-editor .popover-container.bottom-left .popover .arrow {
+          right: 1px;
+          margin-left: -11px;
+          border-top-width: 0;
+          border-bottom-color: #999999;
+          border-bottom-color: #e1e1e7;
+          top: -11px;
+          margin-top: 1px; }
+          .sin-editor .popover-container.bottom-left .popover .arrow:after {
+            content: " ";
+            top: 1px;
+            margin-left: -10px;
+            border-top-width: 0;
+            border-bottom-color: #fff; }
+        .sin-editor .popover-container.bottom-left .popover .popover-tmpl {
+          position: relative;
+          transform: translate(-100%, 0%); }
+    .sin-editor .popover-container.bottom-right {
+      top: 10px; }
+      .sin-editor .popover-container.bottom-right .popover {
+        align-items: flex-start;
+        left: 0%; }
+        .sin-editor .popover-container.bottom-right .popover .arrow {
+          left: 1px;
+          border-top-width: 0;
+          border-bottom-color: #999999;
+          border-bottom-color: #e1e1e7;
+          top: -11px;
+          margin-top: 1px; }
+          .sin-editor .popover-container.bottom-right .popover .arrow:after {
+            content: " ";
+            top: 1px;
+            margin-left: -10px;
+            border-top-width: 0;
+            border-bottom-color: #fff; }
+        .sin-editor .popover-container.bottom-right .popover .popover-tmpl {
+          position: relative;
+          transform: translate(0%, 0%); }
+    .sin-editor .popover-container.top-left {
+      top: 0px; }
+      .sin-editor .popover-container.top-left .popover {
+        align-items: flex-end;
+        left: 100%; }
+        .sin-editor .popover-container.top-left .popover .arrow {
+          right: 1px;
+          margin-left: -11px;
+          border-bottom-width: 0;
+          border-top-color: #999999;
+          border-top-color: #e1e1e7;
+          bottom: -10px; }
+          .sin-editor .popover-container.top-left .popover .arrow:after {
+            content: " ";
+            bottom: 2px;
+            margin-left: -10px;
+            border-bottom-width: 0;
+            border-top-color: #fff; }
+        .sin-editor .popover-container.top-left .popover .popover-tmpl {
+          position: relative;
+          transform: translate(-100%, 0%); }
+    .sin-editor .popover-container.top-right {
+      top: 0px; }
+      .sin-editor .popover-container.top-right .popover {
+        align-items: flex-end;
+        left: 0%; }
+        .sin-editor .popover-container.top-right .popover .arrow {
+          left: 1px;
+          border-bottom-width: 0;
+          border-top-color: #999999;
+          border-top-color: #e1e1e7;
+          bottom: -10px; }
+          .sin-editor .popover-container.top-right .popover .arrow:after {
+            content: " ";
+            bottom: 2px;
+            margin-left: -10px;
+            border-bottom-width: 0;
+            border-top-color: #fff; }
+        .sin-editor .popover-container.top-right .popover .popover-tmpl {
+          position: relative;
+          transform: translate(0%, 0%); }
   .sin-editor .popover {
-    position: absolute;
-    z-index: 999;
-    max-width: 276px;
-    min-width: 100px;
-    background: #fff;
-    border: 1px solid #e1e1e7;
-    border-bottom: 2px solid #e1e1e7;
-    border-radius: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    color: #222;
-    font-size: 14px; }
-    .sin-editor .popover li {
-      cursor: pointer;
-      padding: 5px 10px;
-      font-size: 12px;
-      text-indent: 5px;
-      color: black; }
-      .sin-editor .popover li:hover {
-        background: #F9BF3B;
-        color: white;
-        font-weight: bold; }
-    .sin-editor .popover.top {
-      margin-top: -10px; }
-    .sin-editor .popover.right {
-      margin-left: 10px; }
-    .sin-editor .popover.bottom {
-      margin-top: 10px; }
-    .sin-editor .popover.left {
-      margin-left: -10px; }
-  .sin-editor .popover > .arrow, .sin-editor .popover > .arrow:after {
-    position: absolute;
-    display: block;
+    position: relative;
     width: 0;
     height: 0;
-    border-color: transparent;
-    border-style: solid; }
-  .sin-editor .popover > .arrow {
-    border-width: 11px; }
-  .sin-editor .popover > .arrow:after {
-    border-width: 10px;
-    content: ""; }
-  .sin-editor .popover.top > .arrow {
-    left: 50%;
-    margin-left: -11px;
-    border-bottom-width: 0;
-    border-top-color: #999999;
-    border-top-color: rgba(0, 0, 0, 0.25);
-    bottom: -11px; }
-    .sin-editor .popover.top > .arrow:after {
-      content: " ";
-      bottom: 1px;
-      margin-left: -10px;
-      border-bottom-width: 0;
-      border-top-color: #fff; }
-  .sin-editor .popover.right > .arrow {
-    top: 50%;
-    left: -11px;
-    margin-top: -11px;
-    border-left-width: 0;
-    border-right-color: #999999;
-    border-right-color: rgba(0, 0, 0, 0.25); }
-    .sin-editor .popover.right > .arrow:after {
-      content: " ";
-      left: 1px;
-      bottom: -10px;
-      border-left-width: 0;
-      border-right-color: #fff; }
-  .sin-editor .popover.bottom > .arrow {
-    left: 50%;
-    margin-left: -11px;
-    border-top-width: 0;
-    border-bottom-color: #999999;
-    border-bottom-color: rgba(0, 0, 0, 0.25);
-    top: -11px; }
-    .sin-editor .popover.bottom > .arrow:after {
-      content: " ";
-      top: 1px;
-      margin-left: -10px;
-      border-top-width: 0;
-      border-bottom-color: #fff; }
-  .sin-editor .popover.left > .arrow {
-    top: 50%;
-    right: -11px;
-    margin-top: -11px;
-    border-right-width: 0;
-    border-left-color: #999999;
-    border-left-color: rgba(0, 0, 0, 0.25); }
-    .sin-editor .popover.left > .arrow:after {
-      content: " ";
-      right: 1px;
-      border-right-width: 0;
-      border-left-color: #fff;
-      bottom: -10px; }
-  .sin-editor .popover-right {
-    margin-left: -100px; }
+    display: flex;
+    z-index: 999; }
+    .sin-editor .popover .popover-tmpl {
+      background: #fff;
+      border: 1px solid #e1e1e7;
+      border-bottom: 2px solid #e1e1e7;
+      border-radius: 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      color: #222;
+      font-size: 14px; }
+    .sin-editor .popover > .arrow {
+      border-width: 11px;
+      z-index: 1; }
+      .sin-editor .popover > .arrow, .sin-editor .popover > .arrow:after {
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid; }
+      .sin-editor .popover > .arrow:after {
+        border-width: 10px;
+        content: ""; }
   .sin-editor .card {
+    position: relative;
     border-radius: 2px;
     margin-bottom: 20px;
     -webkit-user-select: none;
@@ -221,7 +329,6 @@
       border: 1px solid #e0e0eb;
       border-bottom: 2px solid #e1e1e7; }
       .sin-editor .card.card-default .title {
-        position: relative;
         padding: 5px 3px;
         margin: 0 10px;
         border-bottom: 1px solid #f1f1f5;
@@ -324,19 +431,64 @@
         text-align: center; }
         .sin-editor .card.card-primary .footer a.btn {
           color: #4B77BE; }
-    .sin-editor .card.ng-leave {
+  .sin-editor news {
+    display: block; }
+    .sin-editor news.ng-leave {
       transition: all .5s;
       opacity: 1; }
-      .sin-editor .card.ng-leave.ng-leave-active {
+      .sin-editor news.ng-leave.ng-leave-active {
         opacity: 0;
         transform: translate(200px); }
-    .sin-editor .card.ng-enter {
+    .sin-editor news.ng-enter {
       transition: all .5s;
       opacity: 0;
       transform: translateY(-100px); }
-      .sin-editor .card.ng-enter.ng-enter-active {
+      .sin-editor news.ng-enter.ng-enter-active {
         opacity: 1;
         transform: translateY(0); }
+  .sin-editor .modal-dialog news .card.card-default {
+    display: flex;
+    flex-direction: row;
+    width: 720px;
+    max-height: 340px;
+    min-height: 200px; }
+    .sin-editor .modal-dialog news .card.card-default .title {
+      display: flex;
+      flex-direction: column;
+      width: 80px;
+      flex-shrink: 0;
+      margin-right: 0;
+      text-align: right; }
+    .sin-editor .modal-dialog news .card.card-default .news-info {
+      position: relative;
+      width: auto;
+      left: 0;
+      margin-top: 10px; }
+    .sin-editor .modal-dialog news .card.card-default .body {
+      max-height: 340px;
+      overflow: auto;
+      flex-grow: 1; }
+    .sin-editor .modal-dialog news .card.card-default .comments {
+      width: 180px;
+      flex-shrink: 0;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column; }
+      .sin-editor .modal-dialog news .card.card-default .comments > ul {
+        width: 100%;
+        overflow: auto;
+        flex-grow: 1; }
+      .sin-editor .modal-dialog news .card.card-default .comments .comment .area-reply {
+        padding-left: 10px; }
+      .sin-editor .modal-dialog news .card.card-default .comments .comment-input {
+        width: 100%;
+        max-height: 40px;
+        flex-shrink: 0;
+        align-self: flex-end;
+        display: flex; }
+        .sin-editor .modal-dialog news .card.card-default .comments .comment-input .sin-editor-inline {
+          flex-grow: 1;
+          overflow: hidden; }
   .sin-editor .typeahead {
     left: 0;
     height: 0;
@@ -453,7 +605,7 @@
       border-spacing: 0; }
     .sin-editor .modal * {
       box-sizing: border-box; }
-    .sin-editor .modal #body, .sin-editor .modal body, .sin-editor .modal html {
+    .sin-editor .modal body, .sin-editor .modal html {
       height: 100%; }
     .sin-editor .modal .global-width {
       max-width: 968px; }
@@ -510,16 +662,13 @@
       position: fixed;
       top: 30%;
       left: 50%;
-      width: 280px;
-      height: 200px;
-      margin-left: -140px;
+      min-width: 280px;
+      transform: translate(-50%);
       background: white;
-      padding: 15px 20px;
       -webkit-border-radius: 2px;
       -moz-border-radius: 2px;
       border-radius: 2px;
-      border-bottom: 2px solid #e1e1e7;
-      text-align: center; }
+      border-bottom: 2px solid #e1e1e7; }
       .sin-editor .modal .modal-dialog .modal-title {
         height: 100px; }
       .sin-editor .modal .modal-dialog .modal-body {
@@ -532,8 +681,6 @@
       transition: opacity .15s ease-out; }
       .sin-editor .modal.fade.in {
         opacity: 1; }
-        .sin-editor .modal.fade.in .modal-dialog {
-          transform: scale(1); }
     .sin-editor .modal.danger .modal-dialog {
       background: #E2747D;
       border-bottom-color: #c06062;
@@ -553,7 +700,10 @@
         left: 0;
         width: 100%;
         height: 100%;
-        margin-left: 0; }
+        margin-left: 0;
+        padding: 15px 20px;
+        transform: translate(0%);
+        text-align: center; }
         .sin-editor .modal.aside .modal-dialog .modal-content {
           height: 100%; }
           .sin-editor .modal.aside .modal-dialog .modal-content header {
@@ -632,20 +782,22 @@
   .sin-editor [contenteditable="true"]::selection {
     background: #fff2a8; }
   .sin-editor footer {
-    position: relative;
-    height: 42px; }
-  .sin-editor .sin-editor-default + footer {
+    position: relative; }
+  .sin-editor .sin-editor-default + footer,
+  .sin-editor .sin-editor-default + .sin-editor-footer {
     border-top: 1px solid #f1f1f5;
     text-align: right;
     padding: 6px 15px; }
-    .sin-editor .sin-editor-default + footer .hash-list {
+    .sin-editor .sin-editor-default + footer .hash-list,
+    .sin-editor .sin-editor-default + .sin-editor-footer .hash-list {
       float: left;
       width: calc(100% - 100px);
       padding: 0 10px;
       height: 100%;
       text-align: left;
       line-height: 2; }
-    .sin-editor .sin-editor-default + footer button {
+    .sin-editor .sin-editor-default + footer button,
+    .sin-editor .sin-editor-default + .sin-editor-footer button {
       width: 100px; }
   .sin-editor .sin-editor-inline {
     float: left;
