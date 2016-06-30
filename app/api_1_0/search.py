@@ -20,20 +20,18 @@ def search_news(context):
 	if context is None:
 		return bad_request('Request is invaild')
 
-	context = removeEscapeChar(context)
-
-	context = removeEscapeChar(context)
-
         page = request.args.get('page', 1, type=int)
         per_page = request.args.get('per_page', 1000, type=int)
-        pagination = News.query.filter(News.context.like('%'+context+'%'))\
+        pagination = News.query.\
 			.order_by(News.id.desc())\
 			.paginate(page, per_page, error_out=False)
 	pag_result = pagination.items
 
+	for news in pag_result:
+		news.context = removeEscapeChar(news.context)
 	if pagination is None:
 		return not_found('Result does not exist')
-	return jsonify({'news':[news.to_json() for news in pag_result]})
+	return jsonify({'news':[news.to_json() for news in pag_result if context in news.context]})
 
 @api.route('/search/comments/<context>', methods=['GET'])
 @auth.login_required
@@ -41,18 +39,18 @@ def search_comment(context):
 	if context is None:
 		return bad_request('Request is invaild')
 
-	context = removeEscapeChar(context)
-
 	page = request.args.get('page', 1, type=int)
 	per_page = request.args.get('per_page', 1000, type=int)
-	pagination = Comment.query.filter(Comment.context.like('%'+context+'%'))\
+	pagination = Comment.query\
 		.order_by(Comment.news_id.desc())\
 		.paginate(page, per_page, error_out=False)
 	pag_result = pagination.items
 
+	for comment in pag_result:
+		comment.context = removeEscapeChar(comment.context)
 	if pagination is None:
 		return not_found('Comment does not exist')
-	return jsonify({'comments':[comment.to_json() for comment in pag_result]})
+	return jsonify({'comments':[comment.to_json() for comment ian pag_result if context in comment.context]})
 
 @api.route('/search/', methods=['GET'])
 @auth.login_required
@@ -60,8 +58,6 @@ def search_allmight():
 	startpoint = request.args.get('startpoint')
 	endpoint = request.args.get('endpoint')
 	context = request.args.get('context')
-
-	context = removeEscapeChar(context)
 
 	if startpoint is None:
 		startpoint = "2016-02-04" #At first news
@@ -75,15 +71,19 @@ def search_allmight():
 		pagination = News.query.filter(endpoint > News.created_at)\
 			.filter(News.created_at > startpoint).order_by(News.id.desc())\
 			.paginate(page, per_page, error_out=False)
-		 pag_result = pagination.items
-
+		pag_result = pagination.items
+		if pag_result is None:
+			return not_found('News does not exis')
+		return jsonify({'news':[news.to_json() for news in pag_result]})
+	
 	search_result = News.query.filter(endpoint > News.created_at)\
 			.filter(News.created_at > startpoint)\
 			.filter(News.context.like('%'+context+'%')).order_by(News.id.desc())\
 			.paginate(page, per_page, error_out=False)
-
 	pag_result = pagination.items
 
+	for news in pag_result:
+		news.context = removeEscapeChar(news.context)
 	if pag_result is None:
 		return not_found('News does not exist')
-	return jsonify({'news':[news.to_json() for news in pag_result]})
+	return jsonify({'news':[news.to_json() for news in pag_result if context in news.context]})
