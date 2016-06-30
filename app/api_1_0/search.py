@@ -66,16 +66,6 @@ def search_allmight():
 
 	page = request.args.get('page', 1, type=int)
 	per_page = request.args.get('per_page', 1000, type=int)
-
-	if context is None:
-		pagination = News.query.filter(endpoint > News.created_at)\
-			.filter(News.created_at > startpoint).order_by(News.id.desc())\
-			.paginate(page, per_page, error_out=False)
-		pag_result = pagination.items
-		if pag_result is None:
-			return not_found('News does not exis')
-		return jsonify({'news':[news.to_json() for news in pag_result]})
-	
 	search_result = News.query.filter(endpoint > News.created_at)\
 			.filter(News.created_at > startpoint).order_by(News.id.desc())\
 			.paginate(page, per_page, error_out=False)
