@@ -22,7 +22,7 @@ def search_news(context):
 
         page = request.args.get('page', 1, type=int)
         per_page = request.args.get('per_page', 1000, type=int)
-        pagination = News.query.\
+        pagination = News.query\
 			.order_by(News.id.desc())\
 			.paginate(page, per_page, error_out=False)
 	pag_result = pagination.items
@@ -50,7 +50,7 @@ def search_comment(context):
 		comment.context = removeEscapeChar(comment.context)
 	if pagination is None:
 		return not_found('Comment does not exist')
-	return jsonify({'comments':[comment.to_json() for comment ian pag_result if context in comment.context]})
+	return jsonify({'comments':[comment.to_json() for comment in pag_result if context in comment.context]})
 
 @api.route('/search/', methods=['GET'])
 @auth.login_required
@@ -77,11 +77,12 @@ def search_allmight():
 		return jsonify({'news':[news.to_json() for news in pag_result]})
 	
 	search_result = News.query.filter(endpoint > News.created_at)\
-			.filter(News.created_at > startpoint)\
-			.filter(News.context.like('%'+context+'%')).order_by(News.id.desc())\
+			.filter(News.created_at > startpoint).order_by(News.id.desc())\
 			.paginate(page, per_page, error_out=False)
 	pag_result = pagination.items
-
+	
+	if context is None:
+		return jsonify({'news':[news.to_json() for news in pag_result]})
 	for news in pag_result:
 		news.context = removeEscapeChar(news.context)
 	if pag_result is None:
