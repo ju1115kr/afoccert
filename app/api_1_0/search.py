@@ -28,10 +28,10 @@ def search_news(context):
 	pag_result = pagination.items
 
 	for news in pag_result:
-		news.context = removeEscapeChar(news.context)
+		news.parsed_context = removeEscapeChar(news.context)
 	if pagination is None:
 		return not_found('Result does not exist')
-	return jsonify({'news':[news.to_json() for news in pag_result if context in news.context]})
+	return jsonify({'news':[news.to_json() for news in pag_result if context in news.parsed_context]})
 
 @api.route('/search/comments/<context>', methods=['GET'])
 @auth.login_required
@@ -74,7 +74,7 @@ def search_allmight():
 	if context is None:
 		return jsonify({'news':[news.to_json() for news in pag_result]})
 	for news in pag_result:
-		news.context = removeEscapeChar(news.context)
+		news.parsed_context = removeEscapeChar(news.context)
 	if pag_result is None:
 		return not_found('News does not exist')
-	return jsonify({'news':[news.to_json() for news in pag_result if context in news.context]})
+	return jsonify({'news':[news.to_json() for news in pag_result if context in news.parsed_context]})

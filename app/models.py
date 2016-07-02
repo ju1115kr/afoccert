@@ -128,6 +128,7 @@ class News(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     author_name = db.Column(db.Text())
     context = db.Column(db.Text, nullable=False)
+    parsed_context = db.Column(db.Text)
     created_at = db.Column(db.DateTime, index=True,
                            default=datetime.utcnow)
     modified_at = db.Column(db.DateTime)
