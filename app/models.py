@@ -198,6 +198,7 @@ class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
     context = db.Column(db.Text)
+    parsed_context = db.Column(db.Text)
     created_at = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     author_name = db.Column(db.String(64))
