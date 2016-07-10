@@ -28,7 +28,8 @@ def search_news(context):
 	pag_result = pagination.items
 	
 	for news in pag_result:
-		news.parsed_context = removeEscapeChar(news.context)
+		if news.parsed_context is None:
+			news.parsed_context = removeEscapeChar(news.context)
 	if pagination is None:
 		return not_found('Result does not exist')
 	return jsonify({'news':[news.to_json() for news in pag_result if context in news.parsed_context]})
@@ -47,7 +48,8 @@ def search_comment(context):
 	pag_result = pagination.items
 
 	for comment in pag_result:
-		comment.parsed_context = removeEscapeChar(comment.context)
+		if comment.parsed_context is None:
+			comment.parsed_context = removeEscapeChar(comment.context)
 	if pagination is None:
 		return not_found('Comment does not exist')
 	return jsonify({'comments':[comment.to_json() for comment in pag_result if context in comment.parsed_context]})
@@ -74,6 +76,7 @@ def search_allmight():
 	if context is None:
 		return jsonify({'news':[news.to_json() for news in pag_result]})
 	for news in pag_result:
+		if news.parsed_context is None:
 		news.parsed_context = removeEscapeChar(news.context)
 	if pag_result is None:
 		return not_found('News does not exist')
