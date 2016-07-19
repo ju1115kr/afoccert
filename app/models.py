@@ -7,18 +7,6 @@ from . import db
 from app.exceptions import ValidationError
 from datetime import datetime
 
-# 태그-신송 간 Many-to-Many 관계 테이블
-news_tag_relationship = db.Table('tag_relationship',
-                                 db.Column('news_id', db.Integer, db.ForeignKey('news.id'), nullable=False),
-                                 db.Column('tags_id', db.Integer, db.ForeignKey('tags.id'), nullable=False),
-                                 db.PrimaryKeyConstraint('news_id', 'tags_id'))
-
-# 유저-역할 간 Many-to-Many 관계 테이블
-user_role_relationship = db.Table('role_relationship',
-                                  db.Column('user_id', db.Integer, db.ForeignKey('users.id'), nullable=False),
-                                  db.Column('role_id', db.Integer, db.ForeignKey('roles.id'), nullable=False),
-                                  db.PrimaryKeyConstraint('user_id', 'role_id'))
-
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -28,7 +16,6 @@ class User(db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean)
 
-    roles = db.relationship('Role', secondary=user_role_relationship)
     news = db.relationship('News', backref='author', lazy='dynamic')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
 
@@ -107,21 +94,6 @@ class User(db.Model):
                 db.session.rollback()
 
 
-class Role(db.Model):
-    __tablename__ = 'roles'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True, index=True)
-    description = db.Column(db.Text)
-
-    users = db.relationship('User', secondary=user_role_relationship)
-
-    def __init__(self, name):
-        self.name = name
-
-    def __repr__(self):
-        return '<Role [%r](%r):%r>' % self.id, self.name, self.description
-            
-
 class News(db.Model):
     __tablename__ = 'news'
     id = db.Column(db.Integer, primary_key=True)
@@ -134,8 +106,6 @@ class News(db.Model):
     modified_at = db.Column(db.DateTime)
     parent_id = db.Column(db.Integer)
 
-    permission = db.Column(db.PickleType)  # 신송의 공개범위 Permission 객체 저장용 컬럼 
-    tags = db.relationship('Tag', secondary=news_tag_relationship)
     comments = db.relationship('Comment', backref='news', lazy='dynamic')
 
     def __init__(self, context, author=None):
@@ -156,26 +126,15 @@ class News(db.Model):
             'context': self.context,
             'created_at': self.created_at,
             'modified_at': self.modified_at,
-            'tags': [tag.to_json() for tag in self.tags]
         }
         return json_news
 
     @staticmethod
     def from_json(json_news):  # json 입력 루틴
         context = json_news.get('context')
-        tags = json_news.get('tags')
-        #        for role in json_news.get('permission').get('roles'):  # TODO: 권한 시스템 구현 예정
-            
-        # author = g.current_user
         if context is None or context == '':
             raise ValidationError('news does not have a context')
-        tag_names = [tag.get('name') for tag in tags]
-        if len(tag_names) != len(list(set(tag_names))):  # 중복된 태그가 태깅되었을 경우(같은 태그가 2개 이상)
-            raise ValidationError('tag\'s name confilct in tags')
         news = News(context=context)
-        if type(tags) == list and tags is not None and len(tags) >= 1:  # 신송에 태깅된 태그가 존재 한다면
-            news.tags = [Tag.query.filter_by(name=tag.get('name')).first() for tag in tags  # 실제로 존재하는 태그에 대하여만 신송에 태깅
-                         if Tag.query.filter_by(name=tag.get('name')).count() != 0]
         return news
 
     @staticmethod
@@ -250,50 +209,3 @@ class Comment(db.Model):
             c.author_name = u.realname
             db.session.add(c)
             db.session.commit()
-
-
-class Tag(db.Model):
-    __tablename__ = 'tags'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Text, nullable=False)
-    # news = db.relationship('News', backref='tag', lazy='dynamic')
-    news = db.relationship('News', secondary=news_tag_relationship)
-
-    def __init__(self, name):
-        self.name = name
-
-    def __repr__(self):
-        return '<Tag [%r]>' % self.name
-
-    def to_json(self):
-        json_tag = {
-            'id': self.id,
-            'name': self.name
-        }
-        return json_tag
-
-    @staticmethod
-    def from_json(json_tag):
-        name = json_tag.get('name')
-        if name is None or name == '':
-            raise ValidationError('tag does not have a name')
-        return Tag(name=name)
-
-"""
-class Push(db.Model):
-    __tablename__ = 'pushs'
-    id = db.Column(db.Integer, primary_key=True)
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    uri = db.Column(db.Text)
-    message = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, index=True,
-                           default=datetime.utcnow)
-
-    def __init__(self, author_id, message):
-        self.author_id = author_id
-        self.message = message
-    
-    def __repr__(self):
-        return '<Push [%r]:%r>' %\
-            (self.author_id, self.message)
-"""
