@@ -33,7 +33,7 @@ function BaseGlobal(http, resource, location, window) {
  * @function
  * @return {Boolean} 로그인 되어 있을 경우 true, 아닐경우 false
  */
-BaseGlobal.prototype.isLoggedIn = function () {
+BaseGlobal.prototype.isLoggedIn = function() {
     return this.user !== null;
 };
 
@@ -47,7 +47,7 @@ BaseGlobal.prototype.isLoggedIn = function () {
  * @function
  * @return {undefined}
  */
-BaseGlobal.prototype.excludeLogout = function () {
+BaseGlobal.prototype.excludeLogout = function() {
     if (this.user === null) {
         this.location.path('/');
     }
@@ -60,7 +60,7 @@ BaseGlobal.prototype.excludeLogout = function () {
  * @function
  * @return {undefined}
  */
-BaseGlobal.prototype.excludeLogin = function () {
+BaseGlobal.prototype.excludeLogin = function() {
     if (this.user !== null) {
         this.location.path('/');
     }
@@ -77,7 +77,7 @@ BaseGlobal.prototype.excludeLogin = function () {
  * @param {function} failure 실패시 콜백
  * @return {undefined}
  */
-BaseGlobal.prototype.login = function (username, password, success, failure) {
+BaseGlobal.prototype.login = function(username, password, success, failure) {
     var http = this.http;
     var window = this.window;
     var global = this;
@@ -85,11 +85,16 @@ BaseGlobal.prototype.login = function (username, password, success, failure) {
     http({
         method: 'GET',
         url: window.api_url + '/token',
-        headers : {'Authorization': 'Basic ' + base64.encode(username+ ":" +password)}
-    }).then(function (data, status, headers, config) {
-        var jsonString = {token : data.data.token, userId : username};
+        headers: {
+            'Authorization': 'Basic ' + base64.encode(username + ":" + password)
+        }
+    }).then(function(data, status, headers, config) {
+        var jsonString = {
+            token: data.data.token,
+            userId: username
+        };
         window.localStorage.setItem('user', JSON.stringify(jsonString));
-         var user_string = window.localStorage['user'];
+        var user_string = window.localStorage['user'];
         if (user_string) {
             var user = JSON.parse(user_string);
             if (user) {
@@ -97,12 +102,12 @@ BaseGlobal.prototype.login = function (username, password, success, failure) {
                 global.user.isExpired = false;
             }
         }
-        if(success)
+        if (success)
             success();
-    },function (data, status, headers, config) {
-        if(failure)
+    }, function(data, status, headers, config) {
+        if (failure)
             failure();
-    });    
+    });
 };
 
 /**
@@ -111,7 +116,7 @@ BaseGlobal.prototype.login = function (username, password, success, failure) {
  * @memberOf BaseGlobal
  * @return {undefined}
  */
-BaseGlobal.prototype.logout = function () {
+BaseGlobal.prototype.logout = function() {
     var http = this.http;
     var window = this.window;
 
@@ -125,7 +130,7 @@ BaseGlobal.prototype.logout = function () {
 /**
  * AuthToken과 localstorage 정보를 갱신
  */
-BaseGlobal.prototype.updateData = function (data) {
+BaseGlobal.prototype.updateData = function(data) {
     var http = this.http;
     var window = this.window;
     var user = this.user;
@@ -143,133 +148,138 @@ BaseGlobal.prototype.updateData = function (data) {
 }
 
 
-function Base64(){
+function Base64() {
     var keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 
-        
-    this.encode =  function (input) {
-                var output = "";
-                var chr1, chr2, chr3 = "";
-                var enc1, enc2, enc3, enc4 = "";
-                var i = 0;
 
-                do {
-                    chr1 = input.charCodeAt(i++);
-                    chr2 = input.charCodeAt(i++);
-                    chr3 = input.charCodeAt(i++);
+    this.encode = function(input) {
+            var output = "";
+            var chr1, chr2, chr3 = "";
+            var enc1, enc2, enc3, enc4 = "";
+            var i = 0;
 
-                    enc1 = chr1 >> 2;
-                    enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-                    enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-                    enc4 = chr3 & 63;
+            do {
+                chr1 = input.charCodeAt(i++);
+                chr2 = input.charCodeAt(i++);
+                chr3 = input.charCodeAt(i++);
 
-                    if (isNaN(chr2)) {
-                        enc3 = enc4 = 64;
-                    } else if (isNaN(chr3)) {
-                        enc4 = 64;
-                    }
+                enc1 = chr1 >> 2;
+                enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+                enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+                enc4 = chr3 & 63;
 
-                    output = output +
-                        keyStr.charAt(enc1) +
-                        keyStr.charAt(enc2) +
-                        keyStr.charAt(enc3) +
-                        keyStr.charAt(enc4);
-                    chr1 = chr2 = chr3 = "";
-                    enc1 = enc2 = enc3 = enc4 = "";
-                } while (i < input.length);
-
-                return output;
-            },
-
-    this.decode = function (input) {
-                var output = "";
-                var chr1, chr2, chr3 = "";
-                var enc1, enc2, enc3, enc4 = "";
-                var i = 0;
-
-                // remove all characters that are not A-Z, a-z, 0-9, +, /, or =
-                var base64test = /[^A-Za-z0-9\+\/\=]/g;
-                if (base64test.exec(input)) {
-                    window.alert("There were invalid base64 characters in the input text.\n" +
-                        "Valid base64 characters are A-Z, a-z, 0-9, '+', '/',and '='\n" +
-                        "Expect errors in decoding.");
+                if (isNaN(chr2)) {
+                    enc3 = enc4 = 64;
+                } else if (isNaN(chr3)) {
+                    enc4 = 64;
                 }
-                input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
 
-                do {
-                    enc1 = keyStr.indexOf(input.charAt(i++));
-                    enc2 = keyStr.indexOf(input.charAt(i++));
-                    enc3 = keyStr.indexOf(input.charAt(i++));
-                    enc4 = keyStr.indexOf(input.charAt(i++));
+                output = output +
+                    keyStr.charAt(enc1) +
+                    keyStr.charAt(enc2) +
+                    keyStr.charAt(enc3) +
+                    keyStr.charAt(enc4);
+                chr1 = chr2 = chr3 = "";
+                enc1 = enc2 = enc3 = enc4 = "";
+            } while (i < input.length);
 
-                    chr1 = (enc1 << 2) | (enc2 >> 4);
-                    chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
-                    chr3 = ((enc3 & 3) << 6) | enc4;
+            return output;
+        },
 
-                    output = output + String.fromCharCode(chr1);
+        this.decode = function(input) {
+            var output = "";
+            var chr1, chr2, chr3 = "";
+            var enc1, enc2, enc3, enc4 = "";
+            var i = 0;
 
-                    if (enc3 != 64) {
-                        output = output + String.fromCharCode(chr2);
-                    }
-                    if (enc4 != 64) {
-                        output = output + String.fromCharCode(chr3);
-                    }
-
-                    chr1 = chr2 = chr3 = "";
-                    enc1 = enc2 = enc3 = enc4 = "";
-
-                } while (i < input.length);
-
-                return output;
+            // remove all characters that are not A-Z, a-z, 0-9, +, /, or =
+            var base64test = /[^A-Za-z0-9\+\/\=]/g;
+            if (base64test.exec(input)) {
+                window.alert("There were invalid base64 characters in the input text.\n" +
+                    "Valid base64 characters are A-Z, a-z, 0-9, '+', '/',and '='\n" +
+                    "Expect errors in decoding.");
             }
+            input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+
+            do {
+                enc1 = keyStr.indexOf(input.charAt(i++));
+                enc2 = keyStr.indexOf(input.charAt(i++));
+                enc3 = keyStr.indexOf(input.charAt(i++));
+                enc4 = keyStr.indexOf(input.charAt(i++));
+
+                chr1 = (enc1 << 2) | (enc2 >> 4);
+                chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+                chr3 = ((enc3 & 3) << 6) | enc4;
+
+                output = output + String.fromCharCode(chr1);
+
+                if (enc3 != 64) {
+                    output = output + String.fromCharCode(chr2);
+                }
+                if (enc4 != 64) {
+                    output = output + String.fromCharCode(chr3);
+                }
+
+                chr1 = chr2 = chr3 = "";
+                enc1 = enc2 = enc3 = enc4 = "";
+
+            } while (i < input.length);
+
+            return output;
+        }
 }
 
 
 
 angular.module('certApp')
-    .factory('Global', function ($http, $resource, $location, $window) {
+    .factory('Global', function($http, $resource, $location, $window) {
         var global = new BaseGlobal($http, $resource, $location, $window);
         return global;
     })
-    .factory('Base64', function () {
+    .factory('Base64', function() {
         var base64 = new Base64();
         return base64;
     })
-    .factory('APIIntercepter', function($rootScope, $window, $q){
-            return{
-                request : function(config){
-                    var user_string = window.localStorage['user'];
-                    var base64 = new Base64();
-                    if (user_string) {
-                        var user = JSON.parse(user_string);
-                        if (user) {
-                            config.headers['Authorization'] = 'Basic '+base64.encode(user.token+':');
-                        }
+    .factory('APIIntercepter', function($rootScope, $window, $q) {
+        return {
+            request: function(config) {
+                var user_string = window.localStorage['user'];
+                var base64 = new Base64();
+                if (user_string) {
+                    var user = JSON.parse(user_string);
+                    if (user) {
+                        config.headers['Authorization'] = 'Basic ' + base64.encode(user.token + ':');
                     }
-                    return config;
-                },
-
-                responseError : function(response){
-                    var deferred = $q.defer();
-                    var req = {
-                        config : response.config,
-                        deferred : deferred
-                    }
-                    switch (response.status){
-                        case 401 : $rootScope.unauthorizedReq.push(req);$rootScope.$broadcast('unauthorized');return deferred.promise;
-                        case 403 : $rootScope.$broadcast('forbidden');break;
-                    }
-                    return $q.reject(response);
                 }
+                return config;
+            },
+
+            responseError: function(response) {
+                var deferred = $q.defer();
+                var req = {
+                    config: response.config,
+                    deferred: deferred
+                }
+                switch (response.status) {
+                    case 401:
+                        $rootScope.unauthorizedReq.push(req);
+                        $rootScope.$broadcast('unauthorized');
+                        return deferred.promise;
+                    case 403:
+                        $rootScope.$broadcast('forbidden');
+                        break;
+                }
+                return $q.reject(response);
             }
+        }
     })
-    .factory('Store', function($window){
-        return{
-            set : function(key, obj){
+    .factory('Store', function($window) {
+        return {
+            set: function(key, obj) {
                 $window.localStorage.setItem(key, obj);
                 return $window.localStorage[key];
             },
-            get : function(key){
+            get: function(key) {
                 return $window.localStorage[key] ? $window.localStorage[key] : null;
             }
         }

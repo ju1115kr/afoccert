@@ -59,7 +59,6 @@ def put_news(news_id):
         return forbidden('Cannot modify other user\'s news')
     news = News.from_json(request.get_json())
     old_news.context = news.context
-    old_news.tags = news.tags
     old_news.author_name = g.current_user.realname
     old_news.modified_at = datetime.utcnow()
     return jsonify(old_news.to_json())

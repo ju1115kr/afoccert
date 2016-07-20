@@ -2,13 +2,11 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.cors import CORS
-from flask.ext.principal import Principal
 
 from .config import config
 
 app = Flask(__name__, static_url_path='/static')  # Flask app 초기화
 db = SQLAlchemy()  # db 라이브러리 초기화
-principals = Principal(app)  # 권한 라이브러리 초기화
 
 
 def create_app(config_name):

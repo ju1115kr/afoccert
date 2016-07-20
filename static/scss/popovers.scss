@@ -39,3 +39,22 @@
 		}
 	}
 }
+#options{
+	width: 90px;
+	padding: 0;
+	>ul{
+		li{
+			cursor: pointer;
+			padding: 5px 10px;
+			font-size: 12px;
+			text-indent: 5px;
+			color: #222;
+			text-align: left;
+			&:hover{
+				background: #F9BF3B;
+				color: #fff;
+				font-weight: bold;
+			}
+		}
+	}
+}

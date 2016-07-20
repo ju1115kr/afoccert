@@ -3,7 +3,7 @@
 var app = angular.module('certApp');
 
 app
-	.directive("sinEditor", function ($timeout) {
+	.directive("sinEditor", function($timeout) {
 		return {
 			restrict: "E",
 			scope: {
@@ -14,10 +14,10 @@ app
 				autofocus: "=sinAutofocus",
 				editorFocused: "&sinFocused",
 				editorBlured: "&sinBlured",
-				editorType : "@sinMode"
+				editorType: "@sinMode"
 			},
-			replace : true,
-			controller: function ($scope, $sce) {
+			replace: true,
+			controller: function($scope, $sce) {
 				$scope.users = [];
 				$scope.editor;
 				$scope.hash = {
@@ -41,17 +41,17 @@ app
 						contents = dummyCvtStringToSafeHtml;
 					}
 
-					if(!$scope.editorStyle){
-						if($scope.editorType){
-							style = 'sin-editor-'+$scope.editorType;
-						}else{
-							style='';
+					if (!$scope.editorStyle) {
+						if ($scope.editorType) {
+							style = 'sin-editor-' + $scope.editorType;
+						} else {
+							style = '';
 						}
-					}else{
-						if($scope.editorType){
-							style = $scope.editorStyle+' sin-editor-'+$scope.editorType;
-						}else{
-							style=$scope.editorStyle;
+					} else {
+						if ($scope.editorType) {
+							style = $scope.editorStyle + ' sin-editor-' + $scope.editorType;
+						} else {
+							style = $scope.editorStyle;
 						}
 					}
 
@@ -59,33 +59,35 @@ app
 						caret: {},
 						blured: false,
 						value: contents,
-						style : style
+						style: style
 					};
 				}
-				$scope.pushEntry = function (htmlText) {
-					htmlText = htmlText.replace(dummyCvtStringToSafeHtml, '');
-					var obj = {
-						id: $scope.value ? $scope.value.id : undefined,
-						text: htmlText,
-						model: $scope.entries ? $scope.entries : undefined
-							/*
-							the key names (eg.'text') must sync with directive's 
-							attirbute parameter of function 'submit'.
-							*/
-					}
-					if (obj.text.length !== 0) {
-						$scope.submit(obj);
-						if (isEditing) {
-							$scope.value.text = htmlText;
-							$scope.value.trustText = $sce.trustAsHtml(htmlText);
-							$scope.value.edit = false;
-						} else {
-							initEditor();
+				$scope.pushEntry = function(htmlText) {
+					if (!$scope.hash.constructed && !$scope.hash.hashing) {
+						htmlText = htmlText.replace(dummyCvtStringToSafeHtml, '');
+						var obj = {
+							id: $scope.value ? $scope.value.id : undefined,
+							text: htmlText,
+							model: $scope.entries ? $scope.entries : undefined
+								/*
+								the key names (eg.'text') must sync with directive's 
+								attirbute parameter of function 'submit'.
+								*/
+						}
+						if (obj.text.length !== 0) {
+							$scope.submit(obj);
+							if (isEditing) {
+								$scope.value.text = htmlText;
+								$scope.value.trustText = $sce.trustAsHtml(htmlText);
+								$scope.value.edit = false;
+							} else {
+								initEditor();
+							}
 						}
 					}
 				}
 
-				$scope.getFocus = function(){
+				$scope.getFocus = function() {
 					var obj = {
 						model: $scope.entries ? $scope.entries : undefined
 					}
@@ -93,7 +95,7 @@ app
 					$scope.isFocused = true;
 				};
 
-				$scope.loseFocus = function(){
+				$scope.loseFocus = function() {
 					var obj = {
 						model: $scope.entries ? $scope.entries : undefined
 					}
@@ -102,24 +104,24 @@ app
 				}
 			},
 			templateUrl: '/partials/partial-editor-body.html',
-			link: function ($scope, element, attrs) {
+			link: function($scope, element, attrs) {
 
 				var editor = element.find("#fn-note");
-				editor.bind('keydown', 'alt+s', function (event) {
+				editor.bind('keydown', 'alt+s', function(event) {
 					$scope.pushEntry($scope.editor.value);
 					focusEditor();
 					event.preventDefault();
 				})
-				
+
 				if ($scope.autofocus) {
 					focusEditor();
 				}
-				
-				function focusEditor(){
-					$timeout(function () {
-						if($scope.value){
+
+				function focusEditor() {
+					$timeout(function() {
+						if ($scope.value) {
 							placeCaretAtEnd(editor[0]);
-						}else{
+						} else {
 							placeCaretAtStart(editor[0])
 						}
 					})
@@ -127,7 +129,7 @@ app
 			}
 		};
 	})
-	.directive("sinNote", function ($compile, $timeout, $sce) {
+	.directive("sinNote", function($compile, $timeout, $sce) {
 		return {
 			restrict: "A",
 			require: "ngModel",
@@ -136,17 +138,17 @@ app
 				isFocused: "=sinFocused",
 				isBlured: "=sinBlured"
 			},
-			controller: function ($scope) {
+			controller: function($scope) {
 				$scope.users = [];
 			},
-			link: function ($scope, element, attrs, ngModel) {
+			link: function($scope, element, attrs, ngModel) {
 
 				function read() {
-					setTimeout(function () {
+					setTimeout(function() {
 						ngModel.$setViewValue(element.html());
 					}, 100)
 				}
-				ngModel.$render = function () {
+				ngModel.$render = function() {
 					element.html(ngModel.$viewValue || "");
 				};
 
@@ -154,15 +156,17 @@ app
 					hashInput = $scope.hash.ele,
 					hashInputTyped,
 					editor = element,
-					referedChar = '@';
+					hashIndicator = [{'name':'hash-refer','notation':'@'},{'name':'hash-stuff','notation':'#'}],
+					currHash;
 
 				editor
-					.bind("blur keyup change", function () {
+					.bind("blur keyup change", function() {
 						$scope.$apply(read);
 						// $scope.$evalAsync(read)
 					})
-					.bind('keydown', 'shift+2', function (event) {
+					.bind('keydown', 'shift+2', function(event) {
 						if (!$scope.hash.constructed) {
+							$scope.hash.hashType = currHash = hashIndicator[0];
 							insertNodeAtCursor(hashInput.get(0));
 							hashInput
 								.autoGrowInput({
@@ -173,45 +177,55 @@ app
 							$compile(hashInput)($scope);
 						}
 					})
-					.bind('keydown', 'shift+3', function (event) {
-						alert('태그 준비중')
+					.bind('keydown', 'shift+3', function(event) {
+						if (!$scope.hash.constructed) {
+							$scope.hash.hashType = currHash = hashIndicator[1];
+							insertNodeAtCursor(hashInput.get(0));
+							hashInput
+								.autoGrowInput({
+									minWidth: 10,
+									comfortZone: 10
+								}).focus();
+							$scope.hash.constructed = true;
+							$compile(hashInput)($scope);
+						}
 					})
 
 				hashInput
-					.bind('keydown', 'space esc', function (e) {
+					.bind('keydown', 'space esc', function(e) {
 						$scope.finishHash();
 						e.preventDefault();
 					});
 
-				$scope.$watch('hash.typed', function () {
+				$scope.$watch('hash.typed', function() {
 					if ($scope.hash.constructed) {
 						if ($scope.hash.typed.length === 0) {
 							$scope.finishHash();
 						} else {
-							if ($scope.hash.typed.charAt(0) !== referedChar) {
+							if ($scope.hash.typed.charAt(0) !== currHash.notation) {
 								$scope.finishHash();
 							}
 						}
 					}
 				});
 
-				$scope.$watch('hash.inCaret', function (newValue, oldValue, scope) {
+				$scope.$watch('hash.inCaret', function(newValue, oldValue, scope) {
 					if (!newValue) {
 						$scope.finishHash();
 					}
 				});
 
-				$scope.$watch('hash.submit', function (newValue) {
+				$scope.$watch('hash.submit', function(newValue) {
 					if (newValue) {
 						$scope.finishHash();
 					}
 				})
-				
-				$scope.$watch('isFocused',function(newValue){
+
+				$scope.$watch('isFocused', function(newValue) {
 					$scope.finishHash();
 				})
-				
-				$scope.finishHash = function () {
+
+				$scope.finishHash = function() {
 					if ($scope.hash.constructed && !$scope.hash.hashing) {
 						$scope.hash.hashing = true; //start hashing process
 						if (!$scope.hash.submit) {
@@ -220,10 +234,10 @@ app
 							$scope.users.push($scope.hash.submit);
 							hashInputTyped = angular.element('<input value=' +
 								$scope.users[$scope.users.length - 1].typed +
-								' class="hash-input readonly" readonly>');
+								' class="hash-input readonly '+currHash.name+'" readonly>');
 							replaceHashWith(hashInputTyped,
 
-								function () {
+								function() {
 									hashInputTyped.autoGrowInput({
 										minWidth: 10,
 										comfortZone: 0
@@ -249,7 +263,7 @@ app
 				};
 
 				function replaceHashWith(ele, callback) {
-					$timeout(function () {
+					$timeout(function() {
 						if (typeof ele.get !== 'function' &&
 							typeof ele === 'string') { //if ele is string
 							//							insertTextAtCursor(ele);
@@ -259,7 +273,7 @@ app
 								insertNodeAtCursor(ele.get(0))
 							}
 						}
-					}).then(function () {
+					}).then(function() {
 						if (typeof callback !== 'undefined') {
 							callback();
 						}
@@ -270,7 +284,7 @@ app
 				};
 
 				function destroyHash() {
-					$timeout(function () {
+					$timeout(function() {
 						hashInput.next('span').remove();
 						hashInput = hashInput.detach();
 						$scope.hash.constructed = false;
@@ -281,35 +295,47 @@ app
 			}
 		};
 	})
-.directive("sinSubmitbtn", function(){
-	return{
-		restrict: "A",
-		require: "^sinEditor",
-		scope: true,
-		controller: function($scope){
-			$scope.submitBtn = {
-				class: ""
-			}
-			switch ($scope.editorType){
-				case 'default' : $scope.submitBtn.class = "default";break;
-				case 'hidden' : console.log('hidden');break;
-				case 'inline' : console.log('inline');break;
+	.directive("sinSubmitbtn", function() {
+		return {
+			restrict: "A",
+			require: "^sinEditor",
+			scope: true,
+			controller: function($scope) {
+				$scope.submitBtn = {
+					class: ""
+				}
+				switch ($scope.editorType) {
+					case 'default':
+						$scope.submitBtn.class = "default";
+						break;
+					case 'hidden':
+						console.log('hidden');
+						break;
+					case 'inline':
+						console.log('inline');
+						break;
+				}
 			}
 		}
-	}
-})
-.directive("sinTypeahead", function ($filter) {
+	})
+	.directive("sinTypeahead", function($filter) {
 		return {
 			restrict: "A",
 			require: "^sinEditor",
 			scope: {
 				hash: "=sinHash"
 			},
-			controller: function ($scope, $filter, HashList) {
-				$scope.hashlist = HashList.get();
+			controller: function($scope, $filter, HashList) {
+				// $scope.hashlist = HashList.get($scope.hash.hashType);
 				$scope.focusIndex = 0;
-
-				$scope.$watch('hash.typed', function (newValue) {
+				$scope.$watch('hash.hashType', function(value){
+					if(typeof value !== 'undefined'){
+						HashList.get(value.notation).then(function(result){
+							$scope.hashlist = result;
+						});
+					}
+				})
+				$scope.$watch('hash.typed', function(newValue) {
 					if ($scope.hash.constructed) {
 						if ($scope.hash.typed.length != 0) {
 							$scope.filteredResult = $filter('filter')($scope.hashlist, {
@@ -321,7 +347,7 @@ app
 						}
 					}
 				})
-				$scope.cvtCurrentHash = function () {
+				$scope.cvtCurrentHash = function() {
 					if ($scope.filteredResult.length != 0) {
 						return {
 							typed: $scope.filteredResult[$scope.focusIndex].name
@@ -330,34 +356,34 @@ app
 						return false;
 					}
 				}
-				$scope.submitByClick = function (index, $event) {
+				$scope.submitByClick = function(index, $event) {
 					$scope.focusIndex = index;
 					$event.preventDefault();
 					$scope.hash.submit = $scope.cvtCurrentHash();
 				};
-				$scope.hoverIndex = function (index) {
+				$scope.hoverIndex = function(index) {
 					$scope.focusIndex = index;
 				};
 
 			},
 			templateUrl: 'partials/partial-typeahead.html',
-			link: function ($scope, element, attrs) {
+			link: function($scope, element, attrs) {
 				var hashInput = $scope.hash.ele;
 				hashInput
-					.bind('keydown', 'down', function (e) {
+					.bind('keydown', 'down', function(e) {
 						$scope.focusIndex++;
 						$scope.focusIndex %= $scope.filteredResult.length;
 						$scope.$apply();
 						e.preventDefault();
 					})
-					.bind('keydown', 'up', function (e) {
+					.bind('keydown', 'up', function(e) {
 						$scope.focusIndex--;
 						$scope.focusIndex += $scope.filteredResult.length;
 						$scope.focusIndex %= $scope.filteredResult.length;
 						$scope.$apply();
 						e.preventDefault();
 					})
-					.bind('keydown', 'return', function (e) {
+					.bind('keydown', 'return', function(e) {
 						$scope.hash.submit = $scope.cvtCurrentHash();
 						e.preventDefault();
 					});
