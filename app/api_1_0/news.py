@@ -7,6 +7,7 @@ from ..models import News, User, Comment
 from errors import not_found, forbidden, bad_request
 from datetime import datetime
 from flask.ext.cors import cross_origin
+from .search import removeEscapeChar
 
 
 @api.route('/news', methods=['GET'])  # 전체 신송 요청
@@ -59,6 +60,7 @@ def put_news(news_id):
         return forbidden('Cannot modify other user\'s news')
     news = News.from_json(request.get_json())
     old_news.context = news.context
+    old_news.parsed_context = removeEscapeChar(news.context)
     old_news.author_name = g.current_user.realname
     old_news.modified_at = datetime.utcnow()
     return jsonify(old_news.to_json())

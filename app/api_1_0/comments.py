@@ -6,6 +6,7 @@ from .. import db
 from ..models import News, User, Comment
 from errors import not_found, bad_request, forbidden
 from flask.ext.cors import cross_origin
+from .search import removeEscapeChar
 
 
 @api.route('/comments/<int:comment_id>', methods=['GET'])  # 특정 덧글 요청
@@ -61,6 +62,7 @@ def put_comment(comment_id):
     if g.current_user.id != comment.author_id:  # 다른 유저의 덧글을 수정하려고 하는 경우
         return forbidden('Cannot modify other user\'s comment')
     comment.context = request.json.get('context', comment.context)
+    comment.parsed_context = removeEscapeChar(request.json.get('context', comment.context))
     comment.author_name = g.current_user.realname
     return jsonify(comment.to_json())
 
