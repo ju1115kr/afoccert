@@ -1,22 +1,11 @@
 # -*- coding: utf-8 -*-
+import json
 from flask import url_for, current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from . import db
 from app.exceptions import ValidationError
 from datetime import datetime
-
-# 태그-신송 간 Many-to-Many 관계 테이블
-news_tag_relationship = db.Table('tag_relationship',
-                                 db.Column('news_id',
-                                           db.Integer,
-                                           db.ForeignKey('news.id'),
-                                           nullable=False),
-                                 db.Column('tags_id',
-                                           db.Integer,
-                                           db.ForeignKey('tags.id'),
-                                           nullable=False),
-                                 db.PrimaryKeyConstraint('news_id', 'tags_id'))
 
 
 class User(db.Model):
@@ -103,7 +92,7 @@ class User(db.Model):
                 db.session.commit()
             except IntegrityError:
                 db.session.rollback()
-            
+
 
 class News(db.Model):
     __tablename__ = 'news'
@@ -111,14 +100,12 @@ class News(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     author_name = db.Column(db.Text())
     context = db.Column(db.Text, nullable=False)
+    parsed_context = db.Column(db.Text)
     created_at = db.Column(db.DateTime, index=True,
                            default=datetime.utcnow)
     modified_at = db.Column(db.DateTime)
     parent_id = db.Column(db.Integer)
 
-    tags = db.relationship('Tag',
-                           secondary=news_tag_relationship,
-                           backref='news')
     comments = db.relationship('Comment', backref='news', lazy='dynamic')
 
     def __init__(self, context, author=None):
@@ -128,8 +115,7 @@ class News(db.Model):
             self.author_id = author.id
     
     def __repr__(self):
-        return '<News [%r](%r):%r>' % \
-            self.created_at, self.author_name, self.context
+        return '<News [%r](%r):%r>' % (self.created_at, self.author_name, self.context)
 
     def to_json(self):  # json 출력 루틴
         json_news = {
@@ -139,17 +125,17 @@ class News(db.Model):
             'author_name': self.author_name,
             'context': self.context,
             'created_at': self.created_at,
-            'modified_at': self.modified_at
+            'modified_at': self.modified_at,
         }
         return json_news
 
     @staticmethod
     def from_json(json_news):  # json 입력 루틴
         context = json_news.get('context')
-        # author = g.current_user
         if context is None or context == '':
             raise ValidationError('news does not have a context')
-        return News(context=context)
+        news = News(context=context)
+        return news
 
     @staticmethod
     def generate_fake(count=100):  # 개발용 fake data 생성 루틴
@@ -171,6 +157,7 @@ class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
     context = db.Column(db.Text)
+    parsed_context = db.Column(db.Text)
     created_at = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     author_name = db.Column(db.String(64))
@@ -222,50 +209,3 @@ class Comment(db.Model):
             c.author_name = u.realname
             db.session.add(c)
             db.session.commit()
-
-
-class Tag(db.Model):
-    __tablename__ = 'tags'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Text, unique=True, nullable=False)
-    news = db.relationship('News', backref='tag', lazy='dynamic')
-
-    def __init__(self, name):
-        self.name = name
-
-    def __repr__(self):
-        return '<Tag [%r]>' % self.name
-
-    @staticmethod
-    def to_json(self):
-        json_tag = {
-            'id': self.id,
-            'name': self.name
-        }
-        return json_tag
-
-    @staticmethod
-    def from_json(json_tag):
-        name = json_tag.get('name')
-        if name is None or name == '':
-            raise ValidationError('tag does not have a name')
-        return Tag(name=name)
-
-"""
-class Push(db.Model):
-    __tablename__ = 'pushs'
-    id = db.Column(db.Integer, primary_key=True)
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    uri = db.Column(db.Text)
-    message = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, index=True,
-                           default=datetime.utcnow)
-
-    def __init__(self, author_id, message):
-        self.author_id = author_id
-        self.message = message
-    
-    def __repr__(self):
-        return '<Push [%r]:%r>' %\
-            (self.author_id, self.message)
-"""

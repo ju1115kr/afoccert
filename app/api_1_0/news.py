@@ -52,15 +52,16 @@ def post_news():
 def put_news(news_id):
     if request.json is None:  # 요청이 올바르지 않은 경우
         return bad_request('JSON Request is invaild')
-    news = News.query.filter_by(id=news_id).first()
-    if news is None:  # 신송이 존재 하지 않을 경우
+    old_news = News.query.filter_by(id=news_id).first()
+    if old_news is None:  # 신송이 존재 하지 않을 경우
         return not_found('News does not exist')
-    if g.current_user.id != news.author_id:  # 다른 유저의 신송을 수정하려고 하는 경우
+    if g.current_user.id != old_news.author_id:  # 다른 유저의 신송을 수정하려고 하는 경우
         return forbidden('Cannot modify other user\'s news')
-    news.context = request.json.get('context', news.context)
-    news.author_name = g.current_user.realname
-    news.modified_at = datetime.utcnow()
-    return jsonify(news.to_json())
+    news = News.from_json(request.get_json())
+    old_news.context = news.context
+    old_news.author_name = g.current_user.realname
+    old_news.modified_at = datetime.utcnow()
+    return jsonify(old_news.to_json())
 
 
 @api.route('/news/<int:news_id>', methods=['DELETE'])  # 신송 삭제
@@ -71,7 +72,7 @@ def delete_news(news_id):
         return not_found('News does not exist')
     if g.current_user.id != news.author_id:  # 다른 유저의 신송을 삭제하려고 하는 경우
         return forbidden('Cannot delete other user\'s news')
-    Comment.query.filter(Comment.news_id==news.id).delete()
+    Comment.query.filter(Comment.news_id == news.id).delete()
     db.session.delete(news)
     db.session.commit()
     return '', 204

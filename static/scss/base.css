@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'NanumSquareR';
-  src: url("/fonts/NanumSquareR.ttf"); }
+  font-family: 'NanumBarunGothic';
+  src: url("/fonts/NanumBarunGothic.ttf"); }
 a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video {
   margin: 0;
   padding: 0;
@@ -11,7 +11,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   display: block; }
 
 body {
-  font-family: "NanumSquareR",Helvetica,Arial,sans-serif;
+  font-family: "NanumBarunGothic",Helvetica,Arial,sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
   color: #333; }
@@ -33,7 +33,7 @@ table {
 * {
   box-sizing: border-box; }
 
-#body, body, html {
+body, html {
   height: 100%; }
 
 .global-width {
@@ -55,13 +55,21 @@ table {
 .pull-left {
   left: left !important; }
 
-a.btn {
-  cursor: pointer;
-  opacity: 0.5;
-  text-decoration: none;
-  transition: all .2s; }
-  a.btn:hover {
-    opacity: 1; }
+input {
+  font-family: "NanumBarunGothic",Helvetica,Arial,sans-serif; }
+
+a {
+  cursor: pointer; }
+  a.default {
+    color: #2ABB9B; }
+    a.default:hover {
+      text-decoration: underline; }
+  a.btn {
+    opacity: 0.5;
+    text-decoration: none;
+    transition: all .2s; }
+    a.btn:hover {
+      opacity: 1; }
 
 .close {
   position: absolute;
@@ -86,5 +94,10 @@ a.btn {
 
 .ng-hide.ng-hide-animate {
   display: none !important; }
+
+.glyphicons.flip-x {
+  transform: rotateY(180deg); }
+.glyphicons.flip-y {
+  transform: rotateX(180deg); }
 
 /*# sourceMappingURL=base.css.map */

@@ -5,6 +5,7 @@
 	<input type="text" ng-model="user.id" class="form-input lg" placeholder="아이디">
 	<input type="password" ng-model="user.pw" class="form-input lg" placeholder="비밀번호" autofocus>
 	<button type="submit" class="btn btn-info btn-block btn-lg ng-animate-disabled" ng-disabled="user.loading">로그인</button>
+	<button class="btn btn-lg btn-block btn-warning" ng-click="logout()"><span class="glyphicons glyphicons-log-out"></span>로그아웃</button>
 </form>
 
 <div id="signForm" class="profile ng-animate-disabled" ng-if="state[1]">
@@ -34,6 +35,7 @@
 	<input type="text" ng-model="user.id" class="form-input lg" placeholder="아이디" autofocus>
 	<input type="password" ng-model="user.pw" class="form-input lg" placeholder="비밀번호">
 	<button type="submit" class="btn btn-info btn-lg" ng-disabled="user.loading">로그인</button>
+	<button class="btn btn-lg btn-warning" ng-click="logout()"><span class="glyphicons glyphicons-log-out"></span>로그아웃</button>
 	<button class="btn btn-default btn-lg" ng-click="dismiss()">취소</button>
 </form>
 </div>

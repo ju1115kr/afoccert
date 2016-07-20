@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('certApp').
-controller('IndexCtrl', function($scope, $rootScope, $location, RouteLinkProvider, Global, User, popoverUtils, PopoverProvider){
-    $scope.section = '';
+controller('IndexCtrl', function($scope, $rootScope, $location, RouteLinkProvider, Global, User, popoverUtils, PopoverTrigger){
+    $scope.section = 'index';
     $scope.link_provider = RouteLinkProvider;
     $scope.navObject =
     {
@@ -46,15 +46,15 @@ controller('IndexCtrl', function($scope, $rootScope, $location, RouteLinkProvide
             ]
         }
     }
-    
+
 
     $rootScope.resetPopover = function(){
         if($rootScope.rootPopover){
             $rootScope.rootPopover.visible = false;
         }
     }
- $scope.popover = popoverUtils
-            $scope.popoverToggle = $scope.popover.toggle;
+    $scope.popover = popoverUtils
+    $scope.popoverToggle = $scope.popover.toggle;
 
     $scope.global = Global;
     if($scope.global.isLoggedIn()){
@@ -99,39 +99,52 @@ controller('IndexCtrl', function($scope, $rootScope, $location, RouteLinkProvide
 
     $scope.submit = function(){
         if(!$scope.signupForm){
-            $scope.signin();    
+            $scope.signin();
         }else{
             $scope.signup();
         }
     }
 
     $scope.getPush = function(){
-        PopoverProvider.open({
+        PopoverTrigger({
             controller : 'helloCtrl',
             position : 'bottom',
             templateUrl : '/partials/partial-push-popover.html',
             resolve : {
                 Init : function(){
                     return 'success!'
+                },
+                Finish: function(){
+                    return 'bye'
                 }
             }
-        });
-    }
+        }).then(function(message){
+            console.log(message)
+        })
+    };
+
     $scope.userInfo = function(){
-        PopoverProvider.open({
+        PopoverTrigger({
             controller : 'userInfoCtrl',
             position : 'bottom',
+            resolve : {
+                Test: function(){
+                    return 'test'
+                }
+            },
             templateUrl : '/partials/partial-userinfo-popover.html'
         });
+
     };
-    
+
 }).
-controller('helloCtrl',function($scope, $injector){
-    $scope.isOkay = function(){
-        console.log($injector.get('Init'));
-    } 
+controller('helloCtrl',function($scope, $popoverInstance, Init){
+    $scope.message = Init;
+    $scope.close = function(message){
+        $popoverInstance.close(message);
+    }
 }).
-controller('userInfoCtrl',function($rootScope, $scope, $location, $http, Global, Store, PopoverProvider, User){
+controller('userInfoCtrl',function($rootScope, $scope, $location, $http, Global, Store, $popoverInstance, User){
     $scope.global = Global;
     function initUser(){
         $scope.user = {
@@ -147,10 +160,10 @@ controller('userInfoCtrl',function($rootScope, $scope, $location, $http, Global,
     initUser();
     function determineState(){
         $scope.state = [
-        $scope.global.user.isExpired, 
-        !$scope.global.user.isExpired && !$scope.user.update && !$scope.user.switched, 
-        !$scope.global.user.isExpired && $scope.user.update && !$scope.user.switched, 
-        !$scope.global.user.isExpired && !$scope.user.update && $scope.user.switched
+            $scope.global.user.isExpired,
+            !$scope.global.user.isExpired && !$scope.user.update && !$scope.user.switched,
+            !$scope.global.user.isExpired && $scope.user.update && !$scope.user.switched,
+            !$scope.global.user.isExpired && !$scope.user.update && $scope.user.switched
         ];
         if($scope.global.user.isExpired){
             $scope.user.id = $scope.global.user.userId;
@@ -178,7 +191,7 @@ controller('userInfoCtrl',function($rootScope, $scope, $location, $http, Global,
                     }
                     $rootScope.unauthorizedReq = [];
 
-                    PopoverProvider.closeAll();
+                    $popoverInstance.close();
                 },
                 function(){
                     $scope.user.loading = false;
@@ -192,13 +205,13 @@ controller('userInfoCtrl',function($rootScope, $scope, $location, $http, Global,
             req.deferred.resolve(response);
         })
     }
-    
+
     /* STATE 1 */
     $scope.logout = function(){
         Global.logout();
         $location.path('/');
     }
-    
+
     /* STATE 2 */
     $scope.modifyUser = function(){
         $scope.user.update = true;
@@ -234,5 +247,5 @@ controller('userInfoCtrl',function($rootScope, $scope, $location, $http, Global,
         initUser();
         $scope.user.switched = true;
         determineState();
-    };      
+    };
 })

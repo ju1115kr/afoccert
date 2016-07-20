@@ -2,6 +2,9 @@ body {
   background: #f1f1f1;
   overflow-x: hidden; }
 
+@media all and (min-width: 1280px) {
+  #content-area {
+    margin-right: 100px; } }
 #header {
   position: fixed;
   top: 0;
@@ -15,18 +18,53 @@ body {
   line-height: 30px;
   z-index: 1000;
   font-size: 18px; }
-  #header ul {
+  #header #header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 400px; }
+  #header.enter-searchResult #header-wrapper {
+    margin-left: 0; }
+  #header #searchBar-wrap {
+    float: left;
+    position: relative;
+    margin-right: 500px;
+    margin-top: 4px;
+    max-width: 300px;
+    width: calc(100% - 300px);
+    color: white; }
+    #header #searchBar-wrap #searchBar {
+      border: none;
+      background: #299C7D;
+      border-radius: 20px;
+      padding: 6px 15px;
+      margin: 0;
+      color: white; }
+      #header #searchBar-wrap #searchBar:focus {
+        font-size: 14px; }
+    #header #searchBar-wrap .placeholder {
+      position: absolute;
+      right: 0;
+      top: 0;
+      margin-top: 7px;
+      margin-right: 10px;
+      font-size: 12px;
+      line-height: 1.4; }
+  #header #glb {
     float: right; }
-    #header ul li {
-      display: block;
+    #header #glb li {
       float: left;
+      display: block;
       width: 35px;
       line-height: 35px;
       margin: 0px 10px;
       border-radius: 20px;
       text-align: center;
       transition: background .2s; }
-      #header ul li:hover {
+      #header #glb li a {
+        display: block;
+        width: 100%;
+        height: 100%; }
+      #header #glb li:hover {
         background: #68C3A3; }
   #header.ng-enter {
     transform: translateY(-50px);
@@ -34,7 +72,7 @@ body {
     #header.ng-enter.ng-enter-active {
       transform: translateY(0); }
 
-@media (max-width: 950px) {
+@media (max-width: 1280px) {
   #header ul {
     margin-right: 100px; } }
 #main-nav {
@@ -52,44 +90,98 @@ body {
     #main-nav.ng-enter.ng-enter-active {
       transform: translateY(0); }
   #main-nav ul li {
-    padding: 18px 30px;
-    display: block;
     color: #e1e1e7;
     font-size: 14px;
     line-height: 1em;
     transition: all .2s; }
+    #main-nav ul li a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 18px 30px; }
     #main-nav ul li span.icon {
       margin-right: 18px;
       font-size: 16px;
       color: #3C8090; }
-    #main-nav ul li:hover {
-      background: #364c5f;
+    #main-nav ul li:hover, #main-nav ul li.active {
+      background: #405B72;
       color: #ffffff; }
+      #main-nav ul li:hover span.icon, #main-nav ul li.active span.icon {
+        color: #4BA1B4; }
 
 #content-area {
-  height: 100%;
   padding: 50px 0 0 0;
   background: #f1f1f1; }
   #content-area > #main {
     position: relative;
     width: 600px;
-    margin: 20px 40px;
-    float: right;
+    margin: 20px auto;
     -webkit-user-select: none; }
-  #content-area > #sub {
-    float: left;
-    width: calc(100% - 720px);
-    margin-top: 20px;
-    margin-left: 40px; }
   #content-area.ng-enter {
-    transform: scale(0.8);
+    transform: translateY(50px);
     opacity: 0;
     transition: all 1s; }
     #content-area.ng-enter.ng-enter-active {
-      transform: scale(1);
-      opacity: 1; }
+      opacity: 1;
+      transform: translateY(0); }
 
-@media (max-width: 950px) {
+#searchResult {
+  position: fixed;
+  width: 400px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  background: #fff; }
+  #searchResult header {
+    background: #4183d7;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    color: white; }
+    #searchResult header.loading {
+      background: #84B7F9; }
+  #searchResult aside {
+    float: left;
+    width: 100%;
+    height: calc(100% - 50px);
+    overflow-y: scroll; }
+    #searchResult aside li {
+      position: relative;
+      display: block;
+      cursor: pointer;
+      width: 100%;
+      padding: 10px 20px;
+      border-bottom: 1px solid #e1e1e7;
+      overflow: hidden;
+      transition: all .2s; }
+      #searchResult aside li div.index {
+        color: #428bca;
+        border-bottom: 1px solid #f1f1f5; }
+      #searchResult aside li.fold {
+        height: 96px; }
+      #searchResult aside li:hover, #searchResult aside li.selected {
+        background: #f1f1f5; }
+        #searchResult aside li:hover:before, #searchResult aside li.selected:before {
+          position: absolute;
+          background: #4183d7;
+          display: block;
+          width: 4px;
+          height: 100%;
+          left: 0;
+          top: 0;
+          content: ''; }
+  #searchResult .search-detail {
+    position: fixed; }
+    #searchResult .search-detail .enter-searchResult {
+      background-color: rgba(100, 100, 100, 0.5); }
+
+.state-searchResult, #header.enter-searchResult, #searchResult .search-detail .enter-searchResult {
+  width: calc(100% - 400px);
+  left: auto;
+  right: 0; }
+
+@media (max-width: 1280px) {
   #main-nav {
     width: 80px; }
     #main-nav li {
@@ -97,6 +189,12 @@ body {
       #main-nav li .icon {
         margin: 0; }
       #main-nav li .desc {
-        display: none; } }
+        display: none; }
+
+  #header #searchBar-wrap {
+    margin-right: 0; }
+
+  #content-area > #main {
+    left: 80px; } }
 
 /*# sourceMappingURL=layout.css.map */

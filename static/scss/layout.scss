@@ -1,8 +1,18 @@
 $header-z : 1000;
 $nav-z : 999;
+$criticalWidth : 1280px;
+$searchResultWidth : 400px;
 body{
 	background :#f1f1f1;
 	overflow-x: hidden;
+}
+@media all and (min-width:$criticalWidth){
+	#content-area{
+		margin-right: 100px;
+	}
+}
+@mixin subtract-fixed-size($reduce){
+	width: calc(100% - #{$reduce});
 }
 #header{
 	position: fixed;
@@ -17,11 +27,56 @@ body{
 	line-height : 30px;
 	z-index:$header-z;
 	font-size: 18px;
-	ul{
+	#header-wrapper{
+		display: flex;
+		justify-content: space-between;
+		margin-left:400px;
+	}
+	&.enter-searchResult{
+		@extend .state-searchResult;
+		#header-wrapper{
+			margin-left:0;
+		}
+	}
+	#searchBar-wrap{
+		float: left;
+		position: relative;
+		margin-right: 500px;
+		margin-top: 4px;
+		max-width: 300px;
+		width: calc(100% - 300px);
+		color: white;
+		#searchBar{
+			border: none;
+			background: #299C7D;
+			border-radius: 20px;
+	    	padding: 6px 15px;
+	    	margin: 0;
+	    	color: white;
+	    	&:focus{
+		      	font-size: 14px;
+	    	}
+		}
+		.placeholder{
+			position:absolute;
+			right: 0;
+			top:0;
+			margin-top: 7px;
+			margin-right: 10px;
+			font-size: 12px;
+			line-height: 1.4;
+		}
+	}
+	#glb{
 		float: right;
 		li{
-			display: block;
+			a{
+				display: block;
+				width: 100%;
+				height:100%;
+			}
 			float:left;
+			display: block;
 			width: 35px;
 			line-height: 35px;
 			margin: 0px 10px;
@@ -41,7 +96,7 @@ body{
 		}
 	}
 }
-@media (max-width:950px){
+@media (max-width:$criticalWidth){
 	#header{
 		ul{
 			margin-right:100px;
@@ -69,8 +124,12 @@ body{
 	}
 	ul{
 		li{
-			padding: 18px 30px;
-			display: block;
+			a{
+				display: block;
+				width:100%;
+				height:100%;
+				padding: 18px 30px;
+			}
 			color:#e1e1e7;
 			font-size: 14px;
 			line-height: 1em;
@@ -82,45 +141,111 @@ body{
 					color: #3C8090;
 				}
 			}
-			&:hover{
-				background: #364c5f;
+			&:hover,
+			&.active{
+				background: #405B72;
 				color: #ffffff;
+				span{
+					&.icon{
+						color:#4BA1B4;
+					}
+				}
 			}
 		}
 	}
 }
 
 #content-area{
-	height: 100%;
 	padding:50px 0 0 0;
 	background: #f1f1f1;
 	>#main{
 		position:relative;
 		width: 600px;
-		margin: 20px 40px;
-		float: right;
+		margin: 20px auto;
 		-webkit-user-select: none;
 	}
-	>#sub{
-		float: left;
-		width: calc(100% - 720px);
-		margin-top: 20px;
-		margin-left: 40px;
-	}
 	&.ng-enter {
-		transform: scale(0.8);
+		transform: translateY(50px);
 		opacity: 0;
 		transition: all 1s;
 		&.ng-enter-active {
-			transform: scale(1);
 			opacity: 1;
+			transform: translateY(0);
 		}
 	}
 }
-
-@media (max-width:950px){
+#searchResult{
+	position: fixed;
+	width: 400px;
+	height: 100%;
+	left: 0;
+	top:0;
+	z-index: $nav-z;
+	background: #fff;
+	header{
+		background: #4183d7;
+		height: 50px;
+		text-align: center;
+		line-height: 50px;
+		color: white;
+        &.loading{
+            background: #84B7F9;
+        }
+	}
+	aside{
+		float: left;
+		width: 100%;
+		height: calc(100% - 50px);
+		overflow-y: scroll;
+		li{
+			position: relative;
+			display: block;
+			cursor: pointer;
+			width: 100%;
+			padding: 10px 20px;
+			border-bottom: 1px solid #e1e1e7;
+			overflow: hidden;
+			transition: all .2s;
+			div.index{
+				color: #428bca;
+				border-bottom: 1px solid #f1f1f5;
+			}
+			&.fold{
+				height: 96px;
+			}
+			&:hover,
+			&.selected{
+				background: #f1f1f5;
+				&:before{
+					position: absolute;
+					background: #4183d7;
+					display: block;
+					width: 4px;
+					height: 100%;
+					left:0;
+					top:0;
+					content: '';
+				}
+			}
+		}
+	}
+    .search-detail{
+        position: fixed;
+		.enter-searchResult{
+			@extend .state-searchResult;
+			background-color: rgba(100,100,100,0.5);
+		}
+    }
+}
+.state-searchResult{
+	@include subtract-fixed-size($searchResultWidth);
+	left: auto;
+	right: 0;
+}
+@media (max-width:$criticalWidth){
+	$nav-width: 80px;
 	#main-nav{
-		width: 80px;
+		width: $nav-width;
 		li{
 			text-align:center;
 			.icon{
@@ -129,6 +254,16 @@ body{
 			.desc{
 				display:none;
 			}
+		}
+	}
+	#header{
+		#searchBar-wrap{
+			margin-right: 0;
+		}
+	}
+	#content-area{
+		>#main{
+			left: $nav-width;
 		}
 	}
 }

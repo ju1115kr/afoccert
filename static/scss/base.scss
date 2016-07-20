@@ -10,7 +10,7 @@ body{
 	line-height: 1.42857143;
 	color: #333;
 }
-ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}table{border-collapse:collapse;border-spacing:0}*{box-sizing:border-box}#body,body,html{height:100%}.global-width{max-width:968px}.margin-auto{margin:0 auto}
+ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}table{border-collapse:collapse;border-spacing:0}*{box-sizing:border-box}body,html{height:100%}.global-width{max-width:968px}.margin-auto{margin:0 auto}
 .txt-center{
 	text-align:center;
 }
@@ -24,13 +24,24 @@ ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:befor
 .pull-left{
 	left: left !important;
 }
-a.btn{
+input{
+	font-family: "NanumBarunGothic",Helvetica,Arial,sans-serif;
+}
+a{
 	cursor: pointer;
-	opacity :0.5;
-	text-decoration:none;
-	transition: all .2s;
-	&:hover{
-		opacity :1;
+	&.default{
+		color: #2ABB9B;
+		&:hover{
+			text-decoration: underline;
+		}
+	}
+	&.btn{
+		opacity :0.5;
+		text-decoration:none;
+		transition: all .2s;
+		&:hover{
+			opacity :1;
+		}
 	}
 }
 .close{
@@ -46,7 +57,7 @@ a.btn{
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	&::before{
-		content: "\E208";	
+		content: "\E208";
 	}
 }
 .hidden{
@@ -57,4 +68,12 @@ a.btn{
 }
 .ng-hide.ng-hide-animate{
 	display: none !important;
+}
+.glyphicons{
+	&.flip-x{
+		transform:rotateY(180deg);
+	}
+	&.flip-y{
+		transform:rotateX(180deg);
+	}
 }
