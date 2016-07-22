@@ -24,8 +24,6 @@ def get_comments_comment(comment_id):
     comment = Comment.query.get(comment_id)
     if comment is None:
         return not_found('Comment does not exist')
-#    if comment.count_reply == 0 or comment.count_reply is None:
-#        return not_found('Comment does not have reply comment')
     return jsonify({'reply_comments': [reply_comment.to_json() for reply_comment in comment.comments]})
 
 
