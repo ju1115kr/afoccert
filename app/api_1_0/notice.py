@@ -22,7 +22,7 @@ def put_notice_news(news_id):
 	news = News.query.filter_by(id = news_id).first()
 	if news is None:
 		return not_found('News does not exist')
-	if news.house is not None and g.current_user not in news.house.users:
+	if g.current_user.id != news.author_id:
 		return forbidden('Cannot change other user\'s news')
 	news.notice = True
 	return jsonify(news.to_json())
@@ -34,7 +34,7 @@ def delete_notice_news(news_id):
 	news = News.query.filter_by(id = news_id).first()
 	if news is None:
 		return not_found('News does not exist')
-	if news.house is not None and g.current_user not in news.house.users:
+	if g.current_user.id != news.author_id:
 		return forbidden('Cannot chang other user\'s news')
 	news.notice = False
 	return jsonify(news.to_json())
