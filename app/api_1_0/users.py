@@ -69,4 +69,5 @@ def get_user_news(user_id):
     pag_news = pagination.items
     if pagination.total < 1:  # 아무것도 없을 경우
         return not_found('User does not have news')
-    return jsonify({'news': [news.to_json() for news in pag_news]})
+    return jsonify({'news': [news.to_json() for news in pag_news\
+                    if news.group is None or g.current_user in news.house.users]})

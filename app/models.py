@@ -8,6 +8,13 @@ from app.exceptions import ValidationError
 from datetime import datetime
 
 
+# 유저-그룹 간 Many-to-Many 관계 테이블
+user_group_relationship = db.Table('user_group_relationship',
+                db.Column('user_id', db.Integer, db.ForeignKey('users.id'), nullable=False),
+                db.Column('group_id', db.Integer, db.ForeignKey('groups.id'), nullable=False),
+                db.PrimaryKeyConstraint('user_id', 'group_id'))
+
+
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -15,6 +22,11 @@ class User(db.Model):
     realname = db.Column(db.Text)
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean)
+
+    groups = db.relationship('Group', 
+                    secondary=user_group_relationship, 
+                    backref=db.backref('user', lazy='dynamic'),
+                    lazy='dynamic')
 
     news = db.relationship('News', backref='author', lazy='dynamic')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
@@ -94,6 +106,57 @@ class User(db.Model):
                 db.session.rollback()
 
 
+class Group(db.Model):
+    __tablename__ = 'groups'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True, index=True)
+    description = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+    users = db.relationship('User',
+                    secondary=user_group_relationship,
+                    passive_deletes=True,
+                    backref=db.backref('group', lazy='dynamic'),
+                    lazy='dynamic')
+    news = db.relationship('News', backref='house', lazy='dynamic')
+
+    def __init__(self, name, description=''):
+        self.name = name
+        self.description=description
+
+    def __repr__(self):
+        return '<Group %r>' % (self.name)
+
+    def to_json(self):  # json 출력 루틴
+        json_group = {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'created_at': self.created_at,
+            'users': [ user.username for user in self.users ]
+        }
+        return json_group
+
+    @staticmethod
+    def from_json(json_group):  # json 입력 루틴
+        name = json_group.get('name')
+        if name is None or name == '':
+            raise ValidationError('group does not have a name')
+        description = json_group.get('description')
+        group = Group(name, description)
+
+        # Group users JSON 입력값 처리 
+        if json_group.get('users') is not None:
+            user_names = json_group.get('users')
+            user_list = [ str(user_name) for user_name in user_names.strip('[]').split(',') ]
+
+            if type(user_list) == list and user_list is not None and len(user_list) >= 1:  # users 값이 비어있지 않다면 
+            # 실제로 존재하는 유저에 대하여만 그룹에 추가
+                group.users = [ User.query.filter_by(username=user_name).first() for user_name in user_list\
+                                if User.query.filter_by(username=user_name).count() != 0 ]
+        return group
+
+
 class News(db.Model):
     __tablename__ = 'news'
     id = db.Column(db.Integer, primary_key=True)
@@ -105,11 +168,16 @@ class News(db.Model):
                            default=datetime.utcnow)
     modified_at = db.Column(db.DateTime)
     parent_id = db.Column(db.Integer)
+    notice = db.Column(db.Boolean)
 
     comments = db.relationship('Comment', backref='news', lazy='dynamic')
+    group = db.Column(db.Integer, db.ForeignKey('groups.id'))
 
-    def __init__(self, context, author=None):
+    def __init__(self, context, parsed_context, author=None, group=None, notice=False):
         self.context = context
+        self.parsed_context = parsed_context
+        self.group = group
+        self.notice = notice
         if author is not None:
             self.author_name = author.realname
             self.author_id = author.id
@@ -126,17 +194,26 @@ class News(db.Model):
             'context': self.context,
             'created_at': self.created_at,
             'modified_at': self.modified_at,
+            'notice' : self.notice,
+            'group' : self.group,
         }
         return json_news
 
     @staticmethod
     def from_json(json_news):  # json 입력 루틴
+        from api_1_0.search import removeEscapeChar
         context = json_news.get('context')
         if context is None or context == '':
             raise ValidationError('news does not have a context')
-        news = News(context=context)
-        return news
-
+        parsed_context = removeEscapeChar(context)
+        
+        group = None
+        if json_news.get('group') is not None:
+            group = json_news.get('group')
+        
+        news = News(context=context, parsed_context=parsed_context, group=group)
+        return news 
+    
     @staticmethod
     def generate_fake(count=100):  # 개발용 fake data 생성 루틴
         from random import seed, randint
@@ -165,8 +242,9 @@ class Comment(db.Model):
     parent_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
     comments = db.relationship('Comment', lazy='dynamic')
 
-    def __init__(self, context, news_id=None):
+    def __init__(self, context, parsed_context, news_id=None):
         self.context = context
+        self.parsed_context = parsed_context
         self.news_id = news_id
 
     def __repr__(self):
@@ -174,10 +252,13 @@ class Comment(db.Model):
 
     @staticmethod
     def from_json(json_comment):  # json 입력 루틴
+        from api_1_0.search import removeEscapeChar
         context = json_comment.get('context')
         if context is None or context == '':
             raise ValidationError('comment does not have a context')
-        return Comment(context=context)
+        parsed_context = removeEscapeChar(context)
+
+        return Comment(context=context, parsed_context=parsed_context)
     
     def to_json(self):  # json 출력 루틴
         json_comment = {

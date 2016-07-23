@@ -34,7 +34,8 @@ def search_news(context):
             news.parsed_context = removeEscapeChar(news.context)
     if pagination is None:
         return not_found('Result does not exist')
-    return jsonify({'news':[news.to_json() for news in pag_result if context in news.parsed_context]})
+    return jsonify({'news':[news.to_json() for news in pag_result\
+                    if context in news.parsed_context and (news.house is None or g.current_user in news.hose.users)]})
 
 
 @api.route('/search/comments/<context>', methods=['GET'])
@@ -55,7 +56,9 @@ def search_comment(context):
             comment.parsed_context = removeEscapeChar(comment.context)
     if pagination is None:
         return not_found('Comment does not exist')
-    return jsonify({'comments':[comment.to_json() for comment in pag_result if context in comment.parsed_context]})
+    return jsonify({'comments':[comment.to_json() for comment in pag_result\
+                if context in comment.parsed_context and\
+                (comment.news.house is None or g.current_user in comment.news.house.users)]})
 
 
 @api.route('/search', methods=['GET'])
@@ -79,9 +82,12 @@ def search_allmight():
 	
     if context is None:
         return jsonify({'news':[news.to_json() for news in pag_result]})
+
     for news in pag_result:
         if news.parsed_context is None:
-                news.parsed_context = removeEscapeChar(news.context)
+            news.parsed_context = removeEscapeChar(news.context)
     if pag_result is None:
         return not_found('News does not exist')
-    return jsonify({'news':[news.to_json() for news in pag_result if context in news.parsed_context]})
+
+    return jsonify({'news':[news.to_json() for news in pag_result\
+                    if context in news.parsed_context and (news.house is None and g.current_user in news.house.users)]})

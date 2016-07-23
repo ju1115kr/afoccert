@@ -3,11 +3,10 @@ from flask import request, jsonify, make_response, url_for, g
 from . import api
 from authentication import auth
 from .. import db
-from ..models import News, User, Comment
+from ..models import News, User, Comment, Group
 from errors import not_found, forbidden, bad_request
 from datetime import datetime
 from flask.ext.cors import cross_origin
-from .search import removeEscapeChar
 
 
 @api.route('/news', methods=['GET'])  # 전체 신송 요청
@@ -18,7 +17,8 @@ def get_all_news():
     pagination = News.query.order_by(News.created_at.desc()).paginate(
         page, per_page, error_out=False)
     pag_news = pagination.items
-    return jsonify({'news': [news.to_json() for news in pag_news]})
+    return jsonify({'news': [news.to_json() for news in pag_news\
+                    if news.group is None or g.current_user in news.house.users]})
 
 
 @api.route('/news/<int:id>', methods=['GET'])  # 특정 신송 요청
@@ -27,6 +27,8 @@ def get_news(id):
     news = News.query.get(id)
     if news is None:
         return not_found('News does not exist')
+    if news.group is not None and g.current_user not in news.house.users:
+        return forbidden('User does not in this group')
     return jsonify(news.to_json())
 
 
@@ -37,6 +39,8 @@ def post_news():
     if request.json is None:
         return bad_request('JSON Request is invaild')
     news = News.from_json(request.json)
+    if news.group is not None and g.current_user not in Group.query.filter_by(id=news.group).first().users:
+        return forbidden('User does not in this group')
     news.author_id = g.current_user.id
     news.author_name = g.current_user.realname
     db.session.add(news)
@@ -59,10 +63,12 @@ def put_news(news_id):
     if g.current_user.id != old_news.author_id:  # 다른 유저의 신송을 수정하려고 하는 경우
         return forbidden('Cannot modify other user\'s news')
     news = News.from_json(request.get_json())
+    if news.group is not None and g.current_user not in Group.query.filter_by(id=news.group).first().users:
+        return forbidden('User does not in this group')
     old_news.context = news.context
-    old_news.parsed_context = removeEscapeChar(news.context)
-    old_news.author_name = g.current_user.realname
+    old_news.parsed_context = news.parsed_context
     old_news.modified_at = datetime.utcnow()
+    old_news.group = news.group
     return jsonify(old_news.to_json())
 
 
