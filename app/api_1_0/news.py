@@ -7,6 +7,7 @@ from ..models import News, User, Comment
 from errors import not_found, forbidden, bad_request
 from datetime import datetime
 from flask.ext.cors import cross_origin
+from .search import removeEscapeChar
 
 
 @api.route('/news', methods=['GET'])  # 전체 신송 요청
@@ -59,7 +60,7 @@ def put_news(news_id):
         return forbidden('Cannot modify other user\'s news')
     news = News.from_json(request.get_json())
     old_news.context = news.context
-    old_news.tags = news.tags
+    old_news.parsed_context = removeEscapeChar(news.context)
     old_news.author_name = g.current_user.realname
     old_news.modified_at = datetime.utcnow()
     return jsonify(old_news.to_json())
@@ -71,7 +72,7 @@ def delete_news(news_id):
     news = News.query.filter_by(id=news_id).first()
     if news is None:
         return not_found('News does not exist')
-    if g.current_user.id is not news.author_id:  # 다른 유저의 신송을 삭제하려고 하는 경우
+    if g.current_user.id != news.author_id:  # 다른 유저의 신송을 삭제하려고 하는 경우
         return forbidden('Cannot delete other user\'s news')
     Comment.query.filter(Comment.news_id == news.id).delete()
     db.session.delete(news)

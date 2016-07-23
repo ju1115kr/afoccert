@@ -1,6 +1,0 @@
-로컬용 테스트 서버 실행 방법
-# Back-end
-  $ ./manage.py runserver -h 54.1.1.94 -p 5555
-# Front-end
-  $ cd static/
-  $ python -m "SimpleHTTPServer" 8888

@@ -37,26 +37,7 @@ def verify_password(username_or_token, password):
 @api.route('/token', methods=['GET'])
 @auth.login_required
 def get_token():
-    # res = verify_password(request.json.get('id'), request.json.get('pw'))
-    # print res
-    # if res:
     if g.token_used:
         return bad_request('token is already given')
     return jsonify({'token': g.current_user.generate_auth_token(g.current_user, expiration=3600),
                     'expiration': 3600}), 200
-    # elif res is False:
-    #    return bad_request('Invaild ID or Password')
-    # else:
-    #     return not_found()
-
-"""
-@api.route('/tokens', methods=['DELETE'])
-def delete_token():
-pass
-"""
-
-
-
-
-
-    
