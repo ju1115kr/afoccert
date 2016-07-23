@@ -1,16 +1,37 @@
-<div class="sin-editor" ngf-drop ng-model="files" class="drop-box"
-ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
-accept="image/*,application/pdf"
-ngf-pattern="'image/*,application/pdf'">
-<div id="fn-note" ng-class="editor.style" sin-note sin-hash="hash" sin-focused="isFocused" sin-blured="isBlured" contenteditable="true" ng-model="editor.value" ng-attr-autofocus="{{autofocus||undefined}}">{{editor.value}}</div>
-<footer class="sin-editor-footer">
-	<div class="hash-list"></div>
-	<button class="btn" ng-click="pushEntry(editor.value);" ng-disabled="hash.constructed||hash.hashing">완료</button>
-</footer>
-<div sin-typeahead sin-hash="hash" class="typeahead block shadow" ng-class="{show:hash.constructed}"></div>
-<ul>
-	<li ng-repeat="f in files" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}</li>
-</ul>
-<pre>{{log}}</pre>
-<img ngf-src="!files[0].$error && files[0]">
+<div class="sin-editor drop-box"
+	ngf-drop
+	ng-model="files"
+	ng-model-options="{debounce:0}"
+	ngf-drag-over-class="dragover"
+	ngf-multiple="true"
+	ngf-keep="'distinct'"
+	ngf-allow-dir="true"
+	ngf-pattern=".pdf,.jpeg,.jpg,.png,.hwp,.cell,.xls,.xlsx,.csv,.txt,.ppt,.show"
+	ngf-resize="{width:100, height:100, centerCrop:true}"
+	ngf-change="uploadTest($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)">
+	<div class="dragtest">
+		<span class="glyphicons glyphicons-inbox-in"></span>
+		<div>드롭하여 파일업로드</div>
+	</div>
+	<div id="fn-note"
+		ng-class="editor.style"
+		sin-note
+		sin-hash="hash"
+		sin-focused="isFocused"
+		sin-blured="isBlured"
+		contenteditable="true"
+		ng-model="editor.value"
+		ng-attr-autofocus="{{autofocus||undefined}}">
+		{{editor.value}}
+	</div>
+	<footer class="sin-editor-footer">
+		<div class="hash-list"></div>
+		<button class="btn" ng-click="pushEntry(editor.value);" ng-disabled="hash.constructed||hash.hashing">완료</button>
+	</footer>
+	<div sin-typeahead sin-hash="hash" class="typeahead block shadow" ng-class="{show:hash.constructed}"></div>
+	<ul>
+		<li ng-repeat="f in files" style="font:smaller">{{f.progress}} {{f.name}} {{f.$error}} {{f.$errorParam}}</li>
+	</ul>
+	<pre>{{log}}</pre>
+	<img ng-repeat="file in files" ngf-src="!file.$error && file" draggable="false">
 </div>

@@ -70,7 +70,7 @@ app
 							text: htmlText,
 							model: $scope.entries ? $scope.entries : undefined
 								/*
-								the key names (eg.'text') must sync with directive's 
+								the key names (eg.'text') must sync with directive's
 								attirbute parameter of function 'submit'.
 								*/
 						}
@@ -101,7 +101,12 @@ app
 					}
 					$scope.editorBlured(obj);
 					$scope.isFocused = false;
+				};
+
+				$scope.uploadTest = function(files, file, newfiles, duplicatefiles, invalidfiles, event){
+					console.log(invalidfiles)
 				}
+
 			},
 			templateUrl: '/partials/partial-editor-body.html',
 			link: function($scope, element, attrs) {

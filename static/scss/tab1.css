@@ -38,10 +38,24 @@
     display: block; }
 
 /* file upload */
-.drop-box {
-  height: 100%; }
-
-.dragover {
-  border: 5px dashed blue; }
+.drop-box .dragtest {
+  display: none; }
+.drop-box.dragover .dragtest {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #2ABB9B;
+  z-index: 1;
+  transition: all .2s;
+  color: #fff; }
+  .drop-box.dragover .dragtest .glyphicons {
+    font-size: 50px;
+    margin-bottom: 10px; }
+.drop-box.rejectover {
+  background: red; }
 
 /*# sourceMappingURL=tab1.css.map */
