@@ -50,7 +50,8 @@ app.config(function($routeSegmentProvider, $routeProvider, $locationProvider, $a
                 controller: 'TagsCtrl'
             })
             .segment('groups',{
-                templateUrl: 'partials/admin/admin-groups.html'
+                templateUrl: 'partials/admin/admin-groups.html',
+                controller: 'GroupsCtrl'
             })
             .segment('userss',{
                 templateUrl: 'partials/admin/admin-groups.html'

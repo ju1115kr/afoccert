@@ -1,1 +1,13 @@
-groups
+<form ng-submit="groupForm.createGroup()">
+	<input type="text" class="form-input primary" ng-model="groupForm.name" autogrow placeholder="그룹명">
+    <input type="text" class="form-input primary" ng-model="groupForm.desc" autogrow placeholder="설명">
+    <input type="text" class="form-input primary" ng-model="groupForm.users" placeholder="구성원">
+	<button class="btn btn-transparent btn-primary" type="submit"><span class="glyphicons glyphicons-plus"></span></button>
+</form>
+
+<div class="well">
+	<span class="namespace" ng-repeat="group in groups">
+		<span class="content">{{group.name}}</span>
+		<span class="options light"><span class="glyphicons glyphicons-remove-2"></span></span>
+	</span>
+</div>

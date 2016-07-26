@@ -2,10 +2,7 @@
 
 angular.module('certApp')
 
-.controller('Tab1Ctrl',function ($scope, $sce, $rootScope, $uibModal, News, $http, $window, Groups, Comments, Reply, $q, Store, modalUtils, $timeout, Global, Tags) {
-    Groups.query(function(data){
-        console.log(data)
-    });
+.controller('Tab1Ctrl',function ($scope, $sce, $rootScope, $uibModal, News, $http, $window, Comments, Reply, $q, Store, modalUtils, $timeout, Global, Tags) {
     $scope.newses = [];
     $scope.fetching = false;
     $scope.fetchedAll = false;

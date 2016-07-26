@@ -146,7 +146,7 @@ class Group(db.Model):
         group = Group(name, description)
 
         # Group users JSON 입력값 처리 
-        if json_group.get('users') is not None:
+        if json_group.get('users') != [] and not None:
             user_names = json_group.get('users')
             user_list = [ str(user_name) for user_name in user_names.strip('[]').split(',') ]
 

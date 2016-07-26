@@ -11,7 +11,7 @@ from errors import not_found, forbidden, bad_request
 @api.route('/groups', methods=['GET'])  # 전체 그룹 조회
 @auth.login_required
 def get_all_groups():
-    groups = Group.query.all()
+    groups = Group.query.order_by(Group.created_at.asc()).all()
     return jsonify({'groups':[group.to_json() for group in groups if g.current_user in group.users]})
 
 
@@ -61,10 +61,11 @@ def get_users_in_group(group_name):
 @cross_origin(expose_headers='Location')
 def post_group():
     group = Group.from_json(request.json)
-    if request.json.get('users') is None:
-        group.users = [g.current_user]
     if Group.query.filter_by(name=group.name).count() != 0:
-	    return forbidden('Already name is exist')
+        db.session.rollback()
+        return forbidden('Already name is exist')
+    if request.json.get('users')==[] and not None:
+        group.users = [ g. current_user ]
     db.session.add(group)
     db.session.commit()
     resp = make_response()
@@ -88,12 +89,14 @@ def put_group(group_name):
     users = request.json.get('users')
     user_list = [ str(user_name) for user_name in users.strip('[]').split(',') ]
 
-    if Group.query.filter_by(name=name).count() > 1:  # 이름 수정 시 같은 이름이 존재하는 그룹이 있을 경우
+    # 이름 수정 시 같은 이름이 존재하는 그룹이 있을 경우
+    if group_name != name and Group.query.filter_by(name=name).count() >= 1:
         return forbidden('Group name is already exist')
     old_group.name = name
     old_group.description = description
     old_group.users = [ User.query.filter_by(username=user_name).first() for user_name in user_list\
 					if User.query.filter_by(username=user_name).count() != 0 ]
+    db.session.commit()
     return jsonify(old_group.to_json())
 
 

@@ -25,8 +25,16 @@
 		{{editor.value}}
 	</div>
 	<footer class="sin-editor-footer">
-		<div class="hash-list"></div>
-		<button class="btn" ng-click="pushEntry(editor.value);" ng-disabled="hash.constructed||hash.hashing">완료</button>
+		<!-- <div class="hash-list"></div> -->
+		<div uib-dropdown is-open="status.isopen">
+			<button id="single-button" type="button" class="btn btn-primary btn-transparent" uib-dropdown-toggle>전체공개<span class="caret"></span></button>
+			<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="single-button">
+				<li><a href="#">dddsdfsdfsdfsdfsdsdfsdfsdfsdfsdfsdfsdf</a></li>
+				<li><a href="#">ddd</a></li>
+				<li><a href="#">ddd</a></li>
+			</ul>
+		</div>
+		<button class="btn" ng-click="pushEntry(editor.value);" ng-disabled="hash.constructed||hash.hashing" uib-toot>완료</button>
 	</footer>
 	<div sin-typeahead sin-hash="hash" class="typeahead block shadow" ng-class="{show:hash.constructed}"></div>
 	<ul>

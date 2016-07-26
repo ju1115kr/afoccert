@@ -62,7 +62,7 @@ controller('IndexCtrl', function($scope, $rootScope, $location, RouteLinkProvide
     $scope.popoverToggle = $scope.popover.toggle;
 
     $scope.global = Global;
-    if($scope.global.isLoggedIn()){
+    if(!$scope.global.isLoggedIn()){
         $location.path('/tab1')
     }
     $scope.user = {

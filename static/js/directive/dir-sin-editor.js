@@ -326,7 +326,7 @@ app
 	.directive("sinTypeahead", function($filter) {
 		return {
 			restrict: "A",
-			require: "^sinEditor",
+			// require: "^sinEditor",
 			scope: {
 				hash: "=sinHash"
 			},
