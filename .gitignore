@@ -1,4 +1,5 @@
 */*.sqlite
+/static/.idea
 *.wsgi
 *.pyc
 *~
