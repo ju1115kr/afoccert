@@ -343,6 +343,11 @@ button, input[type="submit"], input[type="button"] {
     .card.card-default .body {
       -webkit-user-select: initial;
       padding: 16px 20px 26px; }
+      .card.card-default .body .file-list {
+        margin-bottom: 5px;
+        font-size: 12px;
+        text-align: right;
+        color: #999; }
       .card.card-default .body::selection,
       .card.card-default .body *::selection {
         background: #fff2a8; }
@@ -352,6 +357,10 @@ button, input[type="submit"], input[type="button"] {
           background: none; }
         .card.card-default .body [contenteditable="true"]::selection {
           background: #fff2a8; }
+    .card.card-default.card-in-action .body {
+      padding: 0; }
+      .card.card-default.card-in-action .body .file-list {
+        margin-bottom: 0; }
     .card.card-default .comments {
       -webkit-user-select: initial;
       -moz-user-select: initial;
@@ -365,7 +374,15 @@ button, input[type="submit"], input[type="button"] {
         background: #fff2a8; }
       .card.card-default .comments .comment-input,
       .card.card-default .comments .comment .comment-input {
-        position: relative; }
+        position: relative;
+        display: flex;
+        flex-wrap: wrap; }
+        .card.card-default .comments .comment-input > *,
+        .card.card-default .comments .comment .comment-input > * {
+          flex-shrink: 0; }
+        .card.card-default .comments .comment-input .file-list,
+        .card.card-default .comments .comment .comment-input .file-list {
+          width: 100%; }
         .card.card-default .comments .comment-input #fn-note,
         .card.card-default .comments .comment .comment-input #fn-note {
           position: relative;

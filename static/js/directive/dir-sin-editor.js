@@ -59,16 +59,22 @@ app
 						caret: {},
 						blured: false,
 						value: contents,
-						style: style
+						style: style,
+						file: {
+							data : isEditing ? $scope.value.file : undefined,
+							removed : false
+						},
 					};
 				}
+
 				$scope.pushEntry = function(htmlText) {
 					if (!$scope.hash.constructed && !$scope.hash.hashing) {
 						htmlText = htmlText.replace(dummyCvtStringToSafeHtml, '');
 						var obj = {
 							id: $scope.value ? $scope.value.id : undefined,
 							text: htmlText,
-							model: $scope.entries ? $scope.entries : undefined
+							model: $scope.entries ? $scope.entries : undefined,
+							files: { data : $scope.files, origin: $scope.editor.file.data, removeOrigin : $scope.editor.file.removed }
 								/*
 								the key names (eg.'text') must sync with directive's
 								attirbute parameter of function 'submit'.
@@ -83,6 +89,7 @@ app
 							} else {
 								initEditor();
 							}
+							$scope.removeFile();
 						}
 					}
 				}
@@ -90,7 +97,7 @@ app
 				$scope.getFocus = function() {
 					var obj = {
 						model: $scope.entries ? $scope.entries : undefined
-					}
+					};
 					$scope.editorFocused(obj);
 					$scope.isFocused = true;
 				};
@@ -98,15 +105,35 @@ app
 				$scope.loseFocus = function() {
 					var obj = {
 						model: $scope.entries ? $scope.entries : undefined
-					}
+					};
 					$scope.editorBlured(obj);
 					$scope.isFocused = false;
 				};
 
 				$scope.uploadTest = function(files, file, newfiles, duplicatefiles, invalidfiles, event){
-					console.log(invalidfiles)
-				}
+					invalidfiles.forEach(function(file){
+						console.error(file.$error+' : '+file.$errorParam);
+					});
+					if(files){
+						$scope.editor.file.removed = true;
+					}
+				};
 
+				$scope.$watch('files', function(newVal, oldVal){
+					if(newVal && newVal.length>1){
+						var recentItem = newVal[newVal.length-1];
+						$scope.files = [recentItem];
+					}
+				})
+
+				$scope.$watch('editor.file.removed', function(newVal){
+					if(newVal == false){
+						$scope.removeFile();
+					}
+				});
+				$scope.removeFile = function(){
+					$scope.files = [];
+				}
 			},
 			templateUrl: '/partials/partial-editor-body.html',
 			link: function($scope, element, attrs) {

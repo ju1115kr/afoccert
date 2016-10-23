@@ -463,6 +463,12 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
       }
     }
     .body {
+      .file-list{
+        margin-bottom: 5px;
+        font-size: 12px;
+        text-align: right;
+        color: #999;
+      }
       -webkit-user-select: initial;
       padding: 16px 20px 26px;
       &::selection,
@@ -476,6 +482,14 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
         }
         &::selection {
           background: #fff2a8;
+        }
+      }
+    }
+    &.card-in-action{
+      .body{
+        padding: 0;
+        .file-list{
+          margin-bottom: 0;
         }
       }
     }
@@ -495,6 +509,14 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
       .comment-input,
       .comment .comment-input {
         position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        >*{
+          flex-shrink: 0;
+        }
+        .file-list{
+          width: 100%;
+        }
         #fn-note {
           position: relative;
           min-height: 30px;
@@ -635,11 +657,11 @@ news{
                     margin-right: 0;
                     text-align: right;
                 }
-                .news-info{
-                    position: relative;
-                    width: auto;
-                    left:0;
-                    margin-top:10px;
+                .news-info {
+                  position: relative;
+                  width: auto;
+                  left: 0;
+                  margin-top: 10px;
                 }
                 .body{
                     max-height: $height;

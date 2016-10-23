@@ -10,17 +10,56 @@ app
             news:"=model"
         },
         templateUrl: '/partials/partial-news.html',
-        controller: function($scope, $rootScope, $http, $sce, $uibModal, News, Comments, Reply, Global, Store, modalUtils, PopoverTrigger, deleteList){
+        controller: function($scope, $rootScope, $http, $sce, $uibModal, $q, News, Comments, Reply, Global, Store, modalUtils, PopoverTrigger, deleteList, Upload){
             /**
             * 뉴스 관련 함수
             */
             $scope.news.optionEnabled = ($scope.news.author==Global.user.userId);
 
-            $scope.editNewsEnd = function (id, text) {
+            $scope.news.getFile = function(){
+                News.fetchFile({
+                    newsId:$scope.news.id
+                }, downloadBlobFile);
+            };
+
+            function downloadBlobFile(file){
+                var url = URL.createObjectURL(new Blob([file.data]));
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = $scope.news.file;
+                a.target = '_blank';
+                a.click();
+            }
+
+            $scope.editNewsEnd = function (id, text, files) {
                 $scope.news.edit = false;
                 News.update(
                     {newsId: id}, {'context': text, 'tags':[]},
                     function (data, stauts, headers, config) {
+                        if(files.origin && files.removeOrigin){
+                            News.deleteFile({
+                                newsId: id
+                            }, function(unprocessedNews){
+                                $scope.news.file = '';
+                            })
+                        }
+                        var fileDeferred = $q.defer();
+                        if(files.data && files.data.length!==0) {
+                            var obj = {
+                                file: files.data[0]
+                            };
+                            Upload.upload({
+                                url: window.api_url + '/news/' + data.id + '/file',
+                                data: obj
+                            }).then(function (unprocessedNews) {
+                                fileDeferred.resolve(unprocessedNews.data);
+                            });
+                        }else{
+                            fileDeferred.resolve(data);
+                        }
+                        fileDeferred.promise.then(function(unprocessedNews){
+                            $scope.news.file = unprocessedNews.file;
+                        })
                     },
                     function (err) {
                         $scope.editNewsStart();
@@ -71,12 +110,28 @@ app
             /**
             *  comments
             */
-            $scope.addComment = function (text, model) {
+            $scope.addComment = function (text, model, files) {
                 Comments.toNews({newsId: model.newsId}, {'context': text}, function (data, headers) {
                     $http({method: 'GET', url: headers('Location')}).success(function (data, stauts, headers, config) {
-                        data.trustText = $sce.trustAsHtml(data.context);
-                        serializer(data, 'context', 'text');
-                        model.push(data);
+                        var fileDeferred = $q.defer();
+                        if(files.data && files.data.length!==0) {
+                            var obj = {
+                                file: files[0]
+                            };
+                            Upload.upload({
+                                url: window.api_url + '/comments/' + data.id + '/file',
+                                data: obj
+                            }).then(function (unprocessedComment) {
+                                fileDeferred.resolve(unprocessedComment.data);
+                            });
+                        }else{
+                            fileDeferred.resolve(data);
+                        }
+                        fileDeferred.promise.then(function(unprocessedComment){
+                            unprocessedComment.trustText = $sce.trustAsHtml(unprocessedComment.context);
+                            serializer(unprocessedComment, 'context', 'text');
+                            model.push(unprocessedComment);
+                        });
                     })
                 })
             }
@@ -110,13 +165,28 @@ app
                     comment.replies.commentId = comment.id;
                 }
 
-                $scope.addReplyToComment = function(text, model){
+                $scope.addReplyToComment = function(text, model, files){
                     Reply.toComment({commentId: model.commentId}, {'context': text}, function(data, headers){
                         $http({method: 'GET', url:headers('Location')}).success(function(data){
-                            serializer(data, 'context', 'text');
-                            data.trustText = $sce.trustAsHtml(data.text);
-                            data.recent = true;
-                            model.push(data);
+                            var fileDeferred = $q.defer();
+                            if(files && files.length!==0) {
+                                var obj = {
+                                    file: files[0]
+                                };
+                                Upload.upload({
+                                    url: window.api_url + '/comments/' + data.id + '/file',
+                                    data: obj
+                                }).then(function (unprocessedComment) {
+                                    fileDeferred.resolve(unprocessedComment.data);
+                                });
+                            }else{
+                                fileDeferred.resolve(data);
+                            }
+                            fileDeferred.promise.then(function(unprocessedComment){
+                                unprocessedComment.trustText = $sce.trustAsHtml(unprocessedComment.context);
+                                serializer(unprocessedComment, 'context', 'text');
+                                model.push(unprocessedComment);
+                            });
                         })
                     })
                 }

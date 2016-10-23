@@ -2,7 +2,7 @@
 
 angular.module('certApp')
 
-.controller('Tab1Ctrl',function ($scope, $sce, $rootScope, $uibModal, News, $http, $window, Comments, Reply, $q, Store, modalUtils, $timeout, Global, Tags) {
+.controller('Tab1Ctrl',function ($scope, $sce, $rootScope, $uibModal, News, $http, $window, Comments, Reply, $q, Upload) {
     $scope.newses = [];
     $scope.fetching = false;
     $scope.fetchedAll = false;
@@ -22,7 +22,20 @@ angular.module('certApp')
             var newsDeferred = $q.defer();
             News.query(
                 {page: startPage, per_page: 20},
+                /**
+                 * 신송내 파일 목록 불러오기
+                 * @param result
+                 */
                 function (result) {
+                    result.forEach(function(news){
+                        /*
+                        News.fetchFile({
+                            newsId:news.id
+                        }, function(file){
+                            console.log(file)
+                        })
+                        */
+                    })
                     $scope.newses = $scope.newses.concat(result);
                     newsDeferred.resolve(result);
                     $scope.fetching = false;
@@ -58,14 +71,29 @@ angular.module('certApp')
         }
     })
 
-    $scope.addNews = function (text, model) {
+    $scope.addNews = function (text, model, files) {
         var obj = {
             text: text
         };
         News.save({'context': obj.text, 'tags':[]}, function (data, headers) {
             $http({method: 'GET', url: headers('Location')}).success(function (data, stauts, headers, config) {
-                data = processingNews(data);
-                model.unshift(data);
+                var fileDeferred = $q.defer();
+                if(files.data && files.data.length!==0) {
+                    var obj = {
+                        file: files.data[0]
+                    };
+                    Upload.upload({
+                        url: window.api_url + '/news/' + data.id + '/file',
+                        data: obj
+                    }).then(function (unprocessedNews) {
+                        fileDeferred.resolve(unprocessedNews.data);
+                    });
+                }else{
+                    fileDeferred.resolve(data);
+                }
+                fileDeferred.promise.then(function(unprocessedNews){
+                    model.unshift(processingNews(unprocessedNews));
+                });
             })
         })
     };
