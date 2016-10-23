@@ -34,11 +34,6 @@ controller('IndexCtrl', function($scope, $rootScope, $location, RouteLinkProvide
                     icon: 'glyphicons glyphicons-inbox'
                 },
                 {
-                    name: '인포콘',
-                    link: 'tab2',
-                    icon: 'glyphicons glyphicons-skull'
-                },
-                {
                     name: '위키',
                     link: 'tab3',
                     icon: 'glyphicons glyphicons-book'

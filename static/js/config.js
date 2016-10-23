@@ -16,7 +16,6 @@ app.config(function($routeSegmentProvider, $routeProvider, $locationProvider, $a
 
         .when('/', 'index')
         .when('/tab1', 'index.tab1')
-        .when("/tab2", 'index.tab2')
         .when('/tab3', 'index.tab3')
         .when('/admin', 'index.admin')
         .when('/admin/tags', 'index.admin.tags')
@@ -31,10 +30,6 @@ app.config(function($routeSegmentProvider, $routeProvider, $locationProvider, $a
         .segment('tab1', {
             templateUrl: '/partials/partial-tab1.html',
             controller: 'Tab1Ctrl'
-        })
-        .segment('tab2', {
-            templateUrl: '/partials/partial-tab2.html',
-            controller: 'Tab2Ctrl'
         })
         .segment('tab3', {
             templateUrl: '/partials/partial-tab2.html',

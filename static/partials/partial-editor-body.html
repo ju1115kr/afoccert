@@ -6,7 +6,7 @@
 	 ngf-multiple="false"
 	 ngf-keep="'distinct'"
 	 ngf-allow-dir="false"
-	 ngf-pattern="'.pdf,.jpeg,.jpg,.png,.hwp,.cell,.xls,.xlsx,.csv,.txt,.ppt,.show'"
+	 ngf-pattern="'.png,.jpg,.jpeg,.gif,.bmp,.show,.cell,.xls,.xlsm,.xlsx,.csv,.ppt,.pptx,.doc,.docx,.hwp,.pdf,.txt'"
 	 ngf-change="uploadTest($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)">
 	<div class="dragtest">
 		<span class="glyphicons glyphicons-inbox-in"></span>
@@ -25,7 +25,7 @@
 	</div>
 	<footer class="sin-editor-footer">
 		<!-- <div class="hash-list"></div> -->
-		<div uib-dropdown is-open="status.isopen">
+		<div uib-dropdown is-open="status.isopen" ng-if="editorType!='inline'">
 			<button id="single-button" type="button" class="btn btn-primary btn-transparent" uib-dropdown-toggle>전체공개<span class="caret"></span></button>
 			<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="single-button">
 				<li><a href="#">dddsdfsdfsdfsdfsdsdfsdfsdfsdfsdfsdfsdf</a></li>
@@ -43,9 +43,6 @@
 		</li>
 		<li ng-repeat="f in files">{{f.progress}} {{f.name}} {{f.size|convertByte}} <a class="remove glyphicons glyphicons-remove-2" ng-click="removeFile()"></a></li>
 	</ul>
-	<!--<ul class="file-list" ng-if="editorType=='inline'" ng-class="{'empty' : !files}">-->
-		<!--<li ng-repeat="f in files" style="font:smaller">{{f.progress}} {{f.name}} {{f.size|convertByte}}KB {{f.$error}} {{f.$errorParam}}</li>-->
-	<!--</ul>-->
 	<div sin-typeahead sin-hash="hash" class="typeahead block shadow" ng-class="{show:hash.constructed}"></div>
 	<pre>{{log}}</pre>
 	<!--<img ng-repeat="file in files" ngf-src="!file.$error && file" draggable="false">-->
