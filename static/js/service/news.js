@@ -45,6 +45,19 @@ app.factory('News', function ($resource, $sce, $q) {
 		delete:{
 			method :'DELETE'
 		},
+		fetchFile: {
+			url : window.api_url+'/news/:newsId/file',
+			method: 'GET',
+			responseType: 'arraybuffer',
+			transformResponse : function(data, headers){
+				return {
+					data: data
+				}
+			}
+		},
+		deleteFile: {
+			url : window.api_url+'/news/:newsId/file',
+			method: 'DELETE'
+		}
 	});
-
 });

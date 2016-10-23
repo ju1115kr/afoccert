@@ -51,14 +51,14 @@
       line-height: 0.8; }
       .sin-editor button.btn.btn-lg, .sin-editor input[type="submit"].btn.btn-lg, .sin-editor input[type="button"].btn.btn-lg {
         height: 36px; }
-      .sin-editor button.btn.btn-sm, .sin-editor .sin-editor-inline ~ .sin-editor-footer button.btn, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-sm, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-sm, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="button"].btn {
+      .sin-editor button.btn.btn-sm, .sin-editor .sin-editor-inline + .sin-editor-footer button.btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-sm, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-sm, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn {
         height: 26px;
         line-height: 0.8;
         font-size: 12px; }
-      .sin-editor button.btn.btn-block, .sin-editor .sin-editor-inline ~ .sin-editor-footer button.btn, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-block, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-block, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="button"].btn {
+      .sin-editor button.btn.btn-block, .sin-editor .sin-editor-inline + .sin-editor-footer button.btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-block, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-block, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn {
         display: block;
         width: 100%; }
-      .sin-editor button.btn.btn-transparent, .sin-editor .sin-editor-inline ~ .sin-editor-footer button.btn, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-transparent, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-transparent, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="button"].btn {
+      .sin-editor button.btn.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer button.btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn {
         background: transparent !important;
         border: transparent !important; }
       .sin-editor button.btn.btn-default, .sin-editor input[type="submit"].btn.btn-default, .sin-editor input[type="button"].btn.btn-default {
@@ -69,33 +69,41 @@
         .sin-editor button.btn.btn-default:hover, .sin-editor input[type="submit"].btn.btn-default:hover, .sin-editor input[type="button"].btn.btn-default:hover {
           background: #f1f1f5;
           border-bottom: 1px solid #d4d4da; }
-        .sin-editor button.btn.btn-default.btn-transparent, .sin-editor .sin-editor-inline ~ .sin-editor-footer button.btn.btn-default, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer button.btn.btn-default, .sin-editor input[type="submit"].btn.btn-default.btn-transparent, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="submit"].btn.btn-default, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="submit"].btn.btn-default, .sin-editor input[type="button"].btn.btn-default.btn-transparent, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="button"].btn.btn-default, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="button"].btn.btn-default {
+        .sin-editor button.btn.btn-default.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer button.btn.btn-default, .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn.btn-default, .sin-editor input[type="submit"].btn.btn-default.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn.btn-default, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn.btn-default, .sin-editor input[type="button"].btn.btn-default.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn.btn-default, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn.btn-default {
           color: #232323; }
-      .sin-editor button.btn.btn-primary, .sin-editor .sin-editor-default ~ .sin-editor-footer button.btn, .sin-editor .sin-editor-inline ~ .sin-editor-footer button.btn, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-primary, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-primary, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="button"].btn {
+      .sin-editor button.btn.btn-primary, .sin-editor .sin-editor-default + .sin-editor-footer button.btn,
+      .sin-editor .sin-editor-inline + .sin-editor-footer button.btn,
+      .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-primary, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-primary, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn {
         background: #2ABB9B;
         border: 1px solid #2aae8e;
         transition: background .2s;
         color: #fff; }
-        .sin-editor button.btn.btn-primary:hover, .sin-editor .sin-editor-default ~ .sin-editor-footer button.btn:hover, .sin-editor .sin-editor-inline ~ .sin-editor-footer button.btn:hover, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer button.btn:hover, .sin-editor input[type="submit"].btn.btn-primary:hover, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="submit"].btn:hover, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="submit"].btn:hover, .sin-editor input[type="button"].btn.btn-primary:hover, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="button"].btn:hover, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="button"].btn:hover {
+        .sin-editor button.btn.btn-primary:hover, .sin-editor .sin-editor-default + .sin-editor-footer button.btn:hover,
+        .sin-editor .sin-editor-inline + .sin-editor-footer button.btn:hover,
+        .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn:hover, .sin-editor input[type="submit"].btn.btn-primary:hover, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn:hover, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn:hover, .sin-editor input[type="button"].btn.btn-primary:hover, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn:hover, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn:hover {
           background: #2aa888;
           border-bottom: 1px solid #299c7d; }
-        .sin-editor button.btn.btn-primary:disabled, .sin-editor .sin-editor-default ~ .sin-editor-footer button.btn:disabled, .sin-editor .sin-editor-inline ~ .sin-editor-footer button.btn:disabled, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer button.btn:disabled, .sin-editor input[type="submit"].btn.btn-primary:disabled, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="submit"].btn:disabled, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="submit"].btn:disabled, .sin-editor input[type="button"].btn.btn-primary:disabled, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="button"].btn:disabled, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="button"].btn:disabled {
+        .sin-editor button.btn.btn-primary:disabled, .sin-editor .sin-editor-default + .sin-editor-footer button.btn:disabled,
+        .sin-editor .sin-editor-inline + .sin-editor-footer button.btn:disabled,
+        .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn:disabled, .sin-editor input[type="submit"].btn.btn-primary:disabled, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn:disabled, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn:disabled, .sin-editor input[type="button"].btn.btn-primary:disabled, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn:disabled, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn:disabled {
           background-color: #30ddba !important;
           border-color: #30ddba !important; }
-        .sin-editor button.btn.btn-primary.btn-transparent, .sin-editor .sin-editor-default ~ .sin-editor-footer button.btn.btn-transparent, .sin-editor .sin-editor-inline ~ .sin-editor-footer button.btn, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-primary.btn-transparent, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-primary.btn-transparent, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="button"].btn {
+        .sin-editor button.btn.btn-primary.btn-transparent, .sin-editor .sin-editor-default + .sin-editor-footer button.btn.btn-transparent,
+        .sin-editor .sin-editor-inline + .sin-editor-footer button.btn,
+        .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-primary.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-primary.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn {
           color: #2ABB9B; }
-      .sin-editor button.btn.btn-warning, .sin-editor .sin-editor-default-edit ~ .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-warning, .sin-editor input[type="button"].btn.btn-warning {
+      .sin-editor button.btn.btn-warning, .sin-editor .sin-editor-default-edit + .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-warning, .sin-editor input[type="button"].btn.btn-warning {
         background: #F9BF3B;
         border: 1px solid #eeb43b;
         transition: background .2s;
         color: #fff; }
-        .sin-editor button.btn.btn-warning:hover, .sin-editor .sin-editor-default-edit ~ .sin-editor-footer button.btn:hover, .sin-editor input[type="submit"].btn.btn-warning:hover, .sin-editor input[type="button"].btn.btn-warning:hover {
+        .sin-editor button.btn.btn-warning:hover, .sin-editor .sin-editor-default-edit + .sin-editor-footer button.btn:hover, .sin-editor input[type="submit"].btn.btn-warning:hover, .sin-editor input[type="button"].btn.btn-warning:hover {
           background: #eeb43b;
           border-bottom: 1px solid #e1a839; }
-        .sin-editor button.btn.btn-warning:disabled, .sin-editor .sin-editor-default-edit ~ .sin-editor-footer button.btn:disabled, .sin-editor input[type="submit"].btn.btn-warning:disabled, .sin-editor input[type="button"].btn.btn-warning:disabled {
+        .sin-editor button.btn.btn-warning:disabled, .sin-editor .sin-editor-default-edit + .sin-editor-footer button.btn:disabled, .sin-editor input[type="submit"].btn.btn-warning:disabled, .sin-editor input[type="button"].btn.btn-warning:disabled {
           background-color: #ffc53b !important;
           border-color: #ffc53b !important; }
-        .sin-editor button.btn.btn-warning.btn-transparent, .sin-editor .sin-editor-inline ~ .sin-editor-footer button.btn.btn-warning, .sin-editor .sin-editor-inline ~ .sin-editor-footer .sin-editor-default-edit ~ .sin-editor-footer button.btn, .sin-editor .sin-editor-default-edit ~ .sin-editor-footer .sin-editor-inline ~ .sin-editor-footer button.btn, .sin-editor .sin-editor-default-edit ~ .sin-editor-footer button.btn.btn-transparent, .sin-editor .sin-editor-default-edit ~ .sin-editor-footer .sin-editor-inline-edit ~ .sin-editor-footer button.btn, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer .sin-editor-default-edit ~ .sin-editor-footer button.btn, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer button.btn.btn-warning, .sin-editor input[type="submit"].btn.btn-warning.btn-transparent, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="submit"].btn.btn-warning, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="submit"].btn.btn-warning, .sin-editor input[type="button"].btn.btn-warning.btn-transparent, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="button"].btn.btn-warning, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="button"].btn.btn-warning {
+        .sin-editor button.btn.btn-warning.btn-transparent, .sin-editor .sin-editor-default-edit + .sin-editor-footer button.btn.btn-transparent, .sin-editor .sin-editor-default-edit + .sin-editor-footer .sin-editor-inline + .sin-editor-footer button.btn, .sin-editor .sin-editor-inline + .sin-editor-footer .sin-editor-default-edit + .sin-editor-footer button.btn, .sin-editor .sin-editor-default-edit + .sin-editor-footer .sin-editor-inline-edit + .sin-editor-footer button.btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer .sin-editor-default-edit + .sin-editor-footer button.btn, .sin-editor .sin-editor-inline + .sin-editor-footer button.btn.btn-warning, .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn.btn-warning, .sin-editor input[type="submit"].btn.btn-warning.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn.btn-warning, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn.btn-warning, .sin-editor input[type="button"].btn.btn-warning.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn.btn-warning, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn.btn-warning {
           color: #f9bf3b; }
       .sin-editor button.btn.btn-info, .sin-editor input[type="submit"].btn.btn-info, .sin-editor input[type="button"].btn.btn-info {
         background: #699AE4;
@@ -108,7 +116,7 @@
         .sin-editor button.btn.btn-info:disabled, .sin-editor input[type="submit"].btn.btn-info:disabled, .sin-editor input[type="button"].btn.btn-info:disabled {
           background-color: #A1C6FF !important;
           border-color: #BCD4F9 !important; }
-        .sin-editor button.btn.btn-info.btn-transparent, .sin-editor .sin-editor-inline ~ .sin-editor-footer button.btn.btn-info, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer button.btn.btn-info, .sin-editor input[type="submit"].btn.btn-info.btn-transparent, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="submit"].btn.btn-info, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="submit"].btn.btn-info, .sin-editor input[type="button"].btn.btn-info.btn-transparent, .sin-editor .sin-editor-inline ~ .sin-editor-footer input[type="button"].btn.btn-info, .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer input[type="button"].btn.btn-info {
+        .sin-editor button.btn.btn-info.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer button.btn.btn-info, .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn.btn-info, .sin-editor input[type="submit"].btn.btn-info.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn.btn-info, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn.btn-info, .sin-editor input[type="button"].btn.btn-info.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn.btn-info, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn.btn-info {
           color: #568FE4; }
       .sin-editor button.btn .glyphicons, .sin-editor input[type="submit"].btn .glyphicons, .sin-editor input[type="button"].btn .glyphicons {
         margin-left: .3em;
@@ -342,6 +350,11 @@
       .sin-editor .card.card-default .body {
         -webkit-user-select: initial;
         padding: 16px 20px 26px; }
+        .sin-editor .card.card-default .body .file-list {
+          margin-bottom: 5px;
+          font-size: 12px;
+          text-align: right;
+          color: #999; }
         .sin-editor .card.card-default .body::selection,
         .sin-editor .card.card-default .body *::selection {
           background: #fff2a8; }
@@ -351,6 +364,10 @@
             background: none; }
           .sin-editor .card.card-default .body [contenteditable="true"]::selection {
             background: #fff2a8; }
+      .sin-editor .card.card-default.card-in-action .body {
+        padding: 0; }
+        .sin-editor .card.card-default.card-in-action .body .file-list {
+          margin-bottom: 0; }
       .sin-editor .card.card-default .comments {
         -webkit-user-select: initial;
         -moz-user-select: initial;
@@ -364,7 +381,15 @@
           background: #fff2a8; }
         .sin-editor .card.card-default .comments .comment-input,
         .sin-editor .card.card-default .comments .comment .comment-input {
-          position: relative; }
+          position: relative;
+          display: flex;
+          flex-wrap: wrap; }
+          .sin-editor .card.card-default .comments .comment-input > *,
+          .sin-editor .card.card-default .comments .comment .comment-input > * {
+            flex-shrink: 0; }
+          .sin-editor .card.card-default .comments .comment-input .file-list,
+          .sin-editor .card.card-default .comments .comment .comment-input .file-list {
+            width: 100%; }
           .sin-editor .card.card-default .comments .comment-input #fn-note,
           .sin-editor .card.card-default .comments .comment .comment-input #fn-note {
             position: relative;
@@ -943,43 +968,59 @@
     position: relative;
     display: flex;
     justify-content: flex-end; }
-  .sin-editor .sin-editor-default ~ .sin-editor-footer {
-    border-top: 1px solid #f1f1f5;
-    padding: 6px 15px; }
-    .sin-editor .sin-editor-default ~ .sin-editor-footer .hash-list {
-      float: left;
-      width: calc(100% - 100px);
-      padding: 0 10px;
-      height: 100%;
-      text-align: left;
-      line-height: 2; }
-    .sin-editor .sin-editor-default ~ .sin-editor-footer button {
-      width: 100px; }
-  .sin-editor .sin-editor-inline {
-    float: left;
-    width: calc(100% - 55px);
-    margin-right: 5px; }
-    .sin-editor .sin-editor-inline ~ .sin-editor-footer {
-      float: left;
-      width: 45px; }
-  .sin-editor .sin-editor-default-edit ~ .sin-editor-footer {
+  .sin-editor .sin-editor-default + .sin-editor-footer,
+  .sin-editor .sin-editor-default-edit + .sin-editor-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     border-top: 1px solid #f1f1f5;
     text-align: right;
-    padding: 6px 15px;
-    margin-bottom: -25px; }
-    .sin-editor .sin-editor-default-edit ~ .sin-editor-footer .hash-list {
-      float: left;
-      width: calc(100% - 100px);
-      padding: 0 10px;
-      height: 100%;
-      text-align: left; }
-    .sin-editor .sin-editor-default-edit ~ .sin-editor-footer button {
-      width: 100px; }
+    padding: 6px 15px; }
+    .sin-editor .sin-editor-default + .sin-editor-footer + .file-list,
+    .sin-editor .sin-editor-default-edit + .sin-editor-footer + .file-list {
+      padding: 5px 20px;
+      font-size: 12px;
+      color: #999;
+      text-align: right; }
+      .sin-editor .sin-editor-default + .sin-editor-footer + .file-list.empty,
+      .sin-editor .sin-editor-default-edit + .sin-editor-footer + .file-list.empty {
+        padding: 0 !important; }
+      .sin-editor .sin-editor-default + .sin-editor-footer + .file-list .removed,
+      .sin-editor .sin-editor-default-edit + .sin-editor-footer + .file-list .removed {
+        text-decoration: line-through; }
+  .sin-editor .sin-editor-default + .sin-editor-footer button,
+  .sin-editor .sin-editor-inline + .sin-editor-footer button,
+  .sin-editor .sin-editor-inline-edit + .sin-editor-footer button {
+    width: 100px; }
+  .sin-editor .sin-editor-default + .sin-editor-footer a:hover, .sin-editor .sin-editor-default + .sin-editor-footer + * a:hover,
+  .sin-editor .sin-editor-inline + .sin-editor-footer a:hover,
+  .sin-editor .sin-editor-inline + .sin-editor-footer + * a:hover,
+  .sin-editor .sin-editor-inline-edit + .sin-editor-footer a:hover,
+  .sin-editor .sin-editor-inline-edit + .sin-editor-footer + * a:hover {
+    color: #2ABB9B !important; }
+  .sin-editor .sin-editor-default-edit + .sin-editor-footer button {
+    width: 100px; }
+  .sin-editor .sin-editor-default-edit + .sin-editor-footer a:hover, .sin-editor .sin-editor-default-edit + .sin-editor-footer + * a:hover {
+    color: #F9BF3B !important; }
+  .sin-editor .sin-editor-inline {
+    width: calc(100% - 55px);
+    margin-right: 5px; }
+    .sin-editor .sin-editor-inline + .sin-editor-footer {
+      width: 45px; }
+      .sin-editor .sin-editor-inline + .sin-editor-footer + .file-list {
+        padding: 5px 20px;
+        font-size: 12px;
+        color: #999;
+        text-align: right; }
+        .sin-editor .sin-editor-inline + .sin-editor-footer + .file-list.empty {
+          padding: 0 !important; }
+        .sin-editor .sin-editor-inline + .sin-editor-footer + .file-list .removed {
+          text-decoration: line-through; }
   .sin-editor .sin-editor-inline-edit {
     float: left;
     width: calc(100% - 55px);
     margin-right: 5px; }
-    .sin-editor .sin-editor-inline-edit ~ .sin-editor-footer {
+    .sin-editor .sin-editor-inline-edit + .sin-editor-footer {
       float: left;
       width: 45px; }
   .sin-editor::before, .sin-editor::after {

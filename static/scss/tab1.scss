@@ -85,3 +85,13 @@
 		background: red;
 	}
 }
+
+.comment-input{
+	&.dragover{
+		.dragtest{
+			.glyphicons{
+				display: none;
+			}
+		}
+	}
+}

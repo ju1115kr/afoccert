@@ -27,52 +27,66 @@
 		display: flex;
 		justify-content: flex-end;
 	}
-	.sin-editor-default{
-		&~.sin-editor-footer{
-			border-top: 1px solid #f1f1f5;
-			padding: 6px 15px;
-			.hash-list{
-				float: left;
-				width: calc(100% - 100px);
-				padding: 0 10px;
-				height: 100%;
-				text-align: left;
-				line-height: 2;
+	.sin-editor-default + .sin-editor-footer,
+	.sin-editor-default-edit + .sin-editor-footer{
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		border-top: 1px solid #f1f1f5;
+		text-align: right;
+		padding: 6px 15px;
+		&+.file-list{
+			padding: 5px 20px;
+			font-size: 12px;
+			color: #999;
+			text-align: right;
+			&.empty{
+				padding: 0 !important;
 			}
-			button{
-				@extend .btn-primary;
-				width: 100px;
+			.removed{
+				text-decoration: line-through;
 			}
 		}
 	}
+	.sin-editor-default + .sin-editor-footer,
+	.sin-editor-inline +  .sin-editor-footer,
+	.sin-editor-inline-edit +  .sin-editor-footer{
+		button {
+			@extend .btn-primary;
+			width: 100px;
+		}
+		a:hover, &+* a:hover{
+			color: #2ABB9B !important;
+		}
+	}
+	.sin-editor-default-edit + .sin-editor-footer{
+		button{
+			@extend .btn-warning;
+			width: 100px;
+		}
+		a:hover, &+* a:hover{
+			color: #F9BF3B !important;
+		}
+	}
 	.sin-editor-inline {
-		float: left;
 		width: calc(100% - 55px);
 		margin-right: 5px;
-		&~.sin-editor-footer{
-			float: left;
+		&+.sin-editor-footer{
 			width : 45px;
 			.btn{
 				@extend .btn-primary, .btn-transparent, .btn-block, .btn-sm;
 			}
-		}
-	}
-	.sin-editor-default-edit {
-		&~.sin-editor-footer{
-			border-top: 1px solid #f1f1f5;
-			text-align: right;
-			padding: 6px 15px;
-			margin-bottom: -25px;
-			.hash-list{
-				float: left;
-				width: calc(100% - 100px);
-				padding: 0 10px;
-				height: 100%;
-				text-align: left;
-			}
-			button{
-				@extend .btn-warning;
-				width: 100px;
+			&+.file-list{
+				padding: 5px 20px;
+				font-size: 12px;
+				color: #999;
+				text-align: right;
+				&.empty{
+					padding: 0 !important;
+				}
+				.removed{
+					text-decoration: line-through;
+				}
 			}
 		}
 	}
@@ -80,7 +94,7 @@
 		float: left;
 		width: calc(100% - 55px);
 		margin-right: 5px;
-		&~.sin-editor-footer{
+		&+.sin-editor-footer{
 			float: left;
 			width : 45px;
 			.btn{

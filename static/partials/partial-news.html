@@ -10,8 +10,16 @@
             <span class="glyphicons glyphicons-more"></span>
         </a>
     </div>
-    <div class="body ng-animate-disabled" ng-bind-html="news.trustText" ng-if="!news.edit"></div>
-    <sin-editor class="body ng-animate-disabled" sin-class="" value="news" sin-submit="editNewsEnd(id, text)" ng-if="news.edit" sin-autofocus="true" sin-mode="default-edit"></sin-editor>
+    <div class="body ng-animate-disabled">
+        <div class="file-list" ng-if="news.file && !news.edit">
+            <a ng-click="news.getFile()">
+                <span class="glyphicons glyphicons-download-alt"></span>
+                {{news.file}}
+            </a>
+        </div>
+        <div ng-bind-html="news.trustText" ng-if="!news.edit"></div>
+    </div>
+    <sin-editor class="body ng-animate-disabled" sin-class="" value="news" sin-submit="editNewsEnd(id, text, files)" ng-if="news.edit" sin-autofocus="true" sin-mode="default-edit"></sin-editor>
     <div class="comments" ng-if="!news.edit" ng-animate="{leave:'animate-leave', enter : 'animate-enter'}">
         <loading ng-if="news.fetchingComment" size="40"></loading>
         <ul ng-if="!news.fetchingComment">
@@ -21,6 +29,12 @@
                         {{comment.author_name}}
                         <a class="options glyphicons glyphicons-remove-2 btn ng-animate-disabled pull-right" ng-if="!comment.edit" ng-click="deleteComment(comment)"></a>
                     </figure>
+                    <div class="file-list" ng-if="comment.file && !comment.edit">
+                        <a ng-click="comment.getFile()">
+                            <span class="glyphicons glyphicons-download-alt"></span>
+                            {{comment.file}}
+                        </a>
+                    </div>
                     <article ng-if="!comment.edit">
                         <span ng-bind-html="comment.trustText"></span>
                         <a class="options glyphicons glyphicons-pencil btn ng-animate-disabled" ng-click="editCommentStart(comment)"></a>
@@ -38,6 +52,12 @@
                                 {{reply.author_name}}
                                 <a class="options glyphicons glyphicons-remove-2 btn ng-animate-disabled pull-right" ng-if="!comment.edit" ng-click="deleteReply(reply)"></a>
                             </figure>
+                            <div class="file-list" ng-if="reply.file && !reply.edit">
+                                <a ng-click="reply.getFile()">
+                                    <span class="glyphicons glyphicons-download-alt"></span>
+                                    {{reply.file}}
+                                </a>
+                            </div>
                             <article ng-if="!reply.edit">
                                 <span ng-bind-html="reply.trustText"></span>
                                 <a class="options glyphicons glyphicons-pencil btn ng-animate-disabled" ng-click="editReplyStart(reply)"></a>
@@ -45,10 +65,10 @@
                             <sin-editor sin-class="edit" class="ng-animate-disabled" value="reply" sin-autofocus="true" sin-submit="editReplyEnd(id, text)" ng-if="reply.edit" sin-mode="inline-edit"></sin-editor>
                         </li>
                     </ul>
-                    <sin-editor class="comment-input" class="ng-animate-disabled" sin-autofocus="true" sin-entries="comment.replies" sin-submit="addReplyToComment(text,model)" ng-if="comment.replyDisplay" sin-mode="inline"></sin-editor>
+                    <sin-editor class="comment-input" class="ng-animate-disabled" sin-autofocus="true" sin-entries="comment.replies" sin-submit="addReplyToComment(text,model,files)" ng-if="comment.replyDisplay" sin-mode="inline"></sin-editor>
                 </section>
             </li>
         </ul>
-        <sin-editor class="comment-input" sin-entries="news.comments" sin-submit="addComment(text,model)" sin-mode="inline"></sin-editor>
+        <sin-editor class="comment-input" sin-entries="news.comments" sin-submit="addComment(text,model,files)" sin-mode="inline"></sin-editor>
     </div>
 </article>
