@@ -1,3 +1,0 @@
-Date.prototype.format = function(){
-	
-}

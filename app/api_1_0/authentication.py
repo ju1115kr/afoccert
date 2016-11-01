@@ -3,7 +3,7 @@ from flask import jsonify, g, request, current_app
 from flask.ext.httpauth import HTTPBasicAuth
 from . import api
 from errors import unauthorized, not_found, bad_request
-from ..models import User
+
 
 auth = HTTPBasicAuth()
 
@@ -20,6 +20,7 @@ def before_request():
 
 @auth.verify_password
 def verify_password(username_or_token, password):
+    from ..models import User
     if username_or_token == '':  # TODO: 익명 로그인 허용시 구현될 부분
         return False
     if password == '':  # Token Authentication
@@ -41,3 +42,9 @@ def get_token():
         return bad_request('token is already given')
     return jsonify({'token': g.current_user.generate_auth_token(g.current_user, expiration=3600),
                     'expiration': 3600}), 200
+
+
+
+
+
+    
