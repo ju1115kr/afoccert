@@ -44,7 +44,7 @@ body{
 	#searchBar-wrap{
 		position: relative;
 		max-width: 300px;
-		width: calc(100% - 300px);
+		width: calc(100% - 400px);
 		color: white;
 		#searchBar{
 			border: none;
@@ -83,8 +83,15 @@ body{
 			border-radius: 20px;
 			text-align: center;
 			transition: background .2s;
+			&:after{
+				display: block;
+				content:'';
+				height:4px;
+			}
 			&:hover{
-				background: rgba(255,255,255,0.3);
+				&:after{
+					background: rgba(255,255,255,0.5);
+				}
 			}
 		}
 	}

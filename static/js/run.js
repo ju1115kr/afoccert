@@ -104,7 +104,7 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 			})
 		},500);
 	};
-	function breakDeay (){
+	function breakDelay (){
 		$rootScope.searchBar.loading = true;
 		clearTimeout(timeout);
 	}
@@ -114,7 +114,7 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 			$rootScope.searchBar.hide = true;
 		} else {
 			$rootScope.searchBar.hide = false;
-			breakDeay();
+			breakDelay();
 			setDelay();
 		}
 	})

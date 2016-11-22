@@ -144,6 +144,7 @@ controller('IndexCtrl', function($scope, $rootScope, $location, RouteLinkProvide
     $rootScope.interface = {
         dracula : false
     }
+
 }).
 controller('helloCtrl',function($scope, $popoverInstance, Init){
     $scope.message = Init;
