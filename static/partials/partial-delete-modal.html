@@ -6,7 +6,7 @@
 <ul class="aside-body">
     <li ng-repeat="trash in deleteList track by $index" ng-if="!trash.deleted">
     	<b>{{trash.author}}</b>
-    	<a class="glyphicons glyphicons-remove-2 pull-right btn" ng-click="delete(trash)"></a>
+    	<a class="glyphicons glyphicons-undo pull-right btn" ng-click="delete(trash)">복원</a>
     	<div ng-bind-html="trash.trustText"></div>
     </li>
 </ul>
