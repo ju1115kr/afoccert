@@ -27,14 +27,26 @@ angular.module('certApp')
 
     $scope.createdGroup = {
         name:'',
-        users:[]
+        users:[],
+        error:false
     }
 
     $scope.selectedGroup = null;
 
     $scope.submitGroup = function() {
         if($scope.createdGroup.name.length!==0){
-            $scope.selectedGroup = $scope.createdGroup;
+            var pos=-1;
+            $scope.groups.forEach(function(g,i){
+                if(g.name == $scope.createdGroup.name){
+                    pos = i;
+                }
+            })
+            if(pos==-1){
+                $scope.createdGroup.error = false;
+                $scope.selectedGroup = $scope.createdGroup;
+            }else{
+                $scope.createdGroup.error = true;
+            }
         }
     }
 
@@ -42,7 +54,7 @@ angular.module('certApp')
         var ret = -1;
         if(group && group.users){
             group.users.forEach(function(u, i){
-                if(u == user){
+                if(u.username == user.username){
                     ret = i;
                 }
             })
@@ -53,7 +65,7 @@ angular.module('certApp')
     $scope.indexOfGroups = function(group){
         var ret = -1;
         $scope.groups.forEach(function(g, i){
-            if(g == group){
+            if(g.name == group.name){
                 ret = i;
             }
         })
@@ -64,7 +76,6 @@ angular.module('certApp')
         var i = $scope.indexOfGroup(user, group);
         if(i==-1){
             group.users.push(user);
-            console.log(group.users);
         }else{
             group.users.splice(i,1);
         }
@@ -73,7 +84,8 @@ angular.module('certApp')
     $scope.unselectGroup = function() {
         $scope.createdGroup = {
             name:'',
-            users:[]
+            users:[],
+            error: false
         };
         $scope.selectedGroup = null;
     };
@@ -95,18 +107,21 @@ angular.module('certApp')
         })
         */
         $timeout(function(){
-            if($scope.indexOfGroups($scope.selectedGroup)==-1) {
+            var pos = $scope.indexOfGroups($scope.selectedGroup);
+            if(pos==-1) {
                 $scope.groups.push({
                     'name': $scope.selectedGroup.name,
                     'description': '',
                     'users': $scope.selectedGroup.users
                 });
+            }else{
+                $scope.groups[pos] = $scope.selectedGroup;
             }
             $scope.unselectGroup();
         })
     }
 
     $scope.configGroup = function(group){
-        $scope.selectedGroup = group;
+        $scope.selectedGroup = angular.copy(group);
     }
 })

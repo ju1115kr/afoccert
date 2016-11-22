@@ -74,7 +74,7 @@
       @include drop-shadow(0.3);
       .title{
         overflow: hidden;
-        text-overflow: break-word;
+        word-break: break-word;
       }
     }
     .aside-body{

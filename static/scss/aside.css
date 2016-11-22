@@ -58,7 +58,7 @@
       -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
       .aside.info header .title {
         overflow: hidden;
-        text-overflow: break-word; }
+        word-break: break-word; }
     .aside.info .aside-body form {
       padding: 0 5px; }
     .aside.info .aside-body input.transparent {
