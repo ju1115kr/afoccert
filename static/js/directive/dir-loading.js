@@ -7,7 +7,8 @@ app.directive('loading',function(){
 		restrict : 'E',
 		scope: {
 			isLoading: "=",
-			size: "="
+			size: "=",
+			color: "="
 		},
 		replace: true,
 		template: '<canvas id="loading-target" width="0" height="0"></canvas>',
@@ -25,7 +26,7 @@ app.directive('loading',function(){
 				var size = $scope.size;
 				bg.width = bg.height = size;
 				ctx.beginPath();
-				ctx.strokeStyle = '#a2ded0';
+				ctx.strokeStyle = $scope.color || '#a2ded0';
 				ctx.lineCap = 'square';
 				ctx.closePath();
 				ctx.fill();

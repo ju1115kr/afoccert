@@ -58,6 +58,12 @@
 		a:hover, &+* a:hover{
 			color: #2ABB9B !important;
 		}
+		&+.file-list{
+
+			.removed{
+				text-decoration: line-through;
+			}
+		}
 	}
 	.sin-editor-default-edit + .sin-editor-footer{
 		button{
@@ -134,4 +140,12 @@
 
 #hash-form {
 	display: inline-block;
+}
+
+/* black theme */
+.dracula{
+	.sin-editor-default + .sin-editor-footer,
+	.sin-editor-default-edit + .sin-editor-footer{
+		border-top: 1px solid #797979;
+	}
 }

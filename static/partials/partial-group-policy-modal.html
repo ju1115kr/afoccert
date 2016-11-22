@@ -1,0 +1,46 @@
+<a class="close btn pull-right glyphicons glyphicons-remove-2" ng-click="$close()"></a>
+<header>
+    <div ng-hide="selectedGroup!=null">
+        <h2 class="title">공개 범위 설정</h2>
+        <h5>페이지를 이동하면 초기화됩니다</h5>
+    </div>
+    <div ng-show="selectedGroup!=null">
+        <h2 class="title">{{selectedGroup.name}}</h2>
+        <h5>다음 사용자들이 열람할 수 있게 합니다.</h5>
+    </div>
+</header>
+<ul class="aside-body">
+    <div class="slider-wrapper">
+    <div class="horizontal-slider" ng-class="{'onConfig':selectedGroup}">
+        <section ng-if="selectedGroup==null" class="prev">
+            <form class="form-flex fixed top" ng-submit="submitGroup()"  ng-if="groupFetched">
+                <input class="form-input transparent" type="text" ng-model="createdGroup.name" placeholder="그룹명">
+                <button type="submit" class="btn btn-info" ng-disabled="createdGroup.name.length==0"><span class="glyphicons glyphicons-plus"></span></button>
+            </form>
+            <ul>
+                <li ng-repeat="group in groups" ng-click="configGroup(group)">
+                    <span class="glyphicons glyphicons-star"></span>{{group.name}}</li>
+                <li class="unselectable" ng-if="!groupFetched">
+                    <loading size="100" color="'#3b63d2'"></loading>
+                </li>
+                <li class="unselectable" ng-if="groupFetched && groups.length==0">아직 그룹이 없네요!<br>생성해 보세요!</li>
+            </ul>
+        </section>
+        <section ng-if="selectedGroup!=null" class="next">
+            <ul>
+                <li ng-repeat="user in users"
+                    ng-class="{'selected':indexOfGroup(user, selectedGroup)!=-1}"
+                    ng-click="toggleMember(user, selectedGroup)">
+                    <span>{{user.realname}}</span>
+                    <span class="glyphicons glyphicons-vector-path-circle" ng-hide="indexOfGroup(user, selectedGroup)!=-1"></span>
+                    <span class="glyphicons glyphicons-circle-ok" ng-hide="indexOfGroup(user, selectedGroup)==-1"></span>
+                </li>
+            </ul>
+        </section>
+    </div>
+    </div>
+</ul>
+<footer ng-if="selectedGroup">
+        <button class="btn btn-default" ng-click="unselectGroup()">이전</button>
+        <button class="btn btn-info" ng-click="saveGroup()">확인</button>
+</footer>

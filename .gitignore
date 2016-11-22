@@ -9,3 +9,4 @@ static/js/api.js
 app/data-test.sqlite
 nohup*
 migrations/*
+.idea

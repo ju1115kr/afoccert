@@ -1,3 +1,4 @@
+@import "variable";
 $header-z : 1000;
 $nav-z : 999;
 $criticalWidth : 1280px;
@@ -15,34 +16,33 @@ body{
 	width: calc(100% - #{$reduce});
 }
 #header{
+	display: flex;
 	position: fixed;
 	top :0;
 	left:0;
-	background: #2ABB9B;
+	background: linear-gradient(to right, #2ABB9B 0%, #b2d27f 100%);
 	width: 100%;
-	height: 50px;
+	height: 40px;
 	color: white;
 	box-sizing: border-box;
-	padding: 5px 10px;
-	line-height : 30px;
 	z-index:$header-z;
 	font-size: 18px;
 	#header-wrapper{
 		display: flex;
 		justify-content: space-between;
-		margin-left:400px;
+		align-items: center;
+		flex-shrink: 0;
+		flex-grow:1;
+		margin-left:410px;
 	}
 	&.enter-searchResult{
 		@extend .state-searchResult;
 		#header-wrapper{
-			margin-left:0;
+			margin-left: 10px;
 		}
 	}
 	#searchBar-wrap{
-		float: left;
 		position: relative;
-		margin-right: 500px;
-		margin-top: 4px;
 		max-width: 300px;
 		width: calc(100% - 300px);
 		color: white;
@@ -50,7 +50,7 @@ body{
 			border: none;
 			background: #299C7D;
 			border-radius: 20px;
-	    	padding: 6px 15px;
+	    	padding: 4px 15px;
 	    	margin: 0;
 	    	color: white;
 	    	&:focus{
@@ -68,7 +68,7 @@ body{
 		}
 	}
 	#glb{
-		float: right;
+		font-size: 16px;
 		li{
 			a{
 				display: block;
@@ -84,7 +84,7 @@ body{
 			text-align: center;
 			transition: background .2s;
 			&:hover{
-				background: #68C3A3;
+				background: rgba(255,255,255,0.3);
 			}
 		}
 	}
@@ -107,6 +107,7 @@ body{
 
 
 #main-nav{
+	display: none;
 	position: fixed;
 	left: 0;
 	top:0;
@@ -156,8 +157,7 @@ body{
 }
 
 #content-area{
-	padding:50px 0 0 0;
-	background: #f1f1f1;
+	padding:50px 0;
 	>#main{
 		position:relative;
 		width: 600px;
@@ -241,9 +241,9 @@ body{
 	background: #fff;
 	header{
 		background: #4183d7;
-		height: 50px;
+		height: $header-height;
 		text-align: center;
-		line-height: 50px;
+		line-height: 40px;
 		color: white;
         &.loading{
             background: #84B7F9;
@@ -320,7 +320,38 @@ body{
 	}
 	#content-area{
 		>#main{
-			left: $nav-width;
+			left: 30px;
+		}
+	}
+}
+
+/* black theme */
+body{
+	&.dracula{
+		background: #737373;
+		#searchResult{
+			background: #555;
+			header{
+				background-color: #7fa3d2;
+				&.loading{
+					background-color: #98bdec;
+				}
+			}
+			aside{
+				li{
+					background-color: #4a4a4a;
+					border-bottom-color: #797979;
+					color: #e1e1e7;
+					div.index{
+						color: #7fa3d2;
+						border-bottom-color: #797979;
+					}
+					&:hover:before,
+					&.selected:before{
+						background: #7fa3d2;
+					}
+				}
+			}
 		}
 	}
 }

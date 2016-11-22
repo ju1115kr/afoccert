@@ -57,15 +57,18 @@ controller('IndexCtrl', function($scope, $rootScope, $location, RouteLinkProvide
     $scope.popoverToggle = $scope.popover.toggle;
 
     $scope.global = Global;
-    if(!$scope.global.isLoggedIn()){
+    if($scope.global.isLoggedIn()){
         $location.path('/tab1')
     }
-    $scope.user = {
-        id:'',
-        pw:'',
-        pwcf:'',
-        name:'',
-        loading:false
+    $scope.signInit = function(){
+        $scope.user = {
+            id:'',
+            pw:'',
+            pwcf:'',
+            name:'',
+            loading:false,
+            error:false
+        }
     }
     $scope.signupForm = false;
     $scope.signin = function(){
@@ -74,11 +77,12 @@ controller('IndexCtrl', function($scope, $rootScope, $location, RouteLinkProvide
             $scope.user.id,
             $scope.user.pw,
             function(){
+                $scope.signInit();
                 $location.path('/tab1')
-                $scope.user.loading = false;
             },
             function(){
                 $scope.user.loading = false;
+                $scope.user.error = true;
             }
         );
     }
@@ -137,6 +141,9 @@ controller('IndexCtrl', function($scope, $rootScope, $location, RouteLinkProvide
 
     };
 
+    $rootScope.interface = {
+        dracula : false
+    }
 }).
 controller('helloCtrl',function($scope, $popoverInstance, Init){
     $scope.message = Init;

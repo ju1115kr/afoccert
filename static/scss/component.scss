@@ -26,7 +26,7 @@ input{
     &:focus{
       border-bottom: 1px solid #4d92e7;
       font-size: 16px;
-      margin-bottom: 7px;
+      margin-bottom: 10px;
     }
     &.lg{
       height: 40px;
@@ -138,6 +138,23 @@ button,input[type="submit"],input[type="button"]{
       }
        &.btn-transparent{
         color : #568FE4;
+      }
+    }
+    &.btn-danger {
+      background: #E2747D;
+      border: 1px solid #d08a8b;
+      transition: background .2s;
+      color: #fff;
+      &:hover{
+        background: #c06062;
+        border-bottom: 1px solid #c06062;
+      }
+      &:disabled{
+        background-color: #f98486 !important;
+        border-color:#f98486 !important;
+      }
+      &.btn-transparent{
+        color : #c06062;
       }
     }
     .glyphicons{
@@ -446,7 +463,6 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
   transition: all .2s;
   &.card-default {
     background: #ffffff;
-    border: 1px solid #e0e0eb;
     border-bottom: 2px solid #e1e1e7;
     .title {
       padding: 5px 3px;
@@ -470,7 +486,7 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
         color: #999;
       }
       -webkit-user-select: initial;
-      padding: 16px 20px 26px;
+      padding: 12px 20px 26px;
       &::selection,
       *::selection {
         background: #fff2a8;
@@ -478,7 +494,7 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
       [contenteditable="true"] {
         background: #fff2a8;
         &:focus {
-          background: none;
+          background: none !important;
         }
         &::selection {
           background: #fff2a8;
@@ -502,10 +518,13 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
       *::selection {
         background: #fff2a8;
       }
-      padding: 8px 10px 8px 20px;
-      border-top: 2px solid #f1f1f5;
+      padding: 8px;
       background: #f6f6f9;
-      //			backface-visibility: hidden !important;
+      color: #555;
+      .file-list{
+        color:#ddd;
+        width: 100%;
+      }
       .comment-input,
       .comment .comment-input {
         position: relative;
@@ -513,9 +532,6 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
         flex-wrap: wrap;
         >*{
           flex-shrink: 0;
-        }
-        .file-list{
-          width: 100%;
         }
         #fn-note {
           position: relative;
@@ -533,7 +549,11 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
       }
       .comment {
         font-size: 12px;
-        margin-bottom: 12px;
+        padding: 4px 4px 4px 12px;
+        margin-bottom: 5px;
+        &:hover{
+          background: #f0f0f4;
+        }
           .usertag{
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -541,6 +561,14 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
             user-select: none;
             font-weight: 800;
           }
+        .file-list{
+          color:#299c7d;
+          width: 100%;
+          text-align: right;
+          &:hover{
+            color: #2eb38f;
+          }
+        }
           .area-comment{
             .options{
               visibility: hidden;
@@ -574,6 +602,7 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
                 color: #ccc;
               }
               &:hover {
+                border-left-color: #2ABB9B;
                 .options{
                   visibility: visible;
                 }
@@ -649,6 +678,10 @@ news{
                 width: 720px;
                 max-height: $height;
                 min-height: 200px;
+              .content-wrapper{
+                display: flex;
+                flex-grow: 1;
+              }
                 .title{
                     display: flex;
                     flex-direction: column;
@@ -656,6 +689,7 @@ news{
                     flex-shrink: 0;
                     margin-right: 0;
                     text-align: right;
+                  border-bottom: none;
                 }
                 .news-info {
                   position: relative;
@@ -797,14 +831,9 @@ news{
 
 .modal-backdrop {
   position: fixed;
-  //width: 100%;
-  //height:100%;
   left: 0;
   top: 0;
   background: rgba(150, 150, 150, 0.5);
-  &.aside {
-    background: none;
-  }
 }
 .modal {
   @import "base.scss";
@@ -851,97 +880,8 @@ news{
       }
     }
   }
-  &.aside {
-    position: fixed;
-    width: 300px;
-    height: calc(100% - 50px);
-    left: 0;
-    top: 50px;
-    .modal-dialog {
-      background: #ffffff;
-      position: relative;
-      top:0;
-      left:0;
-      width: 100%;
-      height: 100%;
-      margin-left:0;
-      padding: 15px 20px;
-      transform: translate(0%);
-      text-align: center;
-      .modal-content {
-        height: 100%;
-        header {
-          height: 50px;
-          border-bottom: 1px solid #f1f1f5;
-          font-weight: 800;
-        }
-        .aside-body {
-          height: calc(100% - 110px);
-          padding: 5px 15px;
-          text-overflow: ellipsis;
-          word-wrap: break-word;
-          li {
-            display: block;
-            min-height: 40px;
-            border-bottom: 1px solid #f1f1f5;
-            padding: 5px 10px;
-          }
-        }
-        footer {
-          height: 60px;
-          padding: 10px;
-          border-top: 1px solid #e1e1e7;
-        }
-      }
-    }
-    &.fade {
-      opacity: 1;
-      transform: translateX(-300px);
-      transition: transform .2s ease-in-out;
-      &.in {
-        transform: translateX(0px);
-      }
-    }
-  }
 }
 
-.aside {
-  position: fixed;
-  width: 300px;
-  height: calc(100% - 50px);
-  left: 0;
-  top: 50px;
-  background: #ffffff;
-  header{
-    height: 50px;
-    border-bottom: 1px solid #f1f1f5;
-    font-weight: 800;
-  }
-  .aside-body {
-    height: calc(100% - 110px);
-    padding: 5px 15px;
-      li {
-        display: block;
-        min-height: 40px;
-        border-bottom: 1px solid #f1f1f5;
-        padding: 5px 10px;
-      }
-  }
-  footer {
-    height: 60px;
-    padding: 10px;
-    border-top: 1px solid #e1e1e7;
-  }
-
-  &.ng-enter {
-    opacity: 1;
-    transform: translateX(-300px);
-    transition: transform .2s ease-in-out;
-    &.ng-enter-active {
-      transform: translateX(0px);
-    }
-  }
-}
 #loading-target{
   display: block;
   margin: 0 auto;
@@ -1206,6 +1146,147 @@ news{
   }
 }
 
+.control-group {
+  display: inline-block;
+  vertical-align: top;
+  background: #fff;
+  text-align: left;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  padding: 30px;
+  width: 200px;
+  height: 210px;
+  margin: 10px;
+}
+.control {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  line-height: 26px;
+  &.nomargin{
+    margin-bottom: 0;
+  }
+  input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+  }
+}
+.control__indicator {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background: #e6e6e6;
+  &:after{
+    content: '';
+    position: absolute;
+    display: none;
+  }
+}
+.control--radio .control__indicator {
+  border-radius: 50%;
+}
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+  background: #ccc;
+}
+.control input:checked ~ .control__indicator {
+  background: #2aa888;
+}
+.control:hover input:not([disabled]):checked ~ .control__indicator,
+.control input:checked:focus ~ .control__indicator {
+  background: #299c7d;
+}
+.control input:disabled ~ .control__indicator {
+  background: #e6e6e6;
+  opacity: 0.6;
+  pointer-events: none;
+}
+.control input:checked ~ .control__indicator:after {
+  display: block;
+}
+
+.control--checkbox {
+  .control__indicator:after {
+    left: 8px;
+    top: 4px;
+    width: 3px;
+    height: 8px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+}
+.control--checkbox input:disabled ~ .control__indicator:after {
+  border-color: #7b7b7b;
+}
+.control--radio {
+  .control__indicator:after {
+    left: 7px;
+    top: 7px;
+    height: 6px;
+    width: 6px;
+    border-radius: 50%;
+    background: #fff;
+  }
+}
+.control--radio input:disabled ~ .control__indicator:after {
+  background: #7b7b7b;
+}
+.select {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 15px;
+  width: 100%;
+}
+.select select {
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+  padding: 10px 15px;
+  outline: 0;
+  border: 0;
+  border-radius: 0;
+  background: #e6e6e6;
+  color: #7b7b7b;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.select select::-ms-expand {
+  display: none;
+}
+.select select:hover,
+.select select:focus {
+  color: #000;
+  background: #ccc;
+}
+.select select:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.select__arrow {
+  position: absolute;
+  top: 16px;
+  right: 15px;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  border-style: solid;
+  border-width: 8px 5px 0 5px;
+  border-color: #7b7b7b transparent transparent transparent;
+}
+.select select:hover ~ .select__arrow,
+.select select:focus ~ .select__arrow {
+  border-top-color: #000;
+}
+.select select:disabled ~ .select__arrow {
+  border-top-color: #ccc;
+}
+
 
 // Component alignment
 //
@@ -1220,6 +1301,61 @@ news{
     // Will remove come v4 in all likelihood.
     .dropdown-menu-left {
       left: 0; right: auto;
+    }
+  }
+}
+
+
+/* black theme */
+.dracula{
+  .toolbar{
+    border-bottom-color: #797979;
+  }
+  .card.card-default{
+    background: #616161;
+    border-bottom: 2px solid #565656;
+    color: #fff;
+    .title{
+      border-bottom: 1px solid #797979;
+      color: #e1e1e7;
+    }
+    .body{
+      [contenteditable="true"]{
+        background: #c7a24c;
+      }
+    }
+    .comments{
+      background: #555;
+      color: #f1f1f1;
+      .comment-input,
+      .comment .comment-input {
+        #fn-note {
+          background: #4a4a4a;
+          border: 1px solid #e6e6eb;
+          border: none;
+        }
+      }
+      .comment{
+        transition: background .1s;
+        &:hover{
+          background: #4a4a4a;
+          .comment-input #fn-note{
+            background: #555555;
+          }
+        }
+        .area-reply{
+          .replies li,
+          .comment-input{
+            border-left-color: #797979;
+          }
+        }
+      }
+    }
+  }
+  .modal {
+    .modal-dialog {
+      background: #616161;
+      border-bottom-color: #4a4a4a;
     }
   }
 }

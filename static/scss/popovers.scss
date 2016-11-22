@@ -36,6 +36,9 @@
 			height: 100%;
 			padding: 10px 20px;
 			background: #fff;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
 		}
 	}
 }

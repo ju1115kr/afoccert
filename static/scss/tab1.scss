@@ -86,12 +86,11 @@
 	}
 }
 
-.comment-input{
-	&.dragover{
+.comment-input,
+.comment{
 		.dragtest{
 			.glyphicons{
 				display: none;
 			}
 		}
 	}
-}

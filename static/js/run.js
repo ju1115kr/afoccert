@@ -5,7 +5,12 @@
 
 var app = angular.module('certApp');
 
-app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibModal, $uibModalStack, modalUtils, News, Comments, Search) {
+app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibModal, $uibModalStack, modalUtils, News, Comments, Search, Blob) {
+
+	CNote.prototype.getFile = function(){
+		Blob.download(this);
+	};
+
 	$rootScope.unauthorizedReq = [];
 	$rootScope.$on('forbidden', function() {
 
@@ -16,7 +21,9 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 				isExpired: true
 			})
 			$timeout(function() {
-				angular.element("#btn-2").click();
+				if(angular.element("#btn-2").find('.popover').length==0){
+					angular.element("#btn-2").click();
+				}
 			})
 		}
 	});

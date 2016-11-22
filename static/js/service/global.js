@@ -264,6 +264,7 @@ angular.module('certApp')
                     case 401:
                         $rootScope.unauthorizedReq.push(req);
                         $rootScope.$broadcast('unauthorized');
+                        deferred.reject(response);
                         return deferred.promise;
                     case 403:
                         $rootScope.$broadcast('forbidden');

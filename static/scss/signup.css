@@ -5,37 +5,34 @@
   top: 0;
   left: 0;
   transform: rotate(20deg) scale(2);
-  background: #F4B350; }
-  .wallpaper .wallpaper-partition {
-    float: left;
-    width: 50%;
-    height: 100%; }
-    .wallpaper .wallpaper-partition:first-of-type {
-      background: #2C3E50; }
-    .wallpaper .wallpaper-partition:last-of-type {
-      margin-left: -100px;
-      margin-top: -23%;
-      background: #4183D7; }
+  background: linear-gradient(to right, #ffc53b 0%, #ec98af 100%); }
   .wallpaper.ng-leave {
     opacity: 1;
     transition: all 1s; }
     .wallpaper.ng-leave.ng-leave-active {
       opacity: 0;
-      transform: scale(4); }
+      transform: translateY(-100%); }
+  .wallpaper.ng-enter {
+    opacity: 0;
+    transition: all 1s;
+    transform: rotate(0deg) scale(1) translateY(-100%); }
+    .wallpaper.ng-enter.ng-enter-active {
+      opacity: 1;
+      transform: rotate(20deg) scale(2) translateY(0%); }
 
 #signForm {
   min-width: 240px;
   padding: 30px 32px;
-  background: white; }
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%); }
+  #signForm ::-webkit-input-placeholder {
+    color: #fff; }
   #signForm.fixed {
     width: 300px;
     position: fixed;
     top: 30%;
     left: 50%;
     margin-left: -150px;
-    border-radius: 8px; }
-  #signForm .btn {
-    margin-top: 10px; }
+    border-radius: 0; }
   #signForm hr.or {
     margin: 20px 0;
     padding: 0;
@@ -63,7 +60,15 @@
     opacity: 1;
     transition: all 1s; }
     #signForm.ng-leave.ng-leave-active {
-      opacity: 0; }
+      opacity: 0;
+      transform: translateY(-100%); }
+  #signForm.ng-enter {
+    opacity: 0;
+    transition: all 1s;
+    transform: translateY(-100%); }
+    #signForm.ng-enter.ng-enter-active {
+      opacity: 1;
+      transform: translateY(0%); }
 
 .popover #signForm {
   padding: 20px; }

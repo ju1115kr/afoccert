@@ -60,7 +60,8 @@
 .drop-box.rejectover {
   background: red; }
 
-.comment-input.dragover .dragtest .glyphicons {
+.comment-input .dragtest .glyphicons,
+.comment .dragtest .glyphicons {
   display: none; }
 
 /*# sourceMappingURL=tab1.css.map */

@@ -3,192 +3,205 @@
 var app = angular.module('certApp');
 
 app
-.directive('news', function(){
-    return{
-        restrict: "E",
-        scope:{
-            news:"=model"
-        },
-        templateUrl: '/partials/partial-news.html',
-        controller: function($scope, $rootScope, $http, $sce, $uibModal, $q, News, Comments, Reply, Global, Store, modalUtils, PopoverTrigger, deleteList, Upload){
-            /**
-            * 뉴스 관련 함수
-            */
-            $scope.news.optionEnabled = ($scope.news.author==Global.user.userId);
-
-            $scope.news.getFile = function(){
-                News.fetchFile({
-                    newsId:$scope.news.id
-                }, downloadBlobFile);
-            };
-
-            function downloadBlobFile(file){
-                var url = URL.createObjectURL(new Blob([file.data]));
-                var a = document.createElement('a');
-                a.href = url;
-                a.download = $scope.news.file;
-                a.target = '_blank';
-                a.click();
-            }
-
-            $scope.editNewsEnd = function (id, text, files) {
-                $scope.news.edit = false;
-                News.update(
-                    {newsId: id}, {'context': text, 'tags':[]},
-                    function (data, stauts, headers, config) {
+    .directive('news', function(){
+        return{
+            restrict: "E",
+            scope:{
+                news:"=model"
+            },
+            templateUrl: '/partials/partial-news.html',
+            controller: function($scope, $rootScope, $http, $sce, $uibModal, $q, News, Comments, Reply, Global, Store, modalUtils, PopoverTrigger, deleteList, Upload, Blob){
+                /**
+                 * 뉴스 관련 함수
+                 */
+                $scope.news.optionEnabled = ($scope.news.author==Global.user.userId);
+                $scope.editNewsEnd = function (id, text, files) {
+                    $scope.news.edit = false;
+                    News.update({newsId:id},{'context': text, 'tags':[]}, function (data, headers) {
                         if(files.origin && files.removeOrigin){
                             News.deleteFile({
                                 newsId: id
                             }, function(unprocessedNews){
-                                $scope.news.file = '';
+                                $scope.news.file = null;
                             })
                         }
-                        var fileDeferred = $q.defer();
                         if(files.data && files.data.length!==0) {
-                            var obj = {
+                            var file = {
                                 file: files.data[0]
                             };
-                            Upload.upload({
-                                url: window.api_url + '/news/' + data.id + '/file',
-                                data: obj
-                            }).then(function (unprocessedNews) {
-                                fileDeferred.resolve(unprocessedNews.data);
-                            });
+                            Blob.upload($scope.news, file).then(function(fileAttachedNews){
+                                $scope.news.update(fileAttachedNews);
+                            })
                         }else{
-                            fileDeferred.resolve(data);
+                            $scope.news.update(data);
                         }
-                        fileDeferred.promise.then(function(unprocessedNews){
-                            $scope.news.file = unprocessedNews.file;
-                        })
-                    },
-                    function (err) {
+                    }, function(err){
                         $scope.editNewsStart();
-                    }
-                );
-            }
-            $scope.news.showPopover = function(){
-                PopoverTrigger({
-                    controller : 'newsOptionsCtrl',
-                    position : 'bottom-left',
-                    templateUrl : '/partials/partial-news-options-popover.html',
-                    resolve : {
-                        news : function(){
-                            return $scope.news;
-                        },
-                        deleteFn : function(){
-                            return $scope.deleteNewsStart;
-                        },
-                        editFn : function(){
-                            return $scope.editNewsStart;
-                        }
-                    }
-                }).then(function(){
-                })
-            }
-            $scope.deleteNewsStart = function (news) {
-                deleteList.add(news);
-                if(!modalUtils.modalsExist() && deleteList.get().length!==0) {
-                    var modalInstance = $uibModal.open({
-                        templateUrl: '/partials/partial-delete-modal.html',
-                        windowClass: 'aside',
-                        backdropClass: 'aside',
-                        controller: 'ModalDeleteCtrl',
-                    });
-                };
-            }
-
-            $scope.deleteNewsUndo = function (news) {
-                news.readyToDelete = false;
-            }
-
-            $scope.editNewsStart = function (news) {
-                if(news.author==Global.user.userId){
-                    news.edit = true;
-                }
-            }
-
-            /**
-            *  comments
-            */
-            $scope.addComment = function (text, model, files) {
-                Comments.toNews({newsId: model.newsId}, {'context': text}, function (data, headers) {
-                    $http({method: 'GET', url: headers('Location')}).success(function (data, stauts, headers, config) {
-                        var fileDeferred = $q.defer();
-                        if(files.data && files.data.length!==0) {
-                            var obj = {
-                                file: files[0]
-                            };
-                            Upload.upload({
-                                url: window.api_url + '/comments/' + data.id + '/file',
-                                data: obj
-                            }).then(function (unprocessedComment) {
-                                fileDeferred.resolve(unprocessedComment.data);
-                            });
-                        }else{
-                            fileDeferred.resolve(data);
-                        }
-                        fileDeferred.promise.then(function(unprocessedComment){
-                            unprocessedComment.trustText = $sce.trustAsHtml(unprocessedComment.context);
-                            serializer(unprocessedComment, 'context', 'text');
-                            model.push(unprocessedComment);
-                        });
                     })
-                })
-            }
-
-            $scope.deleteComment = function (comment) {
-                Comments.delete({commentId: comment.id}, function (data) {
-                    comment.deleted = true;
-                }, function (err) {
-                    console.log(err);
-                })
-            }
-
-            $scope.editCommentStart = function(comment){
-                if(Global.user['userId']==comment.author){
-                    comment.edit = true;
+                };
+                $scope.news.showPopover = function(){
+                    PopoverTrigger({
+                        controller : 'newsOptionsCtrl',
+                        position : 'bottom-left',
+                        templateUrl : '/partials/partial-news-options-popover.html',
+                        resolve : {
+                            news : function(){
+                                return $scope.news;
+                            },
+                            deleteFn : function(){
+                                return $scope.deleteNewsStart;
+                            },
+                            editFn : function(){
+                                return $scope.editNewsStart;
+                            }
+                        }
+                    }).then(function(){
+                    })
                 }
-            }
+                $scope.deleteNewsStart = function (news) {
+                    deleteList.add(news);
+                    if(!modalUtils.modalsExist() && deleteList.get().length!==0) {
+                        var modalInstance = $uibModal.open({
+                            templateUrl: '/partials/partial-delete-modal.html',
+                            windowClass: 'aside',
+                            backdropClass: 'aside',
+                            controller: 'ModalDeleteCtrl',
+                        });
+                    };
+                }
 
-            $scope.editCommentEnd = function (id, comment) {
-                Comments.update(
-                    {commentId: id}, {context: comment},
-                    function (data, stauts, headers, config) {
-                    },
-                    function (err) {
-                    });
+                $scope.deleteNewsUndo = function (news) {
+                    news.readyToDelete = false;
+                }
+
+                $scope.editNewsStart = function (news) {
+                    if(news.author==Global.user.userId){
+                        news.edit = true;
+                    }
+                }
+
+                /**
+                 *  comments
+                 */
+                function processingComment(comment){
+                    var comment = new CComment(comment);
+                    comment.trustText = $sce.trustAsHtml(comment.text);
+                    return comment;
+                }
+
+                function processingReply(reply){
+                    var reply = new CReply(reply);
+                    reply.trustText = $sce.trustAsHtml(reply.text);
+                    return reply;
+                }
+
+                $scope.fetchComment = function(){
+                    var news = $scope.news;
+                    Comments.fromNews({newsId: news.id}, function (result) {
+                        var comments = [];
+                        result.forEach(function(comment){
+                            comments.push(processingComment(comment));
+                        });
+                        news.comments = comments;
+                        news.fetchingComment = false;
+                        news.comments.newsId = news.id;
+                    })
+                };
+                $scope.addComment = function (text, model, files) {
+                    Comments.toNews({newsId: model.newsId}, {'context': text}, function (data, headers) {
+                        var commentDeferred = $q.defer();
+                        $http({method: 'GET', url: headers('Location')}).success(function (data, stauts, headers, config) {
+                            commentDeferred.resolve(data);
+                        });
+                        commentDeferred.promise.then(function(unprocessedComment){
+                            var comment = processingComment(unprocessedComment);
+                            if(files.data && files.data.length!==0) {
+                                var file = {
+                                    file: files.data[0]
+                                };
+                                Blob.upload(comment, file).then(function(fileAttachedComment){
+                                    comment.update(fileAttachedComment);
+                                    model.push(comment);
+                                })
+                            }else{
+                                model.push(comment);
+                            }
+                        })
+                    })
+                };
+
+                $scope.deleteComment = function (comment) {
+                    Comments.delete({commentId: comment.id}, function (data) {
+                        comment.deleted = true;
+                    }, function (err) {
+                        console.log(err);
+                    })
+                }
+
+                $scope.editCommentStart = function(comment){
+                    if(Global.user['userId']==comment.author){
+                        comment.edit = true;
+                    }
+                }
+
+                $scope.editCommentEnd = function (id, text, files, model) {
+                    var comment = (function(){
+                        for(var i =0; i<model.length; i++){
+                            if(model[i].id === id)
+                                return model[i];
+                        }
+                    })();
+                    Comments.update({commentId:id},{'context': text}, function (data, headers) {
+                        if(files.origin && files.removeOrigin){
+                            Comments.deleteFile({
+                                commentId: id
+                            }, function(){
+                                comment.file = null;
+                            })
+                        }
+                        if(files.data && files.data.length!==0) {
+                            var file = {
+                                file: files.data[0]
+                            };
+                            Blob.upload(comment, file).then(function(fileAttachedComment){
+                                comment.update(fileAttachedComment);
+                            })
+                        }else{
+                            comment.update(data);
+                        }
+                    }, function(err){
+                        $scope.editCommentStart();
+                    })
                 }
 
                 $scope.replyToCommentStart = function (comment){
                     comment.replyDisplay = true;
-                    comment.replies =[];
+                    comment.replies = comment.replies || [];
                     comment.replies.commentId = comment.id;
                 }
 
                 $scope.addReplyToComment = function(text, model, files){
-                    Reply.toComment({commentId: model.commentId}, {'context': text}, function(data, headers){
-                        $http({method: 'GET', url:headers('Location')}).success(function(data){
-                            var fileDeferred = $q.defer();
-                            if(files && files.length!==0) {
-                                var obj = {
-                                    file: files[0]
+                    Reply.toComment({commentId: model.commentId}, {'context': text}, function (data, headers) {
+                        var replyDeferred = $q.defer();
+                        $http({method: 'GET', url: headers('Location')}).success(function (data, stauts, headers, config) {
+                            replyDeferred.resolve(data);
+                        });
+                        replyDeferred.promise.then(function(unprocessedReply){
+                            var reply = processingReply(unprocessedReply);
+                            reply.recent = true;
+                            if(files.data && files.data.length!==0) {
+                                var file = {
+                                    file: files.data[0]
                                 };
-                                Upload.upload({
-                                    url: window.api_url + '/comments/' + data.id + '/file',
-                                    data: obj
-                                }).then(function (unprocessedComment) {
-                                    fileDeferred.resolve(unprocessedComment.data);
-                                });
+                                Blob.upload(reply, file).then(function(fileAttachedReply){
+                                    reply.update(fileAttachedReply);
+                                    model.push(reply);
+                                })
                             }else{
-                                fileDeferred.resolve(data);
+                                model.push(reply);
                             }
-                            fileDeferred.promise.then(function(unprocessedComment){
-                                unprocessedComment.trustText = $sce.trustAsHtml(unprocessedComment.context);
-                                serializer(unprocessedComment, 'context', 'text');
-                                model.push(unprocessedComment);
-                            });
                         })
-                    })
+                    });
                 }
 
                 $scope.deleteReply = function(reply){
@@ -199,8 +212,8 @@ app
                     $scope.editCommentStart(reply);
                 }
 
-                $scope.editReplyEnd = function(id, reply){
-                    $scope.editCommentEnd(id, reply);
+                $scope.editReplyEnd = function(id, text, files, model){
+                    $scope.editCommentEnd(id, text, files, model);
                 }
 
                 $scope.hasReply = function(comment){
@@ -208,14 +221,14 @@ app
                 }
 
                 $scope.showReplies = function(comment){
-                    comment.replyDisplay = true;
+                    $scope.replyToCommentStart(comment);
                     Reply.fromComment({commentId: comment.id},function(data){
-                        comment.replies = data.reply_comments;
-                        angular.forEach(comment.replies, function (reply) {
-                            serializer(reply, 'context', 'text');
-                            reply.trustText = $sce.trustAsHtml(reply.text);
+                        angular.forEach(data.reply_comments, function (reply) {
+                            comment.replies.push(processingReply(reply));
                         });
-                        comment.replies.commentId = comment.id;
+                        $q.all(comment.replies, function(){
+                            comment.replies.commentId = comment.id;
+                        })
                     })
                 };
 

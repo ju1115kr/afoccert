@@ -3,7 +3,7 @@
 var app = angular.module('certApp');
 
 app
-	.directive("sinEditor", function($timeout) {
+	.directive("sinEditor", function($timeout, Groups, modalUtils, $uibModal) {
 		return {
 			restrict: "E",
 			scope: {
@@ -74,12 +74,12 @@ app
 							id: $scope.value ? $scope.value.id : undefined,
 							text: htmlText,
 							model: $scope.entries ? $scope.entries : undefined,
-							files: { data : $scope.files, origin: $scope.editor.file.data, removeOrigin : $scope.editor.file.removed }
+							files: { data : $scope.fileToUpload, origin: $scope.editor.file.data, removeOrigin : $scope.editor.file.removed }
 								/*
 								the key names (eg.'text') must sync with directive's
 								attirbute parameter of function 'submit'.
 								*/
-						}
+						};
 						if (obj.text.length !== 0) {
 							$scope.submit(obj);
 							if (isEditing) {
@@ -92,7 +92,11 @@ app
 							$scope.removeFile();
 						}
 					}
-				}
+				};
+
+				$scope.undoEdit = function(){
+					$scope.value.edit = false;
+				};
 
 				$scope.getFocus = function() {
 					var obj = {
@@ -119,10 +123,10 @@ app
 					}
 				};
 
-				$scope.$watch('files', function(newVal, oldVal){
+				$scope.$watch('fileToUpload', function(newVal, oldVal){
 					if(newVal && newVal.length>1){
 						var recentItem = newVal[newVal.length-1];
-						$scope.files = [recentItem];
+						$scope.fileToUpload = [recentItem];
 					}
 				})
 
@@ -132,7 +136,33 @@ app
 					}
 				});
 				$scope.removeFile = function(){
-					$scope.files = [];
+					$scope.fileToUpload = [];
+				};
+
+				/**
+				 * 공개 범위 관련 함수
+				 */
+				$scope.fetchGroupPolicies = function(){
+					Groups.query(function(policies){
+						$scope.groupPolicies = [{
+							id:-1,
+							name : '전체공개',
+							selected: true,
+						}];
+						$scope.groupPolicies = $scope.groupPolicies.concat(policies.groups);
+						$scope.selectedPolicy = $scope.groupPolicies[0];
+					})
+				}
+
+				$scope.createGroupPolicy = function(){
+					if(!modalUtils.modalsExist()) {
+						var modalInstance = $uibModal.open({
+							templateUrl: '/partials/partial-group-policy-modal.html',
+							windowClass: 'aside info',
+							backdropClass: 'aside',
+							controller: 'ModalGroupPolicyCtrl',
+						});
+					};
 				}
 			},
 			templateUrl: '/partials/partial-editor-body.html',

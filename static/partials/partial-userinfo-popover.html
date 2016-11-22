@@ -20,6 +20,11 @@
 		<button class="btn btn-block btn-default" ng-click="modifyUser()"><span class="glyphicons glyphicons-pencil"></span>수정</button>
 		<button class="btn btn-block btn-info" ng-click="switchUser()">사용자 전환</button>
 		<button class="btn btn-block btn-warning" ng-click="logout()"><span class="glyphicons glyphicons-log-out"></span>로그아웃</button>
+		<label class="control control--checkbox nomargin">
+			Dracula
+			<input type="checkbox" ng-model="interface.dracula" class="ng-pristine ng-untouched ng-valid">
+			<div class="control__indicator"></div>
+		</label>
 	</div>
 </div>
 <form id="signForm" ng-submit="update()" ng-if="state[2]" class="ng-animate-disabled">

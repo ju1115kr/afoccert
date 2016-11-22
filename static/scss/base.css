@@ -100,4 +100,9 @@ a {
 .glyphicons.flip-y {
   transform: rotateX(180deg); }
 
+.form-flex {
+  display: flex; }
+  .form-flex input.form-input {
+    margin-bottom: 0; }
+
 /*# sourceMappingURL=base.css.map */

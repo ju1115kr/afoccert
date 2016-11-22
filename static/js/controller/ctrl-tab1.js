@@ -2,19 +2,16 @@
 
 angular.module('certApp')
 
-.controller('Tab1Ctrl',function ($scope, $sce, $rootScope, $uibModal, News, $http, $window, Comments, Reply, $q, Upload) {
+.controller('Tab1Ctrl',function ($scope, $sce, $rootScope, $uibModal, News, $http, $window, Comments, Reply, $q, Blob) {
     $scope.newses = [];
     $scope.fetching = false;
     $scope.fetchedAll = false;
     function processingNews(news){
-        news.trustText = $sce.trustAsHtml(news.context);
-        serializer(news, 'context', 'text');
-        news.created = {};
-        news.created.date = new Date().format('YY년 MM월 dd일', news.created_at);
-        news.created.time = new Date().format('hh:mm', news.created_at);
-        news.comments = [];
-        news.comments.newsId = news.id;
-        return news;
+        var newsInstance = new CNews(news);
+        newsInstance.trustText = $sce.trustAsHtml(newsInstance.text);
+        newsInstance.comments = [];
+        newsInstance.comments.newsId = news.id;
+        return newsInstance;
     };
     function fetchNewPage(startPage) {
         return function () {
@@ -22,22 +19,13 @@ angular.module('certApp')
             var newsDeferred = $q.defer();
             News.query(
                 {page: startPage, per_page: 20},
-                /**
-                 * 신송내 파일 목록 불러오기
-                 * @param result
-                 */
                 function (result) {
+                    var newses = [];
                     result.forEach(function(news){
-                        /*
-                        News.fetchFile({
-                            newsId:news.id
-                        }, function(file){
-                            console.log(file)
-                        })
-                        */
+                        newses.push(processingNews(news));
                     })
-                    $scope.newses = $scope.newses.concat(result);
-                    newsDeferred.resolve(result);
+                    $scope.newses = $scope.newses.concat(newses);
+                    newsDeferred.resolve(newses);
                     $scope.fetching = false;
                     startPage++;
                 }
@@ -45,21 +33,9 @@ angular.module('certApp')
             newsDeferred.promise.then(function(newses){
                 if(newses.length==0){
                     $scope.fetchedAll = true;
-                }else{
-                    fetchComment(newses);
                 }
             });
         }
-    }
-
-    function fetchComment(newses){
-        angular.forEach(newses, function(news, index){
-            Comments.fromNews({newsId: news.id}, function (result) {
-                news.comments = result;
-                news.fetchingComment = false;
-                news.comments.newsId = news.id;
-            })
-        })
     }
 
     var fetchNewses = fetchNewPage(1);
@@ -72,28 +48,24 @@ angular.module('certApp')
     })
 
     $scope.addNews = function (text, model, files) {
-        var obj = {
-            text: text
-        };
-        News.save({'context': obj.text, 'tags':[]}, function (data, headers) {
+        News.save({'context': text, 'tags':[]}, function (data, headers) {
+            var newsDeferred = $q.defer();
             $http({method: 'GET', url: headers('Location')}).success(function (data, stauts, headers, config) {
-                var fileDeferred = $q.defer();
+                newsDeferred.resolve(data);
+            });
+            newsDeferred.promise.then(function(unprocessedNews){
+                var news = processingNews(unprocessedNews);
                 if(files.data && files.data.length!==0) {
-                    var obj = {
+                    var file = {
                         file: files.data[0]
                     };
-                    Upload.upload({
-                        url: window.api_url + '/news/' + data.id + '/file',
-                        data: obj
-                    }).then(function (unprocessedNews) {
-                        fileDeferred.resolve(unprocessedNews.data);
-                    });
+                    Blob.upload(news, file).then(function(fileAttachedNews){
+                        news.update(fileAttachedNews);
+                        model.unshift(news);
+                    })
                 }else{
-                    fileDeferred.resolve(data);
+                    model.unshift(news);
                 }
-                fileDeferred.promise.then(function(unprocessedNews){
-                    model.unshift(processingNews(unprocessedNews));
-                });
             })
         })
     };
@@ -103,13 +75,10 @@ angular.module('certApp')
 .controller('ModalDeleteCtrl', function ($scope, $uibModalInstance, News, deleteList, $q) {
     $scope.deleteList = deleteList.get();
     $scope.delete = function (item) {
-        News.delete({newsId: item.id}, function () {
-            item.deleted = true;
-            deleteList.clear(item);
-            if($scope.deleteList.length==0){
-                $uibModalInstance.close();
-            }
-        });
+        deleteList.clear(item);
+        if($scope.deleteList.length == 0){
+            $uibModalInstance.close();
+        }
     }
     $scope.deleteAll = function(){
         angular.forEach($scope.deleteList, function(item){

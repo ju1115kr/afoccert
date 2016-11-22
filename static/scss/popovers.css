@@ -30,7 +30,10 @@
     width: calc(100% - 110px);
     height: 100%;
     padding: 10px 20px;
-    background: #fff; }
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around; }
 
 #options {
   width: 90px;

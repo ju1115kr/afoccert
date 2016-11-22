@@ -14,20 +14,16 @@ app.factory('News', function ($resource, $sce, $q) {
 			transformResponse: function(data){
 				try {
 					data = JSON.parse(data);
-					var newses = [];
-					for(var i=0; i<data.news.length; i++){
-						var news = data.news[i];
-						news.trustText = $sce.trustAsHtml(news.context);
-						serializer(news, 'context', 'text');
-						news.created = {};
-						news.created.date = new Date().format('YY년 MM월 dd일', news.created_at);
-						news.created.time = new Date().format('hh:mm', news.created_at);
-						news.fetchingComment = true;
-						news.comments = [];
-						news.comments.newsId = news.id;
-						newses.push(news);
-					}
-					return newses;
+					// var newses = [];
+					// for(var i=0; i<data.news.length; i++){
+					// 	var news = new CNews(data.news[i]);
+					// 	news.trustText = $sce.trustAsHtml(news.text);
+					// 	news.fetchingComment = true;
+					// 	news.comments = [];
+					// 	news.comments.newsId = news.id;
+					// 	newses.push(news);
+					// }
+					return data.news;
 				} catch (e) {
 					return;
 				}

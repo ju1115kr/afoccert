@@ -21,16 +21,22 @@
 	</ul>
 </div>
 <div class="wallpaper" ng-class="{leave:'animate-leave'}" ng-if="!global.isLoggedIn()">
-	<div class="wallpaper-partition shadow"></div>
-	<div class="wallpaper-partition shadow"></div>
+	<!--<div class="wallpaper-partition shadow"></div>-->
+	<!--<div class="wallpaper-partition shadow"></div>-->
 </div>
-<form id="signForm" class="shadow fixed" ng-submit="submit()" ng-if="!global.isLoggedIn()" ng-class="{leave:'animate-leave'}">
+<form id="signForm" class="shadow fixed" ng-submit="submit()" ng-if="!global.isLoggedIn()" ng-class="{leave:'animate-leave'}" ng-init="signInit()">
 	<h3 class="pull-right ng-animate-disabled" ng-if="signupForm"><a class="glyphicons glyphicons-remove-2 btn" ng-click="toggleSignup()"></a></h3>
-	<input type="text" ng-model="user.id" class="form-input lg" placeholder="아이디">
-	<input type="password" ng-model="user.pw" class="form-input lg" placeholder="비밀번호">
-	<input type="password" ng-model="user.pwcf" class="form-input lg ng-animate-disabled" ng-if="signupForm" placeholder="비밀번호 확인">
-	<input type="text" ng-model="user.name" class="form-input lg ng-animate-disabled" ng-if="signupForm" placeholder="이름">
-	<button type="submit" class="btn btn-primary btn-block btn-lg ng-animate-disabled" ng-disabled="user.loading" ng-if="!signupForm">로그인</button>
+	<input type="text" ng-model="user.id" class="form-input lg transparent" placeholder="아이디">
+	<input type="password" ng-model="user.pw" class="form-input lg transparent" placeholder="비밀번호">
+	<input type="password" ng-model="user.pwcf" class="form-input lg transparent ng-animate-disabled" ng-if="signupForm" placeholder="비밀번호 확인">
+	<input type="text" ng-model="user.name" class="form-input lg transparent ng-animate-disabled" ng-if="signupForm" placeholder="이름">
+	<button type="submit" class="btn btn-danger btn-block btn-lg ng-animate-disabled" ng-disabled="user.loading" ng-if="!signupForm">
+		<span ng-if="!user.loading">
+			<span ng-hide="user.error">로그인</span>
+			<span ng-hide="!user.error">ID,PW 입력에 문제가 있습니다.</span>
+		</span>
+		<loading size="30" color="'#ffc3c7'" ng-if="user.loading"></loading>
+	</button>
 	<hr class="or ng-animate-disabled" ng-if="!signupForm">
 	<button type="button" class="btn btn-block btn-lg btn-default ng-animate-disabled" ng-if="!signupForm" ng-click="toggleSignup()">가입</button>
 	<button type="submit" class="btn btn-block btn-lg btn-warning ng-animate-disabled" ng-disabled="user.loading" ng-if="signupForm">가입</button>
@@ -49,7 +55,7 @@
 			</div>
 			<span ng-bind-html="news.trustText"></span>
 		</li>
-		<loading ng-if="searchBar.loading" size="140"></loading>
+		<loading ng-if="searchBar.loading" size="140" color="'#4183d7'"></loading>
 	</aside>
 	<section class="search-detail">
 	</section>

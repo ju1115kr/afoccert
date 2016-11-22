@@ -77,3 +77,9 @@ a{
 		transform:rotateX(180deg);
 	}
 }
+.form-flex{
+	display: flex;
+	input.form-input{
+		margin-bottom: 0;
+	}
+}

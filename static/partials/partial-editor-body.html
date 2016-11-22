@@ -1,6 +1,6 @@
 <div class="sin-editor drop-box"
 	 ngf-drop
-	 ng-model="files"
+	 ng-model="fileToUpload"
 	 ng-model-options="{debounce:0}"
 	 ngf-drag-over-class="dragover"
 	 ngf-multiple="false"
@@ -25,23 +25,23 @@
 	</div>
 	<footer class="sin-editor-footer">
 		<!-- <div class="hash-list"></div> -->
-		<div uib-dropdown is-open="status.isopen" ng-if="editorType!='inline'">
-			<button id="single-button" type="button" class="btn btn-primary btn-transparent" uib-dropdown-toggle>전체공개<span class="caret"></span></button>
+		<div uib-dropdown is-open="status.isopen" ng-if="editorType==='default'||editorType==='default-edit'" ng-init="fetchGroupPolicies()">
+			<button id="single-button" type="button" class="btn btn-primary btn-transparent" uib-dropdown-toggle>{{selectedPolicy.name}}<span class="caret"></span></button>
 			<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="single-button">
-				<li><a href="#">dddsdfsdfsdfsdfsdsdfsdfsdfsdfsdfsdfsdf</a></li>
-				<li><a href="#">ddd</a></li>
-				<li><a href="#">ddd</a></li>
+				<li ng-repeat="policy in groupPolicies"><a href="#">{{policy.name}}</a></li>
+				<li class="divider"></li>
+				<li><a href="#" ng-click="createGroupPolicy()"><span class="glyphicons glyphicons-circle-plus"></span>새 그룹 생성</a></li>
 			</ul>
 		</div>
 		<button class="btn" ng-click="pushEntry(editor.value);" ng-disabled="hash.constructed||hash.hashing" uib-toot>완료</button>
 	</footer>
-	<ul class="file-list" ng-class="{'empty' : !editor.file.data && files.length==0}">
-		<li ng-if="editor.file.data" ng-class="{'removed':editor.file.removed}">
+	<ul class="file-list" ng-class="{'empty' : !editor.file.data && fileToUpload.length==0}">
+		<li ng-if="editor.file.data" class="" ng-class="{'removed':editor.file.removed}">
 			{{editor.file.data}}
 			<a ng-if="!editor.file.removed" class="remove glyphicons glyphicons-remove-2" ng-click="editor.file.removed = true"></a>
 			<a ng-if="editor.file.removed" class="undo glyphicons glyphicons-undo" ng-click="editor.file.removed = false"></a>
 		</li>
-		<li ng-repeat="f in files">{{f.progress}} {{f.name}} {{f.size|convertByte}} <a class="remove glyphicons glyphicons-remove-2" ng-click="removeFile()"></a></li>
+		<li ng-repeat="f in fileToUpload">{{f.progress}} {{f.name}} {{f.size|convertByte}} <a class="remove glyphicons glyphicons-remove-2" ng-click="removeFile()"></a></li>
 	</ul>
 	<div sin-typeahead sin-hash="hash" class="typeahead block shadow" ng-class="{show:hash.constructed}"></div>
 	<pre>{{log}}</pre>
