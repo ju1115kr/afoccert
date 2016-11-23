@@ -21,6 +21,7 @@ def search_news(context):
     if context is None:
         return bad_request('Request is invaild')
 
+    context = context.lower()
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 1000, type=int)
     pagination = News.query\
@@ -28,9 +29,6 @@ def search_news(context):
                     .paginate(page, per_page, error_out=False)
     pag_result = pagination.items
 	
-    for news in pag_result:
-        if news.parsed_context is None:
-            news.parsed_context = removeEscapeChar(news.context)
     if pagination is None:
         return not_found('Result does not exist')
     return jsonify({'news':[news.to_json() for news in pag_result\
@@ -43,6 +41,7 @@ def search_comment(context):
     if context is None:
         return bad_request('Request is invaild')
 
+    context = context.lower()
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 1000, type=int)
     pagination = Comment.query\
@@ -50,9 +49,6 @@ def search_comment(context):
                     .paginate(page, per_page, error_out=False)
     pag_result = pagination.items
 
-    for comment in pag_result:
-        if comment.parsed_context is None:
-            comment.parsed_context = removeEscapeChar(comment.context)
     if pagination is None:
         return not_found('Comment does not exist')
     return jsonify({'comments':[comment.to_json() for comment in pag_result\
@@ -67,6 +63,7 @@ def search_allmight():
     endpoint = request.args.get('endpoint')
     context = request.args.get('context')
 
+    context = context.lower()
     if startpoint is None: startpoint = News.query.order_by(News.id.asc()).first().created_at
     if endpoint is None: endpoint = News.query.order_by(News.id.desc()).first().created_at
 
@@ -82,9 +79,6 @@ def search_allmight():
         return jsonify({'news':[news.to_json() for news in pag_result\
             if news.house is None or g.current_user in news.house.users]})
 
-    for news in pag_result:
-        if news.parsed_context is None:
-            news.parsed_context = removeEscapeChar(news.context)
     if pag_result is None:
         return not_found('News does not exist')
 

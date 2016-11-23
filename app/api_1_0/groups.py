@@ -63,10 +63,13 @@ def get_users_in_group(group_id):
 @cross_origin(expose_headers='Location')
 def post_group():
     group = Group.from_json(request.json)
-    if request.json.get('users') is None or request.json.get('users') == '[]':
-        print 'user not exist'
+    if request.json.get('users') is None or request.json.get('users') == []:
         group.users = [ g.current_user ]
     group.create_user = g.current_user.id
+    group_name = group.name
+    if Group.query.filter(Group.create_user == g.current_user.id)\
+                    .filter(Group.name == group.name).count() >= 1:
+        return bad_request('Group name already exist in same user.' % group.name)
     db.session.add(group)
     db.session.commit()
     resp = make_response()
@@ -88,13 +91,16 @@ def put_group(group_id):
     name = request.json.get('name')
     description = request.json.get('description')
     users = request.json.get('users')
-    if users is None or '[]':
-        group.users = [ g.current_user ]
-    user_list = [ str(user_name) for user_name in users.strip('[]').split(',') ]
+    if users is None or users == []:
+       old_group.users = [ g.current_user ]
+
+    user_list = list(users)
     
     old_group.name = name
     old_group.description = description
-    old_group.users = [ User.query.filter_by(username=user_name).first() for user_name in user_list\
+
+    if type(user_list) == list and user_list is not None and len(user_list) >= 1:
+        old_group.users = [ User.query.filter_by(username=user_name).first() for user_name in user_list\
 					if User.query.filter_by(username=user_name).count() != 0 ]
     db.session.commit()
     return jsonify(old_group.to_json())
@@ -126,6 +132,4 @@ def get_notice_group(group_id):
         return forbidden('User does not in this group')
 
     notice = group.news.filter_by(notice=True).order_by(News.created_at.desc()).all()
-#    if notice is None:
-#        return not_found('Notice does not exist')
     return jsonify({'notice' : [news.to_json() for news in notice if news.group is None or g.current_user in news.house.users]})

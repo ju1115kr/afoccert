@@ -59,8 +59,12 @@ def post_news():
     news = News.from_json(request.json)
     if news.group is not None and g.current_user.id != Group.query.filter_by(id=news.group).first().create_user:
         return forbidden('User does not in this group')
+
     news.author_id = g.current_user.id
     news.author_name = g.current_user.realname
+    author = User.query.filter_by(id=g.current_user.id).first()
+    author.recent_group = news.group
+
     db.session.add(news)
     db.session.commit()
     resp = make_response()
@@ -98,8 +102,6 @@ def delete_news(news_id):
         return forbidden('Cannot delete other user\'s news')
     if news.filename is not None:
         os.remove(os.path.join(UPLOAD_FOLDER, news.filelocate)) # 실효성 여부 파악 필요
-#	news.filename = None
-#    news.filelocate = None
     Comment.query.filter(Comment.news_id == news.id).delete()
     db.session.delete(news)
     db.session.commit()

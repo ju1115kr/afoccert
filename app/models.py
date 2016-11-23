@@ -33,6 +33,7 @@ class User(db.Model):
     news = db.relationship('News', backref='author', lazy='dynamic')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
     create_group = db.relationship('Group', backref='author', lazy='dynamic')
+    recent_group = db.Column(db.Integer)
 
     def __init__(self, username, realname, password):
         self.username = username
@@ -78,6 +79,7 @@ class User(db.Model):
             'username': self.username,
             'realname': self.realname,
 	        'picture' : self.pictureName,
+            'recent_group' : self.recent_group
         }
         return json_user
     
@@ -157,11 +159,9 @@ class Group(db.Model):
         group = Group(name, description)
 
         # Group users JSON 입력값 처리 
-        if json_group.get('users') is not None and json_group.get('users') != '[]':
-            print 'user exist'
+        if json_group.get('users') is not None and json_group.get('users') != []:
             user_names = json_group.get('users')
-            user_list = [ str(user_name) for user_name in user_names.strip('[]').split(',') ]
-
+            user_list = list(user_names)
             if type(user_list) == list and user_list is not None and len(user_list) >= 1:  # users 값이 비어있지 않다면 
             # 실제로 존재하는 유저에 대하여만 그룹에 추가
                group.users = [ User.query.filter_by(username=user_name).first() for user_name in user_list\
@@ -219,7 +219,7 @@ class News(db.Model):
         context = json_news.get('context')
         if context is None or context == '':
             raise ValidationError('news does not have a context')
-        parsed_context = removeEscapeChar(context)
+        parsed_context = removeEscapeChar(context).lower()
 
         group = None
         if json_news.get('group') is not None and json_news.get('group') != '':
@@ -273,7 +273,7 @@ class Comment(db.Model):
         context = json_comment.get('context')
         if context is None or context == '':
             raise ValidationError('comment does not have a context')
-        parsed_context = removeEscapeChar(context)
+        parsed_context = removeEscapeChar(context).lower()
     
         return Comment(context=context, parsed_context=parsed_context)
     
