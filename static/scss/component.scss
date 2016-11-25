@@ -522,14 +522,19 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
       background: #f6f6f9;
       color: #555;
       .file-list{
-        color:#ddd;
+        color:#299c7d;
         width: 100%;
+        text-align: right;
+        font-size: 12px;
+        &:hover{
+          color: #2eb38f;
+        }
       }
       .comment-input,
       .comment .comment-input {
         position: relative;
         display: flex;
-        //flex-wrap: wrap;
+        flex-wrap: wrap;
         >*{
           flex-shrink: 0;
         }
@@ -560,14 +565,6 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
           -ms-user-select: none;
           user-select: none;
           font-weight: 800;
-        }
-        .file-list{
-          color:#299c7d;
-          width: 100%;
-          text-align: right;
-          &:hover{
-            color: #2eb38f;
-          }
         }
         .area-comment{
           .options{

@@ -58,7 +58,7 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 				news.selected = false;
 				that.selected = null;
 			}, function(){
-				$rootScope.$broadcast('update:news',news.id); //broadcast to tab1 ctrl
+				$rootScope.$broadcast('update:news',news.id); //broadcast to news directives
 				news.selected = false;
 				that.selected = null;
 			})

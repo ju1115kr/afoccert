@@ -383,12 +383,17 @@ button, input[type="submit"], input[type="button"] {
       .card.card-default .comments *::selection {
         background: #fff2a8; }
       .card.card-default .comments .file-list {
-        color: #ddd;
-        width: 100%; }
+        color: #299c7d;
+        width: 100%;
+        text-align: right;
+        font-size: 12px; }
+        .card.card-default .comments .file-list:hover {
+          color: #2eb38f; }
       .card.card-default .comments .comment-input,
       .card.card-default .comments .comment .comment-input {
         position: relative;
-        display: flex; }
+        display: flex;
+        flex-wrap: wrap; }
         .card.card-default .comments .comment-input > *,
         .card.card-default .comments .comment .comment-input > * {
           flex-shrink: 0; }
@@ -414,12 +419,6 @@ button, input[type="submit"], input[type="button"] {
           -ms-user-select: none;
           user-select: none;
           font-weight: 800; }
-        .card.card-default .comments .comment .file-list {
-          color: #299c7d;
-          width: 100%;
-          text-align: right; }
-          .card.card-default .comments .comment .file-list:hover {
-            color: #2eb38f; }
         .card.card-default .comments .comment .area-comment .options {
           visibility: hidden;
           transition: none;

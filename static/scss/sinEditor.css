@@ -391,12 +391,17 @@
         .sin-editor .card.card-default .comments *::selection {
           background: #fff2a8; }
         .sin-editor .card.card-default .comments .file-list {
-          color: #ddd;
-          width: 100%; }
+          color: #299c7d;
+          width: 100%;
+          text-align: right;
+          font-size: 12px; }
+          .sin-editor .card.card-default .comments .file-list:hover {
+            color: #2eb38f; }
         .sin-editor .card.card-default .comments .comment-input,
         .sin-editor .card.card-default .comments .comment .comment-input {
           position: relative;
-          display: flex; }
+          display: flex;
+          flex-wrap: wrap; }
           .sin-editor .card.card-default .comments .comment-input > *,
           .sin-editor .card.card-default .comments .comment .comment-input > * {
             flex-shrink: 0; }
@@ -422,12 +427,6 @@
             -ms-user-select: none;
             user-select: none;
             font-weight: 800; }
-          .sin-editor .card.card-default .comments .comment .file-list {
-            color: #299c7d;
-            width: 100%;
-            text-align: right; }
-            .sin-editor .card.card-default .comments .comment .file-list:hover {
-              color: #2eb38f; }
           .sin-editor .card.card-default .comments .comment .area-comment .options {
             visibility: hidden;
             transition: none;
@@ -1060,6 +1059,21 @@
   .sin-editor .dracula .modal .modal-dialog {
     background: #616161;
     border-bottom-color: #4a4a4a; }
+  .sin-editor .sin-editor-wrapper {
+    display: flex;
+    width: 100%;
+    flex-direction: column; }
+    .sin-editor .sin-editor-wrapper + .file-list {
+      padding: 5px 20px;
+      font-size: 12px;
+      color: #999;
+      text-align: right; }
+      .sin-editor .sin-editor-wrapper + .file-list.empty {
+        padding: 0 !important; }
+      .sin-editor .sin-editor-wrapper + .file-list .removed {
+        text-decoration: line-through; }
+  .sin-editor.comment-input .sin-editor-wrapper {
+    flex-direction: row; }
   .sin-editor .sin-editor-default,
   .sin-editor .sin-editor-inline,
   .sin-editor .sin-editor-default-edit {
@@ -1094,18 +1108,6 @@
     border-top: 1px solid #f1f1f5;
     text-align: right;
     padding: 6px 15px; }
-    .sin-editor .sin-editor-default + .sin-editor-footer + .file-list,
-    .sin-editor .sin-editor-default-edit + .sin-editor-footer + .file-list {
-      padding: 5px 20px;
-      font-size: 12px;
-      color: #999;
-      text-align: right; }
-      .sin-editor .sin-editor-default + .sin-editor-footer + .file-list.empty,
-      .sin-editor .sin-editor-default-edit + .sin-editor-footer + .file-list.empty {
-        padding: 0 !important; }
-      .sin-editor .sin-editor-default + .sin-editor-footer + .file-list .removed,
-      .sin-editor .sin-editor-default-edit + .sin-editor-footer + .file-list .removed {
-        text-decoration: line-through; }
   .sin-editor .sin-editor-default + .sin-editor-footer button,
   .sin-editor .sin-editor-inline + .sin-editor-footer button,
   .sin-editor .sin-editor-inline-edit + .sin-editor-footer button {

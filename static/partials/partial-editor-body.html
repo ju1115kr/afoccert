@@ -12,29 +12,31 @@
 		<span class="glyphicons glyphicons-inbox-in"></span>
 		<div>드롭하여 파일업로드</div>
 	</div>
-	<div id="fn-note"
-		ng-class="editor.style"
-		sin-note
-		sin-hash="hash"
-		sin-focused="isFocused"
-		sin-blured="isBlured"
-		contenteditable="true"
-		ng-model="editor.value"
-		ng-attr-autofocus="{{autofocus||undefined}}">
-		{{editor.value}}
-	</div>
-	<footer class="sin-editor-footer">
-		<!-- <div class="hash-list"></div> -->
-		<div uib-dropdown is-open="status.isopen" ng-if="editorType==='default'||editorType==='default-edit'" ng-init="initGroupPolicies()">
-			<button id="single-button" type="button" class="btn btn-primary btn-transparent" uib-dropdown-toggle  ng-click="fetchGroupPolicies()">{{selectedPolicy.name}}<span class="caret"></span></button>
-			<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="single-button">
-				<li ng-repeat="policy in groupPolicies" ng-class="{active:policy.selected}"><a href="#" ng-click="selectPolicy(policy)">{{policy.name}}</a></li>
-				<li class="divider"></li>
-				<li><a href="#" ng-click="createGroupPolicy()"><span class="glyphicons glyphicons-circle-plus"></span>새 그룹 생성</a></li>
-			</ul>
+	<div class="sin-editor-wrapper">
+		<div id="fn-note"
+			 ng-class="editor.style"
+			 sin-note
+			 sin-hash="hash"
+			 sin-focused="isFocused"
+			 sin-blured="isBlured"
+			 contenteditable="true"
+			 ng-model="editor.value"
+			 ng-attr-autofocus="{{autofocus||undefined}}">
+			{{editor.value}}
 		</div>
-		<button class="btn" ng-click="pushEntry(editor.value);" ng-disabled="hash.constructed||hash.hashing" uib-toot>완료</button>
-	</footer>
+		<footer class="sin-editor-footer">
+			<!-- <div class="hash-list"></div> -->
+			<div uib-dropdown is-open="status.isopen" ng-if="editorType==='default'||editorType==='default-edit'" ng-init="initGroupPolicies()">
+				<button id="single-button" type="button" class="btn btn-primary btn-transparent" uib-dropdown-toggle  ng-click="fetchGroupPolicies()">{{selectedPolicy.name}}<span class="caret"></span></button>
+				<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="single-button">
+					<li ng-repeat="policy in groupPolicies" ng-class="{active:policy.selected}"><a href="#" ng-click="selectPolicy(policy)">{{policy.name}}</a></li>
+					<li class="divider"></li>
+					<li><a href="#" ng-click="createGroupPolicy()"><span class="glyphicons glyphicons-circle-plus"></span>새 그룹 생성</a></li>
+				</ul>
+			</div>
+			<button class="btn" ng-click="pushEntry(editor.value);" ng-disabled="hash.constructed||hash.hashing" uib-toot>완료</button>
+		</footer>
+	</div>
 	<ul class="file-list" ng-class="{'empty' : !editor.file.data && fileToUpload.length==0}">
 		<li ng-if="editor.file.data" class="" ng-class="{'removed':editor.file.removed}">
 			{{editor.file.data}}
