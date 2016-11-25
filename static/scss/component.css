@@ -67,13 +67,11 @@ button, input[type="submit"], input[type="button"] {
       button.btn.btn-default.btn-transparent, input[type="submit"].btn.btn-default.btn-transparent, input[type="button"].btn.btn-default.btn-transparent {
         color: #232323; }
     button.btn.btn-primary, input[type="submit"].btn.btn-primary, input[type="button"].btn.btn-primary {
-      background: #2ABB9B;
-      border: 1px solid #2aae8e;
+      background: #62c48f;
       transition: background .2s;
       color: #fff; }
       button.btn.btn-primary:hover, input[type="submit"].btn.btn-primary:hover, input[type="button"].btn.btn-primary:hover {
-        background: #2aa888;
-        border-bottom: 1px solid #299c7d; }
+        background: #62a782; }
       button.btn.btn-primary:disabled, input[type="submit"].btn.btn-primary:disabled, input[type="button"].btn.btn-primary:disabled {
         background-color: #30ddba !important;
         border-color: #30ddba !important; }

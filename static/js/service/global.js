@@ -121,7 +121,7 @@ BaseGlobal.prototype.logout = function() {
     var window = this.window;
 
     http.defaults.headers.common.AuthToken = null;
-    window.localStorage.setItem('user', null);
+    window.localStorage.removeItem('user');
     this.userPasswordVerified = null;
     this.user = null;
     this.excludeLogout();
@@ -264,7 +264,9 @@ angular.module('certApp')
                     case 401:
                         $rootScope.unauthorizedReq.push(req);
                         $rootScope.$broadcast('unauthorized');
-                        deferred.reject(response);
+                        if(!window.localStorage.getItem('user')){
+                            deferred.reject(response);
+                        }
                         return deferred.promise;
                     case 403:
                         $rootScope.$broadcast('forbidden');

@@ -75,15 +75,13 @@
       .sin-editor button.btn.btn-primary, .sin-editor .sin-editor-default + .sin-editor-footer button.btn,
       .sin-editor .sin-editor-inline + .sin-editor-footer button.btn,
       .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-primary, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-primary, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn {
-        background: #2ABB9B;
-        border: 1px solid #2aae8e;
+        background: #62c48f;
         transition: background .2s;
         color: #fff; }
         .sin-editor button.btn.btn-primary:hover, .sin-editor .sin-editor-default + .sin-editor-footer button.btn:hover,
         .sin-editor .sin-editor-inline + .sin-editor-footer button.btn:hover,
         .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn:hover, .sin-editor input[type="submit"].btn.btn-primary:hover, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn:hover, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn:hover, .sin-editor input[type="button"].btn.btn-primary:hover, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn:hover, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn:hover {
-          background: #2aa888;
-          border-bottom: 1px solid #299c7d; }
+          background: #62a782; }
         .sin-editor button.btn.btn-primary:disabled, .sin-editor .sin-editor-default + .sin-editor-footer button.btn:disabled,
         .sin-editor .sin-editor-inline + .sin-editor-footer button.btn:disabled,
         .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn:disabled, .sin-editor input[type="submit"].btn.btn-primary:disabled, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn:disabled, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn:disabled, .sin-editor input[type="button"].btn.btn-primary:disabled, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn:disabled, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn:disabled {

@@ -25,6 +25,8 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 					angular.element("#btn-2").click();
 				}
 			})
+		}else{
+
 		}
 	});
 

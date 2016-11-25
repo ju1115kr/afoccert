@@ -90,13 +90,13 @@ button,input[type="submit"],input[type="button"]{
       }
     }
     &.btn-primary{
-      background: #2ABB9B;
-      border: 1px solid #2aae8e;
+      background: #62c48f;
+      //border: 1px solid #2aae8e;
       transition: background .2s;
       color: #fff;
       &:hover{
-        background: #2aa888;
-        border-bottom: 1px solid #299c7d;
+        background: #62a782;
+        //border-bottom: 1px solid #299c7d;
       }
       &:disabled{
         background-color: #30ddba !important;
