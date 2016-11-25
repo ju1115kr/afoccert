@@ -193,6 +193,7 @@ controller('userInfoCtrl',function($rootScope, $scope, $location, $http, Global,
                 $scope.user.id,
                 $scope.user.pw,
                 function(){
+                    $rootScope.$broadcast('update:user'); //broadcast to news directives
                     var req = $rootScope.unauthorizedReq;
                     for(var i=0; i<req.length; i++){
                         retry(req[i]);

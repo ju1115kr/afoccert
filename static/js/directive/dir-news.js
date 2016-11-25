@@ -10,11 +10,11 @@ app
                 news:"=model"
             },
             templateUrl: '/partials/partial-news.html',
-            controller: function($scope, $rootScope, $http, $sce, $uibModal, $q, News, Comments, Reply, Global, Store, modalUtils, PopoverTrigger, deleteList, Upload, Blob, Processing){
+            controller: function($scope, $rootScope, $http, $sce, $uibModal, $q, News, Comments, Reply, Global, Store, modalUtils, PopoverTrigger, deleteList, Upload, Blob, Processing, Groups){
                 /**
                  * 뉴스 관련 함수
                  */
-                //passed from run : dismiss modal from search view
+                /* passed from run : dismiss modal from search view */
                 $rootScope.$on('update:news', function(e,newsId){
                     if(newsId == $scope.news.id){
                         News.query({'newsId':newsId}, function(n){
@@ -22,9 +22,16 @@ app
                             $scope.fetchComment();
                         })
                     }
-                })
+                });
 
-                $scope.news.optionEnabled = ($scope.news.author==Global.user.userId);
+                /* passed from ctrl-index : user sign in without login */
+                $rootScope.$on('update:user', function(){
+                    $scope.initOptionEnable();
+                });
+                $scope.initOptionEnable = function(){
+                    $scope.news.optionEnabled = ($scope.news.author==Global.user.userId);
+                };
+
                 $scope.editNewsEnd = function (id, text, files, group) {
                     $scope.news.edit = false;
                     News.update({newsId:id},{'context': text, 'tags':[], 'group':group}, function (data, headers) {

@@ -1,13 +1,13 @@
-<article class="card card-default" ng-class="{'card-in-action shadow':news.edit}">
+<article class="card card-default" ng-class="{'card-in-action shadow':news.edit}" ng-init="initOptionEnable()">
     <!-- news view start -->
     <div class="content-wrapper" ng-if="!news.edit">
         <div class="title">
             <span>{{news.id}}</span>
             <span class="news-info">
-            <span class="news-timestamp">{{news.created.date}}</span>
-            <span class="news-timestamp">{{news.created.time}}</span>
-            <span class="news-author"><a sin-popover="optionsFromUser(news.author_name)">{{news.author_name}}</a></span>
-        </span>
+                <span class="news-timestamp">{{news.created.date}}</span>
+                <span class="news-timestamp">{{news.created.time}}</span>
+                <span class="news-author"><a sin-popover="optionsFromUser(news.author_name)">{{news.author_name}}</a></span>
+            </span>
             <a class="options pull-right ng-animate-disabled" ng-if="news.optionEnabled" sin-popover="news.showPopover()">
                 <span class="glyphicons glyphicons-more"></span>
             </a>
@@ -76,7 +76,7 @@
     <!-- news view end -->
     <!-- news edit start -->
     <div class="content-wrapper" ng-if="news.edit">
-    <sin-editor class="body ng-animate-disabled" sin-class="" value="news" sin-submit="editNewsEnd(id, text, files, group)" sin-autofocus="true" sin-mode="default-edit"></sin-editor>
-        </div>
+        <sin-editor class="body ng-animate-disabled" sin-class="" value="news" sin-submit="editNewsEnd(id, text, files, group)" sin-autofocus="true" sin-mode="default-edit"></sin-editor>
+    </div>
     <!-- news edit end -->
 </article>
