@@ -1,17 +1,21 @@
 .sin-editor {
-@import "component.scss";
+	@import "component.scss";
 	position: relative;
 	.sin-editor-default,
 	.sin-editor-inline,
 	.sin-editor-default-edit{
 		min-height: 90px;
 		-webkit-user-select: initial;
-      		padding: 16px 20px 26px;
-      		font-size: 14px;
-      		&::selection,
-      		*::selection {
-        			background: #fff2a8;
-      		}
+		padding: 16px 20px 26px;
+		font-size: 14px;
+		&::selection,
+		*::selection {
+			background: #fff2a8;
+		}
+	}
+	.sin-editor-default-edit{
+		flex-grow: 1;
+		overflow: auto;
 	}
 	[contenteditable="true"] {
 		&:focus {

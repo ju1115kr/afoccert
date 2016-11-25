@@ -75,7 +75,7 @@ app
 							text: htmlText,
 							model: $scope.entries ? $scope.entries : undefined,
 							files: { data : $scope.fileToUpload, origin: $scope.editor.file.data, removeOrigin : $scope.editor.file.removed },
-							group: $scope.selectedPolicy.id==-1 ? null : $scope.selectedPolicy.id
+							group: (!$scope.selectedPolicy || $scope.selectedPolicy.id===null) ? null : $scope.selectedPolicy.id
 								/*
 								the key names (eg.'text') must sync with directive's
 								attirbute parameter of function 'submit'.
@@ -151,9 +151,13 @@ app
 				$scope.initGroupPolicies = function(){
 					$scope.groupPolicies = [defaultGroup];
 					if(isEditing){
-						Groups.query({groupId:$scope.value.group}, function(group){
-							$scope.selectedPolicy = group;
-						});
+						if($scope.value.group === null){
+							$scope.selectedPolicy = $scope.groupPolicies[0];
+						}else{
+							Groups.query({groupId:$scope.value.group}, function(group){
+								$scope.selectedPolicy = group;
+							});
+						}
 					}else{
 						$scope.selectedPolicy = $scope.groupPolicies[0];
 					}

@@ -396,8 +396,7 @@
         .sin-editor .card.card-default .comments .comment-input,
         .sin-editor .card.card-default .comments .comment .comment-input {
           position: relative;
-          display: flex;
-          flex-wrap: wrap; }
+          display: flex; }
           .sin-editor .card.card-default .comments .comment-input > *,
           .sin-editor .card.card-default .comments .comment .comment-input > * {
             flex-shrink: 0; }
@@ -461,8 +460,7 @@
                 padding: 2px 8.2px;
                 font-size: 12px;
                 margin-left: 10px;
-                margin-top: 2px;
-                width: calc(100% - 100px); }
+                margin-top: 2px; }
     .sin-editor .card.card-in-action {
       border-left: 4px solid #F9BF3B; }
     .sin-editor .card .tabbar {
@@ -518,7 +516,17 @@
     .sin-editor .modal-dialog news .card.card-default .body {
       max-height: 340px;
       overflow: auto;
-      flex-grow: 1; }
+      flex-grow: 1;
+      display: flex; }
+    .sin-editor .modal-dialog news .card.card-default.card-in-action {
+      /* editing */ }
+      .sin-editor .modal-dialog news .card.card-default.card-in-action .body {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: visible; }
+        .sin-editor .modal-dialog news .card.card-default.card-in-action .body .file-list {
+          margin-bottom: 0; }
     .sin-editor .modal-dialog news .card.card-default .comments {
       width: 180px;
       flex-shrink: 0;
@@ -843,7 +851,7 @@
       white-space: nowrap; }
   .sin-editor .dropdown-menu > li > a:hover, .sin-editor .dropdown-menu > li > a:focus {
     text-decoration: none;
-    color: #262626;
+    color: #fff;
     background-color: #f5f5f5; }
   .sin-editor .dropdown-menu > .active > a, .sin-editor .dropdown-menu > .active > a:hover, .sin-editor .dropdown-menu > .active > a:focus {
     color: #fff;
@@ -1065,6 +1073,9 @@
     .sin-editor .sin-editor-default-edit::selection,
     .sin-editor .sin-editor-default-edit *::selection {
       background: #fff2a8; }
+  .sin-editor .sin-editor-default-edit {
+    flex-grow: 1;
+    overflow: auto; }
   .sin-editor [contenteditable="true"]:focus {
     border: none;
     outline: none; }
