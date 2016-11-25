@@ -807,7 +807,7 @@
     position: absolute;
     top: 100%;
     left: 0;
-    z-index: 1000;
+    z-index: 999;
     display: none;
     float: left;
     min-width: 160px;
@@ -849,7 +849,15 @@
     color: #fff;
     text-decoration: none;
     outline: 0;
-    background-color: #337ab7; }
+    background-color: #62c48f; }
+  .sin-editor .btn.btn-primary + .dropdown-menu > .active > a, .sin-editor .sin-editor-default + .sin-editor-footer button.btn + .dropdown-menu > .active > a, .sin-editor .sin-editor-inline + .sin-editor-footer .btn + .dropdown-menu > .active > a, .sin-editor .sin-editor-inline-edit + .sin-editor-footer .btn + .dropdown-menu > .active > a {
+    background: #62c48f; }
+  .sin-editor .btn.btn-info + .dropdown-menu > .active > a {
+    background: #568FE4; }
+  .sin-editor .btn.btn-warning + .dropdown-menu > .active > a, .sin-editor .sin-editor-default-edit + .sin-editor-footer button.btn + .dropdown-menu > .active > a {
+    background: #F9BF3B; }
+  .sin-editor .btn.btn-danger + .dropdown-menu > .active > a {
+    background: #E2747D; }
   .sin-editor .dropdown-menu > .disabled > a, .sin-editor .dropdown-menu > .disabled > a:hover, .sin-editor .dropdown-menu > .disabled > a:focus {
     color: #777777; }
   .sin-editor .dropdown-menu > .disabled > a:hover, .sin-editor .dropdown-menu > .disabled > a:focus {
@@ -879,7 +887,7 @@
     right: 0;
     bottom: 0;
     top: 0;
-    z-index: 990; }
+    z-index: 989; }
   .sin-editor .pull-right > .dropdown-menu {
     right: 0;
     left: auto; }

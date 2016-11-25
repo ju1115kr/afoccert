@@ -47,8 +47,8 @@ angular.module('certApp')
         }
     })
 
-    $scope.addNews = function (text, model, files) {
-        News.save({'context': text, 'tags':[]}, function (data, headers) {
+    $scope.addNews = function (text, model, files, group) {
+        News.save({'context': text, 'tags':[], 'group':group}, function (data, headers) {
             var newsDeferred = $q.defer();
             $http({method: 'GET', url: headers('Location')}).success(function (data, stauts, headers, config) {
                 newsDeferred.resolve(data);

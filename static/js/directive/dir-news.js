@@ -15,9 +15,9 @@ app
                  * 뉴스 관련 함수
                  */
                 $scope.news.optionEnabled = ($scope.news.author==Global.user.userId);
-                $scope.editNewsEnd = function (id, text, files) {
+                $scope.editNewsEnd = function (id, text, files, group) {
                     $scope.news.edit = false;
-                    News.update({newsId:id},{'context': text, 'tags':[]}, function (data, headers) {
+                    News.update({newsId:id},{'context': text, 'tags':[], 'group':group}, function (data, headers) {
                         if(files.origin && files.removeOrigin){
                             News.deleteFile({
                                 newsId: id

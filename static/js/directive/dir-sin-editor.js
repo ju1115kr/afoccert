@@ -74,7 +74,8 @@ app
 							id: $scope.value ? $scope.value.id : undefined,
 							text: htmlText,
 							model: $scope.entries ? $scope.entries : undefined,
-							files: { data : $scope.fileToUpload, origin: $scope.editor.file.data, removeOrigin : $scope.editor.file.removed }
+							files: { data : $scope.fileToUpload, origin: $scope.editor.file.data, removeOrigin : $scope.editor.file.removed },
+							group: $scope.selectedPolicy.id==-1 ? null : $scope.selectedPolicy.id
 								/*
 								the key names (eg.'text') must sync with directive's
 								attirbute parameter of function 'submit'.
@@ -142,16 +143,52 @@ app
 				/**
 				 * 공개 범위 관련 함수
 				 */
+				var defaultGroup = {
+					id:null,
+					name : '전체공개',
+					selected: false
+				}
+				$scope.initGroupPolicies = function(){
+					$scope.groupPolicies = [defaultGroup];
+					if(isEditing){
+						Groups.query({groupId:$scope.value.group}, function(group){
+							$scope.selectedPolicy = group;
+						});
+					}else{
+						$scope.selectedPolicy = $scope.groupPolicies[0];
+					}
+					$scope.fetchGroupPolicies();
+				};
+
 				$scope.fetchGroupPolicies = function(){
 					Groups.query(function(policies){
-						$scope.groupPolicies = [{
-							id:-1,
-							name : '전체공개',
-							selected: true,
-						}];
-						$scope.groupPolicies = $scope.groupPolicies.concat(policies.groups);
-						$scope.selectedPolicy = $scope.groupPolicies[0];
+						defaultGroup = $scope.groupPolicies[0];
+						$scope.groupPolicies = policies.groups;
+						$scope.groupPolicies.unshift(defaultGroup);
+						$scope.groupPolicies.forEach(function(p){
+							if(p.id == $scope.selectedPolicy.id){
+								p.selected = true;
+							}else{
+								p.selected = false;
+							}
+						})
 					})
+				};
+
+				$scope.selectPolicy = function(policy){
+					// $scope.selectedPolicy.selected = false;
+					$scope.groupPolicies.forEach(function(p){
+						if(p.id === policy.id){
+							p.selected = true;
+							$scope.selectedPolicy = p;
+						}else{
+							p.selected= false;
+						}
+					})
+				};
+
+				$scope.getPolicyById = function(policyId){
+
 				}
 
 				$scope.createGroupPolicy = function(){
@@ -163,7 +200,7 @@ app
 							controller: 'ModalGroupPolicyCtrl',
 						});
 					};
-				}
+				};
 			},
 			templateUrl: '/partials/partial-editor-body.html',
 			link: function($scope, element, attrs) {

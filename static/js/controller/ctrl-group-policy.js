@@ -4,9 +4,6 @@ angular.module('certApp')
 
 .controller('ModalGroupPolicyCtrl', function ($scope, $uibModalInstance, $q, $timeout, $http, Groups, User) {
     $scope.groupFetched = false;
-    $timeout(function(){
-        $scope.groupFetched = true;
-    },2000)
     $scope.groups = [];
     $scope.users = [];
     var userDeferred = $q.defer();
@@ -15,6 +12,7 @@ angular.module('certApp')
         userDeferred.resolve(data.users);
     });
     Groups.query(function(policies) {
+        $scope.groupFetched = true;
         groupDeferred.resolve(policies.groups);
     });
 
@@ -28,7 +26,8 @@ angular.module('certApp')
     $scope.createdGroup = {
         name:'',
         users:[],
-        error:false
+        error:false,
+        msg:''
     }
 
     $scope.selectedGroup = null;
@@ -42,10 +41,16 @@ angular.module('certApp')
                 }
             })
             if(pos==-1){
-                $scope.createdGroup.error = false;
-                $scope.selectedGroup = $scope.createdGroup;
+                if($scope.createdGroup.name == '전체공개'){
+                    $scope.createdGroup.error = true;
+                    $scope.createdGroup.msg = '해당 이름은 사용 불가합니다'
+                }else{
+                    $scope.createdGroup.error = false;
+                    $scope.selectedGroup = $scope.createdGroup;
+                }
             }else{
                 $scope.createdGroup.error = true;
+                $scope.createdGroup.msg = '중복된 그룹명입니다.'
             }
         }
     }
@@ -107,20 +112,28 @@ angular.module('certApp')
             }())
         };
         var getURIResource = function(headers){
+            var deferred = $q.defer();
             $http({method: 'GET', url: headers('Location')}).success(function (group, stauts, headers, config) {
-                return group;
+                deferred.resolve(group);
             });
+            return deferred.promise;
         }
         if(pos==-1){
+            //새로 생성
             Groups.create(obj, function(data, headers){
-                $scope.groups.push(getURIResource(headers));
+                getURIResource(headers).then(function(group){
+                    console.log(group)
+                    $scope.groups.push(group);
+                })
+                // $scope.groups.push(getURIResource(headers));
             })
         }else{
+            //수정
             Groups.update({
                 'groupId':$scope.selectedGroup.id,
             }, obj, function(data, headers){
                 /* TODO : backend 제대로 리턴 안해줌!!!! */
-                $scope.groups[pos] = getURIResource(headers);
+                $scope.groups[pos] = data;
             })
         }
         $scope.unselectGroup();
@@ -128,6 +141,5 @@ angular.module('certApp')
 
     $scope.configGroup = function(group){
         $scope.selectedGroup = angular.copy(group);
-        console.log(group)
     }
 })

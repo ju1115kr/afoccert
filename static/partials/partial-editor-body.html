@@ -25,10 +25,10 @@
 	</div>
 	<footer class="sin-editor-footer">
 		<!-- <div class="hash-list"></div> -->
-		<div uib-dropdown is-open="status.isopen" ng-if="editorType==='default'||editorType==='default-edit'" ng-init="fetchGroupPolicies()">
-			<button id="single-button" type="button" class="btn btn-primary btn-transparent" uib-dropdown-toggle>{{selectedPolicy.name}}<span class="caret"></span></button>
+		<div uib-dropdown is-open="status.isopen" ng-if="editorType==='default'||editorType==='default-edit'" ng-init="initGroupPolicies()">
+			<button id="single-button" type="button" class="btn btn-primary btn-transparent" uib-dropdown-toggle  ng-click="fetchGroupPolicies()">{{selectedPolicy.name}}<span class="caret"></span></button>
 			<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="single-button">
-				<li ng-repeat="policy in groupPolicies"><a href="#">{{policy.name}}</a></li>
+				<li ng-repeat="policy in groupPolicies" ng-class="{active:policy.selected}"><a href="#" ng-click="selectPolicy(policy)">{{policy.name}}</a></li>
 				<li class="divider"></li>
 				<li><a href="#" ng-click="createGroupPolicy()"><span class="glyphicons glyphicons-circle-plus"></span>새 그룹 생성</a></li>
 			</ul>

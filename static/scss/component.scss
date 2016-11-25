@@ -1045,7 +1045,28 @@ news{
     background-color: $dropdown-link-active-bg;
   }
 }
-
+.btn{
+  &.btn-primary{
+    &+.dropdown-menu > .active > a{
+      background: $btn-primary-bg;
+    }
+  }
+  &.btn-info{
+    &+.dropdown-menu > .active > a{
+      background: $btn-info-bg;
+    }
+  }
+  &.btn-warning{
+    &+.dropdown-menu > .active > a{
+      background: $btn-warning-bg;
+    }
+  }
+  &.btn-danger{
+    &+.dropdown-menu > .active > a{
+      background: $btn-danger-bg;
+    }
+  }
+}
 // Disabled state
 //
 // Gray out text and ensure the hover/focus state remains gray
