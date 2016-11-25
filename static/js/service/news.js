@@ -9,20 +9,14 @@ app.factory('News', function ($resource, $sce, $q) {
 			method:'PUT'
 		},
 		query:{
+			method:'GET'
+		},
+		queryAll:{
 			method:'GET',
 			isArray:true,
 			transformResponse: function(data){
 				try {
 					data = JSON.parse(data);
-					// var newses = [];
-					// for(var i=0; i<data.news.length; i++){
-					// 	var news = new CNews(data.news[i]);
-					// 	news.trustText = $sce.trustAsHtml(news.text);
-					// 	news.fetchingComment = true;
-					// 	news.comments = [];
-					// 	news.comments.newsId = news.id;
-					// 	newses.push(news);
-					// }
 					return data.news;
 				} catch (e) {
 					return;

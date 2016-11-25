@@ -517,7 +517,8 @@
       max-height: 340px;
       overflow: auto;
       flex-grow: 1;
-      display: flex; }
+      display: flex;
+      flex-direction: column; }
     .sin-editor .modal-dialog news .card.card-default.card-in-action {
       /* editing */ }
       .sin-editor .modal-dialog news .card.card-default.card-in-action .body {
@@ -528,15 +529,15 @@
         .sin-editor .modal-dialog news .card.card-default.card-in-action .body .file-list {
           margin-bottom: 0; }
     .sin-editor .modal-dialog news .card.card-default .comments {
-      width: 180px;
+      width: 240px;
       flex-shrink: 0;
       padding: 8px 10px;
       display: flex;
       flex-direction: column; }
       .sin-editor .modal-dialog news .card.card-default .comments > ul {
         width: 100%;
-        overflow: auto;
-        flex-grow: 1; }
+        flex-grow: 1;
+        overflow-x: hidden; }
       .sin-editor .modal-dialog news .card.card-default .comments .comment .area-reply {
         padding-left: 10px; }
       .sin-editor .modal-dialog news .card.card-default .comments .comment-input {

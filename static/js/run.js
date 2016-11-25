@@ -5,7 +5,7 @@
 
 var app = angular.module('certApp');
 
-app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibModal, $uibModalStack, modalUtils, News, Comments, Search, Blob) {
+app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibModal, $uibModalStack, modalUtils, News, Comments, Search, Blob, Processing) {
 
 	CNote.prototype.getFile = function(){
 		Blob.download(this);
@@ -43,21 +43,22 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 			news.selected = true;
 			this.selected = news;
 			var modalInstance = $uibModal.open({
-					templateUrl: '/partials/partial-news-modal.html',
-					controller: 'ModalNewsCtrl',
-					windowClass: 'enter-searchResult',
-					appendTo: angular.element(".search-detail"),
-					resolve: {
-							modalNews: function () {
-									return news;
-							}
+				templateUrl: '/partials/partial-news-modal.html',
+				controller: 'ModalNewsCtrl',
+				windowClass: 'enter-searchResult',
+				appendTo: angular.element(".search-detail"),
+				resolve: {
+					modalNews: function () {
+						return news;
 					}
+				}
 			});
 			var that = this;
 			modalInstance.result.then(function(){
 				news.selected = false;
 				that.selected = null;
 			}, function(){
+				$rootScope.$broadcast('update:news',news.id); //broadcast to tab1 ctrl
 				news.selected = false;
 				that.selected = null;
 			})
@@ -71,38 +72,23 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 		result: false
 	}
 
-	function fetchComment(newses){
-		var deferred = $q.defer();
-        angular.forEach(newses, function(news, index){
-            Comments.fromNews({newsId: news.id}, function (result) {
-                news.comments = result;
-                news.fetchingComment = false;
-                news.comments.newsId = news.id;
-            }, function(){
-
-			})
-        })
-		$q.all(newses).then(function(){
-			deferred.resolve(newses);
-		});
-		return deferred.promise;
-    }
 	window.addEventListener("keydown", function(e) {
 		if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
 			$rootScope.searchBar.ele().focus();
 			e.preventDefault();
 		}
-	})
+	});
 
 	var timeout;
 	function setDelay (){
 		timeout = setTimeout(function(){
 			Search.fromNews({keyword:$rootScope.searchBar.value}, function(result){
-				$rootScope.searchBar.loading = false;
-				fetchComment(result).then(function(newses){
-					$rootScope.searchResult = newses;
+				var newses = [];
+				result.forEach(function(news){
+					newses.push(Processing.news(news));
 				})
-
+				$rootScope.searchResult = newses;
+				$rootScope.searchBar.loading = false;
 			})
 		},500);
 	};

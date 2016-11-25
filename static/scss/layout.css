@@ -26,6 +26,9 @@ body {
     margin-left: 410px; }
   #header.enter-searchResult #header-wrapper {
     margin-left: 10px; }
+  #header.enter-searchResult .modal .modal-dialog {
+    max-width: 760px;
+    width: calc(100% - 200px); }
   #header #searchBar-wrap {
     position: relative;
     max-width: 300px;

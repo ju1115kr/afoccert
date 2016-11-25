@@ -10,10 +10,20 @@ app
                 news:"=model"
             },
             templateUrl: '/partials/partial-news.html',
-            controller: function($scope, $rootScope, $http, $sce, $uibModal, $q, News, Comments, Reply, Global, Store, modalUtils, PopoverTrigger, deleteList, Upload, Blob){
+            controller: function($scope, $rootScope, $http, $sce, $uibModal, $q, News, Comments, Reply, Global, Store, modalUtils, PopoverTrigger, deleteList, Upload, Blob, Processing){
                 /**
                  * 뉴스 관련 함수
                  */
+                //passed from run : dismiss modal from search view
+                $rootScope.$on('update:news', function(e,newsId){
+                    if(newsId == $scope.news.id){
+                        News.query({'newsId':newsId}, function(n){
+                            $scope.news = Processing.news(n);
+                            $scope.fetchComment();
+                        })
+                    }
+                })
+
                 $scope.news.optionEnabled = ($scope.news.author==Global.user.userId);
                 $scope.editNewsEnd = function (id, text, files, group) {
                     $scope.news.edit = false;
@@ -83,24 +93,13 @@ app
                 /**
                  *  comments
                  */
-                function processingComment(comment){
-                    var comment = new CComment(comment);
-                    comment.trustText = $sce.trustAsHtml(comment.text);
-                    return comment;
-                }
-
-                function processingReply(reply){
-                    var reply = new CReply(reply);
-                    reply.trustText = $sce.trustAsHtml(reply.text);
-                    return reply;
-                }
 
                 $scope.fetchComment = function(){
                     var news = $scope.news;
                     Comments.fromNews({newsId: news.id}, function (result) {
                         var comments = [];
                         result.forEach(function(comment){
-                            comments.push(processingComment(comment));
+                            comments.push(Processing.comment(comment));
                         });
                         news.comments = comments;
                         news.fetchingComment = false;
@@ -114,7 +113,7 @@ app
                             commentDeferred.resolve(data);
                         });
                         commentDeferred.promise.then(function(unprocessedComment){
-                            var comment = processingComment(unprocessedComment);
+                            var comment = Processing.comment(unprocessedComment);
                             if(files.data && files.data.length!==0) {
                                 var file = {
                                     file: files.data[0]
@@ -187,7 +186,7 @@ app
                             replyDeferred.resolve(data);
                         });
                         replyDeferred.promise.then(function(unprocessedReply){
-                            var reply = processingReply(unprocessedReply);
+                            var reply = Processing.reply(unprocessedReply);
                             reply.recent = true;
                             if(files.data && files.data.length!==0) {
                                 var file = {
@@ -224,7 +223,7 @@ app
                     $scope.replyToCommentStart(comment);
                     Reply.fromComment({commentId: comment.id},function(data){
                         angular.forEach(data.reply_comments, function (reply) {
-                            comment.replies.push(processingReply(reply));
+                            comment.replies.push(Processing.reply(reply));
                         });
                         $q.all(comment.replies, function(){
                             comment.replies.commentId = comment.id;

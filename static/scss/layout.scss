@@ -40,6 +40,10 @@ body{
 		#header-wrapper{
 			margin-left: 10px;
 		}
+		.modal .modal-dialog{
+			max-width: 760px;
+			width: calc(100% - 200px);
+		}
 	}
 	#searchBar-wrap{
 		position: relative;
