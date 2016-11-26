@@ -36,7 +36,8 @@ def get_all_news():
     pagination = News.query.order_by(News.created_at.desc()).paginate(page, per_page, error_out=False)
     pag_news = pagination.items
     return jsonify({'news': [news.to_json() for news in pag_news\
-                    if news.group is None or g.current_user in news.house.users]})
+                    if news.group is None or g.current_user in news.house.users\
+                    or g.current_user.id == news.house.create_user]})
 
 
 @api.route('/news/<int:id>', methods=['GET'])  # 특정 신송 요청
@@ -45,7 +46,9 @@ def get_news(id):
     news = News.query.get(id)
     if news is None:
         return not_found('News does not exist')
-    if news.group is not None and g.current_user not in news.house.users:
+    # 전체 공개, 그룹 내 유저, 그룹 생성자만 신송 열람 허용
+    if news.group is not None and g.current_user not in news.house.users\
+                    and g.current_user.id != news.house.create_user: 
         return forbidden('User does not in this group')
     return jsonify(news.to_json())
 
@@ -114,7 +117,8 @@ def get_news_file(id):
     news = News.query.get(id)
     if news is None:
         return not_found('News does not exist')
-    if news.group is not None and g.current_user not in news.house.users:
+    if news.group is not None and g.current_user not in news.house.users\
+                    and g.current_user.id != news.house.create_user:
         return forbidden('User does not in this group')
     filelocate = news.filelocate
     if filelocate is None:
@@ -191,6 +195,9 @@ def get_news_comments(news_id):
     news = News.query.get(news_id)
     if news is None:
         return not_found('News does not exist')
+    if news.group is not None and g.current_user not in news.house.users\
+            and g.current_user.id != news.house.create_user:
+        return forbidden('User does not in this group') 
     return jsonify({'comments': [comment.to_json() for comment in news.comments if comment.parent_id is None]})
 
 
@@ -203,6 +210,10 @@ def post_news_comment(news_id):
     news = News.query.get(news_id)
     if news is None:
         return not_found('news does not exist')
+    if news.group is not None and g.current_user not in news.house.users\
+                and g.current_user.id != news.house.create_user:
+        return forbidden('User does not in this group')
+
     comment = Comment.from_json(request.json)
     comment.news_id = news.id
     comment.author_id = g.current_user.id

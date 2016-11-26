@@ -81,7 +81,7 @@ def put_comment_file(comment_id):
         return forbidden('Cannot Upload File')
     if request.files['file'] is None:
         return bad_request('File Request in invaild')
-    os.remove(os.path.join(UPLOAD_FOLDER, comment.filelocate)) # 실효성 여부 파악 필요
+    os.remove(os.path.join(UPLOAD_FOLDER, comment.filelocate))
 
     file = request.files['file']
     if file and allowed_file(file.filename.lower()):
@@ -104,7 +104,7 @@ def delete_comment_file(comment_id):
         return not_found('Comment does not exist')
     if g.current_user.id != comment.author_id:
         return forbidden('Cannot Delete File')
-    os.remove(os.path.join(UPLOAD_FOLDER, comment.filelocate)) # 실효성 여부 파악 필요
+    os.remove(os.path.join(UPLOAD_FOLDER, comment.filelocate))
     comment.filename = None
     comment.filelocate = None
     return '', 204
@@ -167,8 +167,6 @@ def delete_comment(comment_id):
         return forbidden('Cannot delete other user\'s comment')
     if comment.filename is not None:
         os.remove(os.path.join(UPLOAD_FOLDER, comment.filelocate))
-#    comment.filename = None
-#    comment.filelocate = None
     Comment.query.filter(Comment.parent_id==comment.id).delete()
     db.session.delete(comment)
     db.session.commit()
