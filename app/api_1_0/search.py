@@ -32,7 +32,9 @@ def search_news(context):
     if pagination is None:
         return not_found('Result does not exist')
     return jsonify({'news':[news.to_json() for news in pag_result\
-            if context in news.parsed_context and (news.house is None or g.current_user in news.house.users)]})
+            if context in news.parsed_context and\
+            (news.house is None or g.current_user in news.house.users\
+                or g.current_user.id == news.house.user)]})
 
 
 @api.route('/search/comments/<context>', methods=['GET'])
@@ -53,7 +55,8 @@ def search_comment(context):
         return not_found('Comment does not exist')
     return jsonify({'comments':[comment.to_json() for comment in pag_result\
             if context in comment.parsed_context and\
-            (comment.news.house is None or g.current_user in comment.news.house.users)]})
+            (comment.news.house is None or g.current_user in comment.news.house.users\
+            or g.current_user.id == news.house.user)]})
 
 
 @api.route('/search', methods=['GET'])
@@ -83,4 +86,6 @@ def search_allmight():
         return not_found('News does not exist')
 
     return jsonify({'news':[news.to_json() for news in pag_result\
-            if context in news.parsed_context and (news.house is None or g.current_user in news.house.users)]})
+            if context in news.parsed_context and\
+            (news.house is None or g.current_user in news.house.users\
+            or g.current_user.id == news.house.user)]})
