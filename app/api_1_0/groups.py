@@ -114,9 +114,6 @@ def delete_group(group_id):
         return not_found('Group does not exist')
     if g.current_user.id != group.create_user:
     	return forbidden('User does not in this group')
-    # TODO: 삭제 불가능 그룹 리스트 관련 설계 재검토 필요
-    if group.name == 'ADMIN_GROUP_NAME':  # 관리자 그룹 삭제 요청 시
-        return forbidden('Cannot delete Administrator group')
     db.session.delete(group)
     db.session.commit()
     return '', 204

@@ -80,7 +80,8 @@ def search_allmight():
 	
     if context is None:  # 특정 구문이 주어지지 않은 경우
         return jsonify({'news':[news.to_json() for news in pag_result\
-            if news.house is None or g.current_user in news.house.users]})
+            if news.house is None or g.current_user in news.house.users\
+            or g.current_user.id == news.house.create_user]})
 
     if pag_result is None:
         return not_found('News does not exist')
