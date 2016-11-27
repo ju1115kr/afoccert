@@ -34,7 +34,7 @@ def search_news(context):
     return jsonify({'news':[news.to_json() for news in pag_result\
             if context in news.parsed_context and\
             (news.house is None or g.current_user in news.house.users\
-                or g.current_user.id == news.house.user)]})
+                or g.current_user.id == news.house.create_user)]})
 
 
 @api.route('/search/comments/<context>', methods=['GET'])
@@ -56,7 +56,7 @@ def search_comment(context):
     return jsonify({'comments':[comment.to_json() for comment in pag_result\
             if context in comment.parsed_context and\
             (comment.news.house is None or g.current_user in comment.news.house.users\
-            or g.current_user.id == news.house.user)]})
+            or g.current_user.id == news.house.create_user)]})
 
 
 @api.route('/search', methods=['GET'])
@@ -88,4 +88,4 @@ def search_allmight():
     return jsonify({'news':[news.to_json() for news in pag_result\
             if context in news.parsed_context and\
             (news.house is None or g.current_user in news.house.users\
-            or g.current_user.id == news.house.user)]})
+            or g.current_user.id == news.house.create_user)]})
