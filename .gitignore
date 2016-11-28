@@ -10,3 +10,4 @@ app/data-test.sqlite
 nohup*
 migrations/*
 .idea
+app/
