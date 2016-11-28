@@ -68,6 +68,19 @@ angular.module('certApp')
     .controller('ModalDeleteCtrl', function ($scope, $uibModalInstance, News, deleteList, $q) {
         $scope.deleteList = deleteList.get();
         $scope.delete = function (item) {
+            News.delete({newsId: item.id}, function () {
+                item.deleted = true;
+                deleteList.clear(item);
+                if($scope.deleteList.length==0){
+                    $uibModalInstance.close();
+                }
+            });
+            deleteList.clear(item);
+            if($scope.deleteList.length == 0){
+                $uibModalInstance.close();
+            }
+        }
+        $scope.rollback = function (item) {
             deleteList.clear(item);
             if($scope.deleteList.length == 0){
                 $uibModalInstance.close();
