@@ -25,8 +25,7 @@ if async_mode is None:
 if async_mode == 'eventlet':
     import eventlet
     eventlet.monkey_patch()
-    print "eventlet"
+
 elif async_mode == 'gevent':
     from gevent import monkey
     monkey.patch_all()
-    print "gevent"
