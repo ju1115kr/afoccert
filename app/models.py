@@ -15,12 +15,6 @@ user_group_relationship = db.Table('user_group_relationship',
                                   db.PrimaryKeyConstraint('user_id', 'group_id'))
 
 
-# 유저-그룹 간 Many-to-Many 관계 테이블
-user_group_relationship = db.Table('user_group_relationship',
-                db.Column('user_id', db.Integer, db.ForeignKey('users.id'), nullable=False),
-                db.Column('group_id', db.Integer, db.ForeignKey('groups.id'), nullable=False),
-                db.PrimaryKeyConstraint('user_id', 'group_id'))
-
 
 class User(db.Model):
     __tablename__ = 'users'
