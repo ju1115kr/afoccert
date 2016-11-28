@@ -10,7 +10,7 @@ from flask.ext.cors import cross_origin
 import os, time
 
 
-UPLOAD_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../file/'))
+UPLOAD_FOLDER = os.path.join(api.root_path, '../../file/')
 ALLOWED_FILE_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'bmp',\
                 'show', 'cell', 'xls', 'xlsm', 'xlsx', 'csv', 'ppt',\
                 'pptx', 'doc', 'docx', 'hwp', 'pdf', 'txt'])

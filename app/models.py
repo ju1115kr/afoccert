@@ -15,7 +15,6 @@ user_group_relationship = db.Table('user_group_relationship',
                                   db.PrimaryKeyConstraint('user_id', 'group_id'))
 
 
-
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
