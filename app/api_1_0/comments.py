@@ -163,7 +163,7 @@ def delete_comment(comment_id):
     comment = Comment.query.filter_by(id=comment_id).first()
     if comment is None:
         return not_found('Comment does not exist')
-    if g.current_user.id is not comment.author_id:  # 다른 유저의 덧글을 삭제하려고 하는 경우
+    if g.current_user.id != comment.author_id:  # 다른 유저의 덧글을 삭제하려고 하는 경우
         return forbidden('Cannot delete other user\'s comment')
     if comment.filename is not None:
         os.remove(os.path.join(UPLOAD_FOLDER, comment.filelocate))
