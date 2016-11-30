@@ -1,7 +1,8 @@
 <div id="main">
 <!-- editor start -->
-	<div id="dummy-wrapper" ng-style="{{editor.style}}" overlap="overlapped">
-		<div id="news-draft" class="card card-default shadow ng-animate-disabled" ng-class="{overlapped:overlapped.state}" ng-show="!overlapped.state || editor.show">
+	<div id="dummy-wrapper" style="{{editor.style}}" overlap="overlapped">
+		<div id="news-draft" class="card card-default shadow ng-animate-disabled"
+			 ng-class="{overlapped:editor.show}" ng-show="!overlapped.state || editor.show">
 			<div class="tabbar">
 				<div card-toolbar></div>
 			</div>
