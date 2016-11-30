@@ -11,12 +11,12 @@ angular.module('certApp')
             state: false,
             ele : null
         }
-        $scope.$watch('overlapped', function(obj){
-            if(obj.state === true){
+        $scope.$watch('overlapped', function(obj,old){
+            if(obj.state === true && old.state === false){
                 var height = obj.height;
                 $scope.editor.style = 'height:'+height+'px';
                 $scope.editor.show = true;
-            }else if(obj.state === false){
+            }else if(obj.state === false && old.state === true){
                 $scope.editor.style = 'height:auto';
                 $scope.editor.show = false;
             }
