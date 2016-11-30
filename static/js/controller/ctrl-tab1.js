@@ -6,7 +6,7 @@ angular.module('certApp')
             $scope.newses = [];
             $scope.fetching = false;
             $scope.fetchedAll = false;
-
+            $scope.editorReady = false;
             function fetchNewPage(startPage) {
                 return function () {
                     $scope.fetching = true;
@@ -14,6 +14,7 @@ angular.module('certApp')
                     News.queryAll(
                         {page: startPage, per_page: 20},
                         function (result) {
+                            $scope.editorReady = true;
                             var newses = [];
                             result.forEach(function(news){
                                 newses.push(Processing.news(news));

@@ -3,7 +3,7 @@
 var app = angular.module('certApp');
 
 app
-	.directive("sinEditor", function($timeout, Groups, modalUtils, $uibModal) {
+	.directive("sinEditor", function($timeout, User, Groups, modalUtils, $uibModal, $q, $rootScope) {
 		return {
 			restrict: "E",
 			scope: {
@@ -147,22 +147,39 @@ app
 					id:null,
 					name : '전체공개',
 					selected: false
-				}
+				};
 				$scope.initGroupPolicies = function(){
+					var selectPolicyDeferred = $q.defer();
 					$scope.groupPolicies = [defaultGroup];
 					if(isEditing){
 						if($scope.value.group === null){
-							$scope.selectedPolicy = $scope.groupPolicies[0];
+							selectPolicyDeferred.resolve($scope.groupPolicies[0])
 						}else{
 							Groups.query({groupId:$scope.value.group}, function(group){
-								$scope.selectedPolicy = group;
+								selectPolicyDeferred.resolve(group);
 							});
 						}
 					}else{
-						$scope.selectedPolicy = $scope.groupPolicies[0];
+						var username = JSON.parse(window.localStorage['user']).userId;
+						User.get({userId:username}, function(data){
+							if(data.recent_group === null){
+								selectPolicyDeferred.resolve($scope.groupPolicies[0])
+							}else{
+								Groups.query({groupId:data.recent_group}, function(group){
+									selectPolicyDeferred.resolve(group);
+								});
+							}
+						})
 					}
-					$scope.fetchGroupPolicies();
+					selectPolicyDeferred.promise.then(function(selected){
+						$scope.selectedPolicy = selected;
+						$scope.fetchGroupPolicies();
+					})
 				};
+
+				$rootScope.$on('update:user',function(){
+					$scope.initGroupPolicies();
+				})
 
 				$scope.fetchGroupPolicies = function(){
 					Groups.query(function(policies){
@@ -212,23 +229,9 @@ app
 				var editor = element.find("#fn-note");
 				editor.bind('keydown', 'alt+s', function(event) {
 					$scope.pushEntry($scope.editor.value);
-					focusEditor();
 					event.preventDefault();
 				})
 
-				if ($scope.autofocus) {
-					focusEditor();
-				}
-
-				function focusEditor() {
-					$timeout(function() {
-						if ($scope.value) {
-							placeCaretAtEnd(editor[0]);
-						} else {
-							placeCaretAtStart(editor[0])
-						}
-					})
-				}
 			}
 		};
 	})
