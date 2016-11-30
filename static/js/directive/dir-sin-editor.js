@@ -14,7 +14,7 @@ app
 				autofocus: "=sinAutofocus",
 				editorFocused: "&sinFocused",
 				editorBlured: "&sinBlured",
-				editorType: "@sinMode"
+				editorType: "@sinMode",
 			},
 			replace: true,
 			controller: function($scope, $sce) {
@@ -242,7 +242,7 @@ app
 			scope: {
 				hash: "=sinHash",
 				isFocused: "=sinFocused",
-				isBlured: "=sinBlured"
+				isBlured: "=sinBlured",
 			},
 			controller: function($scope) {
 				$scope.users = [];

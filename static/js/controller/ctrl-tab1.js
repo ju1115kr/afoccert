@@ -3,6 +3,22 @@
 angular.module('certApp')
 
     .controller('Tab1Ctrl',function ($scope, $sce, $rootScope, $uibModal, News, $http, $window, Comments, Reply, $q, Blob, Processing) {
+        $scope.editor = {
+            style : '',
+            show : true
+        }
+        $scope.overlapped = {
+            state: false,
+            ele : null
+        }
+        $scope.$watch('overlapped', function(obj){
+            if(obj.state === true){
+                var height = obj.height;
+                $scope.editor.style = 'height:'+height+'px';
+            }else if(obj.state === false){
+                $scope.editor.style = 'height:auto';
+            }
+        })
             $scope.newses = [];
             $scope.fetching = false;
             $scope.fetchedAll = false;
@@ -64,6 +80,9 @@ angular.module('certApp')
                     })
                 })
             };
+            $scope.toggleNote = function(){
+                $scope.editor.show = !$scope.editor.show;
+            }
         }
     )
     .controller('ModalDeleteCtrl', function ($scope, $uibModalInstance, News, deleteList, $q) {
