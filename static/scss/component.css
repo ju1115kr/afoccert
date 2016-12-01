@@ -1100,4 +1100,55 @@ news {
   background: #616161;
   border-bottom-color: #4a4a4a; }
 
+.fav,
+button.fav,
+button.btn.fav {
+  position: fixed;
+  bottom: 50px;
+  right: 30px;
+  left: auto;
+  top: auto;
+  width: 60px;
+  height: 60px;
+  border-radius: 60px;
+  background: #62c48f;
+  font-size: 18px;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); }
+  .fav:focus,
+  button.fav:focus,
+  button.btn.fav:focus {
+    outline: none; }
+  .fav > .glyphicons,
+  button.fav > .glyphicons,
+  button.btn.fav > .glyphicons {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    margin: 0; }
+    .fav > .glyphicons.ng-enter,
+    button.fav > .glyphicons.ng-enter,
+    button.btn.fav > .glyphicons.ng-enter {
+      transition: all .5s;
+      transform: rotate(120deg); }
+      .fav > .glyphicons.ng-enter.ng-enter-active,
+      button.fav > .glyphicons.ng-enter.ng-enter-active,
+      button.btn.fav > .glyphicons.ng-enter.ng-enter-active {
+        opacity: 1;
+        transform: rotate(0deg); }
+    .fav > .glyphicons.ng-leave,
+    button.fav > .glyphicons.ng-leave,
+    button.btn.fav > .glyphicons.ng-leave {
+      transition: all .5s;
+      transform: rotate(0deg); }
+      .fav > .glyphicons.ng-leave.ng-leave-active,
+      button.fav > .glyphicons.ng-leave.ng-leave-active,
+      button.btn.fav > .glyphicons.ng-leave.ng-leave-active {
+        opacity: 0;
+        transform: rotate(-120deg); }
+
 /*# sourceMappingURL=component.css.map */

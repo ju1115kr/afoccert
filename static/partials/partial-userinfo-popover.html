@@ -1,46 +1,46 @@
-<div id="userinfo">
-<form id="signForm" ng-submit="signin()" ng-class="{leave:'animate-leave'}" ng-if="state[0]">
-	<h2>로그인이 필요합니다</h2>
-	<h4>인증정보가 만료되었습니다</h4>
-	<input type="text" ng-model="user.id" class="form-input lg" placeholder="아이디">
-	<input type="password" ng-model="user.pw" class="form-input lg" placeholder="비밀번호" autofocus>
-	<button type="submit" class="btn btn-info btn-block btn-lg ng-animate-disabled" ng-disabled="user.loading">로그인</button>
-	<button class="btn btn-lg btn-block btn-warning" ng-click="logout()"><span class="glyphicons glyphicons-log-out"></span>로그아웃</button>
-</form>
+<div id="userinfo" ng-init="initPopover()">
+	<form id="signForm" ng-submit="signin()" ng-class="{leave:'animate-leave'}" ng-if="state[0]">
+		<h2>로그인이 필요합니다</h2>
+		<h4>인증정보가 만료되었습니다</h4>
+		<input type="text" ng-model="user.id" class="form-input lg" placeholder="아이디">
+		<input type="password" ng-model="user.pw" class="form-input lg" placeholder="비밀번호" safe-auto-focus="true">
+		<button type="submit" class="btn btn-info btn-block btn-lg ng-animate-disabled" ng-disabled="user.loading">로그인</button>
+		<button class="btn btn-lg btn-block btn-warning" ng-click="logout()"><span class="glyphicons glyphicons-log-out"></span>로그아웃</button>
+	</form>
 
-<div id="signForm" class="profile ng-animate-disabled" ng-if="state[1]">
-	<div class="thumbnail">
+	<div id="signForm" class="profile ng-animate-disabled" ng-if="state[1]">
+		<div class="thumbnail">
 		<span class="circle-container">
 			<span class="glyphicons glyphicons-user"></span>
 		</span>
-		<div>{{user.name}}</div>
-		<div>({{user.id}})</div>
+			<div>{{user.name}}</div>
+			<div>({{user.id}})</div>
+		</div>
+		<div class="options">
+			<button class="btn btn-block btn-default" ng-click="modifyUser()"><span class="glyphicons glyphicons-pencil"></span>수정</button>
+			<button class="btn btn-block btn-info" ng-click="switchUser()">사용자 전환</button>
+			<button class="btn btn-block btn-warning" ng-click="logout()"><span class="glyphicons glyphicons-log-out"></span>로그아웃</button>
+			<label class="control control--checkbox nomargin">
+				Dracula
+				<input type="checkbox" ng-model="interface.dracula" class="ng-pristine ng-untouched ng-valid">
+				<div class="control__indicator"></div>
+			</label>
+		</div>
 	</div>
-	<div class="options">
-		<button class="btn btn-block btn-default" ng-click="modifyUser()"><span class="glyphicons glyphicons-pencil"></span>수정</button>
-		<button class="btn btn-block btn-info" ng-click="switchUser()">사용자 전환</button>
-		<button class="btn btn-block btn-warning" ng-click="logout()"><span class="glyphicons glyphicons-log-out"></span>로그아웃</button>
-		<label class="control control--checkbox nomargin">
-			Dracula
-			<input type="checkbox" ng-model="interface.dracula" class="ng-pristine ng-untouched ng-valid">
-			<div class="control__indicator"></div>
-		</label>
-	</div>
-</div>
-<form id="signForm" ng-submit="update()" ng-if="state[2]" class="ng-animate-disabled">
-	<input type="text" class="form-input lg" placeholder="이름" ng-model="tempUser.name" autofocus>
-	<input type="password" class="form-input lg" placeholder="비밀번호" ng-model="tempUser.pw">
-	<input type="password" class="form-input lg" placeholder="비밀번호확인" ng-model="tempUser.pwcf">
-	<button type="submit" class="btn btn-warning btn-lg">수정</button>
-	<button class="btn btn-default btn-lg" ng-click="dismiss()">취소</button>
-</form>
-<form id="signForm" ng-submit="signin()" class="ng-animate-disabled" ng-if="state[3]">
-	<h2>다른 계정으로 로그인</h2>
-	<h4>로그아웃없이 이동합니다</h4>
-	<input type="text" ng-model="user.id" class="form-input lg" placeholder="아이디" autofocus>
-	<input type="password" ng-model="user.pw" class="form-input lg" placeholder="비밀번호">
-	<button type="submit" class="btn btn-info btn-lg" ng-disabled="user.loading">로그인</button>
-	<button class="btn btn-lg btn-warning" ng-click="logout()"><span class="glyphicons glyphicons-log-out"></span>로그아웃</button>
-	<button class="btn btn-default btn-lg" ng-click="dismiss()">취소</button>
-</form>
+	<form id="signForm" ng-submit="update()" ng-if="state[2]" class="ng-animate-disabled">
+		<input type="text" class="form-input lg" placeholder="이름" ng-model="tempUser.name" safe-auto-focus="true">
+		<input type="password" class="form-input lg" placeholder="비밀번호" ng-model="tempUser.pw">
+		<input type="password" class="form-input lg" placeholder="비밀번호확인" ng-model="tempUser.pwcf">
+		<button type="submit" class="btn btn-warning btn-lg">수정</button>
+		<button class="btn btn-default btn-lg" ng-click="dismiss()">취소</button>
+	</form>
+	<form id="signForm" ng-submit="signin()" class="ng-animate-disabled" ng-if="state[3]">
+		<h2>다른 계정으로 로그인</h2>
+		<h4>로그아웃없이 이동합니다</h4>
+		<input type="text" ng-model="user.id" class="form-input lg" placeholder="아이디" safe-auto-focus="true">
+		<input type="password" ng-model="user.pw" class="form-input lg" placeholder="비밀번호">
+		<button type="submit" class="btn btn-info btn-lg" ng-disabled="user.loading">로그인</button>
+		<button class="btn btn-lg btn-warning" ng-click="logout()"><span class="glyphicons glyphicons-log-out"></span>로그아웃</button>
+		<button class="btn btn-default btn-lg" ng-click="dismiss()">취소</button>
+	</form>
 </div>

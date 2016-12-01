@@ -366,3 +366,18 @@ body{
 		}
 	}
 }
+#dummy-wrapper{
+	display: block;
+	position: relative;
+}
+#news-draft{
+	&.overlapped{
+		position: fixed;
+		max-width: 600px;
+		bottom: #{$fav-pos-bottom + $fav-size/2};
+		right: #{$fav-pos-right + $fav-size/2};
+		left: auto;
+		top: auto;
+		z-index: 999;
+	}
+}

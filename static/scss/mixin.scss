@@ -2,3 +2,8 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, $opacity);
   -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, $opacity);
 }
+@mixin placeholder($color){
+  ::-webkit-input-placeholder{
+    color: $color;
+  }
+}
