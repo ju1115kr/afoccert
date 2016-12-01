@@ -21,7 +21,7 @@
 			 sin-blured="isBlured"
 			 contenteditable="true"
 			 ng-model="editor.value"
-			 ng-attr-autofocus="{{autofocus||undefined}}">
+			 safe-auto-focus="{{autofocus||false}}">
 			{{editor.value}}
 		</div>
 		<footer class="sin-editor-footer">

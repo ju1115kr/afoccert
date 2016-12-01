@@ -1,4 +1,5 @@
 @import "variable.scss";
+@import "mixin";
 input{
   appearance: none;
   -moz-appearance: none;
@@ -1386,6 +1387,51 @@ news{
     .modal-dialog {
       background: #616161;
       border-bottom-color: #4a4a4a;
+    }
+  }
+}
+
+.fav,
+button.fav,
+button.btn.fav{
+  position: fixed;
+  bottom: $fav-pos-bottom;
+  right: $fav-pos-right;
+  left: auto;
+  top: auto;
+  width: $fav-size;
+  height: $fav-size;
+  border-radius:$fav-size;
+  background: $brand-primary;
+  font-size: 18px;
+  padding:0;
+  @include drop-shadow(0.15);
+  &:focus{
+    outline: none;
+  }
+  >.glyphicons{
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height:100%;
+    justify-content:center;
+    align-items:center;
+    margin:0;
+    &.ng-enter{
+      transition: all .5s;
+      transform: rotate(120deg);
+      &.ng-enter-active{
+        opacity: 1;
+        transform: rotate(0deg);
+      }
+    }
+    &.ng-leave{
+      transition: all .5s;
+      transform: rotate(0deg);
+      &.ng-leave-active{
+        opacity:0;
+        transform: rotate(-120deg);
+      }
     }
   }
 }

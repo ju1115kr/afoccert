@@ -91,7 +91,8 @@ BaseGlobal.prototype.login = function(username, password, success, failure) {
     }).then(function(data, status, headers, config) {
         var jsonString = {
             token: data.data.token,
-            userId: username
+            userId: username,
+            endTime: new Date(new Date().getTime() + data.data.expiration * 1000).toJSON()
         };
         window.localStorage.setItem('user', JSON.stringify(jsonString));
         var user_string = window.localStorage['user'];

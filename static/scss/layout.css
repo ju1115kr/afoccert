@@ -268,4 +268,17 @@ body.dracula {
       body.dracula #searchResult aside li:hover:before, body.dracula #searchResult aside li.selected:before {
         background: #7fa3d2; }
 
+#dummy-wrapper {
+  display: block;
+  position: relative; }
+
+#news-draft.overlapped {
+  position: fixed;
+  max-width: 600px;
+  bottom: 80px;
+  right: 60px;
+  left: auto;
+  top: auto;
+  z-index: 999; }
+
 /*# sourceMappingURL=layout.css.map */

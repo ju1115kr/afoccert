@@ -137,7 +137,7 @@ controller('IndexCtrl', function($scope, $rootScope, $location, RouteLinkProvide
                 }
             },
             templateUrl : '/partials/partial-userinfo-popover.html'
-        });
+        })
 
     };
 
@@ -154,6 +154,10 @@ controller('helloCtrl',function($scope, $popoverInstance, Init){
 }).
 controller('userInfoCtrl',function($rootScope, $scope, $location, $http, Global, Store, $popoverInstance, User){
     $scope.global = Global;
+    $scope.initPopover = function(){
+        initUser();
+        determineState();
+    }
     function initUser(){
         $scope.user = {
             id:'',
@@ -165,7 +169,6 @@ controller('userInfoCtrl',function($rootScope, $scope, $location, $http, Global,
             loading:false
         }
     }
-    initUser();
     function determineState(){
         $scope.state = [
             $scope.global.user.isExpired,
@@ -184,7 +187,8 @@ controller('userInfoCtrl',function($rootScope, $scope, $location, $http, Global,
             }
         }
     }
-    determineState();
+    $rootScope.$on('unauthorized', determineState);
+    // determineState();
     /* STATE 0 */
     $scope.signin = function(){
         if($scope.user.id.length!=0 && $scope.user.pw.length!=0){
@@ -193,7 +197,7 @@ controller('userInfoCtrl',function($rootScope, $scope, $location, $http, Global,
                 $scope.user.id,
                 $scope.user.pw,
                 function(){
-                    $rootScope.$broadcast('update:user'); //broadcast to news directives
+                    $rootScope.$broadcast('update:user'); //broadcast to [news directive, sin-eidtor directive];
                     var req = $rootScope.unauthorizedReq;
                     for(var i=0; i<req.length; i++){
                         retry(req[i]);

@@ -10,4 +10,4 @@ angular.module('certApp', [
     'ngAnimate',
     'ui.bootstrap',
     'utilsModule'
-]);
+]).constant('_', window._)
