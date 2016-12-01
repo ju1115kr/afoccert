@@ -5,14 +5,6 @@ from authentication import auth
 from ..models import News, User, Comment
 from errors import not_found, forbidden, bad_request
 from datetime import datetime
-import re
-
-
-def removeEscapeChar(context): #Frontsize의 HTML 태그 제거
-	str = re.sub("(<([^>]+)>)", "", context)
-	str = str.replace('&nbsp;', "").replace('&lt;', "<").replace('&gt;', ">")\
-		.replace('&amp;', "&").replace('&quot;', '"')
-	return str
 
 
 @api.route('/search/news/<context>', methods=['GET'])

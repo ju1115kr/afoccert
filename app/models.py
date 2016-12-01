@@ -15,7 +15,6 @@ user_group_relationship = db.Table('user_group_relationship',
                                   db.PrimaryKeyConstraint('user_id', 'group_id'))
 
 
-
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -27,11 +26,6 @@ class User(db.Model):
     pictureLocate = db.Column(db.Text)
 
     groups = db.relationship('Group',
-                    secondary=user_group_relationship, 
-                    backref=db.backref('user', lazy='dynamic'),
-                    lazy='dynamic')
-
-    groups = db.relationship('Group', 
                     secondary=user_group_relationship, 
                     backref=db.backref('user', lazy='dynamic'),
                     lazy='dynamic')
@@ -221,7 +215,6 @@ class News(db.Model):
 
     @staticmethod
     def from_json(json_news):  # json 입력 루틴
-        from api_1_0.search import removeEscapeChar
         context = json_news.get('context')
         if context is None or context == '':
             raise ValidationError('news does not have a context')
@@ -275,7 +268,6 @@ class Comment(db.Model):
 
     @staticmethod
     def from_json(json_comment):  # json 입력 루틴
-        from api_1_0.search import removeEscapeChar
         context = json_comment.get('context')
         if context is None or context == '':
             raise ValidationError('comment does not have a context')
@@ -314,3 +306,10 @@ class Comment(db.Model):
             db.session.add(c)
             db.session.commit()
 
+
+def removeEscapeChar(context): #Frontsize의 HTML 태그 제거
+    import re
+    str = re.sub("(<([^>]+)>)", "", context)
+    str = str.replace('&nbsp;', "").replace('&lt;', "<").replace('&gt;', ">")\
+        .replace('&amp;', "&").replace('&quot;', '"')
+    return str
