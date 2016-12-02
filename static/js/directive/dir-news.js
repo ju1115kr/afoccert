@@ -3,14 +3,14 @@
 var app = angular.module('certApp');
 
 app
-    .directive('news', function(){
+    .directive('news', function($sce){
         return{
             restrict: "E",
             scope:{
                 news:"=model"
             },
             templateUrl: '/partials/partial-news.html',
-            controller: function($scope, $rootScope, $http, $sce, $uibModal, $q, News, Comments, Reply, Global, Store, modalUtils, PopoverTrigger, deleteList, Upload, Blob, Processing, Groups){
+            controller: function($scope, $rootScope, $http, $sce, $uibModal, $uibModalStack, $q, News, Comments, Reply, Global, Store, modalUtils, PopoverTrigger, deleteList, Upload, Blob, Processing, Groups){
                 /**
                  * 뉴스 관련 함수
                  */
