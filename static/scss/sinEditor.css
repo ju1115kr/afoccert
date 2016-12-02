@@ -1140,8 +1140,7 @@
   .sin-editor .dracula .modal .attachment {
     border-color: #555;
     box-shadow: 0 1px 1px rgba(50, 50, 50, 0.5);
-    -webkit-box-shadow: 0 1px 1px rgba(50, 50, 50, 0.5);
-    background: #555; }
+    -webkit-box-shadow: 0 1px 1px rgba(50, 50, 50, 0.5); }
     .sin-editor .dracula .attachment:hover,
     .sin-editor .dracula .modal .attachment:hover {
       box-shadow: 0 1px 1px rgba(50, 50, 50, 0.5);
