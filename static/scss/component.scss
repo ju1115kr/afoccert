@@ -1349,38 +1349,40 @@ news{
     background: #616161;
     border-bottom: 2px solid #565656;
     color: #fff;
-    .title{
-      border-bottom: 1px solid #797979;
-      color: #e1e1e7;
-    }
-    .body{
-      [contenteditable="true"]{
-        background: #c7a24c;
+    .content-wrapper{
+      >.title{
+        border-bottom: 1px solid #797979;
+        color: #e1e1e7;
       }
-    }
-    .comments{
-      background: #555;
-      color: #f1f1f1;
-      .comment-input,
-      .comment .comment-input {
-        #fn-note {
-          background: #4a4a4a;
-          border: 1px solid #e6e6eb;
-          border: none;
+      >.body{
+        [contenteditable="true"]{
+          background: #c7a24c;
         }
       }
-      .comment{
-        transition: background .1s;
-        &:hover{
-          background: #4a4a4a;
-          .comment-input #fn-note{
-            background: #555555;
+      >.comments{
+        background: #555;
+        color: #f1f1f1;
+        .comment-input,
+        .comment .comment-input {
+          #fn-note {
+            background: #4a4a4a;
+            border: 1px solid #e6e6eb;
+            border: none;
           }
         }
-        .area-reply{
-          .replies li,
-          .comment-input{
-            border-left-color: #797979;
+        .comment{
+          transition: background .1s;
+          &:hover{
+            background: #4a4a4a;
+            .comment-input #fn-note{
+              background: #555555;
+            }
+          }
+          .area-reply{
+            .replies li,
+            .comment-input{
+              border-left-color: #797979;
+            }
           }
         }
       }
@@ -1466,6 +1468,7 @@ button.btn.fav{
   >.title{
     font-size: 12px;
     margin-bottom: 4px;
+    color: #c8c8c8;
   }
 }
 .dracula .attachment,
@@ -1477,5 +1480,8 @@ button.btn.fav{
   &:hover{
     box-shadow: 0 1px 1px rgba(50, 50, 50, 0.5);
     -webkit-box-shadow: 0 1px 6px rgba(50, 50, 50, 0.5);
+  }
+  >.title{
+    color: #b8b6b6;
   }
 }

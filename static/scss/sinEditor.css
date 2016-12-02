@@ -1035,27 +1035,27 @@
     background: #616161;
     border-bottom: 2px solid #565656;
     color: #fff; }
-    .sin-editor .dracula .card.card-default .title {
+    .sin-editor .dracula .card.card-default .content-wrapper > .title {
       border-bottom: 1px solid #797979;
       color: #e1e1e7; }
-    .sin-editor .dracula .card.card-default .body [contenteditable="true"] {
+    .sin-editor .dracula .card.card-default .content-wrapper > .body [contenteditable="true"] {
       background: #c7a24c; }
-    .sin-editor .dracula .card.card-default .comments {
+    .sin-editor .dracula .card.card-default .content-wrapper > .comments {
       background: #555;
       color: #f1f1f1; }
-      .sin-editor .dracula .card.card-default .comments .comment-input #fn-note,
-      .sin-editor .dracula .card.card-default .comments .comment .comment-input #fn-note {
+      .sin-editor .dracula .card.card-default .content-wrapper > .comments .comment-input #fn-note,
+      .sin-editor .dracula .card.card-default .content-wrapper > .comments .comment .comment-input #fn-note {
         background: #4a4a4a;
         border: 1px solid #e6e6eb;
         border: none; }
-      .sin-editor .dracula .card.card-default .comments .comment {
+      .sin-editor .dracula .card.card-default .content-wrapper > .comments .comment {
         transition: background .1s; }
-        .sin-editor .dracula .card.card-default .comments .comment:hover {
+        .sin-editor .dracula .card.card-default .content-wrapper > .comments .comment:hover {
           background: #4a4a4a; }
-          .sin-editor .dracula .card.card-default .comments .comment:hover .comment-input #fn-note {
+          .sin-editor .dracula .card.card-default .content-wrapper > .comments .comment:hover .comment-input #fn-note {
             background: #555555; }
-        .sin-editor .dracula .card.card-default .comments .comment .area-reply .replies li,
-        .sin-editor .dracula .card.card-default .comments .comment .area-reply .comment-input {
+        .sin-editor .dracula .card.card-default .content-wrapper > .comments .comment .area-reply .replies li,
+        .sin-editor .dracula .card.card-default .content-wrapper > .comments .comment .area-reply .comment-input {
           border-left-color: #797979; }
   .sin-editor .dracula .modal .modal-dialog {
     background: #616161;
@@ -1135,7 +1135,8 @@
     .sin-editor .attachment > .title,
     .sin-editor .modal .attachment > .title {
       font-size: 12px;
-      margin-bottom: 4px; }
+      margin-bottom: 4px;
+      color: #c8c8c8; }
   .sin-editor .dracula .attachment,
   .sin-editor .dracula .modal .attachment {
     border-color: #555;
@@ -1146,6 +1147,9 @@
     .sin-editor .dracula .modal .attachment:hover {
       box-shadow: 0 1px 1px rgba(50, 50, 50, 0.5);
       -webkit-box-shadow: 0 1px 6px rgba(50, 50, 50, 0.5); }
+    .sin-editor .dracula .attachment > .title,
+    .sin-editor .dracula .modal .attachment > .title {
+      color: #b8b6b6; }
   .sin-editor .sin-editor-wrapper {
     display: flex;
     width: 100%;
