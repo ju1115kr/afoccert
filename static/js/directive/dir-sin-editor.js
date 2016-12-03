@@ -262,7 +262,7 @@ app
 					hashInput = $scope.hash.ele,
 					hashInputTyped,
 					editor = element,
-					hashIndicator = [{'name':'hash-refer','notation':'@'},{'name':'hash-stuff','notation':'#'}],
+					hashIndicator = [{'name':'hash-refer','notation':'@'}],
 					currHash;
 
 				editor
@@ -273,19 +273,6 @@ app
 					.bind('keydown', 'shift+2', function(event) {
 						if (!$scope.hash.constructed) {
 							$scope.hash.hashType = currHash = hashIndicator[0];
-							insertNodeAtCursor(hashInput.get(0));
-							hashInput
-								.autoGrowInput({
-									minWidth: 10,
-									comfortZone: 10
-								}).focus();
-							$scope.hash.constructed = true;
-							$compile(hashInput)($scope);
-						}
-					})
-					.bind('keydown', 'shift+3', function(event) {
-						if (!$scope.hash.constructed) {
-							$scope.hash.hashType = currHash = hashIndicator[1];
 							insertNodeAtCursor(hashInput.get(0));
 							hashInput
 								.autoGrowInput({
