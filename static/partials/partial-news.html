@@ -19,7 +19,7 @@
                     {{news.file}}
                 </a>
             </div>
-            <div ng-bind-html="news.trustText"></div>
+            <div compile-html="news.trustText" compile-hash="true"></div>
         </div>
         <div class="comments" ng-animate="{leave:'animate-leave', enter : 'animate-enter'}" ng-init="fetchComment()">
             <loading ng-if="news.fetchingComment" size="40"></loading>

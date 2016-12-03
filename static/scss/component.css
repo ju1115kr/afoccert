@@ -339,39 +339,40 @@ button, input[type="submit"], input[type="button"] {
   .card.card-default {
     background: #ffffff;
     border-bottom: 2px solid #e1e1e7; }
-    .card.card-default .title {
+    .card.card-default .content-wrapper > .title {
       padding: 5px 3px;
       margin: 0 10px;
       border-bottom: 1px solid #f1f1f5;
       color: #e1e1e7; }
-      .card.card-default .title a.options {
+      .card.card-default .content-wrapper > .title a.options {
         cursor: pointer;
         color: #e1e1e7;
         transition: all .2s; }
-        .card.card-default .title a.options:hover, .card.card-default .title a.options.active {
+        .card.card-default .content-wrapper > .title a.options:hover, .card.card-default .content-wrapper > .title a.options.active {
           color: #c1c1c7; }
-    .card.card-default .body {
+    .card.card-default .content-wrapper > .body {
       -webkit-user-select: initial;
-      padding: 12px 20px 26px; }
-      .card.card-default .body .file-list {
+      padding: 12px 20px 26px;
+      word-break: break-word; }
+      .card.card-default .content-wrapper > .body .file-list {
         margin-bottom: 5px;
         font-size: 12px;
         text-align: right;
         color: #999; }
-      .card.card-default .body::selection,
-      .card.card-default .body *::selection {
+      .card.card-default .content-wrapper > .body::selection,
+      .card.card-default .content-wrapper > .body *::selection {
         background: #fff2a8; }
-      .card.card-default .body [contenteditable="true"] {
+      .card.card-default .content-wrapper > .body [contenteditable="true"] {
         background: #fff2a8; }
-        .card.card-default .body [contenteditable="true"]:focus {
+        .card.card-default .content-wrapper > .body [contenteditable="true"]:focus {
           background: none !important; }
-        .card.card-default .body [contenteditable="true"]::selection {
+        .card.card-default .content-wrapper > .body [contenteditable="true"]::selection {
           background: #fff2a8; }
-    .card.card-default.card-in-action .body {
+    .card.card-default .content-wrapper.card-in-action > .body {
       padding: 0; }
-      .card.card-default.card-in-action .body .file-list {
+      .card.card-default .content-wrapper.card-in-action > .body .file-list {
         margin-bottom: 0; }
-    .card.card-default .comments {
+    .card.card-default .content-wrapper > .comments {
       -webkit-user-select: initial;
       -moz-user-select: initial;
       -ms-user-select: initial;
@@ -379,74 +380,74 @@ button, input[type="submit"], input[type="button"] {
       padding: 8px;
       background: #f6f6f9;
       color: #555; }
-      .card.card-default .comments::selection,
-      .card.card-default .comments *::selection {
+      .card.card-default .content-wrapper > .comments::selection,
+      .card.card-default .content-wrapper > .comments *::selection {
         background: #fff2a8; }
-      .card.card-default .comments .file-list {
+      .card.card-default .content-wrapper > .comments .file-list {
         color: #299c7d;
         width: 100%;
         text-align: right;
         font-size: 12px; }
-        .card.card-default .comments .file-list:hover {
+        .card.card-default .content-wrapper > .comments .file-list:hover {
           color: #2eb38f; }
-      .card.card-default .comments .comment-input,
-      .card.card-default .comments .comment .comment-input {
+      .card.card-default .content-wrapper > .comments .comment-input,
+      .card.card-default .content-wrapper > .comments .comment .comment-input {
         position: relative;
         display: flex;
         flex-wrap: wrap; }
-        .card.card-default .comments .comment-input > *,
-        .card.card-default .comments .comment .comment-input > * {
+        .card.card-default .content-wrapper > .comments .comment-input > *,
+        .card.card-default .content-wrapper > .comments .comment .comment-input > * {
           flex-shrink: 0; }
-        .card.card-default .comments .comment-input #fn-note,
-        .card.card-default .comments .comment .comment-input #fn-note {
+        .card.card-default .content-wrapper > .comments .comment-input #fn-note,
+        .card.card-default .content-wrapper > .comments .comment .comment-input #fn-note {
           position: relative;
           min-height: 30px;
           padding: 4px 8.2px;
           background: #ffffff;
           border: 1px solid #e6e6eb; }
-      .card.card-default .comments [contenteditable="true"]:focus {
+      .card.card-default .content-wrapper > .comments [contenteditable="true"]:focus {
         outline: none;
         border: none; }
-      .card.card-default .comments .comment {
+      .card.card-default .content-wrapper > .comments .comment {
         font-size: 12px;
         padding: 4px 4px 4px 12px;
         margin-bottom: 5px; }
-        .card.card-default .comments .comment:hover {
+        .card.card-default .content-wrapper > .comments .comment:hover {
           background: #f0f0f4; }
-        .card.card-default .comments .comment .usertag {
+        .card.card-default .content-wrapper > .comments .comment .usertag {
           -webkit-user-select: none;
           -moz-user-select: none;
           -ms-user-select: none;
           user-select: none;
           font-weight: 800; }
-        .card.card-default .comments .comment .area-comment .options {
+        .card.card-default .content-wrapper > .comments .comment .area-comment .options {
           visibility: hidden;
           transition: none;
           color: #ccc; }
-        .card.card-default .comments .comment .area-comment:hover .options {
+        .card.card-default .content-wrapper > .comments .comment .area-comment:hover .options {
           visibility: visible; }
-        .card.card-default .comments .comment #fn-note {
+        .card.card-default .content-wrapper > .comments .comment #fn-note {
           position: relative; }
-          .card.card-default .comments .comment #fn-note.edit {
+          .card.card-default .content-wrapper > .comments .comment #fn-note.edit {
             background: #dedee1; }
-        .card.card-default .comments .comment .area-reply {
+        .card.card-default .content-wrapper > .comments .comment .area-reply {
           padding-left: 30px; }
-          .card.card-default .comments .comment .area-reply .replies li {
+          .card.card-default .content-wrapper > .comments .comment .area-reply .replies li {
             padding: 2px 10px;
             border-left: 2px solid #e1e1e7; }
-            .card.card-default .comments .comment .area-reply .replies li.recent {
+            .card.card-default .content-wrapper > .comments .comment .area-reply .replies li.recent {
               border-left: 2px solid #2ABB9B; }
-            .card.card-default .comments .comment .area-reply .replies li .options {
+            .card.card-default .content-wrapper > .comments .comment .area-reply .replies li .options {
               visibility: hidden;
               transition: none;
               color: #ccc; }
-            .card.card-default .comments .comment .area-reply .replies li:hover {
+            .card.card-default .content-wrapper > .comments .comment .area-reply .replies li:hover {
               border-left-color: #2ABB9B; }
-              .card.card-default .comments .comment .area-reply .replies li:hover .options {
+              .card.card-default .content-wrapper > .comments .comment .area-reply .replies li:hover .options {
                 visibility: visible; }
-          .card.card-default .comments .comment .area-reply .comment-input {
+          .card.card-default .content-wrapper > .comments .comment .area-reply .comment-input {
             border-left: 2px solid #e1e1e7; }
-            .card.card-default .comments .comment .area-reply .comment-input #fn-note {
+            .card.card-default .content-wrapper > .comments .comment .area-reply .comment-input #fn-note {
               min-height: 22px;
               padding: 2px 8.2px;
               font-size: 12px;
@@ -485,64 +486,64 @@ news {
       transform: translateY(0); }
 
 /* news card style in modal context */
-.modal-dialog news .card.card-default {
+.modal-dialog news > .card.card-default {
   display: flex;
   flex-direction: row;
   width: 720px;
   max-height: 340px;
   min-height: 200px; }
-  .modal-dialog news .card.card-default .content-wrapper {
+  .modal-dialog news > .card.card-default .content-wrapper {
     display: flex;
     flex-grow: 1; }
-  .modal-dialog news .card.card-default .title {
-    display: flex;
-    flex-direction: column;
-    width: 80px;
-    flex-shrink: 0;
-    margin-right: 0;
-    text-align: right;
-    border-bottom: none; }
-  .modal-dialog news .card.card-default .news-info {
-    position: relative;
-    width: auto;
-    left: 0;
-    margin-top: 10px; }
-  .modal-dialog news .card.card-default .body {
-    max-height: 340px;
-    overflow: auto;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column; }
-  .modal-dialog news .card.card-default.card-in-action {
+    .modal-dialog news > .card.card-default .content-wrapper > .title {
+      display: flex;
+      flex-direction: column;
+      width: 80px;
+      flex-shrink: 0;
+      margin-right: 0;
+      text-align: right;
+      border-bottom: none; }
+      .modal-dialog news > .card.card-default .content-wrapper > .title > .news-info {
+        position: relative;
+        width: auto;
+        left: 0;
+        margin-top: 10px; }
+    .modal-dialog news > .card.card-default .content-wrapper > .body {
+      max-height: 340px;
+      overflow: auto;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column; }
+    .modal-dialog news > .card.card-default .content-wrapper > .comments {
+      width: 240px;
+      flex-shrink: 0;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column; }
+      .modal-dialog news > .card.card-default .content-wrapper > .comments > ul {
+        width: 100%;
+        flex-grow: 1;
+        overflow-x: hidden; }
+      .modal-dialog news > .card.card-default .content-wrapper > .comments .comment .area-reply {
+        padding-left: 10px; }
+      .modal-dialog news > .card.card-default .content-wrapper > .comments .comment-input {
+        width: 100%;
+        max-height: 40px;
+        flex-shrink: 0;
+        align-self: flex-end;
+        display: flex; }
+        .modal-dialog news > .card.card-default .content-wrapper > .comments .comment-input .sin-editor-inline {
+          flex-grow: 1;
+          overflow: hidden; }
+  .modal-dialog news > .card.card-default.card-in-action {
     /* editing */ }
-    .modal-dialog news .card.card-default.card-in-action .body {
+    .modal-dialog news > .card.card-default.card-in-action .body {
       padding: 0;
       display: flex;
       flex-direction: column;
       overflow: visible; }
-      .modal-dialog news .card.card-default.card-in-action .body .file-list {
+      .modal-dialog news > .card.card-default.card-in-action .body .file-list {
         margin-bottom: 0; }
-  .modal-dialog news .card.card-default .comments {
-    width: 240px;
-    flex-shrink: 0;
-    padding: 8px 10px;
-    display: flex;
-    flex-direction: column; }
-    .modal-dialog news .card.card-default .comments > ul {
-      width: 100%;
-      flex-grow: 1;
-      overflow-x: hidden; }
-    .modal-dialog news .card.card-default .comments .comment .area-reply {
-      padding-left: 10px; }
-    .modal-dialog news .card.card-default .comments .comment-input {
-      width: 100%;
-      max-height: 40px;
-      flex-shrink: 0;
-      align-self: flex-end;
-      display: flex; }
-      .modal-dialog news .card.card-default .comments .comment-input .sin-editor-inline {
-        flex-grow: 1;
-        overflow: hidden; }
 
 .typeahead {
   left: 0;
@@ -1074,27 +1075,27 @@ news {
   background: #616161;
   border-bottom: 2px solid #565656;
   color: #fff; }
-  .dracula .card.card-default .title {
+  .dracula .card.card-default .content-wrapper > .title {
     border-bottom: 1px solid #797979;
     color: #e1e1e7; }
-  .dracula .card.card-default .body [contenteditable="true"] {
+  .dracula .card.card-default .content-wrapper > .body [contenteditable="true"] {
     background: #c7a24c; }
-  .dracula .card.card-default .comments {
+  .dracula .card.card-default .content-wrapper > .comments {
     background: #555;
     color: #f1f1f1; }
-    .dracula .card.card-default .comments .comment-input #fn-note,
-    .dracula .card.card-default .comments .comment .comment-input #fn-note {
+    .dracula .card.card-default .content-wrapper > .comments .comment-input #fn-note,
+    .dracula .card.card-default .content-wrapper > .comments .comment .comment-input #fn-note {
       background: #4a4a4a;
       border: 1px solid #e6e6eb;
       border: none; }
-    .dracula .card.card-default .comments .comment {
+    .dracula .card.card-default .content-wrapper > .comments .comment {
       transition: background .1s; }
-      .dracula .card.card-default .comments .comment:hover {
+      .dracula .card.card-default .content-wrapper > .comments .comment:hover {
         background: #4a4a4a; }
-        .dracula .card.card-default .comments .comment:hover .comment-input #fn-note {
+        .dracula .card.card-default .content-wrapper > .comments .comment:hover .comment-input #fn-note {
           background: #555555; }
-      .dracula .card.card-default .comments .comment .area-reply .replies li,
-      .dracula .card.card-default .comments .comment .area-reply .comment-input {
+      .dracula .card.card-default .content-wrapper > .comments .comment .area-reply .replies li,
+      .dracula .card.card-default .content-wrapper > .comments .comment .area-reply .comment-input {
         border-left-color: #797979; }
 .dracula .modal .modal-dialog {
   background: #616161;
@@ -1134,7 +1135,7 @@ button.btn.fav {
     button.fav > .glyphicons.ng-enter,
     button.btn.fav > .glyphicons.ng-enter {
       transition: all .5s;
-      transform: rotate(120deg); }
+      transform: rotate(-120deg); }
       .fav > .glyphicons.ng-enter.ng-enter-active,
       button.fav > .glyphicons.ng-enter.ng-enter-active,
       button.btn.fav > .glyphicons.ng-enter.ng-enter-active {
@@ -1150,5 +1151,48 @@ button.btn.fav {
       button.btn.fav > .glyphicons.ng-leave.ng-leave-active {
         opacity: 0;
         transform: rotate(-120deg); }
+
+.snackbar {
+  padding: 2px 5px !important;
+  background: #62c48f;
+  color: #fff;
+  font-size: 12px;
+  border-radius: 4px;
+  border-bottom: 1px solid #49b084; }
+
+.attachment,
+.modal .attachment {
+  padding: 10px 20px;
+  margin: 20px 10px 0;
+  border: 1px solid #f1f1f5;
+  box-shadow: 0 1px 1px rgba(150, 150, 150, 0.5);
+  -webkit-box-shadow: 0 1px 1px rgba(150, 150, 150, 0.5);
+  cursor: pointer;
+  transition: all .2s;
+  background: #f6f6f9; }
+  .attachment:hover,
+  .modal .attachment:hover {
+    border: 1px solid #e1e1e7;
+    box-shadow: 0 1px 6px rgba(150, 150, 150, 0.5);
+    -webkit-box-shadow: 0 1px 6px rgba(150, 150, 150, 0.5); }
+  .attachment > .title,
+  .modal .attachment > .title {
+    font-size: 12px;
+    margin-bottom: 4px;
+    color: #c8c8c8; }
+
+.dracula .attachment,
+.dracula .modal .attachment {
+  border-color: #555;
+  box-shadow: 0 1px 1px rgba(50, 50, 50, 0.5);
+  -webkit-box-shadow: 0 1px 1px rgba(50, 50, 50, 0.5);
+  background: #555; }
+  .dracula .attachment:hover,
+  .dracula .modal .attachment:hover {
+    box-shadow: 0 1px 1px rgba(50, 50, 50, 0.5);
+    -webkit-box-shadow: 0 1px 6px rgba(50, 50, 50, 0.5); }
+  .dracula .attachment > .title,
+  .dracula .modal .attachment > .title {
+    color: #b8b6b6; }
 
 /*# sourceMappingURL=component.css.map */
