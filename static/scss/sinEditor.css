@@ -347,39 +347,40 @@
     .sin-editor .card.card-default {
       background: #ffffff;
       border-bottom: 2px solid #e1e1e7; }
-      .sin-editor .card.card-default .title {
+      .sin-editor .card.card-default .content-wrapper > .title {
         padding: 5px 3px;
         margin: 0 10px;
         border-bottom: 1px solid #f1f1f5;
         color: #e1e1e7; }
-        .sin-editor .card.card-default .title a.options {
+        .sin-editor .card.card-default .content-wrapper > .title a.options {
           cursor: pointer;
           color: #e1e1e7;
           transition: all .2s; }
-          .sin-editor .card.card-default .title a.options:hover, .sin-editor .card.card-default .title a.options.active {
+          .sin-editor .card.card-default .content-wrapper > .title a.options:hover, .sin-editor .card.card-default .content-wrapper > .title a.options.active {
             color: #c1c1c7; }
-      .sin-editor .card.card-default .body {
+      .sin-editor .card.card-default .content-wrapper > .body {
         -webkit-user-select: initial;
-        padding: 12px 20px 26px; }
-        .sin-editor .card.card-default .body .file-list {
+        padding: 12px 20px 26px;
+        word-break: break-word; }
+        .sin-editor .card.card-default .content-wrapper > .body .file-list {
           margin-bottom: 5px;
           font-size: 12px;
           text-align: right;
           color: #999; }
-        .sin-editor .card.card-default .body::selection,
-        .sin-editor .card.card-default .body *::selection {
+        .sin-editor .card.card-default .content-wrapper > .body::selection,
+        .sin-editor .card.card-default .content-wrapper > .body *::selection {
           background: #fff2a8; }
-        .sin-editor .card.card-default .body [contenteditable="true"] {
+        .sin-editor .card.card-default .content-wrapper > .body [contenteditable="true"] {
           background: #fff2a8; }
-          .sin-editor .card.card-default .body [contenteditable="true"]:focus {
+          .sin-editor .card.card-default .content-wrapper > .body [contenteditable="true"]:focus {
             background: none !important; }
-          .sin-editor .card.card-default .body [contenteditable="true"]::selection {
+          .sin-editor .card.card-default .content-wrapper > .body [contenteditable="true"]::selection {
             background: #fff2a8; }
-      .sin-editor .card.card-default.card-in-action .body {
+      .sin-editor .card.card-default .content-wrapper.card-in-action > .body {
         padding: 0; }
-        .sin-editor .card.card-default.card-in-action .body .file-list {
+        .sin-editor .card.card-default .content-wrapper.card-in-action > .body .file-list {
           margin-bottom: 0; }
-      .sin-editor .card.card-default .comments {
+      .sin-editor .card.card-default .content-wrapper > .comments {
         -webkit-user-select: initial;
         -moz-user-select: initial;
         -ms-user-select: initial;
@@ -387,74 +388,74 @@
         padding: 8px;
         background: #f6f6f9;
         color: #555; }
-        .sin-editor .card.card-default .comments::selection,
-        .sin-editor .card.card-default .comments *::selection {
+        .sin-editor .card.card-default .content-wrapper > .comments::selection,
+        .sin-editor .card.card-default .content-wrapper > .comments *::selection {
           background: #fff2a8; }
-        .sin-editor .card.card-default .comments .file-list {
+        .sin-editor .card.card-default .content-wrapper > .comments .file-list {
           color: #299c7d;
           width: 100%;
           text-align: right;
           font-size: 12px; }
-          .sin-editor .card.card-default .comments .file-list:hover {
+          .sin-editor .card.card-default .content-wrapper > .comments .file-list:hover {
             color: #2eb38f; }
-        .sin-editor .card.card-default .comments .comment-input,
-        .sin-editor .card.card-default .comments .comment .comment-input {
+        .sin-editor .card.card-default .content-wrapper > .comments .comment-input,
+        .sin-editor .card.card-default .content-wrapper > .comments .comment .comment-input {
           position: relative;
           display: flex;
           flex-wrap: wrap; }
-          .sin-editor .card.card-default .comments .comment-input > *,
-          .sin-editor .card.card-default .comments .comment .comment-input > * {
+          .sin-editor .card.card-default .content-wrapper > .comments .comment-input > *,
+          .sin-editor .card.card-default .content-wrapper > .comments .comment .comment-input > * {
             flex-shrink: 0; }
-          .sin-editor .card.card-default .comments .comment-input #fn-note,
-          .sin-editor .card.card-default .comments .comment .comment-input #fn-note {
+          .sin-editor .card.card-default .content-wrapper > .comments .comment-input #fn-note,
+          .sin-editor .card.card-default .content-wrapper > .comments .comment .comment-input #fn-note {
             position: relative;
             min-height: 30px;
             padding: 4px 8.2px;
             background: #ffffff;
             border: 1px solid #e6e6eb; }
-        .sin-editor .card.card-default .comments [contenteditable="true"]:focus {
+        .sin-editor .card.card-default .content-wrapper > .comments [contenteditable="true"]:focus {
           outline: none;
           border: none; }
-        .sin-editor .card.card-default .comments .comment {
+        .sin-editor .card.card-default .content-wrapper > .comments .comment {
           font-size: 12px;
           padding: 4px 4px 4px 12px;
           margin-bottom: 5px; }
-          .sin-editor .card.card-default .comments .comment:hover {
+          .sin-editor .card.card-default .content-wrapper > .comments .comment:hover {
             background: #f0f0f4; }
-          .sin-editor .card.card-default .comments .comment .usertag {
+          .sin-editor .card.card-default .content-wrapper > .comments .comment .usertag {
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
             font-weight: 800; }
-          .sin-editor .card.card-default .comments .comment .area-comment .options {
+          .sin-editor .card.card-default .content-wrapper > .comments .comment .area-comment .options {
             visibility: hidden;
             transition: none;
             color: #ccc; }
-          .sin-editor .card.card-default .comments .comment .area-comment:hover .options {
+          .sin-editor .card.card-default .content-wrapper > .comments .comment .area-comment:hover .options {
             visibility: visible; }
-          .sin-editor .card.card-default .comments .comment #fn-note {
+          .sin-editor .card.card-default .content-wrapper > .comments .comment #fn-note {
             position: relative; }
-            .sin-editor .card.card-default .comments .comment #fn-note.edit {
+            .sin-editor .card.card-default .content-wrapper > .comments .comment #fn-note.edit {
               background: #dedee1; }
-          .sin-editor .card.card-default .comments .comment .area-reply {
+          .sin-editor .card.card-default .content-wrapper > .comments .comment .area-reply {
             padding-left: 30px; }
-            .sin-editor .card.card-default .comments .comment .area-reply .replies li {
+            .sin-editor .card.card-default .content-wrapper > .comments .comment .area-reply .replies li {
               padding: 2px 10px;
               border-left: 2px solid #e1e1e7; }
-              .sin-editor .card.card-default .comments .comment .area-reply .replies li.recent {
+              .sin-editor .card.card-default .content-wrapper > .comments .comment .area-reply .replies li.recent {
                 border-left: 2px solid #2ABB9B; }
-              .sin-editor .card.card-default .comments .comment .area-reply .replies li .options {
+              .sin-editor .card.card-default .content-wrapper > .comments .comment .area-reply .replies li .options {
                 visibility: hidden;
                 transition: none;
                 color: #ccc; }
-              .sin-editor .card.card-default .comments .comment .area-reply .replies li:hover {
+              .sin-editor .card.card-default .content-wrapper > .comments .comment .area-reply .replies li:hover {
                 border-left-color: #2ABB9B; }
-                .sin-editor .card.card-default .comments .comment .area-reply .replies li:hover .options {
+                .sin-editor .card.card-default .content-wrapper > .comments .comment .area-reply .replies li:hover .options {
                   visibility: visible; }
-            .sin-editor .card.card-default .comments .comment .area-reply .comment-input {
+            .sin-editor .card.card-default .content-wrapper > .comments .comment .area-reply .comment-input {
               border-left: 2px solid #e1e1e7; }
-              .sin-editor .card.card-default .comments .comment .area-reply .comment-input #fn-note {
+              .sin-editor .card.card-default .content-wrapper > .comments .comment .area-reply .comment-input #fn-note {
                 min-height: 22px;
                 padding: 2px 8.2px;
                 font-size: 12px;
@@ -490,64 +491,64 @@
       .sin-editor news.ng-enter.ng-enter-active {
         opacity: 1;
         transform: translateY(0); }
-  .sin-editor .modal-dialog news .card.card-default {
+  .sin-editor .modal-dialog news > .card.card-default {
     display: flex;
     flex-direction: row;
     width: 720px;
     max-height: 340px;
     min-height: 200px; }
-    .sin-editor .modal-dialog news .card.card-default .content-wrapper {
+    .sin-editor .modal-dialog news > .card.card-default .content-wrapper {
       display: flex;
       flex-grow: 1; }
-    .sin-editor .modal-dialog news .card.card-default .title {
-      display: flex;
-      flex-direction: column;
-      width: 80px;
-      flex-shrink: 0;
-      margin-right: 0;
-      text-align: right;
-      border-bottom: none; }
-    .sin-editor .modal-dialog news .card.card-default .news-info {
-      position: relative;
-      width: auto;
-      left: 0;
-      margin-top: 10px; }
-    .sin-editor .modal-dialog news .card.card-default .body {
-      max-height: 340px;
-      overflow: auto;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column; }
-    .sin-editor .modal-dialog news .card.card-default.card-in-action {
+      .sin-editor .modal-dialog news > .card.card-default .content-wrapper > .title {
+        display: flex;
+        flex-direction: column;
+        width: 80px;
+        flex-shrink: 0;
+        margin-right: 0;
+        text-align: right;
+        border-bottom: none; }
+        .sin-editor .modal-dialog news > .card.card-default .content-wrapper > .title > .news-info {
+          position: relative;
+          width: auto;
+          left: 0;
+          margin-top: 10px; }
+      .sin-editor .modal-dialog news > .card.card-default .content-wrapper > .body {
+        max-height: 340px;
+        overflow: auto;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column; }
+      .sin-editor .modal-dialog news > .card.card-default .content-wrapper > .comments {
+        width: 240px;
+        flex-shrink: 0;
+        padding: 8px 10px;
+        display: flex;
+        flex-direction: column; }
+        .sin-editor .modal-dialog news > .card.card-default .content-wrapper > .comments > ul {
+          width: 100%;
+          flex-grow: 1;
+          overflow-x: hidden; }
+        .sin-editor .modal-dialog news > .card.card-default .content-wrapper > .comments .comment .area-reply {
+          padding-left: 10px; }
+        .sin-editor .modal-dialog news > .card.card-default .content-wrapper > .comments .comment-input {
+          width: 100%;
+          max-height: 40px;
+          flex-shrink: 0;
+          align-self: flex-end;
+          display: flex; }
+          .sin-editor .modal-dialog news > .card.card-default .content-wrapper > .comments .comment-input .sin-editor-inline {
+            flex-grow: 1;
+            overflow: hidden; }
+    .sin-editor .modal-dialog news > .card.card-default.card-in-action {
       /* editing */ }
-      .sin-editor .modal-dialog news .card.card-default.card-in-action .body {
+      .sin-editor .modal-dialog news > .card.card-default.card-in-action .body {
         padding: 0;
         display: flex;
         flex-direction: column;
         overflow: visible; }
-        .sin-editor .modal-dialog news .card.card-default.card-in-action .body .file-list {
+        .sin-editor .modal-dialog news > .card.card-default.card-in-action .body .file-list {
           margin-bottom: 0; }
-    .sin-editor .modal-dialog news .card.card-default .comments {
-      width: 240px;
-      flex-shrink: 0;
-      padding: 8px 10px;
-      display: flex;
-      flex-direction: column; }
-      .sin-editor .modal-dialog news .card.card-default .comments > ul {
-        width: 100%;
-        flex-grow: 1;
-        overflow-x: hidden; }
-      .sin-editor .modal-dialog news .card.card-default .comments .comment .area-reply {
-        padding-left: 10px; }
-      .sin-editor .modal-dialog news .card.card-default .comments .comment-input {
-        width: 100%;
-        max-height: 40px;
-        flex-shrink: 0;
-        align-self: flex-end;
-        display: flex; }
-        .sin-editor .modal-dialog news .card.card-default .comments .comment-input .sin-editor-inline {
-          flex-grow: 1;
-          overflow: hidden; }
   .sin-editor .typeahead {
     left: 0;
     height: 0;
@@ -1034,27 +1035,27 @@
     background: #616161;
     border-bottom: 2px solid #565656;
     color: #fff; }
-    .sin-editor .dracula .card.card-default .title {
+    .sin-editor .dracula .card.card-default .content-wrapper > .title {
       border-bottom: 1px solid #797979;
       color: #e1e1e7; }
-    .sin-editor .dracula .card.card-default .body [contenteditable="true"] {
+    .sin-editor .dracula .card.card-default .content-wrapper > .body [contenteditable="true"] {
       background: #c7a24c; }
-    .sin-editor .dracula .card.card-default .comments {
+    .sin-editor .dracula .card.card-default .content-wrapper > .comments {
       background: #555;
       color: #f1f1f1; }
-      .sin-editor .dracula .card.card-default .comments .comment-input #fn-note,
-      .sin-editor .dracula .card.card-default .comments .comment .comment-input #fn-note {
+      .sin-editor .dracula .card.card-default .content-wrapper > .comments .comment-input #fn-note,
+      .sin-editor .dracula .card.card-default .content-wrapper > .comments .comment .comment-input #fn-note {
         background: #4a4a4a;
         border: 1px solid #e6e6eb;
         border: none; }
-      .sin-editor .dracula .card.card-default .comments .comment {
+      .sin-editor .dracula .card.card-default .content-wrapper > .comments .comment {
         transition: background .1s; }
-        .sin-editor .dracula .card.card-default .comments .comment:hover {
+        .sin-editor .dracula .card.card-default .content-wrapper > .comments .comment:hover {
           background: #4a4a4a; }
-          .sin-editor .dracula .card.card-default .comments .comment:hover .comment-input #fn-note {
+          .sin-editor .dracula .card.card-default .content-wrapper > .comments .comment:hover .comment-input #fn-note {
             background: #555555; }
-        .sin-editor .dracula .card.card-default .comments .comment .area-reply .replies li,
-        .sin-editor .dracula .card.card-default .comments .comment .area-reply .comment-input {
+        .sin-editor .dracula .card.card-default .content-wrapper > .comments .comment .area-reply .replies li,
+        .sin-editor .dracula .card.card-default .content-wrapper > .comments .comment .area-reply .comment-input {
           border-left-color: #797979; }
   .sin-editor .dracula .modal .modal-dialog {
     background: #616161;
@@ -1093,7 +1094,7 @@
       .sin-editor button.fav > .glyphicons.ng-enter,
       .sin-editor button.btn.fav > .glyphicons.ng-enter {
         transition: all .5s;
-        transform: rotate(120deg); }
+        transform: rotate(-120deg); }
         .sin-editor .fav > .glyphicons.ng-enter.ng-enter-active,
         .sin-editor button.fav > .glyphicons.ng-enter.ng-enter-active,
         .sin-editor button.btn.fav > .glyphicons.ng-enter.ng-enter-active {
@@ -1109,6 +1110,46 @@
         .sin-editor button.btn.fav > .glyphicons.ng-leave.ng-leave-active {
           opacity: 0;
           transform: rotate(-120deg); }
+  .sin-editor .snackbar {
+    padding: 2px 5px !important;
+    background: #62c48f;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    border-bottom: 1px solid #49b084; }
+  .sin-editor .attachment,
+  .sin-editor .modal .attachment {
+    padding: 10px 20px;
+    margin: 20px 10px 0;
+    border: 1px solid #f1f1f5;
+    box-shadow: 0 1px 1px rgba(150, 150, 150, 0.5);
+    -webkit-box-shadow: 0 1px 1px rgba(150, 150, 150, 0.5);
+    cursor: pointer;
+    transition: all .2s;
+    background: #f6f6f9; }
+    .sin-editor .attachment:hover,
+    .sin-editor .modal .attachment:hover {
+      border: 1px solid #e1e1e7;
+      box-shadow: 0 1px 6px rgba(150, 150, 150, 0.5);
+      -webkit-box-shadow: 0 1px 6px rgba(150, 150, 150, 0.5); }
+    .sin-editor .attachment > .title,
+    .sin-editor .modal .attachment > .title {
+      font-size: 12px;
+      margin-bottom: 4px;
+      color: #c8c8c8; }
+  .sin-editor .dracula .attachment,
+  .sin-editor .dracula .modal .attachment {
+    border-color: #555;
+    box-shadow: 0 1px 1px rgba(50, 50, 50, 0.5);
+    -webkit-box-shadow: 0 1px 1px rgba(50, 50, 50, 0.5);
+    background: #555; }
+    .sin-editor .dracula .attachment:hover,
+    .sin-editor .dracula .modal .attachment:hover {
+      box-shadow: 0 1px 1px rgba(50, 50, 50, 0.5);
+      -webkit-box-shadow: 0 1px 6px rgba(50, 50, 50, 0.5); }
+    .sin-editor .dracula .attachment > .title,
+    .sin-editor .dracula .modal .attachment > .title {
+      color: #b8b6b6; }
   .sin-editor .sin-editor-wrapper {
     display: flex;
     width: 100%;

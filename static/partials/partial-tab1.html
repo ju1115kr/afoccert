@@ -14,7 +14,7 @@
 	<news model="news" ng-repeat="news in newses" ng-if="!news.deleted" ng-animate="{leave:'animate-leave', enter:'animate-enter'}"></news>
 	<loading ng-if="!fetchedAll" size="140"></loading>
 	<footer></footer>
-	<button class="fav btn btn-primary" ng-if="overlapped.state" ng-click="toggleNote()">
+	<button class="fav btn btn-primary ng-animate-disabled" ng-if="overlapped.state" ng-click="toggleNote()">
 		<span class="glyphicons glyphicons-pencil" ng-if="!editor.show"></span>
 		<span class="glyphicons glyphicons-remove-2" ng-if="editor.show"></span>
 	</button>

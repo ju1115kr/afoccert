@@ -378,6 +378,12 @@ body{
 		right: #{$fav-pos-right + $fav-size/2};
 		left: auto;
 		top: auto;
+		background: rgba(255,255,255,0.7);
 		z-index: 999;
+	}
+}
+.dracula #news-draft{
+	&.overlapped{
+		background: rgba(97,97,97,0.8);
 	}
 }
