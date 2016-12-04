@@ -12,7 +12,7 @@ app
             },
             link : function( scope, elem, attr){
                 var expression = $sce.parseAsHtml(attr.compileHtml);
-                var reg = new RegExp('#[0-9]+','gm');
+                var reg = new RegExp('(#(([0-9]+){2,}|([3-9])))','gm');
                 scope.$watch(expression, function(newValue) {
                     var wrapper = angular.element('<div></div>').html(newValue);
                     var eleDeferred = $q.defer();
