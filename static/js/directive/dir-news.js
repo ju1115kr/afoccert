@@ -145,7 +145,6 @@ app
                 }
 
                 $scope.editCommentStart = function(comment){
-                    console.log(comment)
                     if(Global.user['userId']==comment.author){
                         comment.edit = true;
                     }
