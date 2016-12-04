@@ -12,7 +12,7 @@ app
             },
             link : function( scope, elem, attr){
                 var expression = $sce.parseAsHtml(attr.compileHtml);
-                var reg = new RegExp('#[0-9]+','gm');
+                var reg = new RegExp('(#(([0-9]+){2,}|([3-9])))','gm');
                 scope.$watch(expression, function(newValue) {
                     var wrapper = angular.element('<div></div>').html(newValue);
                     var eleDeferred = $q.defer();
@@ -36,7 +36,6 @@ app
                         $q.all(attachDeferred).then(function(newses){
                             newses.forEach(function(news,i){
                                 if(news) {
-                                    console.log(news)
                                     scope.attachments.push(news);
                                     wrapper.append('<attachment attach-data="attachments[' + (scope.attachments.length-1) + ']"></attachment>');
                                 }
