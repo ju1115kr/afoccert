@@ -54,9 +54,9 @@ def put_comment(comment_id):
     if request.json is None:  # 요청이 올바르지 않은 경우 - 덧글의 내용이 없다던가
         return bad_request('JSON Request is invaild')
     old_comment = Comment.query.filter_by(id=comment_id).first()
-    if comment is None: # 덧글이 존재 하지 않을 경우
+    if old_comment is None: # 덧글이 존재 하지 않을 경우
         return not_found('Comment does not exist')
-    if g.current_user.id != comment.author_id:  # 다른 유저의 덧글을 수정하려고 하는 경우
+    if g.current_user.id != old_comment.author_id:  # 다른 유저의 덧글을 수정하려고 하는 경우
         return forbidden('Cannot modify other user\'s comment')
     comment = Comment.from_json(request.json)
     old_comment.context = comment.context
