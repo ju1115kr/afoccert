@@ -12,6 +12,8 @@ from werkzeug import secure_filename
 @api.route('/users', methods=['POST'])
 def post_user():
     user = User.from_json(request.json)
+    if User.query.filter_by(username=user.username).count() >= 1:
+        return forbidden('username has already')
     db.session.add(user)
     db.session.commit()
     resp = make_response()
