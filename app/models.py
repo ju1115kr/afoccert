@@ -344,19 +344,20 @@ class Issue(db.Model):
 
     @staticmethod
     def from_json(json_issue):  # json 입력 루틴
+        title = json_issue.get('title')
         opening = json_issue.get('opening')
         if opening is None or opening == '':
             raise ValidationError('comment does not have a context')
-        title = json_issue.get('title')
-
+        issue = Issue(opening, title)
+        
         # Issue solvers JSON 입력값 처리 
-        if json_issue.get('solvers') is not None and json_issue.get('solvers') != []:
-            solvers_names = json_issue.get('solvers_names')
-            solver_list = list(solver_names)
-            if type(solver_list) == list and solver_list is not None and len(solver_list) >= 1:  # users 값이 비어있지 않다면 
-            # 실제로 존재하는 유저에 대하여만 그룹에 추가
-                issue.solvers = [ User.query.filter_by(username=solver_name).first() for solver_name in solver_list\
-                                if User.query.filter_by(username=solver_name).count() != 0 ]
+        solvers_names = json_issue.get('solvers')
+        if solvers_names is not None and solvers_names != []:
+            solver_list = list(solvers_names)
+            if type(solver_list) == list and solver_list is not None and len(solver_list) >= 1:
+            # users 값이 비어있지 않다면 실제로 존재하는 유저에 대하여만 그룹에 추가
+                issue.solvers = [ User.query.filter_by(username=solver_name).first()\
+                    for solver_name in solver_list if User.query.filter_by(username=solver_name).count() != 0 ]
         return Issue(opening=opening, title=title)
 
     def to_json(self):  # json 출력 루틴
