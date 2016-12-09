@@ -93,15 +93,11 @@ def post_issue(news_id, issue_id):
     issue.ancestor_issue = ancestor_issue.id
     issue.prev_issue = prev_issue.id
     issue.news = news
-
     db.session.add(issue)
     db.session.commit()
     prev_issue.next_issue = issue.id
     news.notice = issue.id
-
-    #상태가 변경되면, system_info인 새로운 글을 남기고 이슈화
-    make_SystemInfo(ancestor_issue, issue)
-
+    compare_Issues(ancestor_issue, issue) #상태 변경 시, system message 남기고 해당 이슈화
     resp = make_response()
     resp.headers['Location'] = url_for('api.get_issue', issue_id=issue.id)
     resp.status_code = 201
@@ -129,9 +125,11 @@ def delete_issue(issue_id):
     return '', 204
 
 
-def make_SystemInfo(ancestor_issue, issue):
+def compare_Issues(ancestor_issue, issue):
+    #새 이슈와 더미 이슈 비교로 상태 전환 신송
     if (issue.opening != ancestor_issue.opening) or (issue.solvers != ancestor_issue.solvers):
         ancestor_next_issue = Issue.query.filter_by(id=ancestor_issue.next_issue).first()
+        # 상태 변화만 있는 경우
         if (issue.opening != ancestor_issue.opening) and (issue.solvers == ancestor_issue.solvers):
             if issue.opening == True:
                 context = {"context":"#%r issue is opened." % ancestor_next_issue.news.id}
@@ -139,10 +137,12 @@ def make_SystemInfo(ancestor_issue, issue):
             elif issue.opening == False:
                 context = {"context":"#%r issue is closed." % ancestor_next_issue.news.id}
                 issue_data = {"opening":"False"}
+        # 해결자가 전환되는 경우
         elif (issue.opening == ancestor_issue.opening) and (issue.solvers != ancestor_issue.solvers):
             context = {"context":"#%r issue's solvers have changed." % ancestor_next_issue.news.id}
             issue_data = {"opening":issue.opening, "solvers":"%r" % issue.solvers}
 
+        # 상태 및 해결자 모두 변하는 경우
         elif (issue.opening != ancestor_issue.opening) and (issue.solvers != ancestor_issue.solvers):
             if issue.opening == True:
                 context = {"context":"#%r issue's opened and solvers have changed."\
@@ -151,7 +151,7 @@ def make_SystemInfo(ancestor_issue, issue):
             elif issue.opening == False:
                 context = {"context":"#%r issue's closed and solvers have changed."\
                                 % ancestor_next_issue.news.id}
-            issue_data = {"opening":False, "solvers":"%r" % issue.solvers}
+                issue_data = {"opening":False, "solvers":"%r" % issue.solvers}
 
         system_news = News.from_json(context)
         system_news.author_id = g.current_user.id
