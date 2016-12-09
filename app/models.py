@@ -10,15 +10,9 @@ from datetime import datetime
 
 # 유저-그룹 간 Many-to-Many 관계 테이블
 user_group_relationship = db.Table('user_group_relationship',
-                                db.Column('user_id', db.Integer, db.ForeignKey('users.id'), nullable=False),
-                                db.Column('group_id', db.Integer, db.ForeignKey('groups.id'), nullable=False),
-                                db.PrimaryKeyConstraint('user_id', 'group_id'))
-
-
-user_issue_relationship = db.Table('user_issue_relationship',
-                                db.Column('user_id', db.Integer, db.ForeignKey('users.id'), nullable=False),
-                                db.Column('issue_id', db.Integer, db.ForeignKey('issues.id'), nullable=False),
-                                db.PrimaryKeyConstraint('user_id','issue_id'))
+                                  db.Column('user_id', db.Integer, db.ForeignKey('users.id'), nullable=False),
+                                  db.Column('group_id', db.Integer, db.ForeignKey('groups.id'), nullable=False),
+                                  db.PrimaryKeyConstraint('user_id', 'group_id'))
 
 
 class User(db.Model):
@@ -30,20 +24,16 @@ class User(db.Model):
     confirmed = db.Column(db.Boolean)
     pictureName = db.Column(db.Text)
     pictureLocate = db.Column(db.Text)
-    recent_group = db.Column(db.Integer)
+
+    groups = db.relationship('Group',
+                    secondary=user_group_relationship, 
+                    backref=db.backref('user', lazy='dynamic'),
+                    lazy='dynamic')
 
     news = db.relationship('News', backref='author', lazy='dynamic')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
     create_group = db.relationship('Group', backref='author', lazy='dynamic')
-
-    groups = db.relationship('Group',
-                    secondary=user_group_relationship,
-                    backref=db.backref('user', lazy='dynamic'),
-                    lazy='dynamic')
-    issues = db.relationship('Issue',
-                    secondary=user_issue_relationship,
-                    backref=db.backref('user', lazy='dynamic'),
-                    lazy='dynamic')
+    recent_group = db.Column(db.Integer)
 
     def __init__(self, username, realname, password):
         self.username = username
@@ -192,12 +182,12 @@ class News(db.Model):
     parent_id = db.Column(db.Integer)
     filename = db.Column(db.Text())
     filelocate = db.Column(db.Text())
-    notice = db.Column(db.Integer, db.ForeignKey('issues.id'))
-    group = db.Column(db.Integer, db.ForeignKey('groups.id'))
+    notice = db.Column(db.Boolean)
 
     comments = db.relationship('Comment', backref='news', lazy='dynamic')
+    group = db.Column(db.Integer, db.ForeignKey('groups.id'))
 
-    def __init__(self, context, parsed_context, author=None, group=None, notice=None):
+    def __init__(self, context, parsed_context, author=None, group=None, notice=False):
         self.context = context
         self.parsed_context = parsed_context
         self.group = group
@@ -217,9 +207,9 @@ class News(db.Model):
             'context': self.context,
             'created_at': self.created_at,
             'modified_at': self.modified_at,
-            'file' : self.filename,
-            'issue' : self.notice,
-            'group' : self.group,
+			'file' : self.filename,
+			'notice' : self.notice,
+			'group' : self.group,
         }
         return json_news
 
@@ -315,65 +305,6 @@ class Comment(db.Model):
             c.author_name = u.realname
             db.session.add(c)
             db.session.commit()
-
-class Issue(db.Model):
-    __tablename__ = 'issues'
-    id = db.Column(db.Integer, primary_key=True)
-    ancestor_issue = db.Column(db.Integer)
-    prev_issue = db.Column(db.Integer)
-    next_issue = db.Column(db.Integer)
-    opening = db.Column(db.Boolean)
-    created_at = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    closed_at = db.Column(db.DateTime)
-    title = db.Column(db.Text)
-    system_info = db.Column(db.Boolean, default=False)
-
-    news = db.relationship('News', backref='issue', uselist=False)
-    solvers = db.relationship('User',
-                    secondary=user_issue_relationship,
-                    passive_deletes=True,
-                    backref=db.backref('issue', lazy='dynamic'),
-                    lazy='dynamic')
-
-    def __init__(self, opening, title):
-        self.opening = opening
-        self.title = title
-
-    def __repr__(self):
-        return '<Issue %r>' % (self.opening)
-
-    @staticmethod
-    def from_json(json_issue):  # json 입력 루틴
-        title = json_issue.get('title')
-        opening = json_issue.get('opening')
-        if opening is None or opening == '':
-            raise ValidationError('comment does not have a context')
-        issue = Issue(opening, title)
-        
-        # Issue solvers JSON 입력값 처리 
-        solvers_names = json_issue.get('solvers')
-        if solvers_names is not None and solvers_names != []:
-            solver_list = list(solvers_names)
-            if type(solver_list) == list and solver_list is not None and len(solver_list) >= 1:
-            # users 값이 비어있지 않다면 실제로 존재하는 유저에 대하여만 그룹에 추가
-                issue.solvers = [ User.query.filter_by(username=solver_name).first()\
-                    for solver_name in solver_list if User.query.filter_by(username=solver_name).count() != 0 ]
-        return Issue(opening=opening, title=title)
-
-    def to_json(self):  # json 출력 루틴
-        json_issue = {
-            'id': self.id,
-            'ancestor': self.ancestor_issue,
-            'prev': self.prev_issue,
-            'next': self.next_issue,
-            'opening': self.opening,
-            'created_at': self.created_at,
-            'closed_at': self.closed_at,
-            'title': self.title,
-            'system_info' : self.system_info,
-            'solvers': [ solver.username for solver in self.solvers ]
-        }
-        return json_issue
 
 
 def removeEscapeChar(context): #Frontsize의 HTML 태그 제거
