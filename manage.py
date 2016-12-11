@@ -22,11 +22,5 @@ manager.add_command("db", MigrateCommand)
 def rs():
     socketio.run(app, host=host, port=port, debug=True)
 
-#@manager.command
-#def runserver():
-#    app.run(host=host, port=port)
-#    socketio.run(app, host=host, port=port)
-#    app.run(host=host, port=port) & socketio.run(app, host=host, port=port)
-
 if __name__ == '__main__':
     manager.run()

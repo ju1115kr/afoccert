@@ -3,9 +3,10 @@ from flask import current_app, make_response, request, url_for, g, jsonify, send
 from . import api
 from authentication import auth
 from .. import db
-from ..models import User, News
+from ..models import User, News, Push
 from errors import not_found, forbidden, bad_request
 from werkzeug import secure_filename
+from datetime import datetime
 
 
 # 유저 회원 가입
@@ -14,6 +15,8 @@ def post_user():
     user = User.from_json(request.json)
     if User.query.filter_by(username=user.username).count() >= 1:
         return forbidden('username has already')
+    if User.query.count() == 0:
+        user.confirmed = True
     db.session.add(user)
     db.session.commit()
     resp = make_response()
@@ -29,6 +32,8 @@ def get_user(user_id):
     user = User.query.filter_by(username=user_id).first()
     if user is None:
         return not_found('User does not exist')
+    user.uncfm_push = Push.query.filter(Push.to_user==g.current_user.id)\
+                            .filter(Push.confirmed_at==None).count()
     return jsonify(user.to_json())
 
 
@@ -38,8 +43,29 @@ def get_user(user_id):
 def get_users():
     users = User.query.all()
     return jsonify({
-        'users': [user.to_json() for user in users]
+        'users': [user.to_json() for user in users if datetime.utcnow() <= user.expired_at]
     }), 200
+
+
+# 미인가 유저 전체 목록 요청
+@api.route('/users/confirm', methods=['GET'])
+@auth.login_required
+def get_unconfirmed_user():
+    users = User.query.all()
+    return jsonify({'users': [user.to_json() for user in users if user.confirmed is False]})
+
+
+# 미인가 유저 승인
+@api.route('/users/<user_id>/confirm', methods=['POST'])
+@auth.login_required
+def confirm_user(user_id):
+    if not g.current_user.confirmed:
+        return forbidden('User is not confirmed')
+    user = User.query.filter_by(username=user_id).first()
+    if user is None:
+        return not_found('User does not exist')
+    user.confirmed = True
+    return jsonify(user.to_json())
 
 
 # 유저 정보 수정
@@ -56,6 +82,7 @@ def modify_user(user_id):
     if request.json.get('pw') is not None:  # pw 를 수정하는 경우
         user.password = request.json.get('pw')
     user.realname = request.json.get('name', user.realname)
+    user.expired_at = datetime.strptime(request.json.get('expired_at', expired_at), "%Y-%m-%d")
     db.session.add(user)
     return jsonify(user.to_json())
 

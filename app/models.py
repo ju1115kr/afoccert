@@ -8,7 +8,7 @@ from app.exceptions import ValidationError
 from datetime import datetime 
 
 
-# 유저-그룹 간 Many-to-Many 관계 테이블
+# 유저 간 Many-to-Many 관계 테이블
 user_group_relationship = db.Table('user_group_relationship',
                                 db.Column('user_id', db.Integer, db.ForeignKey('users.id'), nullable=False),
                                 db.Column('group_id', db.Integer, db.ForeignKey('groups.id'), nullable=False),
@@ -21,16 +21,24 @@ user_issue_relationship = db.Table('user_issue_relationship',
                                 db.PrimaryKeyConstraint('user_id','issue_id'))
 
 
+user_push_relationship = db.Table('user_push_relationship',
+                                db.Column('user_id', db.Integer, db.ForeignKey('users.id'), nullable=False),
+                                db.Column('push_id', db.Integer, db.ForeignKey('pushes.id'), nullable=False),
+                                db.PrimaryKeyConstraint('user_id', 'push_id'))
+
+
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, index=True)
     realname = db.Column(db.Text)
     password_hash = db.Column(db.String(128))
-    confirmed = db.Column(db.Boolean)
+    expired_at = db.Column(db.DateTime)
+    confirmed = db.Column(db.Boolean, default=False)
     pictureName = db.Column(db.Text)
     pictureLocate = db.Column(db.Text)
     recent_group = db.Column(db.Integer)
+    uncfm_push = db.Column(db.Integer)
 
     news = db.relationship('News', backref='author', lazy='dynamic')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
@@ -44,11 +52,16 @@ class User(db.Model):
                     secondary=user_issue_relationship,
                     backref=db.backref('user', lazy='dynamic'),
                     lazy='dynamic')
+    pushes = db.relationship('Push',
+                    secondary=user_push_relationship,
+                    backref=db.backref('user', lazy='dynamic'),
+                    lazy='dynamic')
 
-    def __init__(self, username, realname, password):
+    def __init__(self, username, realname, password, expired_at):
         self.username = username
         self.realname = realname
         self.password = password
+        self.expired_at = expired_at
 
     def __repr__(self):
         return '<User %r[%r]>' % (self.username, self.realname)
@@ -89,7 +102,9 @@ class User(db.Model):
             'username': self.username,
             'realname': self.realname,
 	        'picture' : self.pictureName,
-            'recent_group' : self.recent_group
+            'recent_group' : self.recent_group,
+            'uncfm_push' : self.uncfm_push,
+            'expired_at' : self.expired_at
         }
         return json_user
     
@@ -98,6 +113,7 @@ class User(db.Model):
         user_id = json_user.get('id')
         user_pw = json_user.get('pw')
         user_name = json_user.get('name')
+        user_expired = datetime.strptime(json_user.get('expired_at'), "%Y-%m-%d")
 	        
         if user_id is None or user_id == '':
             raise ValidationError('user does not have a id')
@@ -106,7 +122,7 @@ class User(db.Model):
         elif user_name is None or user_name == '':
             raise ValidationError('user does not have a name')
         
-        return User(username=user_id, realname=user_name, password=user_pw)
+        return User(username=user_id, realname=user_name, password=user_pw, expired_at=user_expired)
     
     @staticmethod
     def generate_fake(count=100):  # 개발용 fake data 생성 루틴
@@ -196,6 +212,7 @@ class News(db.Model):
     group = db.Column(db.Integer, db.ForeignKey('groups.id'))
 
     comments = db.relationship('Comment', backref='news', lazy='dynamic')
+    push = db.relationship('Push', backref='news', lazy='dynamic')
 
     def __init__(self, context, parsed_context, author=None, group=None, notice=None):
         self.context = context
@@ -263,7 +280,9 @@ class Comment(db.Model):
     author_name = db.Column(db.String(64))
     news_id = db.Column(db.Integer, db.ForeignKey('news.id'), nullable=False)
     parent_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
+
     comments = db.relationship('Comment', lazy='dynamic')
+    push = db.relationship('Push', backref='comment', lazy='dynamic')
 
     filename = db.Column(db.Text)
     filelocate = db.Column(db.Text)
@@ -316,12 +335,13 @@ class Comment(db.Model):
             db.session.add(c)
             db.session.commit()
 
+
 class Issue(db.Model):
     __tablename__ = 'issues'
     id = db.Column(db.Integer, primary_key=True)
-    ancestor_issue = db.Column(db.Integer)
-    prev_issue = db.Column(db.Integer)
-    next_issue = db.Column(db.Integer)
+    ancestor = db.Column(db.Integer)
+    prev = db.Column(db.Integer)
+    next = db.Column(db.Integer)
     opening = db.Column(db.Boolean)
     created_at = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     closed_at = db.Column(db.DateTime)
@@ -351,21 +371,21 @@ class Issue(db.Model):
         issue = Issue(opening, title)
         
         # Issue solvers JSON 입력값 처리 
-        solvers_names = json_issue.get('solvers')
-        if solvers_names is not None and solvers_names != []:
-            solver_list = list(solvers_names)
+        solver_names = json_issue.get('solvers')
+        if solver_names is not None and solver_names != []:
+            solver_list = list(solver_names)
             if type(solver_list) == list and solver_list is not None and len(solver_list) >= 1:
             # users 값이 비어있지 않다면 실제로 존재하는 유저에 대하여만 그룹에 추가
                 issue.solvers = [ User.query.filter_by(username=solver_name).first()\
                     for solver_name in solver_list if User.query.filter_by(username=solver_name).count() != 0 ]
-        return Issue(opening=opening, title=title)
+        return issue
 
     def to_json(self):  # json 출력 루틴
         json_issue = {
             'id': self.id,
-            'ancestor': self.ancestor_issue,
-            'prev': self.prev_issue,
-            'next': self.next_issue,
+            'ancestor': self.ancestor,
+            'prev': self.prev,
+            'next': self.next,
             'opening': self.opening,
             'created_at': self.created_at,
             'closed_at': self.closed_at,
@@ -375,6 +395,59 @@ class Issue(db.Model):
         }
         return json_issue
 
+
+class Push(db.Model):
+    __tablename__ = 'pushes'
+    id = db.Column(db.Integer, primary_key=True)
+    typenum = db.Column(db.Integer)
+    news_id = db.Column(db.Integer, db.ForeignKey('news.id'))
+    comment_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
+    created_at = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    confirmed_at = db.Column(db.DateTime)
+    to_user = db.Column(db.Integer, db.ForeignKey('users.id'))
+    receivers = db.relationship('User',
+                    secondary=user_push_relationship,
+                    passive_deletes=True,
+                    backref=db.backref('push', lazy='dynamic'),
+                    lazy='dynamic')
+
+    def __init__(self, typenum, news_id, comment_id):
+        self.typenum = typenum
+        self.news_id = news_id
+        self.comment_id = comment_id
+
+    def __repr__(self):
+        return '<Push %r>' % (self.typenum)
+
+    @staticmethod
+    def from_json(json_push):
+        typenum = json_push.get('typenum')
+        if typenum is None or typenum == '':
+            raise ValidationError('push does not have a typenum')
+        news_id = json_push.get('news_id')
+        comment_id = json_push.get('comment_id')
+        push = Push(typenum, news_id, comment_id)
+
+        receiver_names = json_push.get('receivers')
+        if receiver_names is not None and receiver_names != []:
+            receiver_list = list(receiver_names)
+            if type(receiver_list) == list and receiver_list is not None and len(receiver_list) >= 1:
+                push.receivers = [ User.query.filter_by(username=receiver_name).first()\
+                    for receiver_name in receiver_list if User.query.filter_by(username=receiver_name).count() != 0]
+        return push
+
+    def to_json(self):
+        json_push = {
+            'id': self.id,
+            'typenum': self.typenum,
+            'news_id': self.news_id,
+            'comment_id': self.comment_id,
+            'created_at': self.created_at,
+            'confirmed_at': self.confirmed_at,
+            'receivers': [ receiver.username for receiver in self.receivers ]
+        }
+        return json_push
+        
 
 def removeEscapeChar(context): #Frontsize의 HTML 태그 제거
     import re

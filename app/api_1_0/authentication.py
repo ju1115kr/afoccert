@@ -2,7 +2,7 @@
 from flask import jsonify, g, request, current_app
 from flask.ext.httpauth import HTTPBasicAuth
 from . import api
-from errors import unauthorized, not_found, bad_request
+from errors import unauthorized, not_found, bad_request, forbidden
 
 
 auth = HTTPBasicAuth()
@@ -38,6 +38,8 @@ def verify_password(username_or_token, password):
 @api.route('/token', methods=['GET'])
 @auth.login_required
 def get_token():
+    if g.current_user.confirmed is False:
+        return forbidden('User is not confirmed')
     if g.token_used:
         return bad_request('token is already given')
     return jsonify({'token': g.current_user.generate_auth_token(g.current_user, expiration=3600),
