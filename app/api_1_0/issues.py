@@ -58,8 +58,7 @@ def get_issue_news(issue_id):
 @cross_origin(expose_headers='Location')
 def post_ancestor():
     issue = Issue.from_json(request.json)
-    if request.json.get('solvers') is None or request.json.get('solvers') == []:
-        issue.solvers = [ g.current_user ]
+    issue.solvers = []
     db.session.add(issue)
     db.session.commit()
     issue.ancestor = issue.id
@@ -135,16 +134,20 @@ def compareIssues(ancestor, issue):
             if issue.opening == True:
                 context = {"context":"#%r issue is opened." % ancestor_next.news.id}
                 issue_data = {"opening":"True"}
-                push_type = 4
+                push_type = 5
             elif issue.opening == False:
                 context = {"context":"#%r issue is closed." % ancestor_next.news.id}
                 issue_data = {"opening":"False"}
-                push_type = 5
+                push_type = 6
         # 해결자가 전환되는 경우
         elif issue.opening == ancestor.opening and list(issue.solvers) != list(ancestor.solvers):
-            context = {"context":"#%r issue's solvers have changed." % ancestor_next.news.id}
+            if ancestor.solvers == []: # 첫 이슈 등록 시
+                context = {"context":"#%r issue's solvers have appointment." % ancestor_next.news.id}
+                push_type = 4
+            else:
+                context = {"context":"#%r issue's solvers have changed." % ancestor_next.news.id}
+                push_type = 7
             issue_data = {"opening":issue.opening, "solvers":"%r" % issue.solvers}
-            push_type = 6
         # 상태 및 해결자 모두 변하는 경우
         else:
             if issue.opening == True:
@@ -158,6 +161,7 @@ def compareIssues(ancestor, issue):
                 issue_data = {"opening":False, "solvers":"%r" % issue.solvers}
                 push_type = 8
 
+        sendPush(issue, typenum)
         system_news = News.from_json(context)
         system_news.author_id = g.current_user.id
         system_news.author_name = g.current_user.realname
@@ -191,8 +195,8 @@ def compareIssues(ancestor, issue):
 
 
 def sendPush(issue, typenum):
-    push = Push.from_json(request.json)
-    push.news_id = issue.news.id
+    push_data = {"typenum":typenum, "news_id":issue.news.id}
+    push = Push.from_json(push_data)
     push.receivers = issue.solvers
     for user in push.receivers:
         push.to_user = user.id
