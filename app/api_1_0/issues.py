@@ -134,11 +134,11 @@ def compareIssues(ancestor, issue):
             if issue.opening == True:
                 context = {"context":"#%r issue is opened." % ancestor_next.news.id}
                 issue_data = {"opening":"True"}
-                push_type = 5
+                push_type = 6
             elif issue.opening == False:
                 context = {"context":"#%r issue is closed." % ancestor_next.news.id}
                 issue_data = {"opening":"False"}
-                push_type = 6
+                push_type = 5
         # 해결자가 전환되는 경우
         elif issue.opening == ancestor.opening and list(issue.solvers) != list(ancestor.solvers):
             if ancestor.solvers == []: # 첫 이슈 등록 시
@@ -154,7 +154,7 @@ def compareIssues(ancestor, issue):
                 context = {"context":"#%r issue's opened and solvers have changed."\
                                 % ancestor_next.news.id}
                 issue_data = {"opening":"True", "solvers":"%r" % issue.solvers}
-                push_type = 7
+                push_type = 9
             elif issue.opening == False:
                 context = {"context":"#%r issue's closed and solvers have changed."\
                                 % ancestor_next.news.id}

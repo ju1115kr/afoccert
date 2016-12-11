@@ -16,8 +16,6 @@ def get_all_push():
     per_page = request.args.get('per_page', 20, type=int)
     pagination = Push.query.filter(Push.to_user==g.current_user.id)\
                     .order_by(Push.created_at.desc()).paginate(page, per_page, error_out=False)
-#    pagination = Push.query.filter(Push.receivers.any(User.id==g.current_user.id))\
-#                    .order_by(Push.created_at.desc()).paginate(page, per_page, error_out=False)
     pag_pushes = pagination.items
     return jsonify({'pushes': [push.to_json() for push in pag_pushes if g.current_user in push.receivers]})
 
@@ -45,6 +43,5 @@ def post_push():
         db.session.add(push)
     db.session.commit()
     resp = make_response()
-#    resp.headers['Location'] = url_for('api.get_push', push_id=push.id)
     resp.status_code = 201
     return resp

@@ -423,9 +423,11 @@ class Push(db.Model):
     def from_json(json_push):
         typenum = json_push.get('typenum')
         if typenum is None or typenum == '':
-            raise ValidationError('push does not have a typenum')
+            raise ValidationError('Push does not have a typenum')
         news_id = json_push.get('news_id')
         comment_id = json_push.get('comment_id')
+        if news_id is None and comment_id is None:
+            raise ValidationError('Push have not reference value')
         push = Push(typenum, news_id, comment_id)
 
         receiver_names = json_push.get('receivers')
