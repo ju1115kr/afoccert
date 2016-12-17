@@ -1,3 +1,5 @@
+@import "mixin";
+@import "variable";
 #sub {
 	.card {
 		min-height: 200px;
@@ -71,7 +73,6 @@
 			top:0;
 			width: 100%;
 			height: 100%;
-			background: #2ABB9B;
 			z-index: 1;
 			transition: all .2s;
 			color: #fff;
@@ -94,3 +95,76 @@
 			}
 		}
 	}
+
+#news-draft{
+	background: transparent;
+	#issue-title, #editor-tab, >.sin-editor{
+		background: #fff;
+		@include drop-shadow(0.1);
+	}
+	#issue-title{
+		position: relative;
+		display: flex;
+		height:40px;
+		margin-bottom: 6px;
+		border-left: 4px solid #ff8686;
+		align-items: center;
+		label{
+			color: #c1c1c1;
+			margin: 0 10px;
+			border-right: 1px solid #e1e1e7;
+			padding-right: 10px;
+		}
+		input{
+			flex:1;
+			margin: 0;
+			border: none;
+			font-size: $font-size-base;
+		}
+		&.ng-enter {
+			transition: all .5s;
+			opacity: 0;
+			margin-top: -40px;
+			margin-bottom: 0;
+			&.ng-enter-active {
+				opacity: 1;
+				margin-top: 0;
+				margin-bottom: 6px;
+			}
+		}
+		&.ng-leave {
+			transition: all .5s;
+			opacity: 1;
+			margin-top:0;
+			margin-bottom: 6px;
+			&.ng-leave-active {
+				opacity: 0;
+				margin-top: -40px;
+				margin-bottom: 0;
+			}
+		}
+	}
+	#editor-tab{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-bottom: 1px solid #f1f1f5;
+		padding: 0 10px;
+	}
+}
+.dracula{
+	#news-draft {
+		#issue-title, #editor-tab, > .sin-editor {
+			background: #616161;
+			@include drop-shadow(0.1);
+		}
+		#issue-title{
+			input{
+				color: #fff;
+			}
+		}
+		#editor-tab{
+			border-bottom-color: #797979;
+		}
+	}
+}

@@ -41,7 +41,7 @@
                             <a class="options glyphicons glyphicons-pencil btn ng-animate-disabled" ng-click="editCommentStart(comment)"></a>
                             <a class="options glyphicons glyphicons-comments btn flip-x ng-animate-disabled" ng-click="replyToCommentStart(comment)" ng-if="!hasReply(comment) && !comment.replyDisplay"></a>
                         </article>
-                        <sin-editor sin-class="edit" class="ng-animate-disabled" value="comment" sin-autofocus="true" sin-submit="editCommentEnd(id, text, files, model)" sin-entries="news.comments" ng-if="comment.edit" sin-mode="inline-edit"></sin-editor>
+                        <sin-editor sin-class="edit" class="ng-animate-disabled primary" value="comment" sin-autofocus="true" sin-submit="editCommentEnd(id, text, files, model)" sin-entries="news.comments" ng-if="comment.edit" sin-mode="inline-edit"></sin-editor>
                     </section>
                     <section class="area-reply">
                         <a class="default" ng-if="hasReply(comment) && !comment.replyDisplay" ng-click="showReplies(comment)">
@@ -63,20 +63,20 @@
                                     <span ng-bind-html="reply.trustText"></span>
                                     <a class="options glyphicons glyphicons-pencil btn ng-animate-disabled" ng-click="editReplyStart(reply)"></a>
                                 </article>
-                                <sin-editor sin-class="edit" class="ng-animate-disabled" value="reply" sin-autofocus="true" sin-submit="editReplyEnd(id, text, files, model)" sin-entries="comment.replies" ng-if="reply.edit" sin-mode="inline-edit"></sin-editor>
+                                <sin-editor sin-class="edit" class="ng-animate-disabled primary" value="reply" sin-autofocus="true" sin-submit="editReplyEnd(id, text, files, model)" sin-entries="comment.replies" ng-if="reply.edit" sin-mode="inline-edit"></sin-editor>
                             </li>
                         </ul>
-                        <sin-editor class="comment-input" class="ng-animate-disabled" sin-autofocus="true" sin-entries="comment.replies" sin-submit="addReplyToComment(text,model,files)" ng-if="comment.replyDisplay" sin-mode="inline"></sin-editor>
+                        <sin-editor class="comment-input" class="ng-animate-disabled primary" sin-autofocus="true" sin-entries="comment.replies" sin-submit="addReplyToComment(text,model,files)" ng-if="comment.replyDisplay" sin-mode="inline"></sin-editor>
                     </section>
                 </li>
             </ul>
-            <sin-editor class="comment-input" sin-entries="news.comments" sin-autofocus="false" sin-submit="addComment(text,model,files)" sin-mode="inline"></sin-editor>
+            <sin-editor class="comment-input primary" sin-entries="news.comments" sin-autofocus="false" sin-submit="addComment(text,model,files)" sin-mode="inline"></sin-editor>
         </div>
     </div>
     <!-- news view end -->
     <!-- news edit start -->
     <div class="content-wrapper" ng-if="news.edit">
-        <sin-editor class="body ng-animate-disabled" sin-class="" value="news" sin-submit="editNewsEnd(id, text, files, group)" sin-autofocus="true" sin-mode="default-edit"></sin-editor>
+        <sin-editor class="body ng-animate-disabled warning" sin-class="" sin-group="true" value="news" sin-submit="editNewsEnd(id, text, files, group)" sin-autofocus="true" sin-mode="default-edit"></sin-editor>
     </div>
     <!-- news edit end -->
 </article>

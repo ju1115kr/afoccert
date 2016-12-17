@@ -50,7 +50,6 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background: #2ABB9B;
   z-index: 1;
   transition: all .2s;
   color: #fff; }
@@ -63,5 +62,62 @@
 .comment-input .dragtest .glyphicons,
 .comment .dragtest .glyphicons {
   display: none; }
+
+#news-draft {
+  background: transparent; }
+  #news-draft #issue-title, #news-draft #editor-tab, #news-draft > .sin-editor {
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
+  #news-draft #issue-title {
+    position: relative;
+    display: flex;
+    height: 40px;
+    margin-bottom: 6px;
+    border-left: 4px solid #ff8686;
+    align-items: center; }
+    #news-draft #issue-title label {
+      color: #c1c1c1;
+      margin: 0 10px;
+      border-right: 1px solid #e1e1e7;
+      padding-right: 10px; }
+    #news-draft #issue-title input {
+      flex: 1;
+      margin: 0;
+      border: none;
+      font-size: 14px; }
+    #news-draft #issue-title.ng-enter {
+      transition: all .5s;
+      opacity: 0;
+      margin-top: -40px;
+      margin-bottom: 0; }
+      #news-draft #issue-title.ng-enter.ng-enter-active {
+        opacity: 1;
+        margin-top: 0;
+        margin-bottom: 6px; }
+    #news-draft #issue-title.ng-leave {
+      transition: all .5s;
+      opacity: 1;
+      margin-top: 0;
+      margin-bottom: 6px; }
+      #news-draft #issue-title.ng-leave.ng-leave-active {
+        opacity: 0;
+        margin-top: -40px;
+        margin-bottom: 0; }
+  #news-draft #editor-tab {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f1f1f5;
+    padding: 0 10px; }
+
+.dracula #news-draft #issue-title, .dracula #news-draft #editor-tab, .dracula #news-draft > .sin-editor {
+  background: #616161;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
+.dracula #news-draft #issue-title input {
+  color: #fff; }
+.dracula #news-draft #editor-tab {
+  border-bottom-color: #797979; }
 
 /*# sourceMappingURL=tab1.css.map */

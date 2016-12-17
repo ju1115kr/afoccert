@@ -1,19 +1,29 @@
 <div id="main">
-<!-- editor start -->
+	<!-- editor start -->
 	<div id="dummy-wrapper" style="{{editor.style}}" overlap="overlapped">
-		<div id="news-draft" class="card card-default shadow ng-animate-disabled"
+		<div id="news-draft" class="card card-default ng-animate-disabled"
 			 ng-class="{overlapped:editor.show}" ng-show="!overlapped.state || editor.show">
-			<div class="tabbar">
-				<div card-toolbar></div>
+			<div id="issue-title" ng-if="editor.onIssue">
+				<label for="issue-title-input">이슈 제목</label>
+				<input type="text" id="issue-title-input" class="transparent" placeholder="이슈 제목을 입력하세요" safe-auto-focus="true">
 			</div>
-			<sin-editor ng-if="editorReady" class="sin-editor" sin-entries="newses" sin-submit="addNews(text,model,files,group)" sin-autofocus="true" sin-mode="default"></sin-editor>
+			<div id="editor-tab" class="tabbar">
+				<div card-toolbar></div>
+				<label class="control control--checkbox danger nomargin">
+					이 글을 이슈로 등록합니다.
+					<input type="checkbox" ng-model="editor.onIssue" class="ng-pristine ng-untouched ng-valid">
+					<div class="control__indicator"></div>
+				</label>
+			</div>
+			<sin-editor ng-if="editorReady"
+						ng-class="{'primary':!editor.onIssue, 'danger':editor.onIssue}"
+						sin-entries="newses" sin-submit="addNews(text,model,files,group)" sin-group="{{!editor.onIssue}}" sin-autofocus="!editor.onIssue" sin-mode="default"></sin-editor>
 		</div>
 	</div>
 	<!-- editor end -->
 	<!-- news list start -->
 	<news model="news" ng-repeat="news in newses" ng-if="!news.deleted" ng-animate="{leave:'animate-leave', enter:'animate-enter'}"></news>
 	<loading ng-if="!fetchedAll" size="140"></loading>
-	<footer></footer>
 	<button class="fav btn btn-primary ng-animate-disabled" ng-if="overlapped.state" ng-click="toggleNote()">
 		<span class="glyphicons glyphicons-pencil" ng-if="!editor.show"></span>
 		<span class="glyphicons glyphicons-remove-2" ng-if="editor.show"></span>

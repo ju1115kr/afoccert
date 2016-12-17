@@ -15,6 +15,7 @@ app
 				editorFocused: "&sinFocused",
 				editorBlured: "&sinBlured",
 				editorType: "@sinMode",
+				groupFlag: "@sinGroup"
 			},
 			replace: true,
 			controller: function($scope, $sce) {
@@ -143,11 +144,18 @@ app
 				/**
 				 * 공개 범위 관련 함수
 				 */
+
 				var defaultGroup = {
 					id:null,
 					name : '전체공개',
 					selected: false
 				};
+				$scope.groupEnabled = function(){
+					console.log($scope.groupFlag)
+					if($scope.groupFlag === true || $scope.groupFlag == 'true')
+						return true;
+					return false;
+				}
 				$scope.initGroupPolicies = function(){
 					var selectPolicyDeferred = $q.defer();
 					$scope.groupPolicies = [defaultGroup];

@@ -3,27 +3,28 @@
 angular.module('certApp')
 
     .controller('Tab1Ctrl',function ($scope, $sce, $rootScope, $uibModal, News, $http, $window, Comments, Reply, $q, Blob, Processing) {
-        $scope.editor = {
-            style : '',
-            show : false
-        }
-        $scope.overlapped = {
-            state: false,
-            ele : null
-        }
-        $scope.$watch('overlapped', function(obj,old){
-            if(obj.state === true && old.state === false){
-                var height = obj.height;
-                $scope.editor.style = 'height:'+height+'px';
-                $scope.editor.show = true;
-            }else if(obj.state === false && old.state === true){
-                $scope.editor.style = 'height:auto';
-                $scope.editor.show = false;
+            $scope.editor = {
+                style : '',
+                show : false,
+                onIssue : true
             }
-        })
-        $scope.toggleNote = function(){
-            $scope.editor.show = !$scope.editor.show;
-        }
+            $scope.overlapped = {
+                state: false,
+                ele : null
+            }
+            $scope.$watch('overlapped', function(obj,old){
+                if(obj.state === true && old.state === false){
+                    var height = obj.height;
+                    $scope.editor.style = 'height:'+height+'px';
+                    $scope.editor.show = true;
+                }else if(obj.state === false && old.state === true){
+                    $scope.editor.style = 'height:auto';
+                    $scope.editor.show = false;
+                }
+            })
+            $scope.toggleNote = function(){
+                $scope.editor.show = !$scope.editor.show;
+            }
             $scope.newses = [];
             $scope.fetching = false;
             $scope.fetchedAll = false;
