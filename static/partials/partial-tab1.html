@@ -5,12 +5,13 @@
 			 ng-class="{overlapped:editor.show}" ng-show="!overlapped.state || editor.show">
 			<div id="issue-title" ng-if="editor.onIssue">
 				<label for="issue-title-input">이슈 제목</label>
-				<input type="text" id="issue-title-input" class="transparent" placeholder="이슈 제목을 입력하세요" safe-auto-focus="true">
+				<input type="text" id="issue-title-input" class="transparent" placeholder="이슈 제목을 입력하세요" safe-auto-focus="true"
+						ng-model="issue.title">
 			</div>
 			<div id="editor-tab" class="tabbar">
 				<div card-toolbar></div>
 				<label class="control control--checkbox danger nomargin">
-					이 글을 이슈로 등록합니다.
+					이슈
 					<input type="checkbox" ng-model="editor.onIssue" class="ng-pristine ng-untouched ng-valid">
 					<div class="control__indicator"></div>
 				</label>

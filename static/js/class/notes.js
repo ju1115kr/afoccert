@@ -42,6 +42,16 @@ function CReply(obj){
     this.created.date = new Date().format('YY년 MM월 dd일', obj.created_at);
     this.created.time = new Date().format('hh:mm', obj.created_at);
 }
+
+function CIssue(obj){
+    this.type = 'issue';
+    this.init(obj);
+    serializer(this, 'context', 'text');
+    this.created = {};
+    this.created.date = new Date().format('YY년 MM월 dd일', obj.created_at);
+    this.created.time = new Date().format('hh:mm', obj.created_at);
+}
 CNews.inherits(CNote);
 CComment.inherits(CNote);
 CReply.inherits(CNote);
+CIssue.inherits(CNote);

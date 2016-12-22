@@ -1,170 +1,178 @@
 @import "mixin";
 @import "variable";
 #sub {
-	.card {
-		min-height: 200px;
-		&.ng-enter {
-			transform: rotate(-20deg) translate(-90px);
-			transition: all .5s;
-			opacity: 0;
-			border-bottom: 2px solid #e1e1e7;
-			border-radius: 2px;
-			&.ng-enter-active {
-				opacity: 1;
-				transform: rotate(0deg) translate(0px);
-			}
-		}
-	}
+  .card {
+    min-height: 200px;
+    &.ng-enter {
+      transform: rotate(-20deg) translate(-90px);
+      transition: all .5s;
+      opacity: 0;
+      border-bottom: 2px solid #e1e1e7;
+      border-radius: 2px;
+      &.ng-enter-active {
+        opacity: 1;
+        transform: rotate(0deg) translate(0px);
+      }
+    }
+  }
 }
 
 .card-container {
-	&.flatten-3d {
-		&.rotateX {
-			perspective: none;
-			.card {
-				transform-style: flat;
-			}
-		}
-	}
-	&.ng-leave {
-		transition: all .5s;
-		opacity: 1;
-		&.ng-leave-active {
-			opacity: 0;
-			transform: translate(200px);
-		}
-	}
+  &.flatten-3d {
+    &.rotateX {
+      perspective: none;
+      .card {
+        transform-style: flat;
+      }
+    }
+  }
+  &.ng-leave {
+    transition: all .5s;
+    opacity: 1;
+    &.ng-leave-active {
+      opacity: 0;
+      transform: translate(200px);
+    }
+  }
 }
 
 .news-info{
-	position: absolute;
-	display: block;
-	width: 150px;
-	margin-left: -150px;
-	left: -20px;
-	font-size: 12px;
-	.news-timestamp{
-		color: #bbb;
-		display: block;
-		text-align: right;
-	}
-	.news-author{
-		color: #2ABB9B;
-    	text-align: right;
-    	display: block;
-	}
+  position: absolute;
+  display: block;
+  width: 150px;
+  margin-left: -150px;
+  left: -20px;
+  font-size: 12px;
+  top: 3px;
+  .news-timestamp{
+    color: #bbb;
+    display: block;
+    text-align: right;
+  }
+  .news-author{
+    color: #2ABB9B;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-bottom: 5px;
+    img{
+      width: 36px;
+      height:36px;
+      margin-bottom: 3px;
+    }
+  }
 }
 
 
 
 /* file upload */
 .drop-box {
-	.dragtest{
-		display: none;
-	}
-	&.dragover{
-		.dragtest{
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			position: absolute;
-			left:0;
-			top:0;
-			width: 100%;
-			height: 100%;
-			z-index: 1;
-			transition: all .2s;
-			color: #fff;
-			.glyphicons{
-				font-size: 50px;
-				margin-bottom: 10px;
-			}
-		}
-	}
-	&.rejectover{
-		background: red;
-	}
+  .dragtest{
+    display: none;
+  }
+  &.dragover{
+    .dragtest{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      left:0;
+      top:0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      transition: all .2s;
+      color: #fff;
+      .glyphicons{
+        font-size: 50px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+  &.rejectover{
+    background: red;
+  }
 }
 
 .comment-input,
 .comment{
-		.dragtest{
-			.glyphicons{
-				display: none;
-			}
-		}
-	}
+  .dragtest{
+    .glyphicons{
+      display: none;
+    }
+  }
+}
 
 #news-draft{
-	background: transparent;
-	#issue-title, #editor-tab, >.sin-editor{
-		background: #fff;
-		@include drop-shadow(0.1);
-	}
-	#issue-title{
-		position: relative;
-		display: flex;
-		height:40px;
-		margin-bottom: 6px;
-		border-left: 4px solid #ff8686;
-		align-items: center;
-		label{
-			color: #c1c1c1;
-			margin: 0 10px;
-			border-right: 1px solid #e1e1e7;
-			padding-right: 10px;
-		}
-		input{
-			flex:1;
-			margin: 0;
-			border: none;
-			font-size: $font-size-base;
-		}
-		&.ng-enter {
-			transition: all .5s;
-			opacity: 0;
-			margin-top: -40px;
-			margin-bottom: 0;
-			&.ng-enter-active {
-				opacity: 1;
-				margin-top: 0;
-				margin-bottom: 6px;
-			}
-		}
-		&.ng-leave {
-			transition: all .5s;
-			opacity: 1;
-			margin-top:0;
-			margin-bottom: 6px;
-			&.ng-leave-active {
-				opacity: 0;
-				margin-top: -40px;
-				margin-bottom: 0;
-			}
-		}
-	}
-	#editor-tab{
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		border-bottom: 1px solid #f1f1f5;
-		padding: 0 10px;
-	}
+  background: transparent;
+  #issue-title, #editor-tab, >.sin-editor{
+    background: #fff;
+    @include drop-shadow(0.1);
+  }
+  #issue-title{
+    position: relative;
+    display: flex;
+    height:40px;
+    margin-bottom: 6px;
+    border-left: 4px solid #ff8686;
+    align-items: center;
+    label{
+      color: #c1c1c1;
+      margin: 0 10px;
+      border-right: 1px solid #e1e1e7;
+      padding-right: 10px;
+    }
+    input{
+      flex:1;
+      margin: 0;
+      border: none;
+      font-size: $font-size-base;
+    }
+    &.ng-enter {
+      transition: all .5s;
+      opacity: 0;
+      margin-top: -40px;
+      margin-bottom: 0;
+      &.ng-enter-active {
+        opacity: 1;
+        margin-top: 0;
+        margin-bottom: 6px;
+      }
+    }
+    &.ng-leave {
+      transition: all .5s;
+      opacity: 1;
+      margin-top:0;
+      margin-bottom: 6px;
+      &.ng-leave-active {
+        opacity: 0;
+        margin-top: -40px;
+        margin-bottom: 0;
+      }
+    }
+  }
+  #editor-tab{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f1f1f5;
+    padding: 0 10px;
+  }
 }
 .dracula{
-	#news-draft {
-		#issue-title, #editor-tab, > .sin-editor {
-			background: #616161;
-			@include drop-shadow(0.1);
-		}
-		#issue-title{
-			input{
-				color: #fff;
-			}
-		}
-		#editor-tab{
-			border-bottom-color: #797979;
-		}
-	}
+  #news-draft {
+    #issue-title, #editor-tab, > .sin-editor {
+      background: #616161;
+      @include drop-shadow(0.1);
+    }
+    #issue-title{
+      input{
+        color: #fff;
+      }
+    }
+    #editor-tab{
+      border-bottom-color: #797979;
+    }
+  }
 }

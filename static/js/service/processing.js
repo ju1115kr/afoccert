@@ -2,7 +2,7 @@
 
 var app = angular.module('certApp');
 
-app.factory('Processing',function($sce){
+app.factory('Processing',function($sce, $q, Issue){
     return {
         news : function(news){
             var newsInstance = new CNews(news);
@@ -21,6 +21,17 @@ app.factory('Processing',function($sce){
             reply.trustText = $sce.trustAsHtml(reply.text);
             return reply;
         },
+        issue: function(issue){
+            var issueInstance = new CIssue(issue);
+            issueInstance.trustText = $sce.trustAsHtml(issueInstance.text);
+            Issue.query({issueId:issue.issue}, function(_issue){
+                Issue.query({issueId:_issue.ancestor}, function(_ancestorIssue){
+                    issueInstance.ancestor = _ancestorIssue.ancestor;
+                    issueInstance.issueTitle = _ancestorIssue.title;
+                })
+            });
+            return issueInstance;
+        }
     }
 })
 /**

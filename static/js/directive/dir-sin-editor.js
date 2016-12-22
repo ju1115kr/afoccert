@@ -151,7 +151,6 @@ app
 					selected: false
 				};
 				$scope.groupEnabled = function(){
-					console.log($scope.groupFlag)
 					if($scope.groupFlag === true || $scope.groupFlag == 'true')
 						return true;
 					return false;

@@ -401,7 +401,7 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
 .card {
   position: relative;
   border-radius: 2px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   -webkit-user-select: none;
   border-left: 0px solid transparent;
   transition: all .2s;
@@ -570,7 +570,7 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
     }
   }
   &.card-in-action {
-    border-left: 4px solid #F9BF3B;
+    border-left: 4px solid $brand-warning;
   }
   .tabbar {
     padding: 0 2px;
@@ -588,6 +588,33 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
       text-align: center;
       a.btn {
         color: #4B77BE;
+      }
+    }
+  }
+  &.issue{
+    $brand-awesome : #e5b0ff;
+    //border-left: 3px solid $brand-danger;
+    &.card-in-action {
+      border-left: 4px solid $brand-danger;
+    }
+    .news-info .news-author{
+      color: $brand-danger;
+    }
+    .content-wrapper {
+      > .title {
+        padding: 5px 13px;
+        margin: 0;
+        border-left: 4px solid $brand-danger;
+        color: $brand-danger;
+        border-bottom: none;
+        a.options {
+          cursor: pointer;
+          color: #e1e1e7;
+          transition: all .2s;
+          &:hover, &.active {
+            color: #c1c1c7;
+          }
+        }
       }
     }
   }

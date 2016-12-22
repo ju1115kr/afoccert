@@ -18,11 +18,23 @@ app
                 $rootScope.$on('update:news', function(e,newsId){
                     if(newsId == $scope.news.id){
                         News.query({'newsId':newsId}, function(n){
-                            $scope.news = Processing.news(n);
-                            $scope.fetchComment();
+                            if(n.issue!=null){
+                                $scope.news = Processing.issue(n);
+                            }else{
+                                $scope.news = Processing.news(n);
+                                $scope.fetchComment();
+                            }
+                            $scope.initOptionEnable();
                         })
                     }
                 });
+                $scope.getType = function(){
+                    //0:news, 1:issue
+                    switch ($scope.news.type){
+                        case 'news': return 0;
+                        case 'issue': return 1;
+                    }
+                }
 
                 /* passed from ctrl-index : user sign in without login */
                 $rootScope.$on('update:user', function(){
@@ -276,12 +288,15 @@ app
                     $popoverInstance.close();
                 }
             },
-            {
-                name:'삭제',
-                triggerFn : function(){
+        ];
+
+        if(news.type == 'news'){
+            $scope.options.push({
+                name: '삭제',
+                triggerFn: function () {
                     deleteFn(news);
                     $popoverInstance.close();
                 }
-            }
-        ]
+            });
+        }
     })

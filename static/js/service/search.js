@@ -2,7 +2,7 @@
 var app = angular.module('certApp');
 
 app.factory('Search',function($resource, $sce, Comments){
-    return $resource(window.api_url+'/search/news/:keyword',{},{
+    return $resource(window.api_url+'/search/news/:keyword',{per_page:60},{
         fromNews: {
             method: 'GET',
             isArray: true,

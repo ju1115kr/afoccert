@@ -1,12 +1,15 @@
-<article class="card card-default" ng-class="{'card-in-action shadow':news.edit}" ng-init="initOptionEnable()">
+<article class="card card-default" ng-class="{'card-in-action shadow':news.edit, 'issue':getType()==1}" ng-init="initOptionEnable()">
     <!-- news view start -->
     <div class="content-wrapper" ng-if="!news.edit">
         <div class="title">
-            <span>{{news.id}}</span>
+            <span>{{news.issue ? news.issueTitle+' ~ ' : ''}}{{news.id}}</span>
             <span class="news-info">
+                <span class="news-author">
+                    <img src="" alt="" class="thumbnail">
+                    <a sin-popover="optionsFromUser(news.author_name)">{{news.author_name}}</a>
+                </span>
                 <span class="news-timestamp">{{news.created.date}}</span>
                 <span class="news-timestamp">{{news.created.time}}</span>
-                <span class="news-author"><a sin-popover="optionsFromUser(news.author_name)">{{news.author_name}}</a></span>
             </span>
             <a class="options pull-right ng-animate-disabled" ng-if="news.optionEnabled" sin-popover="news.showPopover()">
                 <span class="glyphicons glyphicons-more"></span>
@@ -21,7 +24,7 @@
             </div>
             <div compile-html="news.trustText" compile-hash="true"></div>
         </div>
-        <div class="comments" ng-animate="{leave:'animate-leave', enter : 'animate-enter'}" ng-init="fetchComment()">
+        <div class="comments" ng-animate="{leave:'animate-leave', enter : 'animate-enter'}" ng-init="fetchComment()" ng-if="getType()==0">
             <loading ng-if="news.fetchingComment" size="40"></loading>
             <ul ng-if="!news.fetchingComment">
                 <li class="comment ng-animate-disabled" ng-repeat="comment in news.comments" ng-if="!comment.deleted">
@@ -76,7 +79,7 @@
     <!-- news view end -->
     <!-- news edit start -->
     <div class="content-wrapper" ng-if="news.edit">
-        <sin-editor class="body ng-animate-disabled warning" sin-class="" sin-group="true" value="news" sin-submit="editNewsEnd(id, text, files, group)" sin-autofocus="true" sin-mode="default-edit"></sin-editor>
+        <sin-editor class="body ng-animate-disabled" ng-class="{'warning':getType()==0, 'danger':getType()==1}" sin-class="" sin-group="{{getType()==0}}" value="news" sin-submit="editNewsEnd(id, text, files, group)" sin-autofocus="true" sin-mode="default-edit"></sin-editor>
     </div>
     <!-- news edit end -->
 </article>

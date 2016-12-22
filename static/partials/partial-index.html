@@ -13,6 +13,13 @@
 		</ul>
 	</div>
 </div>
+<div id="main-nav" ng-if="global.isLoggedIn()">
+	<ul>
+		<li ng-repeat="button in navObject.sub.buttons" ng-class="{'active': (section+'.'+button.link | routeSegmentStartsWith)}">
+			<a ng-click="link_provider.navigate(button.link)"><span class="{{button.icon}} icon"></span><span class="desc">{{button.name}}</span></a>
+		</li>
+	</ul>
+</div>
 <div class="wallpaper" ng-class="{leave:'animate-leave'}" ng-if="!global.isLoggedIn()">
 	<!--<div class="wallpaper-partition shadow"></div>-->
 	<!--<div class="wallpaper-partition shadow"></div>-->

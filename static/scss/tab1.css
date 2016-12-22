@@ -27,15 +27,22 @@
   width: 150px;
   margin-left: -150px;
   left: -20px;
-  font-size: 12px; }
+  font-size: 12px;
+  top: 3px; }
   .news-info .news-timestamp {
     color: #bbb;
     display: block;
     text-align: right; }
   .news-info .news-author {
     color: #2ABB9B;
-    text-align: right;
-    display: block; }
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-bottom: 5px; }
+    .news-info .news-author img {
+      width: 36px;
+      height: 36px;
+      margin-bottom: 3px; }
 
 /* file upload */
 .drop-box .dragtest {
