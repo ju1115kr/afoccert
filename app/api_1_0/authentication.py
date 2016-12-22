@@ -38,7 +38,7 @@ def verify_password(username_or_token, password):
 @api.route('/token', methods=['GET'])
 @auth.login_required
 def get_token():
-    if g.current_user.confirmed is False:
+    if not g.current_user.confirmed:
         return forbidden('User is not confirmed')
     if g.token_used:
         return bad_request('token is already given')

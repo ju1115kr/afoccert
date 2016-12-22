@@ -32,8 +32,6 @@ def get_user(user_id):
     user = User.query.filter_by(username=user_id).first()
     if user is None:
         return not_found('User does not exist')
-    user.uncfm_push = Push.query.filter(Push.to_user==g.current_user.id)\
-                            .filter(Push.confirmed_at==None).count()
     return jsonify(user.to_json())
 
 
@@ -66,6 +64,22 @@ def confirm_user(user_id):
         return not_found('User does not exist')
     user.confirmed = True
     return jsonify(user.to_json())
+
+
+# 미인가 유저 삭제
+@api.route('/users/<user_id>', methods=['DELETE'])
+@auth.login_required
+def delete_user(user_id):
+    if not g.current_user.confirmed:
+        return forbidden('User is not confirmed')
+    user = User.query.filter_by(username=user_id).first()
+    if user is None:
+        return not_found('User does not exist')
+    if user.confirmed:
+        return forbidden('Cannot delete user because of user already confirmed')
+    db.session.delete(user)
+    db.session.commit()
+    return '', 204
 
 
 # 유저 정보 수정

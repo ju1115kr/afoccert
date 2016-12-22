@@ -196,7 +196,7 @@ def get_user_picture(user_id):
         return not_found('User does not exist')
     pictureName = user.pictureName
     pictureLocate = user.pictureLocate
-    if picture is None:
+    if pictureLocate is None:
         return not_found('Picture does not exist')
     return send_from_directory(UPLOAD_FOLDER, pictureLocate)
 

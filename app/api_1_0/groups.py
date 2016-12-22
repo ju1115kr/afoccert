@@ -11,7 +11,7 @@ from errors import not_found, forbidden, bad_request
 @api.route('/groups', methods=['GET'])  # 전체 그룹 조회
 @auth.login_required
 def get_all_groups():
-    groups = Group.query.order_by(Group.created_at.asc()).all()
+    groups = Group.query.order_by(Group.id.asc()).all()
     return jsonify({'groups':[group.to_json() for group in groups if g.current_user.id == group.create_user]})
 
 
@@ -37,7 +37,7 @@ def get_news_in_group(group_id):
 
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 20, type=int)
-    pagination = group.news.order_by(News.created_at.desc()).paginate(page, per_page, error_out=False)
+    pagination = group.news.order_by(News.id.desc()).paginate(page, per_page, error_out=False)
     pag_news = pagination.items
     if pagination.total < 1:
         return not_found('News is not exist')
@@ -128,5 +128,5 @@ def get_notice_group(group_id):
     if g.current_user not in group.users:
         return forbidden('User does not in this group')
 
-    notice = group.news.filter_by(notice=True).order_by(News.created_at.desc()).all()
+    notice = group.news.filter_by(notice=True).order_by(News.id.desc()).all()
     return jsonify({'notice' : [news.to_json() for news in notice if news.group is None or g.current_user in news.house.users]})

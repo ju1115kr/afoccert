@@ -14,8 +14,8 @@ from flask.ext.cors import cross_origin
 def get_all_issue():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 20, type=int)
-    pagination = Issue.query.filter_by(prev_issue=None)\
-                    .order_by(Issue.created_at.desc()).paginate(page, per_page, error_out=False)
+    pagination = Issue.query.filter_by(prev=None)\
+                    .order_by(Issue.id.desc()).paginate(page, per_page, error_out=False)
     pag_issues = pagination.items
     return jsonify({'issues': [issue.to_json() for issue in pag_issues]})
 
@@ -84,7 +84,7 @@ def post_issue(news_id, issue_id):
     ancestor = Issue.query.get(issue_id)
     if ancestor is None:
         return not_found('Issue does not exist')
-    prev = Issue.query.filter_by(ancestor=issue_id).order_by(Issue.created_at.desc()).first()
+    prev = Issue.query.filter_by(ancestor=issue_id).order_by(Issue.id.desc()).first()
 
     if request.json.get('solvers') is None or request.json.get('solvers') == []:
         issue.solvers = prev.solvers
@@ -131,11 +131,11 @@ def compareIssues(ancestor, issue):
         ancestor_next = Issue.query.filter_by(id=ancestor.next).first()
         # 상태 변화만 있는 경우
         if issue.opening != ancestor.opening and list(issue.solvers) == list(ancestor.solvers):
-            if issue.opening == True:
+            if issue.opening:
                 context = {"context":"#%r issue is opened." % ancestor_next.news.id}
                 issue_data = {"opening":"True"}
                 push_type = 6
-            elif issue.opening == False:
+            elif not issue.opening:
                 context = {"context":"#%r issue is closed." % ancestor_next.news.id}
                 issue_data = {"opening":"False"}
                 push_type = 5
@@ -150,12 +150,12 @@ def compareIssues(ancestor, issue):
             issue_data = {"opening":issue.opening, "solvers":"%r" % issue.solvers}
         # 상태 및 해결자 모두 변하는 경우
         else:
-            if issue.opening == True:
+            if issue.opening:
                 context = {"context":"#%r issue's opened and solvers have changed."\
                                 % ancestor_next.news.id}
                 issue_data = {"opening":"True", "solvers":"%r" % issue.solvers}
                 push_type = 9
-            elif issue.opening == False:
+            elif not issue.opening:
                 context = {"context":"#%r issue's closed and solvers have changed."\
                                 % ancestor_next.news.id}
                 issue_data = {"opening":False, "solvers":"%r" % issue.solvers}
@@ -170,11 +170,11 @@ def compareIssues(ancestor, issue):
         db.session.commit()
         
         system_issue = Issue.from_json(issue_data)
-        if issue.opening == True:
+        if issue.opening:
             system_issue.closed_at = None
             ancestor.closed_at = None
             ancestor.opening = True
-        elif issue.opening == False:
+        elif not issue.opening:
             system_issue.closed_at = datetime.utcnow()
             ancestor.closed_at = system_issue.closed_at
             ancestor.opening = False
@@ -201,4 +201,6 @@ def sendPush(issue, typenum):
     for user in push.receivers:
         push.to_user = user.id
         db.session.add(push)
+        user.uncfm_push = Push.query.filter(Push.to_user==user.id)\
+            .filter(Push.confirmed_at==None).count()
     db.session.commit()

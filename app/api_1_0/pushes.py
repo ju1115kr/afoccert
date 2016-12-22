@@ -41,6 +41,8 @@ def post_push():
     for user in push.receivers:
         push.to_user = user.id
         db.session.add(push)
+        user.uncfm_push = Push.query.filter(Push.to_user==user.id)\
+            .filter(Push.confirmed_at==None).count()
     db.session.commit()
     resp = make_response()
     resp.status_code = 201
