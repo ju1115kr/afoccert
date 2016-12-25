@@ -1,4 +1,5 @@
 <div id="main">
+	<div id="screen-saver"></div>
 	<!-- editor start -->
 	<div id="dummy-wrapper" style="{{editor.style}}" overlap="overlapped">
 		<div id="news-draft" class="card card-default ng-animate-disabled"
@@ -23,7 +24,8 @@
 	</div>
 	<!-- editor end -->
 	<!-- news list start -->
-	<news model="news" ng-repeat="news in newses" ng-if="!news.deleted" ng-animate="{leave:'animate-leave', enter:'animate-enter'}"></news>
+	<news model="news" methods="parentMethods" ng-repeat="news in newses" ng-if="!news.deleted" ng-animate="{leave:'animate-leave', enter:'animate-enter'}"></news>
+
 	<loading ng-if="!fetchedAll" size="140"></loading>
 	<button class="fav btn btn-primary ng-animate-disabled" ng-if="overlapped.state" ng-click="toggleNote()">
 		<span class="glyphicons glyphicons-pencil" ng-if="!editor.show"></span>

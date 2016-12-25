@@ -616,6 +616,34 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
           }
         }
       }
+      > .issue-status{
+        font-size: $font-size-small;
+        color: #aaa;
+        padding: 12px 20px 0;
+        .issue-status-icon{
+          background: $brand-danger;
+          color: #fff;
+          padding: 3px 5px;
+          border-radius: 2px;
+
+        }
+      }
+      > .issue-footer{
+        display: flex;
+        border-top: 1px solid #f1f1f5;
+        margin: 0 10px;
+        padding: 5px;
+        font-size: $font-size-small;
+        color: #aaa;
+        >div{
+          display: flex;
+          justify-content: center;
+          flex:1;
+          &:first-of-type{
+            border-right: 1px solid #f1f1f5;
+          }
+        }
+      }
     }
   }
 }

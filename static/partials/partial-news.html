@@ -15,6 +15,13 @@
                 <span class="glyphicons glyphicons-more"></span>
             </a>
         </div>
+        <div class="issue-status" ng-if="getType()==1">
+            <span class="issue-status-icon">
+                <span class="glyphicons glyphicons-circle-exclamation-mark"></span>
+                <span>opened</span>
+            </span>
+            원문 보기
+        </div>
         <div class="body ng-animate-disabled">
             <div class="file-list" ng-if="news.file">
                 <a ng-click="news.getFile()">
@@ -23,6 +30,10 @@
                 </a>
             </div>
             <div compile-html="news.trustText" compile-hash="true"></div>
+        </div>
+        <div class="issue-footer" ng-if="getType()==1">
+            <div><span>병장 차현탁 외 3명 할당됨</span></div>
+            <div ng-click="viewInDetail()"><span>이슈페이지에서 보기</span><span class="glyphicons glyphicons-chevron-right"></span></div>
         </div>
         <div class="comments" ng-animate="{leave:'animate-leave', enter : 'animate-enter'}" ng-init="fetchComment()" ng-if="getType()==0">
             <loading ng-if="news.fetchingComment" size="40"></loading>

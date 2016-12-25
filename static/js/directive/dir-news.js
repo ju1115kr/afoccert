@@ -3,11 +3,11 @@
 var app = angular.module('certApp');
 
 app
-    .directive('news', function($sce){
+    .directive('news', function(){
         return{
             restrict: "E",
             scope:{
-                news:"=model"
+                news:"=model",
             },
             templateUrl: '/partials/partial-news.html',
             controller: function($scope, $rootScope, $http, $sce, $uibModal, $uibModalStack, $q, News, Comments, Reply, Global, Store, modalUtils, PopoverTrigger, deleteList, Upload, Blob, Processing, Groups){
@@ -262,6 +262,13 @@ app
                         }
                     }).then(function(){
                     })
+                }
+
+                $scope.issueViewDetail = function(){
+                    var modalInstance = $uibModal.open({
+                        templateUrl: '/partials/partial-issue-detail-modal.html',
+                        controller: 'ModalDeleteCtrl',
+                    });
                 }
             },
             link: function($scope, element, attrs){

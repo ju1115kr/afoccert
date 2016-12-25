@@ -470,6 +470,28 @@ button, input[type="submit"], input[type="button"] {
       transition: all .2s; }
       .card.issue .content-wrapper > .title a.options:hover, .card.issue .content-wrapper > .title a.options.active {
         color: #c1c1c7; }
+  .card.issue .content-wrapper > .issue-status {
+    font-size: 12px;
+    color: #aaa;
+    padding: 12px 20px 0; }
+    .card.issue .content-wrapper > .issue-status .issue-status-icon {
+      background: #FF8686;
+      color: #fff;
+      padding: 3px 5px;
+      border-radius: 2px; }
+  .card.issue .content-wrapper > .issue-footer {
+    display: flex;
+    border-top: 1px solid #f1f1f5;
+    margin: 0 10px;
+    padding: 5px;
+    font-size: 12px;
+    color: #aaa; }
+    .card.issue .content-wrapper > .issue-footer > div {
+      display: flex;
+      justify-content: center;
+      flex: 1; }
+      .card.issue .content-wrapper > .issue-footer > div:first-of-type {
+        border-right: 1px solid #f1f1f5; }
 
 news {
   display: block; }

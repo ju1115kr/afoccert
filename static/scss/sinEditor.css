@@ -470,6 +470,28 @@
         transition: all .2s; }
         .sin-editor .card.issue .content-wrapper > .title a.options:hover, .sin-editor .card.issue .content-wrapper > .title a.options.active {
           color: #c1c1c7; }
+    .sin-editor .card.issue .content-wrapper > .issue-status {
+      font-size: 12px;
+      color: #aaa;
+      padding: 12px 20px 0; }
+      .sin-editor .card.issue .content-wrapper > .issue-status .issue-status-icon {
+        background: #FF8686;
+        color: #fff;
+        padding: 3px 5px;
+        border-radius: 2px; }
+    .sin-editor .card.issue .content-wrapper > .issue-footer {
+      display: flex;
+      border-top: 1px solid #f1f1f5;
+      margin: 0 10px;
+      padding: 5px;
+      font-size: 12px;
+      color: #aaa; }
+      .sin-editor .card.issue .content-wrapper > .issue-footer > div {
+        display: flex;
+        justify-content: center;
+        flex: 1; }
+        .sin-editor .card.issue .content-wrapper > .issue-footer > div:first-of-type {
+          border-right: 1px solid #f1f1f5; }
   .sin-editor news {
     display: block; }
     .sin-editor news.ng-leave {

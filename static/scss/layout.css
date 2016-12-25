@@ -122,7 +122,8 @@ body {
     position: relative;
     width: 600px;
     margin: 20px auto;
-    -webkit-user-select: none; }
+    -webkit-user-select: none;
+    transition: all .5s; }
   #content-area > #sub {
     float: left;
     width: calc(100% - 720px);

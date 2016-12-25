@@ -25,7 +25,8 @@ angular.module('certApp')
          */
         $scope.issue = {
             title: '',
-            opening: true
+            opening: true,
+            indetail: false
         };
 
         $scope.$watch('overlapped', function(obj,old){
