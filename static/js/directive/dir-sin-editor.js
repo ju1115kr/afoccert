@@ -507,11 +507,19 @@ app
 
 			},
 			link: function($scope, element, attrs) {
+				$scope.offsetY = 0;
 				var hashInput = $scope.hash.ele;
 				hashInput
 					.bind('keydown', 'down', function(e) {
 						$scope.focusIndex++;
 						$scope.focusIndex %= $scope.filteredResult.length;
+
+						if($scope.focusIndex*35 >= 35*3 -$scope.offsetY){
+							$scope.offsetY = ($scope.focusIndex-2)*(-35)
+						}
+						if($scope.focusIndex == 0){
+							$scope.offsetY = 0;
+						}
 						$scope.$apply();
 						e.preventDefault();
 					})
@@ -519,6 +527,12 @@ app
 						$scope.focusIndex--;
 						$scope.focusIndex += $scope.filteredResult.length;
 						$scope.focusIndex %= $scope.filteredResult.length;
+						if(($scope.focusIndex)*35 + $scope.offsetY <0){
+							$scope.offsetY = -35*($scope.focusIndex);
+						}
+						if($scope.focusIndex == $scope.filteredResult.length-1){
+							$scope.offsetY = -35*($scope.focusIndex-2);
+						}
 						$scope.$apply();
 						e.preventDefault();
 					})
