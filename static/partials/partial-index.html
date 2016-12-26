@@ -53,7 +53,7 @@
 				<span>{{news.author_name}}</span>
 				<span>{{news.created.date}}</span>
 			</div>
-			<span ng-bind-html="news.trustText"></span>
+			<span compile-html="news.trustText"></span>
 		</li>
 		<loading ng-if="searchBar.loading" size="140" color="'#4183d7'"></loading>
 	</aside>
