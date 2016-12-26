@@ -374,7 +374,8 @@ app
 								' value="' + currHash.typed + '"'+
 								' refer="'+ currHash.typed+':'+currHash.data.username+'"'+
 								' class="hash-input readonly" readonly>');
-							replaceHashWith(hashInputTyped,
+							replaceHashWith(
+								hashInputTyped,
 								function() {
 									hashInputTyped.autoGrowInput({
 										minWidth: 10,
@@ -382,20 +383,20 @@ app
 									});
 									hashInputTyped.next('span').remove();
 									hashInputTyped.next('span').remove();
-								});
+								}
+							); //end hash processing : internally, it perform initHash;
 						}
-						$scope.hash.hashing = false; //end hashing process
 					}
 				};
 
 				function initHash() {
 					$scope.hash = {
-						ele: angular.element('<input ng-model="hash.typed" ng-trim="false" class="hash-input" ng-focus="hash.inCaret=true" ng-blur="finishHash()" autofocus="true" kr-input>'),
+						ele: angular.element('<input ng-model="hash.typed" ng-trim="false" class="hash-input" ng-focus="hash.inCaret=true" ng-blur="finishHash()" safe-auto-focus="true" kr-input>'),
 						typed: '',
 						submit: false,
 						focus: false,
 						inCaret: false,
-						hashing: false
+						hashing: false,
 					};
 					hashInput = $scope.hash.ele;
 					hashInput.bind('keydown', 'space esc', function(e) {

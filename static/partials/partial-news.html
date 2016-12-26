@@ -51,7 +51,7 @@
                             </a>
                         </div>
                         <article ng-if="!comment.edit">
-                            <span compile-html="comment.trustText" compile-hash="true"></span>
+                            <span compile-html="comment.trustText"></span>
                             <a class="options glyphicons glyphicons-pencil btn ng-animate-disabled" ng-click="editCommentStart(comment)"></a>
                             <a class="options glyphicons glyphicons-comments btn flip-x ng-animate-disabled" ng-click="replyToCommentStart(comment)" ng-if="!hasReply(comment) && !comment.replyDisplay"></a>
                         </article>
@@ -74,7 +74,7 @@
                                     </a>
                                 </div>
                                 <article ng-if="!reply.edit">
-                                    <span compile-html="reply.trustText" compile-hash="true"></span>
+                                    <span compile-html="reply.trustText"></span>
                                     <a class="options glyphicons glyphicons-pencil btn ng-animate-disabled" ng-click="editReplyStart(reply)"></a>
                                 </article>
                                 <sin-editor sin-class="edit" class="ng-animate-disabled primary" value="reply" sin-autofocus="true" sin-submit="editReplyEnd(id, text, files, model)" sin-entries="comment.replies" ng-if="reply.edit" sin-mode="inline-edit"></sin-editor>
