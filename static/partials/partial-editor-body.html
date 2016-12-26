@@ -44,7 +44,7 @@
 		</li>
 		<li ng-repeat="f in fileToUpload">{{f.progress}} {{f.name}} {{f.size|convertByte}} <a class="remove glyphicons glyphicons-remove-2" ng-click="removeFile()"></a></li>
 	</ul>
-	<div sin-typeahead sin-hash="hash" class="typeahead block shadow" ng-class="{show:hash.constructed}"></div>
+	<div sin-typeahead sin-hash="hash" class="typeahead block shadow show ng-animate-disabled" ng-if="hash.constructed"></div>
 	<pre>{{log}}</pre>
 	<!--<img ng-repeat="file in files" ngf-src="!file.$error && file" draggable="false">-->
 </div>
