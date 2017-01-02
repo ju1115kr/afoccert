@@ -2,6 +2,7 @@
 from flask import request, jsonify, make_response, url_for, g
 from . import api
 from authentication import auth
+from pushes import sendNewsPush, sendCommentPush
 from .. import db
 from ..models import User, Comment, News, Group
 from errors import not_found, forbidden, bad_request
@@ -51,6 +52,8 @@ def post_news():
 
     db.session.add(news)
     db.session.commit()
+
+    sendNewsPush(news,'1')
     resp = make_response()
     resp.headers['Location'] = url_for('api.get_news', id=news.id)  # 만들어진 신송 URI 제공
     resp.status_code = 201
@@ -122,6 +125,8 @@ def post_news_comment(news_id):
     comment.author_name = g.current_user.realname
     db.session.add(comment)
     db.session.commit()
+
+    sendCommentPush(comment,'2')
     resp = make_response()
     resp.headers['Location'] = url_for('api.get_comment', comment_id=comment.id)
     resp.status_code = 201

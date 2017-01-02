@@ -3,7 +3,7 @@ from flask import jsonify, g, request, current_app
 from flask.ext.httpauth import HTTPBasicAuth
 from . import api
 from errors import unauthorized, not_found, bad_request, forbidden
-
+from datetime import datetime
 
 auth = HTTPBasicAuth()
 
@@ -42,6 +42,7 @@ def get_token():
         return forbidden('User is not confirmed')
     if g.token_used:
         return bad_request('token is already given')
+    g.current_user.recent_login = datetime.utcnow()
     return jsonify({'token': g.current_user.generate_auth_token(g.current_user, expiration=3600),
                     'expiration': 3600}), 200
 

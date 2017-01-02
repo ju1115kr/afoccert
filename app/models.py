@@ -27,23 +27,35 @@ user_push_relationship = db.Table('user_push_relationship',
                                 db.PrimaryKeyConstraint('user_id', 'push_id'))
 
 
+news_tag_relationship = db.Table('news_tag_relationship',
+                                db.Column('news_id', db.Integer, db.ForeignKey('news.id'), nullable=False),
+                                db.Column('tag_id', db.Integer, db.ForeignKey('users.id'), nullable=False),
+                                db.PrimaryKeyConstraint('news_id', 'tag_id'))
+
+
+comment_tag_relationship = db.Table('comment_tag_relationship',
+                                db.Column('comment_id', db.Integer, db.ForeignKey('comments.id'), nullable=False),
+                                db.Column('tag_id', db.Integer, db.ForeignKey('users.id'), nullable=False),
+                                db.PrimaryKeyConstraint('comment_id', 'tag_id'))
+
+
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, index=True)
     realname = db.Column(db.Text)
     password_hash = db.Column(db.String(128))
-    expired_at = db.Column(db.DateTime)
     confirmed = db.Column(db.Boolean, default=False)
     pictureName = db.Column(db.Text)
     pictureLocate = db.Column(db.Text)
     recent_group = db.Column(db.Integer)
+    recent_login = db.Column(db.DateTime)
     uncfm_push = db.Column(db.Integer)
 
     news = db.relationship('News', backref='author', lazy='dynamic')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
     create_group = db.relationship('Group', backref='author', lazy='dynamic')
-
+    
     groups = db.relationship('Group',
                     secondary=user_group_relationship,
                     backref=db.backref('user', lazy='dynamic'),
@@ -56,12 +68,19 @@ class User(db.Model):
                     secondary=user_push_relationship,
                     backref=db.backref('user', lazy='dynamic'),
                     lazy='dynamic')
+    tagsInNews = db.relationship('News',
+                    secondary=news_tag_relationship,
+                    backref=db.backref('user', lazy='dynamic'),
+                    lazy='dynamic')
+    tagsInComments = db.relationship('Comment',
+                    secondary=comment_tag_relationship,
+                    backref=db.backref('user', lazy='dynamic'),
+                    lazy='dynamic')
 
-    def __init__(self, username, realname, password, expired_at):
+    def __init__(self, username, realname, password):
         self.username = username
         self.realname = realname
         self.password = password
-        self.expired_at = expired_at
 
     def __repr__(self):
         return '<User %r[%r]>' % (self.username, self.realname)
@@ -103,8 +122,8 @@ class User(db.Model):
             'realname': self.realname,
 	        'picture' : self.pictureName,
             'recent_group' : self.recent_group,
+            'recent_login' : self.recent_login,
             'uncfm_push' : self.uncfm_push,
-            'expired_at' : self.expired_at
         }
         return json_user
     
@@ -113,7 +132,6 @@ class User(db.Model):
         user_id = json_user.get('id')
         user_pw = json_user.get('pw')
         user_name = json_user.get('name')
-        user_expired = datetime.strptime(json_user.get('expired_at'), "%Y-%m-%d")
 	        
         if user_id is None or user_id == '':
             raise ValidationError('user does not have a id')
@@ -122,7 +140,7 @@ class User(db.Model):
         elif user_name is None or user_name == '':
             raise ValidationError('user does not have a name')
         
-        return User(username=user_id, realname=user_name, password=user_pw, expired_at=user_expired)
+        return User(username=user_id, realname=user_name, password=user_pw)
     
     @staticmethod
     def generate_fake(count=100):  # 개발용 fake data 생성 루틴
@@ -213,6 +231,10 @@ class News(db.Model):
 
     comments = db.relationship('Comment', backref='news', lazy='dynamic')
     push = db.relationship('Push', backref='news', lazy='dynamic')
+    tags = db.relationship('User',
+                    secondary=news_tag_relationship,
+                    passive_deletes=True,
+                    lazy='dynamic')
 
     def __init__(self, context, parsed_context, author=None, group=None, notice=None):
         self.context = context
@@ -237,6 +259,7 @@ class News(db.Model):
             'file' : self.filename,
             'issue' : self.notice,
             'group' : self.group,
+            'tags' : [ user.username for user in self.tags ],
         }
         return json_news
 
@@ -251,6 +274,12 @@ class News(db.Model):
         if json_news.get('group') is not None and json_news.get('group') != '':
             group = json_news.get('group')
 
+        if json_news.get('tags') is not None and json_news.get('tags') != []:
+            tags_names = json_news.get('tags')
+            tags_list = list (tags_names)
+            if tags_list is not None and len(tags_list) >= 1:
+                news.tags = [ User.query.filter_by(username=tags_name).first() for tags_name in tags_list\
+                                if User.query.filter_by(username=tags_name).count() != 0 ]
         news = News(context=context, parsed_context=parsed_context, group=group)
         return news
 
@@ -280,12 +309,15 @@ class Comment(db.Model):
     author_name = db.Column(db.String(64))
     news_id = db.Column(db.Integer, db.ForeignKey('news.id'), nullable=False)
     parent_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
+    filename = db.Column(db.Text)
+    filelocate = db.Column(db.Text)
 
     comments = db.relationship('Comment', lazy='dynamic')
     push = db.relationship('Push', backref='comment', lazy='dynamic')
-
-    filename = db.Column(db.Text)
-    filelocate = db.Column(db.Text)
+    tags = db.relationship('User',
+                    secondary=comment_tag_relationship,
+                    passive_deletes=True,
+                    lazy='dynamic')
 
     def __init__(self, context, parsed_context, news_id=None):
         self.context = context
@@ -301,8 +333,15 @@ class Comment(db.Model):
         if context is None or context == '':
             raise ValidationError('comment does not have a context')
         parsed_context = removeEscapeChar(context).lower()
-    
-        return Comment(context=context, parsed_context=parsed_context)
+        comment= Comment(context=context, parsed_context=parsed_context)
+
+        if json_comment.get('tags') is not None and json_comment.get('tags') != []: 
+            tags_names = json_comment.get('tags')
+            tags_list = list (tags_names)
+            if tags_list is not None and len(tags_list) >= 1:
+                comments.tags = [ User.query.filter_by(username=tags_name).first() for tags_name in tags_list\
+                                if User.query.filter_by(username=tags_name).count() != 0 ]
+        return comment
     
     def to_json(self):  # json 출력 루틴
         json_comment = {
@@ -314,7 +353,8 @@ class Comment(db.Model):
             'file' : self.filename,
             'news_id': self.news_id,
             'parent_id': self.parent_id,
-            'count_reply': self.comments.count()
+            'count_reply': self.comments.count(),
+            'tags' : [ user.username for user in self.tags ],
         }
         return json_comment
 

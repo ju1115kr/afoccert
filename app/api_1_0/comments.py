@@ -2,6 +2,7 @@
 from flask import request, jsonify, make_response, url_for, g, send_from_directory
 from . import api
 from authentication import auth
+from pushes import sendCommentPush
 from .. import db
 from ..models import News, User, Comment
 from errors import not_found, bad_request, forbidden
@@ -42,6 +43,8 @@ def post_comments_comment(comment_id):
     reply_comment.author_name = g.current_user.realname
     db.session.add(reply_comment)
     db.session.commit()
+
+    sendCommentPush(reply_comment,'3')
     resp = make_response()
     resp.headers['Location'] = url_for('api.get_comment', comment_id=reply_comment.id)
     resp.status_code = 201

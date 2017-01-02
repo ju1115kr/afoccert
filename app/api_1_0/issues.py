@@ -2,6 +2,7 @@
 from flask import request, jsonify, url_for, make_response, g
 from . import api
 from authentication import auth
+from pushes import sendIssuePush
 from .. import db
 from ..models import User, News, Issue
 from errors import not_found, forbidden, bad_request
@@ -93,10 +94,13 @@ def post_issue(news_id, issue_id):
     issue.ancestor = ancestor.id
     issue.prev = prev.id
     issue.news = news
+
     db.session.add(issue)
     db.session.commit()
+
     prev.next = issue.id
     news.notice = issue.id
+
     compareIssues(ancestor, issue) #상태 변경 시, system message 남기고 해당 이슈화
     resp = make_response()
     resp.headers['Location'] = url_for('api.get_issue', issue_id=issue.id)
@@ -161,7 +165,7 @@ def compareIssues(ancestor, issue):
                 issue_data = {"opening":False, "solvers":"%r" % issue.solvers}
                 push_type = 8
 
-        sendPush(issue, typenum)
+        sendIssuePush(issue, typenum)
         system_news = News.from_json(context)
         system_news.author_id = g.current_user.id
         system_news.author_name = g.current_user.realname
@@ -192,15 +196,3 @@ def compareIssues(ancestor, issue):
         issue.next_issue = system_issue.id
         system_issue.prev_issue = issue.id
         system_news.notice = system_issue.id
-
-
-def sendPush(issue, typenum):
-    push_data = {"typenum":typenum, "news_id":issue.news.id}
-    push = Push.from_json(push_data)
-    push.receivers = issue.solvers
-    for user in push.receivers:
-        push.to_user = user.id
-        db.session.add(push)
-        user.uncfm_push = Push.query.filter(Push.to_user==user.id)\
-            .filter(Push.confirmed_at==None).count()
-    db.session.commit()

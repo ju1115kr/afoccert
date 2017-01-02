@@ -18,6 +18,7 @@ class DevelopmentConfig(Config):
 
 
 class ProductionConfig(Config):
+    DEBUG = False
     SQLALCHEMY_DATABASE_URI = 'mysql://afoccert:$M@rtC3rt@localhost/afoccert'
 
 

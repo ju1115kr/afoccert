@@ -47,3 +47,40 @@ def post_push():
     resp = make_response()
     resp.status_code = 201
     return resp
+
+
+def sendNewsPush(news, typenum):
+    if news.tags is not None and news.tags != []:
+        push_data = {"typenum":typenum, "news_id":news.id}
+        push = Push.from_json(push_data)
+        push.receivers = news.tags
+        for user in push.receivers:
+            push.to_user = user.id
+            db.session.add(push)
+            user.uncfm_push = Push.query.filter(Push.to_user==user.id)\
+                .filter(Push.confirmed_at==None).count()
+    db.session.commit()
+
+def sendCommentPush(comment, typenum):
+    if comment.tags is not None and comment.tags != []:
+        push_data = {"typenum":typenum, "news_id":comment.news_id, "comment_id":comment.id}
+        push = Push.from_json(push_data)
+        push.receivers = comment.tags
+        for user in push.receivers:
+            push.to_user = user.id
+            db.session.add(push)
+            user.uncfm_push = Push.query.filter(Push.to_user==user.id)\
+                .filter(Push.confirmed_at==None).count()
+    db.session.commit()
+
+def sendIssuePush(issue, typenum):
+    if issue.solvers is not None and issue.solvers != []:
+        push_data = {"typenum":typenum, "news_id":issue.news.id}
+        push = Push.from_json(push_data)
+        push.receivers = issue.solvers
+        for user in push.receivers:
+            push.to_user = user.id
+            db.session.add(push)
+            user.uncfm_push = Push.query.filter(Push.to_user==user.id)\
+                .filter(Push.confirmed_at==None).count()
+    db.session.commit()

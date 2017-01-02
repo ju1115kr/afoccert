@@ -6,7 +6,7 @@ from .. import db
 from ..models import User, News, Push
 from errors import not_found, forbidden, bad_request
 from werkzeug import secure_filename
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 # 유저 회원 가입
@@ -41,7 +41,7 @@ def get_user(user_id):
 def get_users():
     users = User.query.all()
     return jsonify({
-        'users': [user.to_json() for user in users if datetime.utcnow() <= user.expired_at]
+        'users': [user.to_json() for user in users if datetime.utcnow()-timedelta(days=30) <= user.recent_login]
     }), 200
 
 
