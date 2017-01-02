@@ -69,7 +69,7 @@ def post_group():
     group_name = group.name
     if Group.query.filter(Group.create_user == g.current_user.id)\
                     .filter(Group.name == group.name).count() >= 1:
-        return bad_request('Group name already exist in same user.' % group.name)
+        return bad_request('Group name already exist in same user.')
     db.session.add(group)
     db.session.commit()
     resp = make_response()
