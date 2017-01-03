@@ -66,7 +66,6 @@ def post_group():
     if request.json.get('users') is None or request.json.get('users') == []:
         group.users = [ g.current_user ]
     group.create_user = g.current_user.id
-    group_name = group.name
     if Group.query.filter(Group.create_user == g.current_user.id)\
                     .filter(Group.name == group.name).count() >= 1:
         return bad_request('Group name already exist in same user.')
