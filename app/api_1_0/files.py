@@ -60,12 +60,13 @@ def post_news_file(id):
         filename = file.filename
         filelocate = addTimestamp(filename)
         if len(filename.rsplit('.')) is not 2:
-            return bad_request('File have abnormal extension')
+            return bad_request('File have over once extension or no extension')
 
         file.save(os.path.join(UPLOAD_FOLDER, filelocate))
         news.filename = filename
         news.filelocate = filelocate
         db.session.commit()
+    else: return bad_request('File have not allowed extension')
     return jsonify(news.to_json())
 
 
@@ -86,12 +87,13 @@ def put_news_file(id):
         filename = file.filename
         filelocate = addTimestamp(filename)
         if len(filename.rsplit('.')) is not 2:
-            return bad_request('File have abnormal extension')
+            return bad_request('File have over once extension or no extension')
 
         file.save(os.path.join(UPLOAD_FOLDER, filelocate))
         news.filename = filename
         news.filelocate = filelocate
         db.session.commit()
+    else: return bad_request('File have not allowed extension')
     return jsonify(news.to_json())
 
 
@@ -138,12 +140,13 @@ def post_comment_file(comment_id):
         filename = file.filename
         filelocate = addTimestamp(filename)
         if len(filename.rsplit('.')) is not 2:
-            return bad_request('File have abnormal extension')
+            return bad_request('File have over once extension or no extension')
 
         file.save(os.path.join(UPLOAD_FOLDER, filelocate))
         comment.filename = filename
         comment.filelocate = filelocate
         db.session.commit()
+    else: return bad_request('File have not allowed extension')
     return jsonify(comment.to_json())
 
 
@@ -164,12 +167,13 @@ def put_comment_file(comment_id):
         filename = file.filename
         filelocate = addTimestamp(filename)
         if len(filename.rsplit('.')) is not 2:
-            return bad_request('File have abnormal extension')
+            return bad_request('File have over once extension or no extension')
 
         file.save(os.path.join(UPLOAD_FOLDER, filelocate))
         comment.filename = filename
         comment.filelocate = filelocate
         db.session.commit()
+    else: return bad_request('File have not allowed extension')
     return jsonify(comment.to_json())
 
 
@@ -215,10 +219,14 @@ def post_user_picture(user_id):
     if file and allowed_picture(file.filename.lower()):
         pictureName = file.filename
         pictureLocate = addTimestamp(pictureName)
+        if len(pictureName.rsplit('.')) is not 2:
+            return bad_request('File have over once extension or no extension')
+
         file.save(os.path.join(UPLOAD_FOLDER, pictureLocate))
         user.pictureName = pictureName
         user.pictureLocate = pictureLocate
         db.session.commit()
+    else: return bad_request('File have not allowed extension')
     return jsonify(user.to_json()), 200
 
 
@@ -237,10 +245,14 @@ def put_user_picture(user_id):
     if file and allowed_picture(file.filename.lower()):
         pictureName = file.filename
         pictureLocate = addTimestamp(pictureName)
+        if len(pictureName.rsplit('.')) is not 2:
+            return bad_request('File have over once extension or no extension')
+
         file.save(os.path.join(UPLOAD_FOLDER, pictureLocate))
         user.pictureName = pictureName
         user.pictureLocate = pictureLocate
         db.session.commit()
+    else: return bad_request('File have not allowed extension')
     return jsonify(user.to_json())
 
 
