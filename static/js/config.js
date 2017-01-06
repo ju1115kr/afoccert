@@ -16,6 +16,7 @@ app.config(function($routeSegmentProvider, $routeProvider, $locationProvider, $a
 
         .when('/', 'index')
         .when('/tab1', 'index.tab1')
+        .when('/tab1/detail/:id', 'index.tab1.detail')
         .when('/tab3', 'index.tab3')
         .when('/admin', 'index.admin')
         .when('/admin/tags', 'index.admin.tags')
@@ -31,6 +32,13 @@ app.config(function($routeSegmentProvider, $routeProvider, $locationProvider, $a
             templateUrl: '/partials/partial-tab1.html',
             controller: 'Tab1Ctrl'
         })
+            .within()
+            .segment('detail',{
+                templateUrl: '/partials/partial-tab1-detail.html',
+                dependencies:['id'],
+                controller: 'Tab1DetailCtrl'
+            })
+            .up()
         .segment('tab3', {
             templateUrl: '/partials/partial-tab2.html',
             controller: 'Tab3Ctrl'

@@ -1,4 +1,5 @@
-<div id="main">
+<div app-view-segment="2" class="floating" ng-show="(getDetailSegment() | routeSegmentStartsWith)"></div>
+<div id="main" ng-class="{'detail': (getDetailSegment() | routeSegmentStartsWith)}">
 	<div id="screen-saver"></div>
 	<!-- editor start -->
 	<div id="dummy-wrapper" style="{{editor.style}}" overlap="overlapped">

@@ -2,7 +2,7 @@
     <!-- news view start -->
     <div class="content-wrapper" ng-if="!news.edit">
         <div class="title">
-            <span>{{news.issue ? news.issueTitle+' ~ ' : ''}}{{news.id}}</span>
+            <span>{{news.issue ? news.issueTitle+' ~ ' : ''}}{{news.id}}/{{news.issue}}</span>
             <span class="news-info">
                 <span class="news-author">
                     <img src="" alt="" class="thumbnail">
@@ -16,7 +16,7 @@
             </a>
         </div>
         <div class="issue-status" ng-if="getType()==1">
-            <span class="issue-status-icon">
+            <span class="issue-status-icon opened">
                 <span class="glyphicons glyphicons-circle-exclamation-mark"></span>
                 <span>opened</span>
             </span>
@@ -33,7 +33,7 @@
         </div>
         <div class="issue-footer" ng-if="getType()==1">
             <div><span>병장 차현탁 외 3명 할당됨</span></div>
-            <div ng-click="viewInDetail()"><span>이슈페이지에서 보기</span><span class="glyphicons glyphicons-chevron-right"></span></div>
+            <div ng-click="issueDetail(news)"><span>이슈페이지에서 보기</span><span class="glyphicons glyphicons-chevron-right"></span></div>
         </div>
         <div class="comments" ng-animate="{leave:'animate-leave', enter : 'animate-enter'}" ng-init="fetchComment()" ng-if="getType()==0">
             <loading ng-if="news.fetchingComment" size="40"></loading>

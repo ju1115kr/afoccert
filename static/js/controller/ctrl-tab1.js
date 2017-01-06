@@ -2,7 +2,14 @@
 
 angular.module('certApp')
 
-    .controller('Tab1Ctrl',function ($scope, $sce, $rootScope, $q, $http, $uibModal, News, $window, Comments, Reply, Blob, Processing, Issue) {
+    .controller('Tab1Ctrl',function ($scope, $sce, $rootScope, $q, $http, $location, $uibModal, News, $window,Comments, Reply, Blob, Processing, Issue, Utils) {
+        var section = 'index',
+            currSegment = 'tab1',
+            detailSegment = 'detail';
+        $scope.getDetailSegment = function(){
+            return section+'.'+currSegment+'.'+detailSegment;
+        }
+
         /**
          * Editor state
          * @type {{style: string, show: boolean, onIssue: boolean}}
@@ -49,30 +56,24 @@ angular.module('certApp')
         function fetchNewPage(startPage) {
             return function () {
                 $scope.fetching = true;
-                var newsDeferred = $q.defer();
-                News.queryAll(
-                    {page: startPage, per_page: 20},
-                    function (result) {
+                News.queryAll({page: startPage, per_page: 20})
+                    .$promise
+                    .then(function(result){
                         $scope.editorReady = true;
                         var newses = [];
                         result.forEach(function(news){
-                            if(news.issue != null){
-                                newses.push(Processing.issue(news));
-                            }else{
-                                newses.push(Processing.news(news));
-                            }
+                            newses.push(Processing.classification(news));
                         })
                         $scope.newses = $scope.newses.concat(newses);
-                        newsDeferred.resolve(newses);
                         $scope.fetching = false;
                         startPage++;
-                    }
-                );
-                newsDeferred.promise.then(function(newses){
-                    if(newses.length==0){
-                        $scope.fetchedAll = true;
-                    }
-                });
+                        return newses;
+                    })
+                    .then(function(newses){
+                        if(newses.length==0){
+                            $scope.fetchedAll = true;
+                        }
+                    });
             }
         }
 
@@ -98,15 +99,18 @@ angular.module('certApp')
                             dummyDeferred.resolve(data);
                         });
                     });
-                    dummyDeferred.promise.then(function(dummy){
-                        saveNews(text,files,null).then(function(news){
+                    dummyDeferred.promise
+                        .then(function(dummy){
+                            return $q.all([Utils.saveNews(text,files,null), dummy]);
+                        })
+                        .then(function(arr){
                             /**
                              * news의 issue화
                              */
                             Issue.assignNews(
                                 {
-                                    ancestorId:dummy.ancestor,
-                                    newsId: news.id
+                                    ancestorId:arr[1].ancestor,
+                                    newsId: arr[0].id
                                 },
                                 {
                                     opening: $scope.issue.opening
@@ -120,39 +124,14 @@ angular.module('certApp')
                                 }
                             );
                         });
-                    });
                     issueDeferred.promise.then(function(unprocessedIssue){
                         model.unshift(Processing.issue(unprocessedIssue));
                     });
                 }
             }else {
-                saveNews(text,files,group).then(function(news){
+                Utils.saveNews(text,files,group).then(function(news){
                     model.unshift(news);
                 })
-            }
-            function saveNews(text, files, group){
-                var retDeferred = $q.defer();
-                News.save({'context': text, 'tags':[], 'group':group}, function (data, headers) {
-                    var newsDeferred = $q.defer();
-                    $http({method: 'GET', url: headers('Location')}).success(function (data, stauts, headers, config) {
-                        newsDeferred.resolve(data);
-                    });
-                    newsDeferred.promise.then(function(unprocessedNews){
-                        var news = Processing.news(unprocessedNews);
-                        if(files.data && files.data.length!==0) {
-                            var file = {
-                                file: files.data[0]
-                            };
-                            Blob.upload(news, file).then(function(fileAttachedNews){
-                                news.update(fileAttachedNews);
-                                retDeferred.resolve(news);
-                            })
-                        }else{
-                            retDeferred.resolve(news);
-                        }
-                    })
-                });
-                return retDeferred.promise;
             }
         };
 

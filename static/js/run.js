@@ -84,15 +84,15 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 		var page = 1;
 		$rootScope.searchResult = [];
 		timeout = setTimeout(function recursiveSearch(){
-			Search.fromNews({page:page, keyword:$rootScope.searchBar.value}, function(result){
-				var newsDeferred = $q.defer();
-				var newses = [];
-				result.forEach(function(news){
-					newses.push(Processing.news(news));
-					// newses.push(Processing.news(news));
+			Search.fromNews({page:page, keyword:$rootScope.searchBar.value}).$promise
+				.then(function(result){
+					var newses = [];
+					result.forEach(function(news){
+						newses.push(Processing.classification(news));
+					})
+					return newses;
 				})
-				newsDeferred.resolve(newses);
-				newsDeferred.promise.then(function(newses){
+				.then(function(newses){
 					$rootScope.searchResult = $rootScope.searchResult.concat(newses);
 					page++;
 					if(newses.length == 0){
@@ -101,8 +101,6 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 						recursiveSearch();
 					}
 				})
-				// $rootScope.searchResult = $rootScope.searchResult.concat(newses);
-			})
 		},500);
 	};
 	function breakDelay (){

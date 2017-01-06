@@ -28,9 +28,17 @@ app.factory('Processing',function($sce, $q, Issue){
                 Issue.query({issueId:_issue.ancestor}, function(_ancestorIssue){
                     issueInstance.ancestor = _ancestorIssue.ancestor;
                     issueInstance.issueTitle = _ancestorIssue.title;
+                    issueInstance.issue_created_at = _ancestorIssue.created_at;
                 })
             });
             return issueInstance;
+        },
+        classification: function(news){
+            if(news.issue != null){
+                return this.issue(news);
+            }else{
+                return this.news(news);
+            }
         }
     }
 })

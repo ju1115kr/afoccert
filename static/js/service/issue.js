@@ -19,6 +19,11 @@ app.factory('Issue', function ($resource, $sce, $q) {
         delete:{
             url: window.api_url+'/issues/:ancestorId',
             method :'DELETE'
+        },
+        queryNews:{
+            url: window.api_url+'/issues/:issueId/news',
+            method:'GET',
+            isArray: false
         }
     });
 });

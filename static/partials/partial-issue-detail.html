@@ -1,3 +1,40 @@
-<div>
-    issue-detail
+<div id="issue-detail" ng-switch="!!ancestor">
+    <div class="issue-detail-inner" ng-switch-when="false">
+        <loading size="150" color="'#FF8686'"></loading>
+        <h3>이슈를 가져오는 중입니다.</h3>
+    </div>
+    <div class="issue-detail-inner" ng-switch-when="true">
+        <header class="issue-summary">
+            <h1>{{ancestor.title}}</h1>
+            <h4>
+            <span class="issue-status-icon" ng-class="{opened:ancestor.opening, closed:!ancestor.opening}" ng-switch="ancestor.opening">
+                <span ng-switch-when="true" class="glyphicons glyphicons-circle-exclamation-mark"></span>
+                <span ng-switch-when="false" class="glyphicons glyphicons-ok-2"></span>
+                <span ng-switch-when="true">opened</span>
+                <span ng-switch-when="false">closed</span>
+            </span>
+            <span>{{ancestor.created_at}}</span>
+            </h4>
+        </header>
+        <section class="issue-body">
+            <issue model="issue" ng-repeat="issue in issues"></issue>
+        </section>
+        <footer class="issue-form">
+            <div id="issue-assignee" class="issue-form-inner">
+                <h3>담당자</h3>
+            </div>
+            <div id="issue-editor" class="issue-form-inner">
+                <div id="editor-tab" class="tabbar">
+                    <div card-toolbar></div>
+                    <label class="control control--checkbox nomargin"  ng-class="{primary:ancestor.opening, danger:!ancestor.opening}">
+                        이슈 {{ancestor.opening ? '닫기' : '열기'}}
+                        <input type="checkbox" ng-model="editor.status" class="ng-pristine ng-untouched ng-valid">
+                        <div class="control__indicator"></div>
+                    </label>
+                </div>
+                <sin-editor ng-class="{default: !editor.status, primary:editor.status && ancestor.opening, danger: editor.status && !ancestor.opening}"
+                            sin-entries="issues" sin-submit="addIssue(text,model,files)" sin-group="false" sin-mode="default"></sin-editor>
+            </div>
+        </footer>
+    </div>
 </div>

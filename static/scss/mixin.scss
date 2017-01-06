@@ -12,6 +12,7 @@
 @mixin generateButton($bg){
   background: $bg;
   color: #fff;
+  transition: background .2s;
   &:hover{
     background: darken($bg, 5%);
   }
@@ -20,6 +21,13 @@
   }
   &.btn-transparent{
     color: darken($bg, 5%);
+  }
+  &.btn-outline{
+    color: darken($bg, 5%);
+    border: 1px solid darken($bg, 5%);
+    &:hover{
+      background: lighten($bg,5%);
+    }
   }
 }
 

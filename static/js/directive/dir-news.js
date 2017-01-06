@@ -10,7 +10,7 @@ app
                 news:"=model",
             },
             templateUrl: '/partials/partial-news.html',
-            controller: function($scope, $rootScope, $http, $sce, $uibModal, $uibModalStack, $q, News, Comments, Reply, Global, Store, modalUtils, PopoverTrigger, deleteList, Upload, Blob, Processing, Groups){
+            controller: function($scope, $rootScope, $http, $sce, $location, $uibModal, $uibModalStack, $q, News, Comments, Reply, Global, Store, modalUtils, PopoverTrigger, deleteList, Upload, Blob, Processing, Groups){
                 /**
                  * 뉴스 관련 함수
                  */
@@ -264,11 +264,8 @@ app
                     })
                 }
 
-                $scope.issueViewDetail = function(){
-                    var modalInstance = $uibModal.open({
-                        templateUrl: '/partials/partial-issue-detail-modal.html',
-                        controller: 'ModalDeleteCtrl',
-                    });
+                $scope.issueDetail = function(issue){
+                    $location.path('/tab1/detail/'+issue.ancestor);
                 }
             },
             link: function($scope, element, attrs){
