@@ -59,6 +59,7 @@ def get_issue_news(issue_id):
 @cross_origin(expose_headers='Location')
 def post_ancestor():
     issue = Issue.from_json(request.json)
+    issue.title = request.json.get('title')
     issue.solvers = []
     db.session.add(issue)
     db.session.commit()
@@ -165,14 +166,15 @@ def compareIssues(ancestor, issue):
                 issue_data = {"opening":False, "solvers":"%r" % issue.solvers}
                 push_type = 8
 
-        sendIssuePush(issue, typenum)
+        sendIssuePush(issue, push_type)
         system_news = News.from_json(context)
         system_news.author_id = g.current_user.id
         system_news.author_name = g.current_user.realname
 
         db.session.add(system_news)
         db.session.commit()
-        
+ 
+        prev = Issue.query.filter_by(ancestor=issue_id).order_by(Issue.id.desc()).first()
         system_issue = Issue.from_json(issue_data)
         if issue.opening:
             system_issue.closed_at = None
@@ -185,6 +187,8 @@ def compareIssues(ancestor, issue):
         ancestor.solvers = issue.solvers
 
         system_issue.ancestor = ancestor.id
+        system_issue.prev = prev.id
+        prev.next = system_issue.id
         system_issue.news = system_news
         system_issue.solvers = issue.solvers
         system_issue.opening = issue.opening
@@ -196,3 +200,5 @@ def compareIssues(ancestor, issue):
         issue.next_issue = system_issue.id
         system_issue.prev_issue = issue.id
         system_news.notice = system_issue.id
+
+    else: pass

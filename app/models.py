@@ -395,20 +395,18 @@ class Issue(db.Model):
                     backref=db.backref('issue', lazy='dynamic'),
                     lazy='dynamic')
 
-    def __init__(self, opening, title):
+    def __init__(self, opening):
         self.opening = opening
-        self.title = title
 
     def __repr__(self):
         return '<Issue %r>' % (self.opening)
 
     @staticmethod
     def from_json(json_issue):  # json 입력 루틴
-        title = json_issue.get('title')
         opening = json_issue.get('opening')
         if opening is None or opening == '':
             raise ValidationError('comment does not have a context')
-        issue = Issue(opening, title)
+        issue = Issue(opening)
         
         # Issue solvers JSON 입력값 처리 
         solver_names = json_issue.get('solvers')
