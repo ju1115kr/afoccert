@@ -743,8 +743,7 @@ news {
     background: white;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
-    border-radius: 2px;
-    border-bottom: 2px solid #e1e1e7; }
+    border-radius: 2px; }
     .modal .modal-dialog .modal-title {
       height: 100px; }
     .modal .modal-dialog .modal-body {

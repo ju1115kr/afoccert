@@ -80,28 +80,50 @@ app.run(function($http, $rootScope, $timeout, $filter, $q, $sce, Global, $uibMod
 	});
 
 	var timeout;
+	var newsSize;
+
 	function setDelay (){
 		var page = 1;
-		$rootScope.searchResult = [];
-		timeout = setTimeout(function recursiveSearch(){
-			Search.fromNews({page:page, keyword:$rootScope.searchBar.value}).$promise
-				.then(function(result){
-					var newses = [];
-					result.forEach(function(news){
-						newses.push(Processing.classification(news));
-					})
-					return newses;
-				})
-				.then(function(newses){
-					$rootScope.searchResult = $rootScope.searchResult.concat(newses);
-					page++;
-					if(newses.length == 0){
-						$rootScope.searchBar.loading = false;
+		var per_page = 1000;
+		function recursiveNewsSize(page){
+			var newsSize = 0;
+			return News.query({page:page, per_page: 20}).$promise
+				.then(function(data){
+					if(data.news.length!==0){
+						newsSize = data.news[0].id;
 					}else{
-						recursiveSearch();
+						newsSize = recursiveNewsSize(++page);
 					}
+					return newsSize;
 				})
-		},500);
+				.catch(function(err){
+					return recursiveNewsSize(page);
+				})
+		}
+		recursiveNewsSize(1)
+			.then(function(value){
+				newsSize = value;
+				$rootScope.searchResult = [];
+				timeout = setTimeout(function recursiveSearch(){
+					Search.fromNews({page:page, keyword:$rootScope.searchBar.value, per_page:per_page}).$promise
+						.then(function(result){
+							var newses = [];
+							result.forEach(function(news){
+								newses.push(Processing.classification(news));
+							})
+							return newses;
+						})
+						.then(function(newses){
+							$rootScope.searchResult = $rootScope.searchResult.concat(newses);
+							page++;
+							if(per_page*page > newsSize){
+								$rootScope.searchBar.loading = false;
+							}else{
+								recursiveSearch();
+							}
+						})
+				},500);
+			})
 	};
 	function breakDelay (){
 		$rootScope.searchBar.loading = true;

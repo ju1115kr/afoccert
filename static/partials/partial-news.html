@@ -1,26 +1,18 @@
-<article class="card card-default" ng-class="{'card-in-action shadow':news.edit, 'issue':getType()==1}" ng-init="initOptionEnable()">
+<article class="card card-default" ng-class="{'card-in-action shadow':news.edit}" ng-init="initOptionEnable()">
     <!-- news view start -->
     <div class="content-wrapper" ng-if="!news.edit">
         <div class="title">
-            <span>{{news.issue ? news.issueTitle+' ~ ' : ''}}{{news.id}}/{{news.issue}}</span>
+            <span>{{news.id}}</span>
             <span class="news-info">
-                <span class="news-author">
-                    <img src="" alt="" class="thumbnail">
-                    <a sin-popover="optionsFromUser(news.author_name)">{{news.author_name}}</a>
-                </span>
                 <span class="news-timestamp">{{news.created.date}}</span>
                 <span class="news-timestamp">{{news.created.time}}</span>
+                <span class="news-author">
+                    <a sin-popover="optionsFromUser(news.author_name)">{{news.author_name}}</a>
+                </span>
             </span>
             <a class="options pull-right ng-animate-disabled" ng-if="news.optionEnabled" sin-popover="news.showPopover()">
                 <span class="glyphicons glyphicons-more"></span>
             </a>
-        </div>
-        <div class="issue-status" ng-if="getType()==1">
-            <span class="issue-status-icon opened">
-                <span class="glyphicons glyphicons-circle-exclamation-mark"></span>
-                <span>opened</span>
-            </span>
-            원문 보기
         </div>
         <div class="body ng-animate-disabled">
             <div class="file-list" ng-if="news.file">
@@ -30,10 +22,6 @@
                 </a>
             </div>
             <div compile-html="news.trustText" compile-hash="true"></div>
-        </div>
-        <div class="issue-footer" ng-if="getType()==1">
-            <div><span>병장 차현탁 외 3명 할당됨</span></div>
-            <div ng-click="issueDetail(news)"><span>이슈페이지에서 보기</span><span class="glyphicons glyphicons-chevron-right"></span></div>
         </div>
         <div class="comments" ng-animate="{leave:'animate-leave', enter : 'animate-enter'}" ng-init="fetchComment()" ng-if="getType()==0">
             <loading ng-if="news.fetchingComment" size="40"></loading>
