@@ -25,16 +25,15 @@
 			{{editor.value}}
 		</div>
 		<footer class="sin-editor-footer">
-			<!-- <div class="hash-list"></div> -->
-			<div uib-dropdown is-open="status.isopen" ng-if="editorType==='default'||editorType==='default-edit'" ng-init="initGroupPolicies()">
-				<button id="single-button" type="button" class="btn btn-primary btn-transparent" uib-dropdown-toggle  ng-click="fetchGroupPolicies()">{{selectedPolicy.name}}<span class="caret"></span></button>
+			<div uib-dropdown is-open="status.isopen" ng-if="groupEnabled()" ng-init="initGroupPolicies()">
+				<button id="single-button" type="button" class="btn btn-transparent" uib-dropdown-toggle  ng-click="fetchGroupPolicies()">{{selectedPolicy.name}}<span class="caret"></span></button>
 				<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="single-button">
 					<li ng-repeat="policy in groupPolicies" ng-class="{active:policy.selected}"><a href="#" ng-click="selectPolicy(policy)">{{policy.name}}</a></li>
 					<li class="divider"></li>
 					<li><a href="#" ng-click="createGroupPolicy()"><span class="glyphicons glyphicons-circle-plus"></span>새 그룹 생성</a></li>
 				</ul>
 			</div>
-			<button class="btn" ng-click="pushEntry(editor.value);" ng-disabled="hash.constructed||hash.hashing" uib-toot>완료</button>
+			<button class="btn" ng-click="pushEntry(editor.value);" ng-disabled="hash.constructed||hash.hashing">완료</button>
 		</footer>
 	</div>
 	<ul class="file-list" ng-class="{'empty' : !editor.file.data && fileToUpload.length==0}">
@@ -45,7 +44,7 @@
 		</li>
 		<li ng-repeat="f in fileToUpload">{{f.progress}} {{f.name}} {{f.size|convertByte}} <a class="remove glyphicons glyphicons-remove-2" ng-click="removeFile()"></a></li>
 	</ul>
-	<div sin-typeahead sin-hash="hash" class="typeahead block shadow" ng-class="{show:hash.constructed}"></div>
+	<div sin-typeahead sin-hash="hash" class="typeahead block shadow show ng-animate-disabled" ng-if="hash.constructed"></div>
 	<pre>{{log}}</pre>
 	<!--<img ng-repeat="file in files" ngf-src="!file.$error && file" draggable="false">-->
 </div>

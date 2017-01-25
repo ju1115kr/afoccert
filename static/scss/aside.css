@@ -28,8 +28,9 @@
   width: 300px;
   height: calc(100% - 40px);
   left: 0;
-  top: 40px;
-  background: #ffffff; }
+  top: 40px; }
+  .aside.modal {
+    background: #ffffff; }
   .aside header {
     padding: 10px 10px;
     font-weight: 800;
@@ -50,8 +51,9 @@
     padding: 10px 10px 20px;
     border-top: 1px solid #f1f1f5; }
   .aside.info {
-    color: #fff;
-    background: linear-gradient(to bottom, #5f83e7 0%, #456fe3 80%); }
+    color: #fff; }
+    .aside.info.modal {
+      background: linear-gradient(to bottom, #5f83e7 0%, #456fe3 80%); }
     .aside.info header {
       background: #456fe3;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);

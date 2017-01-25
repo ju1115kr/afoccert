@@ -40,7 +40,9 @@
   height: calc(100% - #{$header-height});
   left: 0;
   top: $header-height;
-  background: #ffffff;
+  &.modal{
+    background: #ffffff;
+  }
   header{
     padding: 10px 10px;
     font-weight: 800;
@@ -68,7 +70,9 @@
   }
   &.info{
     color: #fff;
-    background:linear-gradient(to bottom, #5f83e7 0%, #456fe3 80%);
+    &.modal{
+      background:linear-gradient(to bottom, #5f83e7 0%, #456fe3 80%);
+    }
     header{
       background: #456fe3;
       @include drop-shadow(0.3);

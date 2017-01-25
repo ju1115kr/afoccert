@@ -31,15 +31,15 @@ input{
     &.lg{
       height: 40px;
     }
-    &.transparent{
-      background: transparent;
-    }
     &.primary{
       &:focus{
         border-bottom: 1px solid #2ABB9B;
         font-size: 16px;
       }
     }
+  }
+  &.transparent{
+    background: transparent;
   }
 }
 
@@ -90,72 +90,16 @@ button,input[type="submit"],input[type="button"]{
       }
     }
     &.btn-primary{
-      background: #62c48f;
-      //border: 1px solid #2aae8e;
-      transition: background .2s;
-      color: #fff;
-      &:hover{
-        background: #62a782;
-        //border-bottom: 1px solid #299c7d;
-      }
-      &:disabled{
-        background-color: #30ddba !important;
-        border-color:#30ddba !important;
-      }
-      &.btn-transparent{
-        color : #2ABB9B;
-      }
+      @include generateButton($btn-primary-bg);
     }
     &.btn-warning{
-      background: #F9BF3B;
-      border: 1px solid #eeb43b;
-      transition: background .2s;
-      color: #fff;
-      &:hover{
-        background: #eeb43b;
-        border-bottom: 1px solid #e1a839;
-      }
-      &:disabled{
-        background-color: #ffc53b !important;
-        border-color:#ffc53b !important;
-      }
-      &.btn-transparent{
-        color : #f9bf3b;
-      }
+      @include generateButton($btn-warning-bg);
     }
     &.btn-info{
-      background: #699AE4;
-      border: 1px solid #568FE4;
-      transition: background .2s;
-      color: #fff;
-      &:hover{
-        background: #568FE4;
-        border-bottom: 1px solid #4878BF;
-      }
-      &:disabled{
-        background-color: #A1C6FF !important;
-        border-color:#BCD4F9 !important;
-      }
-      &.btn-transparent{
-        color : #568FE4;
-      }
+      @include generateButton($btn-info-bg);
     }
     &.btn-danger {
-      background: #E2747D;
-      border: 1px solid #d08a8b;
-      transition: background .2s;
-      color: #fff;
-      &:hover{
-        background: #c06062;
-        border-bottom: 1px solid #c06062;
-      }
-      &:disabled{
-        background-color: #f98486 !important;
-        border-color:#f98486 !important;
-      }
-      &.btn-transparent{
-        color : #c06062;
-      }
+      @include generateButton($btn-danger-bg);
     }
     .glyphicons{
       margin-left: .3em;
@@ -457,7 +401,7 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
 .card {
   position: relative;
   border-radius: 2px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   -webkit-user-select: none;
   border-left: 0px solid transparent;
   transition: all .2s;
@@ -500,14 +444,6 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
           }
           &::selection {
             background: #fff2a8;
-          }
-        }
-      }
-      &.card-in-action{
-        >.body{
-          padding: 0;
-          .file-list{
-            margin-bottom: 0;
           }
         }
       }
@@ -622,9 +558,19 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
         }
       }
     }
+    &.card-in-action{
+      .content-wrapper {
+        > .body {
+          padding: 0;
+          .file-list {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
   }
   &.card-in-action {
-    border-left: 4px solid #F9BF3B;
+    border-left: 4px solid $brand-warning;
   }
   .tabbar {
     padding: 0 2px;
@@ -720,10 +666,11 @@ news{
             }
             .comment-input{
               width: 100%;
-              max-height: 40px;
+              max-height: 100px;
               flex-shrink: 0;
               align-self: flex-end;
               display: flex;
+              flex-wrap: nowrap;
               .sin-editor-inline{
                 flex-grow: 1;
                 overflow: hidden;
@@ -767,8 +714,11 @@ news{
     margin-top: 0;
     height: auto;
     transition: all .2s;
+    top:100%;
+    max-height:115px;
   }
   ul.typeahead-list {
+    top:0;
     position: relative;
     background: white;
     display: block;
@@ -796,23 +746,23 @@ news{
 }
 
 .toolbar {
-  display: block;
+  display: flex;
   cursor: default;
   margin: 0;
-  border-bottom: 1px solid #f1f1f5;
   &:before, &:after {
     clear: both;
     display: block;
     content: '';
   }
   li {
-    display: block;
+    display: flex;
+    align-items: center;
     cursor: pointer;
-    float: left;
     padding: 0;
-    width: 38px;
-    height: 38px;
+    width: 30px;
+    height: 30px;
     line-height: 35px;
+    font-size: 10px;
     button {
       touch-action: manipulation;
       cursor: pointer;
@@ -853,19 +803,19 @@ news{
   position: fixed;
   width: 100%;
   height: 100%;
+  background: rgba(100,100,100,0.5);
   .modal-dialog {
-    @extend .shadow;
+    @include drop-shadow(0.1);
     $width: 280px;
     position: fixed;
-    top: 30%;
+    top: 50%;
     left: 50%;
     min-width: $width;
-    transform: translate(-50%);
+    transform: translate(-50%, -50%);
     background: white;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
-    border-bottom: 2px solid #e1e1e7;
     .modal-title {
       height: 100px;
     }
@@ -1042,7 +992,6 @@ news{
   &:hover,
   &:focus {
     text-decoration: none;
-    color: #fff;
     background-color: $dropdown-link-hover-bg;
   }
 }
@@ -1194,10 +1143,11 @@ news{
 .control {
   display: block;
   position: relative;
-  padding-left: 30px;
+  padding-left: 20px;
   margin-bottom: 10px;
   cursor: pointer;
   line-height: 26px;
+  font-size: 12px;
   &.nomargin{
     margin-bottom: 0;
   }
@@ -1209,10 +1159,10 @@ news{
 }
 .control__indicator {
   position: absolute;
-  top: 2px;
+  top: 6px;
   left: 0;
-  height: 20px;
-  width: 20px;
+  height: 14px;
+  width: 14px;
   background: #e6e6e6;
   &:after{
     content: '';
@@ -1227,12 +1177,25 @@ news{
 .control input:focus ~ .control__indicator {
   background: #ccc;
 }
+@mixin control-indicator-theme($bg){
+  input:checked ~ .control__indicator {background: $bg}
+  &:hover input:not([disabled]):checked ~ .control__indicator,
+  input:checked:focus ~ .control__indicator {
+    background: darken($bg, 5%);
+  }
+}
 .control input:checked ~ .control__indicator {
   background: #2aa888;
 }
 .control:hover input:not([disabled]):checked ~ .control__indicator,
 .control input:checked:focus ~ .control__indicator {
   background: #299c7d;
+}
+.control{
+  &.primary {@include control-indicator-theme($brand-primary);}
+  &.info  {@include control-indicator-theme($brand-info);}
+  &.warning  {@include control-indicator-theme($brand-warning);}
+  &.danger  {@include control-indicator-theme($brand-danger);}
 }
 .control input:disabled ~ .control__indicator {
   background: #e6e6e6;
@@ -1245,10 +1208,10 @@ news{
 
 .control--checkbox {
   .control__indicator:after {
-    left: 8px;
-    top: 4px;
-    width: 3px;
-    height: 8px;
+    left: 4px;
+    top: 2px;
+    width: 2px;
+    height: 6px;
     border: solid #fff;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
@@ -1259,8 +1222,8 @@ news{
 }
 .control--radio {
   .control__indicator:after {
-    left: 7px;
-    top: 7px;
+    left: 4px;
+    top: 4px;
     height: 6px;
     width: 6px;
     border-radius: 50%;
@@ -1342,9 +1305,6 @@ news{
 
 /* black theme */
 .dracula{
-  .toolbar{
-    border-bottom-color: #797979;
-  }
   .card.card-default{
     background: #616161;
     border-bottom: 2px solid #565656;
