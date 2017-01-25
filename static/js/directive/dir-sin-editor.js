@@ -15,6 +15,7 @@ app
 				editorFocused: "&sinFocused",
 				editorBlured: "&sinBlured",
 				editorType: "@sinMode",
+				groupFlag: "@sinGroup"
 			},
 			replace: true,
 			controller: function($scope, $sce) {
@@ -36,7 +37,7 @@ app
 					var contents, style;
 
 					if (isEditing) {
-						contents = dummyCvtStringToSafeHtml + $scope.value.text;
+						contents = dummyCvtStringToSafeHtml + cvtHashSpanToInput($scope.value.text);
 					} else {
 						contents = dummyCvtStringToSafeHtml;
 					}
@@ -72,20 +73,20 @@ app
 						htmlText = htmlText.replace(dummyCvtStringToSafeHtml, '');
 						var obj = {
 							id: $scope.value ? $scope.value.id : undefined,
-							text: htmlText,
+							text: cvtHashInputToSpan(htmlText),
 							model: $scope.entries ? $scope.entries : undefined,
 							files: { data : $scope.fileToUpload, origin: $scope.editor.file.data, removeOrigin : $scope.editor.file.removed },
 							group: (!$scope.selectedPolicy || $scope.selectedPolicy.id===null) ? null : $scope.selectedPolicy.id
-								/*
-								the key names (eg.'text') must sync with directive's
-								attirbute parameter of function 'submit'.
-								*/
+							/*
+							 the key names (eg.'text') must sync with directive's
+							 attirbute parameter of function 'submit'.
+							 */
 						};
 						if (obj.text.length !== 0) {
 							$scope.submit(obj);
 							if (isEditing) {
-								$scope.value.text = htmlText;
-								$scope.value.trustText = $sce.trustAsHtml(htmlText);
+								$scope.value.text = cvtHashInputToSpan(htmlText);
+								$scope.value.trustText = $sce.trustAsHtml($scope.value.text);
 								$scope.value.edit = false;
 							} else {
 								initEditor();
@@ -93,6 +94,52 @@ app
 							$scope.removeFile();
 						}
 					}
+				};
+
+				/**
+				 * Convert Input hash to Span hash
+				 * @param text
+				 * @returns {*|string}
+				 */
+				function cvtHashInputToSpan(html){
+					var ele = document.createElement('div');
+					ele.innerHTML = html;
+					var inputs = ele.getElementsByTagName('input');
+					inputs = Array.prototype.slice.call(inputs);
+					for(var i =0; i<inputs.length; i++){
+						if(inputs[i].hasAttribute('refer')){
+							var node = document.createElement('span');
+							node.innerHTML = '@' + inputs[i].getAttribute('refer');
+							node.setAttribute('class','hash-input');
+							node.setAttribute('style', inputs[i].getAttribute('style'));
+							inputs[i].parentNode.replaceChild(node, inputs[i]);
+						}
+					}
+					return ele.innerHTML;
+				};
+				/**
+				 * Convert Span hash to Input hash
+				 * @param text
+				 * @returns {*|string}
+				 */
+				function cvtHashSpanToInput(html){
+					var ele = document.createElement('div');
+					ele.innerHTML = html;
+					var spans = ele.getElementsByTagName('span');
+					spans = Array.prototype.slice.call(spans);
+					for(var i =0; i<spans.length; i++){
+						if(spans[i].hasAttribute('class') &&
+							spans[i].getAttribute('class').split(' ').indexOf('hash-input')>-1){
+							var node = document.createElement('input');
+							node.setAttribute('class','hash-input readonly');
+							node.setAttribute('readonly','');
+							node.setAttribute('value',spans[i].innerHTML.split('@')[1].split(':')[0]);
+							node.setAttribute('refer',spans[i].innerHTML.split('@')[1]);
+							node.setAttribute('style', spans[i].getAttribute('style'));
+							spans[i].parentNode.replaceChild(node, spans[i]);
+						}
+					}
+					return ele.innerHTML;
 				};
 
 				$scope.undoEdit = function(){
@@ -143,11 +190,17 @@ app
 				/**
 				 * 공개 범위 관련 함수
 				 */
+
 				var defaultGroup = {
 					id:null,
 					name : '전체공개',
 					selected: false
 				};
+				$scope.groupEnabled = function(){
+					if($scope.groupFlag === true || $scope.groupFlag == 'true')
+						return true;
+					return false;
+				}
 				$scope.initGroupPolicies = function(){
 					var selectPolicyDeferred = $q.defer();
 					$scope.groupPolicies = [defaultGroup];
@@ -197,7 +250,6 @@ app
 				};
 
 				$scope.selectPolicy = function(policy){
-					// $scope.selectedPolicy.selected = false;
 					$scope.groupPolicies.forEach(function(p){
 						if(p.id === policy.id){
 							p.selected = true;
@@ -207,10 +259,6 @@ app
 						}
 					})
 				};
-
-				$scope.getPolicyById = function(policyId){
-
-				}
 
 				$scope.createGroupPolicy = function(){
 					if(!modalUtils.modalsExist()) {
@@ -259,11 +307,13 @@ app
 				};
 
 				var
-					hashInput = $scope.hash.ele,
+					hashInput,
 					hashInputTyped,
 					editor = element,
 					hashIndicator = [{'name':'hash-refer','notation':'@'}],
 					currHash;
+
+				initHash();
 
 				editor
 					.bind("blur keyup change", function() {
@@ -282,15 +332,9 @@ app
 							$scope.hash.constructed = true;
 							$compile(hashInput)($scope);
 						}
-					})
-
-				hashInput
-					.bind('keydown', 'space esc', function(e) {
-						$scope.finishHash();
-						e.preventDefault();
 					});
 
-				$scope.$watch('hash.typed', function() {
+				$scope.$watch('hash.typed', function(val) {
 					if ($scope.hash.constructed) {
 						if ($scope.hash.typed.length === 0) {
 							$scope.finishHash();
@@ -325,11 +369,13 @@ app
 							replaceHashWith($scope.hash.typed);
 						} else {
 							$scope.users.push($scope.hash.submit);
-							hashInputTyped = angular.element('<input value=' +
-								$scope.users[$scope.users.length - 1].typed +
-								' class="hash-input readonly '+currHash.name+'" readonly>');
-							replaceHashWith(hashInputTyped,
-
+							var currHash = $scope.users[$scope.users.length-1];
+							hashInputTyped = angular.element('<input' +
+								' value="' + currHash.typed + '"'+
+								' refer="'+ currHash.typed+':'+currHash.data.username+'"'+
+								' class="hash-input readonly" readonly>');
+							replaceHashWith(
+								hashInputTyped,
 								function() {
 									hashInputTyped.autoGrowInput({
 										minWidth: 10,
@@ -337,22 +383,26 @@ app
 									});
 									hashInputTyped.next('span').remove();
 									hashInputTyped.next('span').remove();
-								});
-
+								}
+							); //end hash processing : internally, it perform initHash;
 						}
-						$scope.hash.hashing = false; //end hashing process
 					}
 				};
 
 				function initHash() {
 					$scope.hash = {
-						ele: angular.element('<input ng-model="hash.typed" ng-trim="false" class="hash-input" ng-focus="hash.inCaret=true" ng-blur="hash.inCaret=false" autofocus="true" kr-input>'),
+						ele: angular.element('<input ng-model="hash.typed" ng-trim="false" class="hash-input" ng-focus="hash.inCaret=true" ng-blur="finishHash()" safe-auto-focus="true" kr-input>'),
 						typed: '',
 						submit: false,
 						focus: false,
 						inCaret: false,
-						hashing: false
+						hashing: false,
 					};
+					hashInput = $scope.hash.ele;
+					hashInput.bind('keydown', 'space esc', function(e) {
+						$scope.finishHash();
+						e.preventDefault();
+					});
 				};
 
 				function replaceHashWith(ele, callback) {
@@ -370,20 +420,19 @@ app
 						if (typeof callback !== 'undefined') {
 							callback();
 						}
-					})
-
-					destroyHash();
-					initHash();
+						$timeout(function() {
+							destroyHash();
+							initHash();
+						});
+					});
 				};
 
 				function destroyHash() {
-					$timeout(function() {
-						hashInput.next('span').remove();
-						hashInput = hashInput.detach();
-						$scope.hash.constructed = false;
-						$compile(hashInput)($scope);
-						read();
-					})
+					hashInput.next('span').remove();
+					hashInput = hashInput.detach();
+					$scope.hash.constructed = false;
+					$compile(hashInput)($scope);
+					read();
 				};
 			}
 		};
@@ -414,20 +463,17 @@ app
 	.directive("sinTypeahead", function($filter) {
 		return {
 			restrict: "A",
-			// require: "^sinEditor",
 			scope: {
 				hash: "=sinHash"
 			},
-			controller: function($scope, $filter, HashList) {
-				// $scope.hashlist = HashList.get($scope.hash.hashType);
+			templateUrl: 'partials/partial-typeahead.html',
+			controller: function($scope, $filter, HashList, $timeout) {
+				HashList.get($scope.hash.hashType.notation).then(function(list){
+					$timeout(function(){
+						$scope.hashlist = list;
+					})
+				});
 				$scope.focusIndex = 0;
-				$scope.$watch('hash.hashType', function(value){
-					if(typeof value !== 'undefined'){
-						HashList.get(value.notation).then(function(result){
-							$scope.hashlist = result;
-						});
-					}
-				})
 				$scope.$watch('hash.typed', function(newValue) {
 					if ($scope.hash.constructed) {
 						if ($scope.hash.typed.length != 0) {
@@ -443,7 +489,8 @@ app
 				$scope.cvtCurrentHash = function() {
 					if ($scope.filteredResult.length != 0) {
 						return {
-							typed: $scope.filteredResult[$scope.focusIndex].name
+							typed: $scope.filteredResult[$scope.focusIndex].name,
+							data: $scope.filteredResult[$scope.focusIndex]
 						}
 					} else {
 						return false;
@@ -459,13 +506,20 @@ app
 				};
 
 			},
-			templateUrl: 'partials/partial-typeahead.html',
 			link: function($scope, element, attrs) {
+				$scope.offsetY = 0;
 				var hashInput = $scope.hash.ele;
 				hashInput
 					.bind('keydown', 'down', function(e) {
 						$scope.focusIndex++;
 						$scope.focusIndex %= $scope.filteredResult.length;
+
+						if($scope.focusIndex*35 >= 35*3 -$scope.offsetY){
+							$scope.offsetY = ($scope.focusIndex-2)*(-35)
+						}
+						if($scope.focusIndex == 0){
+							$scope.offsetY = 0;
+						}
 						$scope.$apply();
 						e.preventDefault();
 					})
@@ -473,6 +527,12 @@ app
 						$scope.focusIndex--;
 						$scope.focusIndex += $scope.filteredResult.length;
 						$scope.focusIndex %= $scope.filteredResult.length;
+						if(($scope.focusIndex)*35 + $scope.offsetY <0){
+							$scope.offsetY = -35*($scope.focusIndex);
+						}
+						if($scope.focusIndex == $scope.filteredResult.length-1){
+							$scope.offsetY = -35*($scope.focusIndex-2);
+						}
 						$scope.$apply();
 						e.preventDefault();
 					})

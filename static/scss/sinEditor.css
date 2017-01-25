@@ -30,11 +30,11 @@
         margin-bottom: 10px; }
       .sin-editor input.form-input.lg {
         height: 40px; }
-      .sin-editor input.form-input.transparent {
-        background: transparent; }
       .sin-editor input.form-input.primary:focus {
         border-bottom: 1px solid #2ABB9B;
         font-size: 16px; }
+    .sin-editor input.transparent {
+      background: transparent; }
   .sin-editor button, .sin-editor input[type="submit"], .sin-editor input[type="button"] {
     cursor: pointer;
     appearance: none;
@@ -52,14 +52,14 @@
       line-height: 0.8; }
       .sin-editor button.btn.btn-lg, .sin-editor input[type="submit"].btn.btn-lg, .sin-editor input[type="button"].btn.btn-lg {
         height: 36px; }
-      .sin-editor button.btn.btn-sm, .sin-editor .sin-editor-inline + .sin-editor-footer button.btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-sm, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-sm, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn {
+      .sin-editor button.btn.btn-sm, .sin-editor input[type="submit"].btn.btn-sm, .sin-editor input[type="button"].btn.btn-sm {
         height: 26px;
         line-height: 0.8;
         font-size: 12px; }
-      .sin-editor button.btn.btn-block, .sin-editor .sin-editor-inline + .sin-editor-footer button.btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-block, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-block, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn {
+      .sin-editor button.btn.btn-block, .sin-editor input[type="submit"].btn.btn-block, .sin-editor input[type="button"].btn.btn-block {
         display: block;
         width: 100%; }
-      .sin-editor button.btn.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer button.btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn {
+      .sin-editor button.btn.btn-transparent, .sin-editor input[type="submit"].btn.btn-transparent, .sin-editor input[type="button"].btn.btn-transparent {
         background: transparent !important;
         border: transparent !important; }
       .sin-editor button.btn.btn-default, .sin-editor input[type="submit"].btn.btn-default, .sin-editor input[type="button"].btn.btn-default {
@@ -70,66 +70,68 @@
         .sin-editor button.btn.btn-default:hover, .sin-editor input[type="submit"].btn.btn-default:hover, .sin-editor input[type="button"].btn.btn-default:hover {
           background: #f1f1f5;
           border-bottom: 1px solid #d4d4da; }
-        .sin-editor button.btn.btn-default.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer button.btn.btn-default, .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn.btn-default, .sin-editor input[type="submit"].btn.btn-default.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn.btn-default, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn.btn-default, .sin-editor input[type="button"].btn.btn-default.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn.btn-default, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn.btn-default {
+        .sin-editor button.btn.btn-default.btn-transparent, .sin-editor input[type="submit"].btn.btn-default.btn-transparent, .sin-editor input[type="button"].btn.btn-default.btn-transparent {
           color: #232323; }
-      .sin-editor button.btn.btn-primary, .sin-editor .sin-editor-default + .sin-editor-footer button.btn,
-      .sin-editor .sin-editor-inline + .sin-editor-footer button.btn,
-      .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-primary, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-primary, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn {
+      .sin-editor button.btn.btn-primary, .sin-editor input[type="submit"].btn.btn-primary, .sin-editor input[type="button"].btn.btn-primary {
         background: #62c48f;
-        transition: background .2s;
-        color: #fff; }
-        .sin-editor button.btn.btn-primary:hover, .sin-editor .sin-editor-default + .sin-editor-footer button.btn:hover,
-        .sin-editor .sin-editor-inline + .sin-editor-footer button.btn:hover,
-        .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn:hover, .sin-editor input[type="submit"].btn.btn-primary:hover, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn:hover, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn:hover, .sin-editor input[type="button"].btn.btn-primary:hover, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn:hover, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn:hover {
-          background: #62a782; }
-        .sin-editor button.btn.btn-primary:disabled, .sin-editor .sin-editor-default + .sin-editor-footer button.btn:disabled,
-        .sin-editor .sin-editor-inline + .sin-editor-footer button.btn:disabled,
-        .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn:disabled, .sin-editor input[type="submit"].btn.btn-primary:disabled, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn:disabled, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn:disabled, .sin-editor input[type="button"].btn.btn-primary:disabled, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn:disabled, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn:disabled {
-          background-color: #30ddba !important;
-          border-color: #30ddba !important; }
-        .sin-editor button.btn.btn-primary.btn-transparent, .sin-editor .sin-editor-default + .sin-editor-footer button.btn.btn-transparent,
-        .sin-editor .sin-editor-inline + .sin-editor-footer button.btn,
-        .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-primary.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn, .sin-editor input[type="button"].btn.btn-primary.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn {
-          color: #2ABB9B; }
-      .sin-editor button.btn.btn-warning, .sin-editor .sin-editor-default-edit + .sin-editor-footer button.btn, .sin-editor input[type="submit"].btn.btn-warning, .sin-editor input[type="button"].btn.btn-warning {
+        color: #fff;
+        transition: background .2s; }
+        .sin-editor button.btn.btn-primary:hover, .sin-editor input[type="submit"].btn.btn-primary:hover, .sin-editor input[type="button"].btn.btn-primary:hover {
+          background: #4fbd82; }
+        .sin-editor button.btn.btn-primary:disabled, .sin-editor input[type="submit"].btn.btn-primary:disabled, .sin-editor input[type="button"].btn.btn-primary:disabled {
+          background: #9ad9b7; }
+        .sin-editor button.btn.btn-primary.btn-transparent, .sin-editor input[type="submit"].btn.btn-primary.btn-transparent, .sin-editor input[type="button"].btn.btn-primary.btn-transparent {
+          color: #4fbd82; }
+        .sin-editor button.btn.btn-primary.btn-outline, .sin-editor input[type="submit"].btn.btn-primary.btn-outline, .sin-editor input[type="button"].btn.btn-primary.btn-outline {
+          color: #4fbd82;
+          border: 1px solid #4fbd82; }
+          .sin-editor button.btn.btn-primary.btn-outline:hover, .sin-editor input[type="submit"].btn.btn-primary.btn-outline:hover, .sin-editor input[type="button"].btn.btn-primary.btn-outline:hover {
+            background: #75cb9c; }
+      .sin-editor button.btn.btn-warning, .sin-editor input[type="submit"].btn.btn-warning, .sin-editor input[type="button"].btn.btn-warning {
         background: #F9BF3B;
-        border: 1px solid #eeb43b;
-        transition: background .2s;
-        color: #fff; }
-        .sin-editor button.btn.btn-warning:hover, .sin-editor .sin-editor-default-edit + .sin-editor-footer button.btn:hover, .sin-editor input[type="submit"].btn.btn-warning:hover, .sin-editor input[type="button"].btn.btn-warning:hover {
-          background: #eeb43b;
-          border-bottom: 1px solid #e1a839; }
-        .sin-editor button.btn.btn-warning:disabled, .sin-editor .sin-editor-default-edit + .sin-editor-footer button.btn:disabled, .sin-editor input[type="submit"].btn.btn-warning:disabled, .sin-editor input[type="button"].btn.btn-warning:disabled {
-          background-color: #ffc53b !important;
-          border-color: #ffc53b !important; }
-        .sin-editor button.btn.btn-warning.btn-transparent, .sin-editor .sin-editor-default-edit + .sin-editor-footer button.btn.btn-transparent, .sin-editor .sin-editor-default-edit + .sin-editor-footer .sin-editor-inline + .sin-editor-footer button.btn, .sin-editor .sin-editor-inline + .sin-editor-footer .sin-editor-default-edit + .sin-editor-footer button.btn, .sin-editor .sin-editor-default-edit + .sin-editor-footer .sin-editor-inline-edit + .sin-editor-footer button.btn, .sin-editor .sin-editor-inline-edit + .sin-editor-footer .sin-editor-default-edit + .sin-editor-footer button.btn, .sin-editor .sin-editor-inline + .sin-editor-footer button.btn.btn-warning, .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn.btn-warning, .sin-editor input[type="submit"].btn.btn-warning.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn.btn-warning, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn.btn-warning, .sin-editor input[type="button"].btn.btn-warning.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn.btn-warning, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn.btn-warning {
-          color: #f9bf3b; }
+        color: #fff;
+        transition: background .2s; }
+        .sin-editor button.btn.btn-warning:hover, .sin-editor input[type="submit"].btn.btn-warning:hover, .sin-editor input[type="button"].btn.btn-warning:hover {
+          background: #f8b722; }
+        .sin-editor button.btn.btn-warning:disabled, .sin-editor input[type="submit"].btn.btn-warning:disabled, .sin-editor input[type="button"].btn.btn-warning:disabled {
+          background: #fbd785; }
+        .sin-editor button.btn.btn-warning.btn-transparent, .sin-editor input[type="submit"].btn.btn-warning.btn-transparent, .sin-editor input[type="button"].btn.btn-warning.btn-transparent {
+          color: #f8b722; }
+        .sin-editor button.btn.btn-warning.btn-outline, .sin-editor input[type="submit"].btn.btn-warning.btn-outline, .sin-editor input[type="button"].btn.btn-warning.btn-outline {
+          color: #f8b722;
+          border: 1px solid #f8b722; }
+          .sin-editor button.btn.btn-warning.btn-outline:hover, .sin-editor input[type="submit"].btn.btn-warning.btn-outline:hover, .sin-editor input[type="button"].btn.btn-warning.btn-outline:hover {
+            background: #fac754; }
       .sin-editor button.btn.btn-info, .sin-editor input[type="submit"].btn.btn-info, .sin-editor input[type="button"].btn.btn-info {
-        background: #699AE4;
-        border: 1px solid #568FE4;
-        transition: background .2s;
-        color: #fff; }
+        background: #568FE4;
+        color: #fff;
+        transition: background .2s; }
         .sin-editor button.btn.btn-info:hover, .sin-editor input[type="submit"].btn.btn-info:hover, .sin-editor input[type="button"].btn.btn-info:hover {
-          background: #568FE4;
-          border-bottom: 1px solid #4878BF; }
+          background: #4080e0; }
         .sin-editor button.btn.btn-info:disabled, .sin-editor input[type="submit"].btn.btn-info:disabled, .sin-editor input[type="button"].btn.btn-info:disabled {
-          background-color: #A1C6FF !important;
-          border-color: #BCD4F9 !important; }
-        .sin-editor button.btn.btn-info.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer button.btn.btn-info, .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn.btn-info, .sin-editor input[type="submit"].btn.btn-info.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn.btn-info, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn.btn-info, .sin-editor input[type="button"].btn.btn-info.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn.btn-info, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn.btn-info {
-          color: #568FE4; }
+          background: #98bbef; }
+        .sin-editor button.btn.btn-info.btn-transparent, .sin-editor input[type="submit"].btn.btn-info.btn-transparent, .sin-editor input[type="button"].btn.btn-info.btn-transparent {
+          color: #4080e0; }
+        .sin-editor button.btn.btn-info.btn-outline, .sin-editor input[type="submit"].btn.btn-info.btn-outline, .sin-editor input[type="button"].btn.btn-info.btn-outline {
+          color: #4080e0;
+          border: 1px solid #4080e0; }
+          .sin-editor button.btn.btn-info.btn-outline:hover, .sin-editor input[type="submit"].btn.btn-info.btn-outline:hover, .sin-editor input[type="button"].btn.btn-info.btn-outline:hover {
+            background: #6c9ee8; }
       .sin-editor button.btn.btn-danger, .sin-editor input[type="submit"].btn.btn-danger, .sin-editor input[type="button"].btn.btn-danger {
-        background: #E2747D;
-        border: 1px solid #d08a8b;
-        transition: background .2s;
-        color: #fff; }
+        background: #FF8686;
+        color: #fff;
+        transition: background .2s; }
         .sin-editor button.btn.btn-danger:hover, .sin-editor input[type="submit"].btn.btn-danger:hover, .sin-editor input[type="button"].btn.btn-danger:hover {
-          background: #c06062;
-          border-bottom: 1px solid #c06062; }
+          background: #ff6c6c; }
         .sin-editor button.btn.btn-danger:disabled, .sin-editor input[type="submit"].btn.btn-danger:disabled, .sin-editor input[type="button"].btn.btn-danger:disabled {
-          background-color: #f98486 !important;
-          border-color: #f98486 !important; }
-        .sin-editor button.btn.btn-danger.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer button.btn.btn-danger, .sin-editor .sin-editor-inline-edit + .sin-editor-footer button.btn.btn-danger, .sin-editor input[type="submit"].btn.btn-danger.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="submit"].btn.btn-danger, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="submit"].btn.btn-danger, .sin-editor input[type="button"].btn.btn-danger.btn-transparent, .sin-editor .sin-editor-inline + .sin-editor-footer input[type="button"].btn.btn-danger, .sin-editor .sin-editor-inline-edit + .sin-editor-footer input[type="button"].btn.btn-danger {
-          color: #c06062; }
+          background: #ffd2d2; }
+        .sin-editor button.btn.btn-danger.btn-transparent, .sin-editor input[type="submit"].btn.btn-danger.btn-transparent, .sin-editor input[type="button"].btn.btn-danger.btn-transparent {
+          color: #ff6c6c; }
+        .sin-editor button.btn.btn-danger.btn-outline, .sin-editor input[type="submit"].btn.btn-danger.btn-outline, .sin-editor input[type="button"].btn.btn-danger.btn-outline {
+          color: #ff6c6c;
+          border: 1px solid #ff6c6c; }
+          .sin-editor button.btn.btn-danger.btn-outline:hover, .sin-editor input[type="submit"].btn.btn-danger.btn-outline:hover, .sin-editor input[type="button"].btn.btn-danger.btn-outline:hover {
+            background: #ff9f9f; }
       .sin-editor button.btn .glyphicons, .sin-editor input[type="submit"].btn .glyphicons, .sin-editor input[type="button"].btn .glyphicons {
         margin-left: .3em;
         margin-top: -.2em;
@@ -340,7 +342,7 @@
   .sin-editor .card {
     position: relative;
     border-radius: 2px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     -webkit-user-select: none;
     border-left: 0px solid transparent;
     transition: all .2s; }
@@ -376,10 +378,6 @@
             background: none !important; }
           .sin-editor .card.card-default .content-wrapper > .body [contenteditable="true"]::selection {
             background: #fff2a8; }
-      .sin-editor .card.card-default .content-wrapper.card-in-action > .body {
-        padding: 0; }
-        .sin-editor .card.card-default .content-wrapper.card-in-action > .body .file-list {
-          margin-bottom: 0; }
       .sin-editor .card.card-default .content-wrapper > .comments {
         -webkit-user-select: initial;
         -moz-user-select: initial;
@@ -461,6 +459,10 @@
                 font-size: 12px;
                 margin-left: 10px;
                 margin-top: 2px; }
+      .sin-editor .card.card-default.card-in-action .content-wrapper > .body {
+        padding: 0; }
+        .sin-editor .card.card-default.card-in-action .content-wrapper > .body .file-list {
+          margin-bottom: 0; }
     .sin-editor .card.card-in-action {
       border-left: 4px solid #F9BF3B; }
     .sin-editor .card .tabbar {
@@ -533,10 +535,11 @@
           padding-left: 10px; }
         .sin-editor .modal-dialog news > .card.card-default .content-wrapper > .comments .comment-input {
           width: 100%;
-          max-height: 40px;
+          max-height: 100px;
           flex-shrink: 0;
           align-self: flex-end;
-          display: flex; }
+          display: flex;
+          flex-wrap: nowrap; }
           .sin-editor .modal-dialog news > .card.card-default .content-wrapper > .comments .comment-input .sin-editor-inline {
             flex-grow: 1;
             overflow: hidden; }
@@ -565,8 +568,11 @@
       opacity: 1;
       margin-top: 0;
       height: auto;
-      transition: all .2s; }
+      transition: all .2s;
+      top: 100%;
+      max-height: 115px; }
     .sin-editor .typeahead ul.typeahead-list {
+      top: 0;
       position: relative;
       background: white;
       display: block;
@@ -588,22 +594,22 @@
           color: white;
           font-weight: bold; }
   .sin-editor .toolbar {
-    display: block;
+    display: flex;
     cursor: default;
-    margin: 0;
-    border-bottom: 1px solid #f1f1f5; }
+    margin: 0; }
     .sin-editor .toolbar:before, .sin-editor .toolbar:after {
       clear: both;
       display: block;
       content: ''; }
     .sin-editor .toolbar li {
-      display: block;
+      display: flex;
+      align-items: center;
       cursor: pointer;
-      float: left;
       padding: 0;
-      width: 38px;
-      height: 38px;
-      line-height: 35px; }
+      width: 30px;
+      height: 30px;
+      line-height: 35px;
+      font-size: 10px; }
       .sin-editor .toolbar li button {
         touch-action: manipulation;
         cursor: pointer;
@@ -634,7 +640,8 @@
   .sin-editor .modal {
     position: fixed;
     width: 100%;
-    height: 100%; }
+    height: 100%;
+    background: rgba(100, 100, 100, 0.5); }
 @font-face {
   .sin-editor .modal {
     font-family: 'NanumBarunGothic';
@@ -665,13 +672,11 @@
       box-sizing: border-box; }
     .sin-editor .modal body, .sin-editor .modal html {
       height: 100%; }
-    .sin-editor .modal .global-width {
-      max-width: 968px; }
     .sin-editor .modal .margin-auto {
       margin: 0 auto; }
     .sin-editor .modal .txt-center {
       text-align: center; }
-    .sin-editor .modal .shadow, .sin-editor .modal .modal-dialog {
+    .sin-editor .modal .shadow {
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
     .sin-editor .modal .pull-right {
@@ -721,16 +726,17 @@
       .sin-editor .modal .form-flex input.form-input {
         margin-bottom: 0; }
     .sin-editor .modal .modal-dialog {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       position: fixed;
-      top: 30%;
+      top: 50%;
       left: 50%;
       min-width: 280px;
-      transform: translate(-50%);
+      transform: translate(-50%, -50%);
       background: white;
       -webkit-border-radius: 2px;
       -moz-border-radius: 2px;
-      border-radius: 2px;
-      border-bottom: 2px solid #e1e1e7; }
+      border-radius: 2px; }
       .sin-editor .modal .modal-dialog .modal-title {
         height: 100px; }
       .sin-editor .modal .modal-dialog .modal-body {
@@ -852,21 +858,20 @@
       white-space: nowrap; }
   .sin-editor .dropdown-menu > li > a:hover, .sin-editor .dropdown-menu > li > a:focus {
     text-decoration: none;
-    color: #fff;
     background-color: #f5f5f5; }
   .sin-editor .dropdown-menu > .active > a, .sin-editor .dropdown-menu > .active > a:hover, .sin-editor .dropdown-menu > .active > a:focus {
     color: #fff;
     text-decoration: none;
     outline: 0;
     background-color: #62c48f; }
-  .sin-editor .btn.btn-primary + .dropdown-menu > .active > a, .sin-editor .sin-editor-default + .sin-editor-footer button.btn + .dropdown-menu > .active > a, .sin-editor .sin-editor-inline + .sin-editor-footer .btn + .dropdown-menu > .active > a, .sin-editor .sin-editor-inline-edit + .sin-editor-footer .btn + .dropdown-menu > .active > a {
+  .sin-editor .btn.btn-primary + .dropdown-menu > .active > a {
     background: #62c48f; }
   .sin-editor .btn.btn-info + .dropdown-menu > .active > a {
     background: #568FE4; }
-  .sin-editor .btn.btn-warning + .dropdown-menu > .active > a, .sin-editor .sin-editor-default-edit + .sin-editor-footer button.btn + .dropdown-menu > .active > a {
+  .sin-editor .btn.btn-warning + .dropdown-menu > .active > a {
     background: #F9BF3B; }
   .sin-editor .btn.btn-danger + .dropdown-menu > .active > a {
-    background: #E2747D; }
+    background: #FF8686; }
   .sin-editor .dropdown-menu > .disabled > a, .sin-editor .dropdown-menu > .disabled > a:hover, .sin-editor .dropdown-menu > .disabled > a:focus {
     color: #777777; }
   .sin-editor .dropdown-menu > .disabled > a:hover, .sin-editor .dropdown-menu > .disabled > a:focus {
@@ -924,10 +929,11 @@
   .sin-editor .control {
     display: block;
     position: relative;
-    padding-left: 30px;
+    padding-left: 20px;
     margin-bottom: 10px;
     cursor: pointer;
-    line-height: 26px; }
+    line-height: 26px;
+    font-size: 12px; }
     .sin-editor .control.nomargin {
       margin-bottom: 0; }
     .sin-editor .control input {
@@ -936,10 +942,10 @@
       opacity: 0; }
   .sin-editor .control__indicator {
     position: absolute;
-    top: 2px;
+    top: 6px;
     left: 0;
-    height: 20px;
-    width: 20px;
+    height: 14px;
+    width: 14px;
     background: #e6e6e6; }
     .sin-editor .control__indicator:after {
       content: '';
@@ -955,6 +961,26 @@
   .sin-editor .control:hover input:not([disabled]):checked ~ .control__indicator,
   .sin-editor .control input:checked:focus ~ .control__indicator {
     background: #299c7d; }
+  .sin-editor .control.primary input:checked ~ .control__indicator {
+    background: #62c48f; }
+  .sin-editor .control.primary:hover input:not([disabled]):checked ~ .control__indicator,
+  .sin-editor .control.primary input:checked:focus ~ .control__indicator {
+    background: #4fbd82; }
+  .sin-editor .control.info input:checked ~ .control__indicator {
+    background: #568FE4; }
+  .sin-editor .control.info:hover input:not([disabled]):checked ~ .control__indicator,
+  .sin-editor .control.info input:checked:focus ~ .control__indicator {
+    background: #4080e0; }
+  .sin-editor .control.warning input:checked ~ .control__indicator {
+    background: #F9BF3B; }
+  .sin-editor .control.warning:hover input:not([disabled]):checked ~ .control__indicator,
+  .sin-editor .control.warning input:checked:focus ~ .control__indicator {
+    background: #f8b722; }
+  .sin-editor .control.danger input:checked ~ .control__indicator {
+    background: #FF8686; }
+  .sin-editor .control.danger:hover input:not([disabled]):checked ~ .control__indicator,
+  .sin-editor .control.danger input:checked:focus ~ .control__indicator {
+    background: #ff6c6c; }
   .sin-editor .control input:disabled ~ .control__indicator {
     background: #e6e6e6;
     opacity: 0.6;
@@ -962,18 +988,18 @@
   .sin-editor .control input:checked ~ .control__indicator:after {
     display: block; }
   .sin-editor .control--checkbox .control__indicator:after {
-    left: 8px;
-    top: 4px;
-    width: 3px;
-    height: 8px;
+    left: 4px;
+    top: 2px;
+    width: 2px;
+    height: 6px;
     border: solid #fff;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg); }
   .sin-editor .control--checkbox input:disabled ~ .control__indicator:after {
     border-color: #7b7b7b; }
   .sin-editor .control--radio .control__indicator:after {
-    left: 7px;
-    top: 7px;
+    left: 4px;
+    top: 4px;
     height: 6px;
     width: 6px;
     border-radius: 50%;
@@ -1029,8 +1055,6 @@
     .sin-editor .navbar-right .dropdown-menu-left {
       left: 0;
       right: auto; } }
-  .sin-editor .dracula .toolbar {
-    border-bottom-color: #797979; }
   .sin-editor .dracula .card.card-default {
     background: #616161;
     border-bottom: 2px solid #565656;
@@ -1201,22 +1225,14 @@
     padding: 6px 15px; }
   .sin-editor .sin-editor-default + .sin-editor-footer button,
   .sin-editor .sin-editor-inline + .sin-editor-footer button,
-  .sin-editor .sin-editor-inline-edit + .sin-editor-footer button {
-    width: 100px; }
-  .sin-editor .sin-editor-default + .sin-editor-footer a:hover, .sin-editor .sin-editor-default + .sin-editor-footer + * a:hover,
-  .sin-editor .sin-editor-inline + .sin-editor-footer a:hover,
-  .sin-editor .sin-editor-inline + .sin-editor-footer + * a:hover,
-  .sin-editor .sin-editor-inline-edit + .sin-editor-footer a:hover,
-  .sin-editor .sin-editor-inline-edit + .sin-editor-footer + * a:hover {
-    color: #2ABB9B !important; }
-  .sin-editor .sin-editor-default + .sin-editor-footer + .file-list .removed,
-  .sin-editor .sin-editor-inline + .sin-editor-footer + .file-list .removed,
-  .sin-editor .sin-editor-inline-edit + .sin-editor-footer + .file-list .removed {
-    text-decoration: line-through; }
+  .sin-editor .sin-editor-inline-edit + .sin-editor-footer button,
   .sin-editor .sin-editor-default-edit + .sin-editor-footer button {
     width: 100px; }
-  .sin-editor .sin-editor-default-edit + .sin-editor-footer a:hover, .sin-editor .sin-editor-default-edit + .sin-editor-footer + * a:hover {
-    color: #F9BF3B !important; }
+  .sin-editor .sin-editor-default + .sin-editor-footer + .file-list .removed,
+  .sin-editor .sin-editor-inline + .sin-editor-footer + .file-list .removed,
+  .sin-editor .sin-editor-inline-edit + .sin-editor-footer + .file-list .removed,
+  .sin-editor .sin-editor-default-edit + .sin-editor-footer + .file-list .removed {
+    text-decoration: line-through; }
   .sin-editor .sin-editor-inline {
     width: calc(100% - 55px);
     margin-right: 5px; }
@@ -1238,6 +1254,151 @@
     .sin-editor .sin-editor-inline-edit + .sin-editor-footer {
       float: left;
       width: 45px; }
+  .sin-editor.default .sin-editor-footer button {
+    background: #c0c0cc;
+    color: #fff;
+    transition: background .2s; }
+    .sin-editor.default .sin-editor-footer button:hover {
+      background: #b2b2c1; }
+    .sin-editor.default .sin-editor-footer button:disabled {
+      background: #eaeaee; }
+    .sin-editor.default .sin-editor-footer button.btn-transparent {
+      color: #b2b2c1; }
+    .sin-editor.default .sin-editor-footer button.btn-outline {
+      color: #b2b2c1;
+      border: 1px solid #b2b2c1; }
+      .sin-editor.default .sin-editor-footer button.btn-outline:hover {
+        background: #ceced7; }
+  .sin-editor.default .sin-editor-inline + .sin-editor-footer button,
+  .sin-editor.default .sin-editor-inline-edit + .sin-editor-footer button {
+    background: transparent !important;
+    border: transparent !important;
+    height: 26px;
+    line-height: 0.8;
+    font-size: 12px;
+    display: block;
+    width: 100%;
+    color: #b2b2c1; }
+  .sin-editor.default .dropdown-menu > .active > a {
+    background: #c0c0cc; }
+  .sin-editor.default.drop-box.dragover .dragtest {
+    background: #c0c0cc; }
+  .sin-editor.primary .sin-editor-footer button {
+    background: #62c48f;
+    color: #fff;
+    transition: background .2s; }
+    .sin-editor.primary .sin-editor-footer button:hover {
+      background: #4fbd82; }
+    .sin-editor.primary .sin-editor-footer button:disabled {
+      background: #9ad9b7; }
+    .sin-editor.primary .sin-editor-footer button.btn-transparent {
+      color: #4fbd82; }
+    .sin-editor.primary .sin-editor-footer button.btn-outline {
+      color: #4fbd82;
+      border: 1px solid #4fbd82; }
+      .sin-editor.primary .sin-editor-footer button.btn-outline:hover {
+        background: #75cb9c; }
+  .sin-editor.primary .sin-editor-inline + .sin-editor-footer button,
+  .sin-editor.primary .sin-editor-inline-edit + .sin-editor-footer button {
+    background: transparent !important;
+    border: transparent !important;
+    height: 26px;
+    line-height: 0.8;
+    font-size: 12px;
+    display: block;
+    width: 100%;
+    color: #4fbd82; }
+  .sin-editor.primary .dropdown-menu > .active > a {
+    background: #62c48f; }
+  .sin-editor.primary.drop-box.dragover .dragtest {
+    background: #62c48f; }
+  .sin-editor.info .sin-editor-footer button {
+    background: #568FE4;
+    color: #fff;
+    transition: background .2s; }
+    .sin-editor.info .sin-editor-footer button:hover {
+      background: #4080e0; }
+    .sin-editor.info .sin-editor-footer button:disabled {
+      background: #98bbef; }
+    .sin-editor.info .sin-editor-footer button.btn-transparent {
+      color: #4080e0; }
+    .sin-editor.info .sin-editor-footer button.btn-outline {
+      color: #4080e0;
+      border: 1px solid #4080e0; }
+      .sin-editor.info .sin-editor-footer button.btn-outline:hover {
+        background: #6c9ee8; }
+  .sin-editor.info .sin-editor-inline + .sin-editor-footer button,
+  .sin-editor.info .sin-editor-inline-edit + .sin-editor-footer button {
+    background: transparent !important;
+    border: transparent !important;
+    height: 26px;
+    line-height: 0.8;
+    font-size: 12px;
+    display: block;
+    width: 100%;
+    color: #4080e0; }
+  .sin-editor.info .dropdown-menu > .active > a {
+    background: #568FE4; }
+  .sin-editor.info.drop-box.dragover .dragtest {
+    background: #568FE4; }
+  .sin-editor.warning .sin-editor-footer button {
+    background: #F9BF3B;
+    color: #fff;
+    transition: background .2s; }
+    .sin-editor.warning .sin-editor-footer button:hover {
+      background: #f8b722; }
+    .sin-editor.warning .sin-editor-footer button:disabled {
+      background: #fbd785; }
+    .sin-editor.warning .sin-editor-footer button.btn-transparent {
+      color: #f8b722; }
+    .sin-editor.warning .sin-editor-footer button.btn-outline {
+      color: #f8b722;
+      border: 1px solid #f8b722; }
+      .sin-editor.warning .sin-editor-footer button.btn-outline:hover {
+        background: #fac754; }
+  .sin-editor.warning .sin-editor-inline + .sin-editor-footer button,
+  .sin-editor.warning .sin-editor-inline-edit + .sin-editor-footer button {
+    background: transparent !important;
+    border: transparent !important;
+    height: 26px;
+    line-height: 0.8;
+    font-size: 12px;
+    display: block;
+    width: 100%;
+    color: #f8b722; }
+  .sin-editor.warning .dropdown-menu > .active > a {
+    background: #F9BF3B; }
+  .sin-editor.warning.drop-box.dragover .dragtest {
+    background: #F9BF3B; }
+  .sin-editor.danger .sin-editor-footer button {
+    background: #FF8686;
+    color: #fff;
+    transition: background .2s; }
+    .sin-editor.danger .sin-editor-footer button:hover {
+      background: #ff6c6c; }
+    .sin-editor.danger .sin-editor-footer button:disabled {
+      background: #ffd2d2; }
+    .sin-editor.danger .sin-editor-footer button.btn-transparent {
+      color: #ff6c6c; }
+    .sin-editor.danger .sin-editor-footer button.btn-outline {
+      color: #ff6c6c;
+      border: 1px solid #ff6c6c; }
+      .sin-editor.danger .sin-editor-footer button.btn-outline:hover {
+        background: #ff9f9f; }
+  .sin-editor.danger .sin-editor-inline + .sin-editor-footer button,
+  .sin-editor.danger .sin-editor-inline-edit + .sin-editor-footer button {
+    background: transparent !important;
+    border: transparent !important;
+    height: 26px;
+    line-height: 0.8;
+    font-size: 12px;
+    display: block;
+    width: 100%;
+    color: #ff6c6c; }
+  .sin-editor.danger .dropdown-menu > .active > a {
+    background: #FF8686; }
+  .sin-editor.danger.drop-box.dragover .dragtest {
+    background: #FF8686; }
   .sin-editor::before, .sin-editor::after {
     display: block;
     content: "";

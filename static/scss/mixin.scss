@@ -1,3 +1,4 @@
+
 @mixin drop-shadow($opacity){
   box-shadow: 0 2px 8px rgba(0, 0, 0, $opacity);
   -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, $opacity);
@@ -5,5 +6,64 @@
 @mixin placeholder($color){
   ::-webkit-input-placeholder{
     color: $color;
+  }
+}
+
+@mixin generateButton($bg){
+  background: $bg;
+  color: #fff;
+  transition: background .2s;
+  &:hover{
+    background: darken($bg, 5%);
+  }
+  &:disabled{
+    background: lighten($bg, 15%);
+  }
+  &.btn-transparent{
+    color: darken($bg, 5%);
+  }
+  &.btn-outline{
+    color: darken($bg, 5%);
+    border: 1px solid darken($bg, 5%);
+    &:hover{
+      background: lighten($bg,5%);
+    }
+  }
+}
+
+@mixin editorTheme($bg){
+  // root component : .sin-editor
+  .sin-editor-footer{
+    button {
+      @include generateButton($bg);
+    }
+  }
+  .sin-editor-inline,
+  .sin-editor-inline-edit{
+    &+.sin-editor-footer{
+      button{
+        //transparent
+        background: transparent !important;
+        border: transparent !important;
+        //small
+        height:26px;
+        line-height:0.8;
+        font-size:12px;
+        //block
+        display: block;
+        width: 100%;
+        color: darken($bg, 5%);
+      }
+    }
+  }
+  .dropdown-menu > .active > a {
+    background: $bg;
+  }
+  &.drop-box {
+    &.dragover {
+      .dragtest {
+        background: $bg;
+      }
+    }
   }
 }

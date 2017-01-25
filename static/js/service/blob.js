@@ -10,6 +10,8 @@ app.factory('Blob', function (News, Comments, Upload, $q) {
             return CComment.name;
         if(obj instanceof CReply)
             return CReply.name;
+        if(obj instanceof CIssue)
+            return CIssue.name;
     }
     return {
         download: function(obj){
@@ -22,7 +24,8 @@ app.factory('Blob', function (News, Comments, Upload, $q) {
                 a.click();
             };
             switch (getConstructor(obj)){
-                case 'CNews' : News.fetchFile({
+                case 'CNews' : ;
+                case 'CIssue' : News.fetchFile({
                     newsId : obj.id
                 }, callback);break;
                 case 'CComment' : Comments.fetchFile({
@@ -37,7 +40,8 @@ app.factory('Blob', function (News, Comments, Upload, $q) {
             var uploadTo = '';
             var fileDeferred = $q.defer();
             switch (getConstructor(obj)){
-                case 'CNews' : uploadTo = 'news';break;
+                case 'CNews' : ;
+                case 'CIssue' : uploadTo = 'news';break;
                 case 'CComment' : uploadTo = 'comments';break;
                 case 'CReply' : uploadTo = 'comments';break;
             }

@@ -1,0 +1,171 @@
+.card.issue.card-in-action {
+  border-left: 4px solid #FF8686; }
+.card.issue .news-info .news-author,
+.card.issue .issue-info .issue-author {
+  color: #FF8686; }
+.card.issue .content-wrapper > .title {
+  padding: 5px 13px;
+  margin: 0;
+  border-bottom: none; }
+  .card.issue .content-wrapper > .title.opened {
+    border-left: 4px solid #FF8686;
+    color: #FF8686; }
+  .card.issue .content-wrapper > .title.closed {
+    border-left: 4px solid #62c48f;
+    color: #62c48f; }
+  .card.issue .content-wrapper > .title a.options {
+    cursor: pointer;
+    color: #e1e1e7;
+    transition: all .2s; }
+    .card.issue .content-wrapper > .title a.options:hover, .card.issue .content-wrapper > .title a.options.active {
+      color: #c1c1c7; }
+.card.issue .content-wrapper > .issue-status {
+  font-size: 12px;
+  color: #aaa;
+  padding: 12px 20px 0; }
+.card.issue .content-wrapper > .issue-footer {
+  display: flex;
+  border-top: 1px solid #f1f1f5;
+  margin: 0 10px;
+  padding: 5px;
+  font-size: 12px;
+  color: #aaa; }
+  .card.issue .content-wrapper > .issue-footer > div {
+    display: flex;
+    justify-content: center;
+    flex: 1; }
+    .card.issue .content-wrapper > .issue-footer > div:first-of-type {
+      border-right: 1px solid #f1f1f5; }
+
+.issue-status-icon {
+  color: #fff;
+  padding: 3px 5px;
+  border-radius: 2px; }
+  .issue-status-icon.opened {
+    background: #FF8686; }
+  .issue-status-icon.closed {
+    background: #62c48f; }
+
+.issue-info {
+  display: block;
+  font-size: 12px;
+  margin-right: 30px; }
+  .issue-info .issue-timestamp {
+    color: #bbb;
+    display: block;
+    text-align: right; }
+  .issue-info .issue-author {
+    color: #2ABB9B;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-bottom: 5px; }
+    .issue-info .issue-author img {
+      width: 36px;
+      height: 36px;
+      margin-bottom: 3px; }
+
+#issue-detail {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #fff; }
+  #issue-detail .issue-detail-inner {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center; }
+  #issue-detail .issue-summary {
+    position: relative;
+    flex-shrink: 0;
+    top: 0;
+    background: #fff;
+    width: 100%;
+    height: 140px;
+    border-bottom: 1px solid #e1e1e7;
+    padding: 10px 20px; }
+    #issue-detail .issue-summary h1 {
+      margin-bottom: 10px; }
+    #issue-detail .issue-summary h4 {
+      margin-bottom: 5px; }
+  #issue-detail .issue-body {
+    position: relative;
+    display: flex;
+    flex-grow: 1;
+    overflow: auto;
+    flex-direction: column;
+    background: #f1f1f5;
+    width: 100%;
+    padding: 40px; }
+    #issue-detail .issue-body .card.card-default {
+      background: transparent;
+      border: none;
+      display: flex;
+      justify-content: center;
+      flex-shrink: 0; }
+      #issue-detail .issue-body .card.card-default .content-wrapper {
+        background: #fff;
+        width: 600px; }
+        #issue-detail .issue-body .card.card-default .content-wrapper > .title {
+          position: relative;
+          border: none;
+          color: #fff; }
+          #issue-detail .issue-body .card.card-default .content-wrapper > .title.opened {
+            background-color: #FF8686; }
+          #issue-detail .issue-body .card.card-default .content-wrapper > .title.closed {
+            background-color: #62c48f; }
+          #issue-detail .issue-body .card.card-default .content-wrapper > .title:before {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 8px 8px 8px 0;
+            left: 0;
+            margin-left: -8px; }
+          #issue-detail .issue-body .card.card-default .content-wrapper > .title.opened:before {
+            border-color: transparent #FF8686 transparent transparent; }
+          #issue-detail .issue-body .card.card-default .content-wrapper > .title.closed:before {
+            border-color: transparent #62c48f transparent transparent; }
+  #issue-detail .issue-form {
+    display: flex;
+    position: relative;
+    flex-shrink: 0;
+    top: auto;
+    bottom: 0;
+    background: #fefeff;
+    width: 100%;
+    height: 260px;
+    border-top: 1px solid #e5e5e5; }
+    #issue-detail .issue-form .issue-form-inner {
+      display: flex;
+      height: 100%; }
+      #issue-detail .issue-form .issue-form-inner#issue-assignee {
+        background: #fafafc;
+        flex: 1;
+        border-right: 1px solid #f1f1f1; }
+      #issue-detail .issue-form .issue-form-inner#issue-editor {
+        width: 600px;
+        flex-direction: column; }
+    #issue-detail .issue-form #editor-tab {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #f1f1f5;
+      padding: 4px 10px; }
+    #issue-detail .issue-form .sin-editor {
+      flex-direction: column;
+      height: 100%;
+      display: flex; }
+      #issue-detail .issue-form .sin-editor .sin-editor-wrapper {
+        flex: 1; }
+        #issue-detail .issue-form .sin-editor .sin-editor-wrapper .sin-editor-default {
+          overflow: auto;
+          flex: 1; }
+        #issue-detail .issue-form .sin-editor .sin-editor-wrapper .sin-editor-footer {
+          flex-shrink: 0; }
+
+/*# sourceMappingURL=issue.css.map */
