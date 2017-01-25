@@ -64,28 +64,18 @@
 	}
 	.sin-editor-default + .sin-editor-footer,
 	.sin-editor-inline +  .sin-editor-footer,
-	.sin-editor-inline-edit +  .sin-editor-footer{
+	.sin-editor-inline-edit +  .sin-editor-footer,
+	.sin-editor-default-edit + .sin-editor-footer{
 		button {
-			@extend .btn-primary;
 			width: 100px;
 		}
 		a:hover, &+* a:hover{
-			color: #2ABB9B !important;
+			//color: #2ABB9B !important;
 		}
 		&+.file-list{
-
 			.removed{
 				text-decoration: line-through;
 			}
-		}
-	}
-	.sin-editor-default-edit + .sin-editor-footer{
-		button{
-			@extend .btn-warning;
-			width: 100px;
-		}
-		a:hover, &+* a:hover{
-			color: #F9BF3B !important;
 		}
 	}
 	.sin-editor-inline {
@@ -93,9 +83,6 @@
 		margin-right: 5px;
 		&+.sin-editor-footer{
 			width : 45px;
-			.btn{
-				@extend .btn-primary, .btn-transparent, .btn-block, .btn-sm;
-			}
 			&+.file-list{
 				padding: 5px 20px;
 				font-size: 12px;
@@ -117,10 +104,22 @@
 		&+.sin-editor-footer{
 			float: left;
 			width : 45px;
-			.btn{
-				@extend .btn-primary, .btn-transparent, .btn-block, .btn-sm;
-			}
 		}
+	}
+	&.default{
+		@include editorTheme(#c0c0cc);
+	}
+	&.primary{
+		@include editorTheme($btn-primary-bg);
+	}
+	&.info{
+		@include editorTheme($btn-info-bg);
+	}
+	&.warning{
+		@include editorTheme($btn-warning-bg);
+	}
+	&.danger{
+		@include editorTheme($btn-danger-bg);
 	}
 	&::before,
 	&::after{

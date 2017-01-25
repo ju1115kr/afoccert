@@ -1,0 +1,29 @@
+<article class="card card-default issue">
+    <span class="issue-info">
+                <span class="issue-author">
+                    <img src="" alt="" class="thumbnail">
+                    <a>{{issue.author_name}}</a>
+                </span>
+                <span class="issue-timestamp">{{issue.created.date}}</span>
+                <span class="issue-timestamp">{{issue.created.time}}</span>
+            </span>
+    <!-- news view start -->
+    <div class="content-wrapper shadow">
+        <div class="title" ng-class="{opened:issue.fromIssue.opening, closed:!issue.fromIssue.opening}">
+            <span>#{{issue.id}}</span>
+        </div>
+        <div class="body ng-animate-disabled">
+            <div class="file-list" ng-if="issue.file">
+                <a ng-click="issue.getFile()">
+                    <span class="glyphicons glyphicons-download-alt"></span>
+                    {{issue.file}}
+                </a>
+            </div>
+            <div compile-html="issue.trustText" compile-hash="true"></div>
+        </div>
+        <div class="issue-footer">
+            <div><span>병장 차현탁 외 3명 할당됨</span></div>
+        </div>
+    </div>
+    <!-- news view end -->
+</article>
