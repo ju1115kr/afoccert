@@ -9,8 +9,8 @@ app = create_app('default')
 manager = Manager(app)
 migrate = Migrate(app, db)
 
-host='54.1.1.94'
-port=5001
+host='localhost'
+port=9000
 
 def make_shell_context():
     return dict(app=app, db=db, User=User, News=News)
@@ -21,12 +21,6 @@ manager.add_command("db", MigrateCommand)
 @manager.command
 def rs():
     socketio.run(app, host=host, port=port, debug=True)
-
-#@manager.command
-#def runserver():
-#    app.run(host=host, port=port)
-#    socketio.run(app, host=host, port=port)
-#    app.run(host=host, port=port) & socketio.run(app, host=host, port=port)
 
 if __name__ == '__main__':
     manager.run()
