@@ -1,19 +1,81 @@
-# python ê°€ìƒ í™˜ê²½ êµ¬ì¶•
-## WINDOWS
-python(2.7) ì„¤ì¹˜
+# AFOCCERT ¾÷¹«Çù¾÷Ã¼°è
 
-    pip install virtualenv
-    virtualenv <í™˜ê²½ì´ë¦„>
-    <í™˜ê²½ì´ë¦„>\Script\activate.bat
-    pip install -r requirement.txt
-    cd <í™˜ê²½ì´ë¦„>\Script\
-    
-activate.bat íŒŒì¼ì—ì„œ ë‘ë²ˆì§¸ ì¤„ì„ set "VIRTUAL_ENV=your:\virtualevn\directory"ìœ¼ë¡œ ìˆ˜ì •
+SPA(Single Page Application) Çü½ÄÀ¸·Î¼­ ¾÷¹« ³»¿ë Àü´Ş°ú °øÀ¯, ÇÇµå¹éÀ» Á¦°øÇÏ±â À§ÇÑ ¾÷¹«Çù¾÷Ã¼°èÀÔ´Ï´Ù.
 
-# DB ìƒì„±
-## WINDOWS
-    
-    <í™˜ê²½ì´ë¦„>\Script\activate.bat
-    python manage.py db init
-    python manage.py db migrate
-    python manage.py db upgrade
+![afoccert Page](https://user-images.githubusercontent.com/16971994/31169916-3cc72d16-a935-11e7-852e-ada8cd1ec5ea.png)
+
+## Getting Started
+
+º» Ã¼°è´Â Apache Web Server, AngularJS, Flask(Python2.7) ±â¹İÀ¸·Î Á¦ÀÛµÇ¾ú½À´Ï´Ù.
+
+### Prerequisites
+
+½ÇÇàÇÏ±â Àü ÇÊ¿äÇÑ ¼ÒÇÁÆ®¿ş¾î ¸ñ·Ï ¹× ¼³Ä¡¹ı
+
+```
+Apache HTTP Server
+Python 2.7
+python-pip
+
+sudo yum -y update
+sudo yum -y install httpd python27 python-pip
+```
+
+### Installing
+
+Apache HTTP Server¿Í Python2.7, pip¸¦ ¼³Ä¡ÇÑ ÀÌÈÄ ÇÊ¿äÇÑ ¶óÀÌºê·¯¸® ¸ñ·Ï°ú ¼³Ä¡
+
+```
+sudo pip install -r requirements.txt
+```
+
+## Running the tests
+
+### ÆÄÀÏ ¼¼ÆÃ ¹× IP¿¡ ¸Â°Ô ÄÚµå ¼öÁ¤
+
+* Apache ¼³Á¤ ÆÄÀÏ º¹»ç
+
+```
+sudo cp apache_configuration/* /etc/httpd/conf.d/
+sudo cat "WSGISocketPrefix /var/run/wsgi" >> /etc/httpd/conf/httpd.conf
+sudo cp ./* /var/www/afoccert/
+```
+
+* ¼­¹ö IP¿¡ ¸Â°Ô Ä¿½ºÅÍ¸¶ÀÌÂ¡
+
+/var/www/afoccert/static/js/api.js ³»
+
+```
+    window.api_url ='http://{ServerIP}:9000/api/v1.0';
+```
+
+/etc/httpd/conf.d/afoccert_app.conf ³»
+
+```
+    ServerName {ServerIP}
+```
+·Î º¯°æ
+
+### ¼­ºñ½º Àç±âµ¿ ¹× À¥ Á¢¼Ó
+
+* Apache HTTP Server (httpd) Àç±âµ¿
+
+```
+sudo systemctl restart httpd
+```
+
+* ¼­¹öIP:8080À¸·Î À¥ Á¢¼Ó
+
+```
+http://{ServerIP}:8080
+```
+
+## Built With
+
+* [5hakr](https://github.com/5HARK) - The Flask framework used
+* [Chaht01](https://github.con/chaht01) - Web Design using AngularJS
+
+## License
+
+This project is licensed under the MIT License
+
