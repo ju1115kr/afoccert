@@ -72,8 +72,8 @@ http://{ServerIP}:8080
 
 ## Built With
 
-* [5hakr](https://github.com/5HARK) - The Flask framework used
-* [Chaht01](https://github.con/chaht01) - Web Design using AngularJS
+* [5hark](https://github.com/5HARK) - The Flask framework used
+* [Chaht01](https://github.com/chaht01) - Web Design using AngularJS
 
 ## License
 
