@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 
-# Set this variable to "threading", "eventlet" or "gevent" to test the
-# different async modes, or leave it set to None for the application to choose
-# the best option based on available packages.
 async_mode = None
 
 if async_mode is None:

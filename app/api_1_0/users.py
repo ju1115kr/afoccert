@@ -42,10 +42,10 @@ def get_users():
     users = User.query.all()
     return jsonify({
         'users': [user.to_json() for user in users if datetime.utcnow()-timedelta(days=30) <= user.recent_login]
-    }), 200
+        }), 200
 
 
-# 미인가 유저 전체 목록 요청
+    # 미인가 유저 전체 목록 요청
 @api.route('/users/confirm', methods=['GET'])
 @auth.login_required
 def get_unconfirmed_user():
@@ -115,5 +115,5 @@ def get_user_news(user_id):
     if pagination.total < 1:  # 아무것도 없을 경우
         return not_found('User does not have news')
     return jsonify({'news': [news.to_json() for news in pag_news\
-		    if news.group is None or g.current_user in news.house.users]})
+            if news.group is None or g.current_user in news.house.users]})
 

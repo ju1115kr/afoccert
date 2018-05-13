@@ -7,7 +7,7 @@ from .. import db
 from ..models import User, Comment, News, Group
 from errors import not_found, forbidden, bad_request
 from datetime import datetime
-from flask.ext.cors import cross_origin
+from flask_cors import cross_origin
 import os
 
 
@@ -19,8 +19,8 @@ def get_all_news():
     pagination = News.query.order_by(News.id.desc()).paginate(page, per_page, error_out=False)
     pag_news = pagination.items
     return jsonify({'news': [news.to_json() for news in pag_news\
-                    if news.group is None or g.current_user in news.house.users\
-                    or g.current_user.id == news.house.create_user]})
+            if news.group is None or g.current_user in news.house.users\
+            or g.current_user.id == news.house.create_user]})
 
 
 @api.route('/news/<int:id>', methods=['GET'])  # 특정 신송 요청
@@ -30,8 +30,8 @@ def get_news(id):
     if news is None:
         return not_found('News does not exist')
     if news.group is not None and g.current_user not in news.house.users\
-                    and g.current_user.id != news.house.create_user: 
-        return forbidden('User does not in this group')
+            and g.current_user.id != news.house.create_user:
+                return forbidden('User does not in this group')
     return jsonify(news.to_json())
 
 
@@ -53,7 +53,7 @@ def post_news():
     db.session.add(news)
     db.session.commit()
 
-    sendNewsPush(news,'1')
+    sendNewsPush(news, '1')
     resp = make_response()
     resp.headers['Location'] = url_for('api.get_news', id=news.id)  # 만들어진 신송 URI 제공
     resp.status_code = 201
@@ -69,7 +69,7 @@ def put_news(news_id):
     if old_news is None:  # 신송이 존재 하지 않을 경우
         return not_found('News does not exist')
     if g.current_user.id != old_news.author_id:  # 다른 유저의 신송을 수정하려고 하는 경우
-        return forbidden('Cannot modify other user\'s news')  
+        return forbidden('Cannot modify other user\'s news')
     news = News.from_json(request.json)
     old_news.context = news.context
     old_news.parsed_context = news.parsed_context
@@ -102,7 +102,7 @@ def get_news_comments(news_id):
         return not_found('News does not exist')
     if news.group is not None and g.current_user not in news.house.users\
             and g.current_user.id != news.house.create_user:
-        return forbidden('User does not in this group') 
+                return forbidden('User does not in this group')
     return jsonify({'comments': [comment.to_json() for comment in news.comments if comment.parent_id is None]})
 
 
@@ -116,8 +116,8 @@ def post_news_comment(news_id):
     if news is None:
         return not_found('news does not exist')
     if news.group is not None and g.current_user not in news.house.users\
-                and g.current_user.id != news.house.create_user:
-        return forbidden('User does not in this group')
+            and g.current_user.id != news.house.create_user:
+                return forbidden('User does not in this group')
 
     comment = Comment.from_json(request.json)
     comment.news_id = news.id
@@ -126,7 +126,7 @@ def post_news_comment(news_id):
     db.session.add(comment)
     db.session.commit()
 
-    sendCommentPush(comment,'2')
+    sendCommentPush(comment, '2')
     resp = make_response()
     resp.headers['Location'] = url_for('api.get_comment', comment_id=comment.id)
     resp.status_code = 201

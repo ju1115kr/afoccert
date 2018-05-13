@@ -6,7 +6,7 @@ from pushes import sendCommentPush
 from .. import db
 from ..models import News, User, Comment
 from errors import not_found, bad_request, forbidden
-from flask.ext.cors import cross_origin
+from flask_cors import cross_origin
 import os
 
 @api.route('/comments/<int:comment_id>', methods=['GET'])  # 특정 덧글 요청

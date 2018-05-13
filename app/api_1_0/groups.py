@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import request, jsonify, make_response, g, url_for
-from flask.ext.cors import cross_origin
+from flask_cors import cross_origin
 from authentication import auth
 from . import api
 from .. import db
@@ -67,8 +67,8 @@ def post_group():
         group.users = [ g.current_user ]
     group.create_user = g.current_user.id
     if Group.query.filter(Group.create_user == g.current_user.id)\
-                    .filter(Group.name == group.name).count() >= 1:
-        return bad_request('Group name already exist in same user.')
+            .filter(Group.name == group.name).count() >= 1:
+                return bad_request('Group name already exist in same user.')
     db.session.add(group)
     db.session.commit()
     resp = make_response()
@@ -91,17 +91,17 @@ def put_group(group_id):
     description = request.json.get('description')
     users = request.json.get('users')
     if users is None or users == []:
-       old_group.users = [ g.current_user ]
+        old_group.users = [ g.current_user ]
 
     user_list = list(users)
-    
+
     old_group.name = name
     old_group.description = description
 
     if type(user_list) == list and user_list is not None and len(user_list) >= 1:
         old_group.users = [ User.query.filter_by(username=user_name).first() for user_name in user_list\
-					if User.query.filter_by(username=user_name).count() != 0 ]
-    db.session.commit()
+                if User.query.filter_by(username=user_name).count() != 0 ]
+        db.session.commit()
     return jsonify(old_group.to_json())
 
 
@@ -112,7 +112,7 @@ def delete_group(group_id):
     if group is None:
         return not_found('Group does not exist')
     if g.current_user.id != group.create_user:
-    	return forbidden('User does not in this group')
+        return forbidden('User does not in this group')
     db.session.delete(group)
     db.session.commit()
     return '', 204

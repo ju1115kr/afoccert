@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.cors import CORS
+from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
 from .config import config
 
@@ -22,12 +22,6 @@ def create_app(config_name):
     from .api_1_0 import api as api_1_0_blueprint
     app.register_blueprint(api_1_0_blueprint, url_prefix='/api/v1.0')
     # attach routes and custom error pages here
-
-    """
-    @app.route('/cert/<path:path>')
-    def send_static(path):
-    return send_from_direcatory('../static', path)
-    """
 
     return app
 

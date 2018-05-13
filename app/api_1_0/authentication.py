@@ -1,21 +1,11 @@
 # -*- coding: utf-8 -*-
 from flask import jsonify, g, request, current_app
-from flask.ext.httpauth import HTTPBasicAuth
+from flask_httpauth import HTTPBasicAuth
 from . import api
 from errors import unauthorized, not_found, bad_request, forbidden
 from datetime import datetime
 
 auth = HTTPBasicAuth()
-
-"""
-
-@api.before_request
-@auth.login_required
-def before_request():
-    if not g.current_user.confirmed:
-        return forbidden('Unconfirmed account')
-
-"""
 
 
 @auth.verify_password
@@ -44,10 +34,5 @@ def get_token():
         return bad_request('token is already given')
     g.current_user.recent_login = datetime.utcnow()
     return jsonify({'token': g.current_user.generate_auth_token(g.current_user, expiration=3600),
-                    'expiration': 3600}), 200
+        'expiration': 3600}), 200
 
-
-
-
-
-    

@@ -1,12 +1,12 @@
 # -*- coding:utf-8 -*-
 from flask import request, jsonify, url_for, make_response, g
 from . import api
-from authentication import auth 
+from authentication import auth
 from .. import db
 from ..models import User, News, Comment, Push
 from errors import not_found, forbidden, bad_request
 from datetime import datetime
-from flask.ext.cors import cross_origin
+from flask_cors import cross_origin
 
 
 @api.route('/pushes', methods=['GET'])
@@ -15,7 +15,7 @@ def get_all_push():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 20, type=int)
     pagination = Push.query.filter(Push.to_user==g.current_user.id)\
-                    .order_by(Push.created_at.desc()).paginate(page, per_page, error_out=False)
+            .order_by(Push.created_at.desc()).paginate(page, per_page, error_out=False)
     pag_pushes = pagination.items
     return jsonify({'pushes': [push.to_json() for push in pag_pushes if g.current_user in push.receivers]})
 
@@ -42,7 +42,7 @@ def post_push():
         push.to_user = user.id
         db.session.add(push)
         user.uncfm_push = Push.query.filter(Push.to_user==user.id)\
-            .filter(Push.confirmed_at==None).count()
+                .filter(Push.confirmed_at==None).count()
     db.session.commit()
     resp = make_response()
     resp.status_code = 201
@@ -58,7 +58,7 @@ def sendNewsPush(news, typenum):
             push.to_user = user.id
             db.session.add(push)
             user.uncfm_push = Push.query.filter(Push.to_user==user.id)\
-                .filter(Push.confirmed_at==None).count()
+                    .filter(Push.confirmed_at==None).count()
     db.session.commit()
 
 def sendCommentPush(comment, typenum):
@@ -70,7 +70,7 @@ def sendCommentPush(comment, typenum):
             push.to_user = user.id
             db.session.add(push)
             user.uncfm_push = Push.query.filter(Push.to_user==user.id)\
-                .filter(Push.confirmed_at==None).count()
+                    .filter(Push.confirmed_at==None).count()
     db.session.commit()
 
 def sendIssuePush(issue, typenum):
@@ -82,5 +82,5 @@ def sendIssuePush(issue, typenum):
             push.to_user = user.id
             db.session.add(push)
             user.uncfm_push = Push.query.filter(Push.to_user==user.id)\
-                .filter(Push.confirmed_at==None).count()
+                    .filter(Push.confirmed_at==None).count()
     db.session.commit()

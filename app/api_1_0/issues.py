@@ -7,7 +7,7 @@ from .. import db
 from ..models import User, News, Issue
 from errors import not_found, forbidden, bad_request
 from datetime import datetime
-from flask.ext.cors import cross_origin
+from flask_cors import cross_origin
 
 
 @api.route('/issues', methods=['GET'])
@@ -16,7 +16,7 @@ def get_all_issue():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 20, type=int)
     pagination = Issue.query.filter_by(prev=None)\
-                    .order_by(Issue.id.desc()).paginate(page, per_page, error_out=False)
+            .order_by(Issue.id.desc()).paginate(page, per_page, error_out=False)
     pag_issues = pagination.items
     return jsonify({'issues': [issue.to_json() for issue in pag_issues]})
 
@@ -38,7 +38,7 @@ def get_news_issue(news_id):
         return not_found('News does not exist')
     issue = news.issue
     if issue is None:
-        return not_found('Issue does not exist')    
+        return not_found('Issue does not exist')
     return jsonify(issue.to_json())
 
 
@@ -137,34 +137,34 @@ def compareIssues(ancestor, issue):
         # 상태 변화만 있는 경우
         if issue.opening != ancestor.opening and list(issue.solvers) == list(ancestor.solvers):
             if issue.opening:
-                context = {"context":"#%r issue is opened." % ancestor_next.news.id}
-                issue_data = {"opening":"True"}
+                context = {"context": "#%r issue is opened." % ancestor_next.news.id}
+                issue_data = {"opening": "True"}
                 push_type = 6
             elif not issue.opening:
-                context = {"context":"#%r issue is closed." % ancestor_next.news.id}
-                issue_data = {"opening":"False"}
+                context = {"context": "#%r issue is closed." % ancestor_next.news.id}
+                issue_data = {"opening": "False"}
                 push_type = 5
         # 해결자가 전환되는 경우
-        elif issue.opening == ancestor.opening and list(issue.solvers) != list(ancestor.solvers):
-            if ancestor.solvers == []: # 첫 이슈 등록 시
-                context = {"context":"#%r issue's solvers have appointment." % ancestor_next.news.id}
-                push_type = 4
-            else:
-                context = {"context":"#%r issue's solvers have changed." % ancestor_next.news.id}
-                push_type = 7
-            issue_data = {"opening":issue.opening, "solvers":"%r" % issue.solvers}
-        # 상태 및 해결자 모두 변하는 경우
+    elif issue.opening == ancestor.opening and list(issue.solvers) != list(ancestor.solvers):
+        if ancestor.solvers == []: # 첫 이슈 등록 시
+            context = {"context": "#%r issue's solvers have appointment." % ancestor_next.news.id}
+            push_type = 4
         else:
-            if issue.opening:
-                context = {"context":"#%r issue's opened and solvers have changed."\
-                                % ancestor_next.news.id}
-                issue_data = {"opening":"True", "solvers":"%r" % issue.solvers}
-                push_type = 9
-            elif not issue.opening:
-                context = {"context":"#%r issue's closed and solvers have changed."\
-                                % ancestor_next.news.id}
-                issue_data = {"opening":False, "solvers":"%r" % issue.solvers}
-                push_type = 8
+            context = {"context": "#%r issue's solvers have changed." % ancestor_next.news.id}
+            push_type = 7
+            issue_data = {"opening": issue.opening, "solvers": "%r" % issue.solvers}
+        # 상태 및 해결자 모두 변하는 경우
+    else:
+        if issue.opening:
+            context = {"context": "#%r issue's opened and solvers have changed."\
+                    % ancestor_next.news.id}
+            issue_data = {"opening": "True", "solvers": "%r" % issue.solvers}
+            push_type = 9
+        elif not issue.opening:
+            context = {"context": "#%r issue's closed and solvers have changed."\
+                    % ancestor_next.news.id}
+            issue_data = {"opening": False, "solvers": "%r" % issue.solvers}
+            push_type = 8
 
         sendIssuePush(issue, push_type)
         system_news = News.from_json(context)
@@ -173,7 +173,7 @@ def compareIssues(ancestor, issue):
 
         db.session.add(system_news)
         db.session.commit()
- 
+
         prev = Issue.query.filter_by(ancestor=issue_id).order_by(Issue.id.desc()).first()
         system_issue = Issue.from_json(issue_data)
         if issue.opening:
@@ -184,21 +184,21 @@ def compareIssues(ancestor, issue):
             system_issue.closed_at = datetime.utcnow()
             ancestor.closed_at = system_issue.closed_at
             ancestor.opening = False
-        ancestor.solvers = issue.solvers
+            ancestor.solvers = issue.solvers
 
-        system_issue.ancestor = ancestor.id
-        system_issue.prev = prev.id
-        prev.next = system_issue.id
-        system_issue.news = system_news
-        system_issue.solvers = issue.solvers
-        system_issue.opening = issue.opening
-        system_issue.system_info = True
+            system_issue.ancestor = ancestor.id
+            system_issue.prev = prev.id
+            prev.next = system_issue.id
+            system_issue.news = system_news
+            system_issue.solvers = issue.solvers
+            system_issue.opening = issue.opening
+            system_issue.system_info = True
 
-        db.session.add(system_issue)
-        db.session.commit()
+            db.session.add(system_issue)
+            db.session.commit()
 
-        issue.next_issue = system_issue.id
-        system_issue.prev_issue = issue.id
-        system_news.notice = system_issue.id
+            issue.next_issue = system_issue.id
+            system_issue.prev_issue = issue.id
+            system_news.notice = system_issue.id
 
-    else: pass
+        else: pass

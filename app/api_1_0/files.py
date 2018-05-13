@@ -2,7 +2,7 @@
 import os, time
 from flask import request, jsonify, g, send_from_directory
 from . import api
-from authentication import auth 
+from authentication import auth
 from .. import db
 from ..models import User, Comment, News, Group
 from errors import not_found, forbidden, bad_request
@@ -11,23 +11,23 @@ from datetime import datetime
 UPLOAD_FOLDER = os.path.join(api.root_path, '../../file/')
 ALLOWED_PIC_EXTENSIONS = set(['png','jpg','jpeg','gif', 'bmp'])
 ALLOWED_FILE_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'bmp',\
-                    'show', 'cell', 'xls', 'xlsm', 'xlsx', 'csv', 'ppt',\
-                    'pptx', 'doc', 'docx', 'hwp', 'pdf', 'txt'])
+        'show', 'cell', 'xls', 'xlsm', 'xlsx', 'csv', 'ppt',\
+        'pptx', 'doc', 'docx', 'hwp', 'pdf', 'txt'])
 
 def allowed_file(filename):
     return '.' in filename and\
-        filename.rsplit('.', 1)[1] in ALLOWED_FILE_EXTENSIONS
+            filename.rsplit('.', 1)[1] in ALLOWED_FILE_EXTENSIONS
 
 def allowed_picture(filename):
     return '.' in filename and\
-        filename.rsplit('.', 1)[1] in ALLOWED_PIC_EXTENSIONS
+            filename.rsplit('.', 1)[1] in ALLOWED_PIC_EXTENSIONS
 
 def addTimestamp(filename):
     now = time.localtime()
     timestamp = "_%04d%02d%02d_%02d%02d%02d" %\
-                (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec)
+            (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec)
     return filename.rsplit('.', 1)[0] + timestamp + "." + filename.rsplit('.', 1)[1]
-    
+
 
 @api.route('/news/<int:id>/file', methods=['GET'])  # 특정 신송 파일 요청
 @auth.login_required
@@ -36,8 +36,8 @@ def get_news_file(id):
     if news is None:
         return not_found('News does not exist')
     if news.group is not None and g.current_user not in news.house.users\
-                    and g.current_user.id != news.house.create_user:
-        return forbidden('User does not in this group')
+            and g.current_user.id != news.house.create_user:
+                return forbidden('User does not in this group')
     filelocate = news.filelocate
     if filelocate is None:
         return not_found('File does not exist')
@@ -82,7 +82,7 @@ def put_news_file(id):
         return bad_request('File Request in invaild')
     os.remove(os.path.join(UPLOAD_FOLDER, news.filelocate))
 
-    file = request.files['file']                             
+    file = request.files['file']
     if file and allowed_file(file.filename.lower()):
         filename = file.filename
         filelocate = addTimestamp(filename)
@@ -109,7 +109,7 @@ def delete_news_file(id):
     news.filename = None
     news.filelocate = None
     db.session.commit()
-    return '', 204 
+    return '', 204
 
 
 @api.route('/comments/<int:comment_id>/file', methods=['GET'])  # 특정 덧글 파일 요청
@@ -151,9 +151,9 @@ def post_comment_file(comment_id):
 
 
 @api.route('/comments/<int:comment_id>/file', methods=['PUT'])  # 특정 덧글 파일 수정
-@auth.login_required    
+@auth.login_required
 def put_comment_file(comment_id):
-    comment = Comment.query.gt(comment_id)    
+    comment = Comment.query.gt(comment_id)
     if comment is None:
         return not_found('Comment does not exist')
     if g.current_user.id != comment.author_id:
@@ -189,7 +189,7 @@ def delete_comment_file(comment_id):
     comment.filename = None
     comment.filelocate = None
     db.session.commit()
-    return '', 204 
+    return '', 204
 
 
 @api.route('/users/<user_id>/picture', methods=['GET']) # 유저 프로필 사진 요청 

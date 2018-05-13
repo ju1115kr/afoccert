@@ -2,14 +2,14 @@
 import os
 from app import create_app, db, socketio
 from app.models import User, News, Comment
-from flask.ext.script import Manager, Shell, Command
-from flask.ext.migrate import Migrate, MigrateCommand
+from flask_script import Manager, Shell, Command
+from flask_migrate import Migrate, MigrateCommand
 
 app = create_app('default')
 manager = Manager(app)
 migrate = Migrate(app, db)
 
-host='54.1.1.94'
+host='0.0.0.0'
 port=5001
 
 def make_shell_context():
