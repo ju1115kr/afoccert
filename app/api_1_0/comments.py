@@ -2,11 +2,14 @@
 from flask import request, jsonify, make_response, url_for, g, send_from_directory
 from . import api
 from .access import can_read_comment
+from .storage import safe_stored_path
 from authentication import auth
 from .. import db
 from ..models import News, User, Comment
 from errors import not_found, bad_request, forbidden
 import os
+
+UPLOAD_FOLDER = os.path.abspath(os.path.join(api.root_path, '../../file'))
 
 @api.route('/comments/<int:comment_id>', methods=['GET'])  # 특정 덧글 요청
 @auth.login_required
@@ -83,9 +86,15 @@ def delete_comment(comment_id):
         return forbidden('Cannot delete other user\'s comment')
     if not can_read_comment(comment, g.current_user):
         return forbidden('Cannot access this group')
-    if comment.filename is not None:
-        os.remove(os.path.join(api.root_path, '../../file/', comment.filelocate))
-    Comment.query.filter(Comment.parent_id==comment.id).delete()
+    # Unlink only safe saved attachments after the transaction succeeds.
+    attachments = [comment.filelocate]
+    attachments.extend(reply.filelocate for reply in
+                       Comment.query.filter_by(parent_id=comment.id).all())
+    Comment.query.filter(Comment.parent_id == comment.id).delete()
     db.session.delete(comment)
     db.session.commit()
+    for filename in attachments:
+        path = safe_stored_path(UPLOAD_FOLDER, filename)
+        if path and os.path.isfile(path):
+            os.remove(path)
     return '', 204
