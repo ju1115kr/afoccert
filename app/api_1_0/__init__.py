@@ -10,6 +10,8 @@ import os
 allowed_origins = [origin.strip() for origin in
                    os.environ.get('AFOCCERT_CORS_ORIGINS', '').split(',')
                    if origin.strip()]
+if '*' in allowed_origins:
+    raise RuntimeError('Wildcard CORS origins are not allowed')
 if allowed_origins:
     CORS(api, origins=allowed_origins, expose_headers=['Location'])
 
