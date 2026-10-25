@@ -16,4 +16,10 @@ def safe_stored_path(folder, filename):
         return None
     if os.path.basename(filename) != filename:
         return None
-    return os.path.join(folder, filename)
+    candidate = os.path.join(folder, filename)
+    # Disallow an in-directory symlink targeting a file outside uploads.
+    if os.path.realpath(os.path.dirname(candidate)) != os.path.realpath(folder):
+        return None
+    if os.path.islink(candidate):
+        return None
+    return candidate
