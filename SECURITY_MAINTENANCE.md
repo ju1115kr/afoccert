@@ -49,9 +49,10 @@ export AFOCCERT_DATABASE_URL='<database-url-from-secret-manager>'
 export AFOCCERT_CORS_ORIGINS='https://your-trusted-app.example'
 ```
 
-The legacy WSGI entry point calls `create_app('default')`. Change it to
-`create_app('production')` **only after** the target server is configured
-with production secrets and its database migrations have been verified.
+The WSGI entry point now selects `production` by default. For production
+it fails to start unless the required environment secrets have been supplied.
+Set `AFOCCERT_CONFIG=development` only in an isolated local test environment.
+Verify database migrations before attempting a production start.
 Neither this PR nor the CI workflow changes the running server.
 
 ## Validation limits
