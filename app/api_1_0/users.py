@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import current_app, make_response, request, url_for, g, jsonify, send_from_directory
 from . import api
+from .access import can_read_news
 from authentication import auth
 from .. import db
 from ..models import User, News
@@ -73,5 +74,5 @@ def get_user_news(user_id):
     if pagination.total < 1:  # 아무것도 없을 경우
         return not_found('User does not have news')
     return jsonify({'news': [news.to_json() for news in pag_news\
-		    if news.group is None or g.current_user in news.house.users]})
+		    if can_read_news(news, g.current_user)]})
 
