@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from flask import request, jsonify, make_response, g, url_for
-from flask.ext.cors import cross_origin
 from authentication import auth
 from . import api
+from .access import can_read_group
 from .. import db
 from ..models import Group, User, News
 from errors import not_found, forbidden, bad_request
@@ -32,7 +32,7 @@ def get_news_in_group(group_id):
     group = Group.query.get(group_id)
     if group is None:
         return not_found('Group does not exist')
-    if g.current_user not in group.users:
+    if not can_read_group(group, g.current_user):
         return forbidden('User does not in this group')
 
     page = request.args.get('page', 1, type=int)
@@ -60,7 +60,6 @@ def get_users_in_group(group_id):
 
 @api.route('/groups', methods=['POST'])  # 그룹 생성
 @auth.login_required
-@cross_origin(expose_headers='Location')
 def post_group():
     group = Group.from_json(request.json)
     if request.json.get('users') is None or request.json.get('users') == []:
@@ -94,8 +93,8 @@ def put_group(group_id):
     if users is None or users == []:
        old_group.users = [ g.current_user ]
 
-    user_list = list(users)
-    
+    user_list = list(users) if users else []
+
     old_group.name = name
     old_group.description = description
 
@@ -125,7 +124,7 @@ def get_notice_group(group_id):
     group = Group.query.get(group_id)
     if group is None:
         return not_found('Group does not exist')
-    if g.current_user not in group.users:
+    if not can_read_group(group, g.current_user):
         return forbidden('User does not in this group')
 
     notice = group.news.filter_by(notice=True).order_by(News.created_at.desc()).all()
