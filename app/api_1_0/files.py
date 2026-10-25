@@ -11,6 +11,7 @@ from flask import g, jsonify, request, send_from_directory
 
 from . import api
 from .access import can_read_comment, can_read_news
+from .storage import extension as _extension, safe_stored_path
 from authentication import auth
 from .. import db
 from ..models import User, Comment, News
@@ -26,12 +27,6 @@ ALLOWED_FILE_EXTENSIONS = set([
 ])
 
 
-def _extension(filename):
-    if not filename or '.' not in filename:
-        return None
-    return filename.rsplit('.', 1)[1].lower()
-
-
 def allowed_file(filename):
     return _extension(filename) in ALLOWED_FILE_EXTENSIONS
 
@@ -41,11 +36,7 @@ def allowed_picture(filename):
 
 
 def _safe_stored_path(filename):
-    if (not filename or filename in ('.', '..') or
-            os.path.basename(filename) != filename or
-            '/' in filename or '\\' in filename):
-        return None
-    return os.path.join(UPLOAD_FOLDER, filename)
+    return safe_stored_path(UPLOAD_FOLDER, filename)
 
 
 def _send_attachment(filename, as_attachment=True):
