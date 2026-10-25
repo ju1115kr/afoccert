@@ -12,9 +12,11 @@ db = SQLAlchemy()
 socketio = SocketIO()
 
 def create_app(config_name):
-    CORS(app, expose_headers='Location')
-    app.config.from_object(config['default'])
-    config['default'].init_app(app)
+    # Do not enable wildcard CORS at application level.
+    # The API blueprint alone may opt in to explicit trusted origins.
+    selected = config[config_name]
+    app.config.from_object(selected)
+    selected.init_app(app)
 
     db.init_app(app) #For initialize DB
     socketio.init_app(app) #For initialize SocketIO app
