@@ -67,6 +67,7 @@ def put_comment(comment_id):
     old_comment.context = comment.context
     old_comment.parsed_context = comment.parsed_context
     old_comment.author_name = g.current_user.realname
+    db.session.commit()
     return jsonify(old_comment.to_json())
 
 
