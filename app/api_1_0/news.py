@@ -72,15 +72,15 @@ def put_news(news_id):
     if g.current_user.id != old_news.author_id:  # 다른 유저의 신송을 수정하려고 하는 경우
         return forbidden('Cannot modify other user\'s news')  
     news = News.from_json(request.json)
-    old_news.context = news.context
-    old_news.parsed_context = news.parsed_context
-    old_news.modified_at = datetime.utcnow()
     if news.group is not None:
         target_group = Group.query.get(news.group)
         if target_group is None:
             return bad_request('Group does not exist')
         if g.current_user.id != target_group.create_user:
             return forbidden('Cannot move news to this group')
+    old_news.context = news.context
+    old_news.parsed_context = news.parsed_context
+    old_news.modified_at = datetime.utcnow()
     old_news.group = news.group
     db.session.commit()
     return jsonify(old_news.to_json())
