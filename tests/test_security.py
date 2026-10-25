@@ -3,6 +3,8 @@
 import importlib.util
 from pathlib import Path
 import unittest
+import os
+import tempfile
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -76,6 +78,16 @@ class StorageTests(unittest.TestCase):
         self.assertEqual('/tmp/uploads/abcdef.pdf',
                          storage.safe_stored_path('/tmp/uploads', 'abcdef.pdf'))
 
+    def test_rejects_symlink_outside_uploads(self):
+        with tempfile.TemporaryDirectory() as tempdir:
+            uploads = os.path.join(tempdir, 'uploads')
+            os.mkdir(uploads)
+            external = os.path.join(tempdir, 'private.txt')
+            with open(external, 'w') as file:
+                file.write('not an attachment')
+            os.symlink(external, os.path.join(uploads, 'attachment.txt'))
+            self.assertIsNone(storage.safe_stored_path(uploads, 'attachment.txt'))
+
     def test_extension_checks(self):
         self.assertEqual('jpg', storage.extension('photo.JPG'))
         self.assertIsNone(storage.extension('noextension'))
@@ -87,6 +99,14 @@ class StaticSafetyTests(unittest.TestCase):
         requirements = (ROOT / 'requirements.txt').read_text(encoding='utf-8')
         self.assertNotIn('>>>>>>>', requirements)
         self.assertNotIn('<<<<<<<', requirements)
+
+    def test_untrusted_html_is_not_compiled(self):
+        directive = (ROOT / 'static/js/directive/dir-compile-html.js').read_text(
+            encoding='utf-8')
+        self.assertIn("$sanitize(newValue || '')", directive)
+        self.assertNotIn('$compile(ele)(scope)', directive)
+        self.assertIn("$compile(attachments[i])(scope)", directive)
+        self.assertNotIn('node.parentNode.insertBefore(replacementNode', directive)
 
     def test_database_and_flask_secrets_are_environmental(self):
         config = (ROOT / 'app/config.py').read_text(encoding='utf-8')
