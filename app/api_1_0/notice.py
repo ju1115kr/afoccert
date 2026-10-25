@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 from flask import jsonify, g
 from . import api
+from .. import db
 from authentication import auth
 from ..models import News
 from errors import not_found, forbidden
@@ -25,6 +26,7 @@ def put_notice_news(news_id):
 	if g.current_user.id != news.author_id:
 		return forbidden('Cannot change other user\'s news')
 	news.notice = True
+	db.session.commit()
 	return jsonify(news.to_json())
 
 
@@ -37,4 +39,5 @@ def delete_notice_news(news_id):
 	if g.current_user.id != news.author_id:
 		return forbidden('Cannot chang other user\'s news')
 	news.notice = False
+	db.session.commit()
 	return jsonify(news.to_json())
