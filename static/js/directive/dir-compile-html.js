@@ -3,7 +3,7 @@
 var app = angular.module('certApp');
 
 app
-    .directive('compileHtml', function($parse, $sce, $compile, $q, News){
+    .directive('compileHtml', function($parse, $sce, $compile, $q, $sanitize, News){
         return {
             restrict: "A",
             transclude: true,
@@ -14,7 +14,7 @@ app
                 var expression = $sce.parseAsHtml(attr.compileHtml);
                 var regHash = new RegExp('(#(([0-9]+){2,}|([3-9])))','gm');
                 scope.$watch(expression, function(newValue) {
-                    var wrapper = angular.element('<div></div>').html(newValue);
+                    var wrapper = angular.element('<div></div>').html($sanitize(newValue || ''));
                     if(attr.compileHash == 'true'){
                         /**
                          * convert # Hash
@@ -35,7 +35,7 @@ app
                         if(spans[i].hasAttribute('class') &&
                             spans[i].getAttribute('class').split(' ').indexOf('hash-input')>-1){
                             var node = document.createElement('span');
-                            node.innerHTML = spans[i].innerHTML.split('@')[1].split(':')[0];
+                            node.textContent = spans[i].textContent.split('@')[1].split(':')[0];
                             node.setAttribute('class','hash-input readonly');
                             spans[i].parentNode.replaceChild(node, spans[i]);
                         }
