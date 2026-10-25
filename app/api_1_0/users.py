@@ -55,6 +55,7 @@ def modify_user(user_id):
         user.password = request.json.get('pw')
     user.realname = request.json.get('name', user.realname)
     db.session.add(user)
+    db.session.commit()
     return jsonify(user.to_json())
 
 
