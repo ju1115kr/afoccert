@@ -71,7 +71,8 @@ def get_users_in_group(group_id):
 def post_group():
     if request.json is None or not isinstance(request.json, dict):
         return bad_request('JSON request is invalid')
-    if 'users' in request.json and not valid_usernames(request.json['users']):
+    if (request.json.get('users') is not None and
+            not valid_usernames(request.json['users'])):
         return bad_request('users must be a list')
     group = Group.from_json(request.json)
     if request.json.get('users') is None or request.json.get('users') == []:
