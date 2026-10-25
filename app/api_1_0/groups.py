@@ -2,7 +2,7 @@
 from flask import request, jsonify, make_response, g, url_for
 from authentication import auth
 from . import api
-from .access import can_read_group
+from .access import can_read_group, can_read_news
 from .. import db
 from ..models import Group, User, News
 from errors import not_found, forbidden, bad_request
@@ -61,11 +61,14 @@ def get_users_in_group(group_id):
 @api.route('/groups', methods=['POST'])  # 그룹 생성
 @auth.login_required
 def post_group():
+    if request.json is None or not isinstance(request.json, dict):
+        return bad_request('JSON request is invalid')
+    if 'users' in request.json and not isinstance(request.json['users'], list):
+        return bad_request('users must be a list')
     group = Group.from_json(request.json)
     if request.json.get('users') is None or request.json.get('users') == []:
         group.users = [ g.current_user ]
     group.create_user = g.current_user.id
-    group_name = group.name
     if Group.query.filter(Group.create_user == g.current_user.id)\
                     .filter(Group.name == group.name).count() >= 1:
         return bad_request('Group name already exist in same user.')
@@ -87,20 +90,24 @@ def put_group(group_id):
     if g.current_user.id != old_group.create_user:
         return forbidden('User cannot modify group')
 
-    name = request.json.get('name')
-    description = request.json.get('description')
+    name = request.json.get('name', old_group.name)
+    description = request.json.get('description', old_group.description)
     users = request.json.get('users')
-    if users is None or users == []:
-       old_group.users = [ g.current_user ]
+    if not isinstance(name, (str, unicode)) or not name.strip():
+        return bad_request('Group name is required')
+    if users is not None and not isinstance(users, list):
+        return bad_request('users must be a list')
 
-    user_list = list(users) if users else []
-
+    if users is not None:
+        # Query each named user at most once, preserving the requested order.
+        members = []
+        for username in set(users):
+            member = User.query.filter_by(username=username).first()
+            if member is not None:
+                members.append(member)
+        old_group.users = members if users else [g.current_user]
     old_group.name = name
     old_group.description = description
-
-    if type(user_list) == list and user_list is not None and len(user_list) >= 1:
-        old_group.users = [ User.query.filter_by(username=user_name).first() for user_name in user_list\
-					if User.query.filter_by(username=user_name).count() != 0 ]
     db.session.commit()
     return jsonify(old_group.to_json())
 
@@ -128,4 +135,4 @@ def get_notice_group(group_id):
         return forbidden('User does not in this group')
 
     notice = group.news.filter_by(notice=True).order_by(News.created_at.desc()).all()
-    return jsonify({'notice' : [news.to_json() for news in notice if news.group is None or g.current_user in news.house.users]})
+    return jsonify({'notice' : [news.to_json() for news in notice if can_read_news(news, g.current_user)]})
