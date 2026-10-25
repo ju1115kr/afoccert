@@ -78,7 +78,13 @@ def _update_attachment(resource, is_picture=False):
     else:
         previous = resource.filelocate
         resource.filename, resource.filelocate = saved
-    db.session.commit()
+    try:
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        # The uploaded file is not referenced by a committed database row.
+        _remove_attachment(saved[1])
+        raise
     if previous != saved[1]:
         _remove_attachment(previous)
     return jsonify(resource.to_json())
@@ -115,7 +121,7 @@ def post_news_file(id):
     news = News.query.get(id)
     if news is None:
         return not_found('News does not exist')
-    if g.current_user.id != news.author_id:
+    if g.current_user.id != news.author_id or not can_read_news(news, g.current_user):
         return forbidden('Cannot upload file')
     return _update_attachment(news)
 
@@ -154,7 +160,8 @@ def post_comment_file(comment_id):
     comment = Comment.query.get(comment_id)
     if comment is None:
         return not_found('Comment does not exist')
-    if g.current_user.id != comment.author_id:
+    if (g.current_user.id != comment.author_id or
+            not can_read_comment(comment, g.current_user)):
         return forbidden('Cannot upload file')
     return _update_attachment(comment)
 
