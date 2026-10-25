@@ -93,6 +93,8 @@ class StaticSafetyTests(unittest.TestCase):
         self.assertIn("os.environ.get('AFOCCERT_SECRET_KEY')", config)
         self.assertIn("os.environ.get('AFOCCERT_DATABASE_URL')", config)
         self.assertIn('SQLALCHEMY_COMMIT_ON_TEARDOWN = False', config)
+        wsgi = (ROOT / 'afoccert.wsgi').read_text(encoding='utf-8')
+        self.assertIn("os.environ.get('AFOCCERT_CONFIG', 'production')", wsgi)
 
 
 if __name__ == '__main__':
