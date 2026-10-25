@@ -1,7 +1,7 @@
 'use strict';
 var app = angular.module('certApp');
 
-app.factory('Search',function($resource, $sce, Comments){
+app.factory('Search',function($resource, $sce, $sanitize, Comments){
     return $resource(window.api_url+'/search/news/:keyword',{per_page:60},{
         fromNews: {
             method: 'GET',
@@ -12,7 +12,7 @@ app.factory('Search',function($resource, $sce, Comments){
 					var newses = [];
 					for(var i=0; i<data.news.length; i++){
 						var news = data.news[i];
-						news.trustText = $sce.trustAsHtml(news.context);
+						news.trustText = $sce.trustAsHtml($sanitize(news.context || ''));
 						serializer(news, 'context', 'text');
                         news.fold = true;
 						news.created = {};
