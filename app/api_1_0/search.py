@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 from flask import request, jsonify, g
 from . import api
+from .access import can_read_news
 from authentication import auth
 from ..models import News, User, Comment
 from errors import not_found, forbidden, bad_request
@@ -47,8 +48,7 @@ def search_comment(context):
     if pagination is None:
         return not_found('Comment does not exist')
     return jsonify({'comments':[comment.to_json() for comment in pag_result\
-            if comment.news.house is None or g.current_user in comment.news.house.users\
-                or g.current_user.id == news.house.create_user]})
+            if can_read_news(comment.news, g.current_user)]})
 
 
 @api.route('/search', methods=['GET'])
@@ -58,7 +58,7 @@ def search_allmight():
     endpoint = request.args.get('endpoint')
     context = request.args.get('context')
 
-    context = context.lower()
+    context = (context or '').lower()
     if startpoint is None: startpoint = News.query.order_by(News.id.asc()).first().created_at
     if endpoint is None: endpoint = News.query.order_by(News.id.desc()).first().created_at
 
@@ -69,8 +69,8 @@ def search_allmight():
                     .filter(News.created_at > startpoint).order_by(News.id.desc())\
                     .filter(News.parsed_context.like('%'+context+'%'))\
                     .paginate(page, per_page, error_out=False)
-    pag_result = pagination.items
-	
+    pag_result = search_result.items
+
     if context is None:  # 특정 구문이 주어지지 않은 경우
         return jsonify({'news':[news.to_json() for news in pag_result\
             if news.house is None or g.current_user in news.house.users\
