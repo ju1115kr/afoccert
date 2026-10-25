@@ -19,7 +19,7 @@ jobs:
           python-version: '3.11'
       - name: Compile touched backend modules (syntax only)
         run: |
-          python -m py_compile app/config.py app/__init__.py app/models.py \
+          python -m py_compile afoccert.wsgi app/config.py app/__init__.py app/models.py \
             app/api_1_0/__init__.py app/api_1_0/access.py app/api_1_0/storage.py \
             app/api_1_0/authentication.py app/api_1_0/users.py \
             app/api_1_0/groups.py app/api_1_0/comments.py \
