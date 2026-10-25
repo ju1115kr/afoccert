@@ -1,12 +1,12 @@
 # -*- coding:utf-8 -*-
 from flask import request, jsonify, make_response, url_for, g
 from . import api
+from .access import can_read_news
 from authentication import auth
 from .. import db
 from ..models import User, Comment, News, Group
 from errors import not_found, forbidden, bad_request
 from datetime import datetime
-from flask.ext.cors import cross_origin
 import os
 
 
@@ -37,13 +37,16 @@ def get_news(id):
 
 @api.route('/news', methods=['POST'])  # 신송 작성
 @auth.login_required
-@cross_origin(expose_headers='Location')
 def post_news():
     if request.json is None:
         return bad_request('JSON Request is invaild')
     news = News.from_json(request.json)
-    if news.group is not None and g.current_user.id != Group.query.filter_by(id=news.group).first().create_user:
-        return forbidden('User does not in this group')
+    if news.group is not None:
+        group = Group.query.get(news.group)
+        if group is None:
+            return bad_request('Group does not exist')
+        if g.current_user.id != group.create_user:
+            return forbidden('User cannot post to this group')
 
     news.author_id = g.current_user.id
     news.author_name = g.current_user.realname
@@ -72,7 +75,14 @@ def put_news(news_id):
     old_news.context = news.context
     old_news.parsed_context = news.parsed_context
     old_news.modified_at = datetime.utcnow()
+    if news.group is not None:
+        target_group = Group.query.get(news.group)
+        if target_group is None:
+            return bad_request('Group does not exist')
+        if g.current_user.id != target_group.create_user:
+            return forbidden('Cannot move news to this group')
     old_news.group = news.group
+    db.session.commit()
     return jsonify(old_news.to_json())
 
 
@@ -106,7 +116,6 @@ def get_news_comments(news_id):
 
 @api.route('/news/<int:news_id>/comments', methods=['POST'])  # 특정 신송에 덧글 작성
 @auth.login_required
-@cross_origin(expose_headers='Location')
 def post_news_comment(news_id):
     if request.json is None:
         return bad_request('JSON Request is invaild')
