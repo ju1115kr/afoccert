@@ -1,11 +1,11 @@
 # -*- coding:utf-8 -*-
 from flask import request, jsonify, make_response, url_for, g, send_from_directory
 from . import api
+from .access import can_read_comment
 from authentication import auth
 from .. import db
 from ..models import News, User, Comment
 from errors import not_found, bad_request, forbidden
-from flask.ext.cors import cross_origin
 import os
 
 @api.route('/comments/<int:comment_id>', methods=['GET'])  # 특정 덧글 요청
@@ -14,6 +14,8 @@ def get_comment(comment_id):
     comment = Comment.query.get(comment_id)
     if comment is None:
         return not_found('Comment does not exist')
+    if not can_read_comment(comment, g.current_user):
+        return forbidden('Cannot access this group')
     return jsonify(comment.to_json())
 
 
@@ -23,18 +25,21 @@ def get_comments_comment(comment_id):
     comment = Comment.query.get(comment_id)
     if comment is None:
         return not_found('Comment does not exist')
+    if not can_read_comment(comment, g.current_user):
+        return forbidden('Cannot access this group')
     return jsonify({'reply_comments': [reply_comment.to_json() for reply_comment in comment.comments]})
 
 
 @api.route('/comments/<int:comment_id>', methods=['POST'])  # 특정 덧글의 답글 작성
 @auth.login_required
-@cross_origin(expose_headers='Location')
 def post_comments_comment(comment_id):
     if request.json is None:
         return bad_request('JSON Request is invaild')
     comment = Comment.query.get(comment_id)
     if comment is None:
         return not_found('Comment does not exist')
+    if not can_read_comment(comment, g.current_user):
+        return forbidden('Cannot access this group')
     reply_comment = Comment.from_json(request.json)
     reply_comment.news_id = comment.news_id
     reply_comment.parent_id = comment.id
