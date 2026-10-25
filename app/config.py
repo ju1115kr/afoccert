@@ -9,7 +9,8 @@ class Config(object):
     # For local development, an ephemeral secret is safer than a committed key.
     # Production requires a persistent environment-provided secret.
     SECRET_KEY = os.environ.get('AFOCCERT_SECRET_KEY') or os.urandom(32)
-    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    # Commit only after all authorization and validation checks pass.
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = False
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
 
     @staticmethod
