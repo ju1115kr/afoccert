@@ -63,6 +63,8 @@ def put_comment(comment_id):
         return not_found('Comment does not exist')
     if g.current_user.id != old_comment.author_id:  # 다른 유저의 덧글을 수정하려고 하는 경우
         return forbidden('Cannot modify other user\'s comment')
+    if not can_read_comment(old_comment, g.current_user):
+        return forbidden('Cannot access this group')
     comment = Comment.from_json(request.json)
     old_comment.context = comment.context
     old_comment.parsed_context = comment.parsed_context
@@ -79,6 +81,8 @@ def delete_comment(comment_id):
         return not_found('Comment does not exist')
     if g.current_user.id != comment.author_id:  # 다른 유저의 덧글을 삭제하려고 하는 경우
         return forbidden('Cannot delete other user\'s comment')
+    if not can_read_comment(comment, g.current_user):
+        return forbidden('Cannot access this group')
     if comment.filename is not None:
         os.remove(os.path.join(api.root_path, '../../file/', comment.filelocate))
     Comment.query.filter(Comment.parent_id==comment.id).delete()
