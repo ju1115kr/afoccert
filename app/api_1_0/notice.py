@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 from flask import jsonify, g
 from . import api
+from .access import can_read_news
 from .. import db
 from authentication import auth
 from ..models import News
@@ -14,7 +15,7 @@ def get_notice_news():
 	if notice_news is None:
 		return not_found('News does not exist')
 	return jsonify({'notice' : [news.to_json() for news in notice_news\
-			if news.group is None or g.current_user in news.house.users]}), 200 
+			if can_read_news(news, g.current_user)]}), 200 
 
 
 @api.route('/notice/<int:news_id>', methods=['PUT'])  # 특정 신송 공지화
