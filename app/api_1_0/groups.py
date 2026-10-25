@@ -7,6 +7,16 @@ from .. import db
 from ..models import Group, User, News
 from errors import not_found, forbidden, bad_request
 
+try:
+    string_types = (basestring,)
+except NameError:  # For source-level checks with modern Python
+    string_types = (str,)
+
+
+def valid_usernames(users):
+    return (isinstance(users, list) and
+            all(isinstance(name, string_types) and name for name in users))
+
 
 @api.route('/groups', methods=['GET'])  # 전체 그룹 조회
 @auth.login_required
@@ -53,8 +63,6 @@ def get_users_in_group(group_id):
     if g.current_user.id != group.create_user:
         return forbidden('User does not create this group')
     users = group.users.all()
-    if users is None:
-        return not_found('User in group is not exist')
     return jsonify({'users' :[user.to_json() for user in users]})
 
 
@@ -63,7 +71,7 @@ def get_users_in_group(group_id):
 def post_group():
     if request.json is None or not isinstance(request.json, dict):
         return bad_request('JSON request is invalid')
-    if 'users' in request.json and not isinstance(request.json['users'], list):
+    if 'users' in request.json and not valid_usernames(request.json['users']):
         return bad_request('users must be a list')
     group = Group.from_json(request.json)
     if request.json.get('users') is None or request.json.get('users') == []:
@@ -93,15 +101,19 @@ def put_group(group_id):
     name = request.json.get('name', old_group.name)
     description = request.json.get('description', old_group.description)
     users = request.json.get('users')
-    if not isinstance(name, (str, unicode)) or not name.strip():
+    if not isinstance(name, string_types) or not name.strip():
         return bad_request('Group name is required')
-    if users is not None and not isinstance(users, list):
+    if users is not None and not valid_usernames(users):
         return bad_request('users must be a list')
 
     if users is not None:
         # Query each named user at most once, preserving the requested order.
         members = []
-        for username in set(users):
+        seen = set()
+        for username in users:
+            if username in seen:
+                continue
+            seen.add(username)
             member = User.query.filter_by(username=username).first()
             if member is not None:
                 members.append(member)
