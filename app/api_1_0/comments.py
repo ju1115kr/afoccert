@@ -1,12 +1,15 @@
 # -*- coding:utf-8 -*-
 from flask import request, jsonify, make_response, url_for, g, send_from_directory
 from . import api
+from .access import can_read_comment
+from .storage import safe_stored_path
 from authentication import auth
 from .. import db
 from ..models import News, User, Comment
 from errors import not_found, bad_request, forbidden
-from flask.ext.cors import cross_origin
 import os
+
+UPLOAD_FOLDER = os.path.abspath(os.path.join(api.root_path, '../../file'))
 
 @api.route('/comments/<int:comment_id>', methods=['GET'])  # 특정 덧글 요청
 @auth.login_required
@@ -14,6 +17,8 @@ def get_comment(comment_id):
     comment = Comment.query.get(comment_id)
     if comment is None:
         return not_found('Comment does not exist')
+    if not can_read_comment(comment, g.current_user):
+        return forbidden('Cannot access this group')
     return jsonify(comment.to_json())
 
 
@@ -23,18 +28,21 @@ def get_comments_comment(comment_id):
     comment = Comment.query.get(comment_id)
     if comment is None:
         return not_found('Comment does not exist')
+    if not can_read_comment(comment, g.current_user):
+        return forbidden('Cannot access this group')
     return jsonify({'reply_comments': [reply_comment.to_json() for reply_comment in comment.comments]})
 
 
 @api.route('/comments/<int:comment_id>', methods=['POST'])  # 특정 덧글의 답글 작성
 @auth.login_required
-@cross_origin(expose_headers='Location')
 def post_comments_comment(comment_id):
     if request.json is None:
         return bad_request('JSON Request is invaild')
     comment = Comment.query.get(comment_id)
     if comment is None:
         return not_found('Comment does not exist')
+    if not can_read_comment(comment, g.current_user):
+        return forbidden('Cannot access this group')
     reply_comment = Comment.from_json(request.json)
     reply_comment.news_id = comment.news_id
     reply_comment.parent_id = comment.id
@@ -58,10 +66,13 @@ def put_comment(comment_id):
         return not_found('Comment does not exist')
     if g.current_user.id != old_comment.author_id:  # 다른 유저의 덧글을 수정하려고 하는 경우
         return forbidden('Cannot modify other user\'s comment')
+    if not can_read_comment(old_comment, g.current_user):
+        return forbidden('Cannot access this group')
     comment = Comment.from_json(request.json)
     old_comment.context = comment.context
     old_comment.parsed_context = comment.parsed_context
     old_comment.author_name = g.current_user.realname
+    db.session.commit()
     return jsonify(old_comment.to_json())
 
 
@@ -73,9 +84,17 @@ def delete_comment(comment_id):
         return not_found('Comment does not exist')
     if g.current_user.id != comment.author_id:  # 다른 유저의 덧글을 삭제하려고 하는 경우
         return forbidden('Cannot delete other user\'s comment')
-    if comment.filename is not None:
-        os.remove(os.path.join(api.root_path, '../../file/', comment.filelocate))
-    Comment.query.filter(Comment.parent_id==comment.id).delete()
+    if not can_read_comment(comment, g.current_user):
+        return forbidden('Cannot access this group')
+    # Unlink only safe saved attachments after the transaction succeeds.
+    attachments = [comment.filelocate]
+    attachments.extend(reply.filelocate for reply in
+                       Comment.query.filter_by(parent_id=comment.id).all())
+    Comment.query.filter(Comment.parent_id == comment.id).delete()
     db.session.delete(comment)
     db.session.commit()
+    for filename in attachments:
+        path = safe_stored_path(UPLOAD_FOLDER, filename)
+        if path and os.path.isfile(path):
+            os.remove(path)
     return '', 204

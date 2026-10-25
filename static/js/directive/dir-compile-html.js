@@ -3,7 +3,7 @@
 var app = angular.module('certApp');
 
 app
-    .directive('compileHtml', function($parse, $sce, $compile, $q, News){
+    .directive('compileHtml', function($parse, $sce, $compile, $q, $sanitize, News){
         return {
             restrict: "A",
             transclude: true,
@@ -14,15 +14,15 @@ app
                 var expression = $sce.parseAsHtml(attr.compileHtml);
                 var regHash = new RegExp('(#(([0-9]+){2,}|([3-9])))','gm');
                 scope.$watch(expression, function(newValue) {
-                    var wrapper = angular.element('<div></div>').html(newValue);
+                    scope.hashNews = [];
+                    var wrapper = angular.element('<div></div>').html($sanitize(newValue || ''));
                     if(attr.compileHash == 'true'){
                         /**
                          * convert # Hash
                          */
-                        wrapper[0] = getTextNodesIn(wrapper[0], regHash,  function(str){
+                        getTextNodesIn(wrapper[0], regHash, function(str){
                             scope.hashNews.push(str.slice(1)); // strip '#'
-                            return '<span class="snackbar">'+str+'</span>';
-                        },0);
+                        });
                     }
                     /**
                      * convert @ Hash
@@ -35,7 +35,7 @@ app
                         if(spans[i].hasAttribute('class') &&
                             spans[i].getAttribute('class').split(' ').indexOf('hash-input')>-1){
                             var node = document.createElement('span');
-                            node.innerHTML = spans[i].innerHTML.split('@')[1].split(':')[0];
+                            node.textContent = spans[i].textContent.split('@')[1].split(':')[0];
                             node.setAttribute('class','hash-input readonly');
                             spans[i].parentNode.replaceChild(node, spans[i]);
                         }
@@ -56,35 +56,66 @@ app
                         return wrapper;
                     }).then(function(wrapper){
                         compile(wrapper, elem);
+                    }, function(){
+                        // An inaccessible #reference must not hide the post text.
+                        compile(wrapper, elem);
                     });
 
-                    function compile(ele,parent){
-                        $compile(ele)(scope);
-                        parent.html(ele);
+                    function compile(ele, parent){
+                        // Do not Angular-compile untrusted post HTML: interpolation
+                        // such as {{ ... }} must remain inert text.
+                        parent.empty();
+                        while (ele[0].firstChild) {
+                            parent[0].appendChild(ele[0].firstChild);
+                        }
+                        // Only our explicitly generated attachment elements are
+                        // trusted Angular templates.
+                        var attachments = parent[0].querySelectorAll('attachment');
+                        for (var i = 0; i < attachments.length; i++) {
+                            $compile(attachments[i])(scope);
+                        }
                     }
                 })
             }
         }
     })
 
-function getTextNodesIn(elem, reg, callback, count) {
-    if(elem){
-        for (var nodes = elem.childNodes, i = nodes.length-1; i>=0; i--){
-            var node = nodes[i], nodeType = node.nodeType;
-            if(nodeType == 3){
-                var text = node.nodeValue;
-                if(reg.test(text)){
-                    var replacementNode = document.createElement('span');
-                    replacementNode.innerHTML = text.replace(reg, callback);
-                    node.parentNode.insertBefore(replacementNode, node);
-                    node.parentNode.removeChild(node);
-                }
-                elem.childNodes[i] = node;
-            }
-            else if (nodeType == 1 || nodeType == 9 || nodeType == 11){
-                elem.childNodes[i] = getTextNodesIn(node, reg, callback,++count);
-            }
-        }
+/**
+ * Convert #references in text nodes into badges.
+ * Never concatenate arbitrary text into innerHTML.
+ */
+function getTextNodesIn(elem, reg, onReference) {
+    if (!elem) {
+        return elem;
     }
+    var children = Array.prototype.slice.call(elem.childNodes);
+    children.forEach(function(node){
+        if (node.nodeType === 3) {
+            var value = node.nodeValue;
+            var fragment = document.createDocumentFragment();
+            var cursor = 0;
+            var match;
+            reg.lastIndex = 0;
+            while ((match = reg.exec(value)) !== null) {
+                fragment.appendChild(document.createTextNode(
+                    value.slice(cursor, match.index)));
+                var badge = document.createElement('span');
+                badge.className = 'snackbar';
+                badge.textContent = match[0];
+                fragment.appendChild(badge);
+                onReference(match[0]);
+                cursor = reg.lastIndex;
+                if (!match[0].length) {
+                    break;
+                }
+            }
+            if (cursor > 0) {
+                fragment.appendChild(document.createTextNode(value.slice(cursor)));
+                node.parentNode.replaceChild(fragment, node);
+            }
+        } else if (node.nodeType === 1) {
+            getTextNodesIn(node, reg, onReference);
+        }
+    });
     return elem;
 }

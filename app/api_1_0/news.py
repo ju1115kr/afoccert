@@ -1,13 +1,16 @@
 # -*- coding:utf-8 -*-
 from flask import request, jsonify, make_response, url_for, g
 from . import api
+from .access import can_read_news
+from .storage import safe_stored_path
 from authentication import auth
 from .. import db
 from ..models import User, Comment, News, Group
 from errors import not_found, forbidden, bad_request
 from datetime import datetime
-from flask.ext.cors import cross_origin
 import os
+
+UPLOAD_FOLDER = os.path.abspath(os.path.join(api.root_path, '../../file'))
 
 
 @api.route('/news', methods=['GET'])  # 전체 신송 요청
@@ -18,8 +21,7 @@ def get_all_news():
     pagination = News.query.order_by(News.created_at.desc()).paginate(page, per_page, error_out=False)
     pag_news = pagination.items
     return jsonify({'news': [news.to_json() for news in pag_news\
-                    if news.group is None or g.current_user in news.house.users\
-                    or g.current_user.id == news.house.create_user]})
+                    if can_read_news(news, g.current_user)]})
 
 
 @api.route('/news/<int:id>', methods=['GET'])  # 특정 신송 요청
@@ -29,21 +31,23 @@ def get_news(id):
     if news is None:
         return not_found('News does not exist')
     # 전체 공개, 그룹 내 유저, 그룹 생성자만 신송 열람 허용
-    if news.group is not None and g.current_user not in news.house.users\
-                    and g.current_user.id != news.house.create_user: 
+    if not can_read_news(news, g.current_user):
         return forbidden('User does not in this group')
     return jsonify(news.to_json())
 
 
 @api.route('/news', methods=['POST'])  # 신송 작성
 @auth.login_required
-@cross_origin(expose_headers='Location')
 def post_news():
     if request.json is None:
         return bad_request('JSON Request is invaild')
     news = News.from_json(request.json)
-    if news.group is not None and g.current_user.id != Group.query.filter_by(id=news.group).first().create_user:
-        return forbidden('User does not in this group')
+    if news.group is not None:
+        group = Group.query.get(news.group)
+        if group is None:
+            return bad_request('Group does not exist')
+        if g.current_user.id != group.create_user:
+            return forbidden('User cannot post to this group')
 
     news.author_id = g.current_user.id
     news.author_name = g.current_user.realname
@@ -69,10 +73,17 @@ def put_news(news_id):
     if g.current_user.id != old_news.author_id:  # 다른 유저의 신송을 수정하려고 하는 경우
         return forbidden('Cannot modify other user\'s news')  
     news = News.from_json(request.json)
+    if news.group is not None:
+        target_group = Group.query.get(news.group)
+        if target_group is None:
+            return bad_request('Group does not exist')
+        if g.current_user.id != target_group.create_user:
+            return forbidden('Cannot move news to this group')
     old_news.context = news.context
     old_news.parsed_context = news.parsed_context
     old_news.modified_at = datetime.utcnow()
     old_news.group = news.group
+    db.session.commit()
     return jsonify(old_news.to_json())
 
 
@@ -84,11 +95,17 @@ def delete_news(news_id):
         return not_found('News does not exist')
     if g.current_user.id != news.author_id:  # 다른 유저의 신송을 삭제하려고 하는 경우
         return forbidden('Cannot delete other user\'s news')
-    if news.filename is not None:
-        os.remove(os.path.join(os.path.join(api.root_path, '../../file/'), news.filelocate))
+    # Commit the database delete first; only unlink previously stored safe paths.
+    # This avoids deleting the attachment if the transaction fails.
+    attachments = [news.filelocate]
+    attachments.extend(c.filelocate for c in Comment.query.filter_by(news_id=news.id).all())
     Comment.query.filter(Comment.news_id == news.id).delete()
     db.session.delete(news)
     db.session.commit()
+    for filename in attachments:
+        path = safe_stored_path(UPLOAD_FOLDER, filename)
+        if path and os.path.isfile(path):
+            os.remove(path)
     return '', 204
 
 
@@ -98,23 +115,20 @@ def get_news_comments(news_id):
     news = News.query.get(news_id)
     if news is None:
         return not_found('News does not exist')
-    if news.group is not None and g.current_user not in news.house.users\
-            and g.current_user.id != news.house.create_user:
+    if not can_read_news(news, g.current_user):
         return forbidden('User does not in this group') 
     return jsonify({'comments': [comment.to_json() for comment in news.comments if comment.parent_id is None]})
 
 
 @api.route('/news/<int:news_id>/comments', methods=['POST'])  # 특정 신송에 덧글 작성
 @auth.login_required
-@cross_origin(expose_headers='Location')
 def post_news_comment(news_id):
     if request.json is None:
         return bad_request('JSON Request is invaild')
     news = News.query.get(news_id)
     if news is None:
         return not_found('news does not exist')
-    if news.group is not None and g.current_user not in news.house.users\
-                and g.current_user.id != news.house.create_user:
+    if not can_read_news(news, g.current_user):
         return forbidden('User does not in this group')
 
     comment = Comment.from_json(request.json)

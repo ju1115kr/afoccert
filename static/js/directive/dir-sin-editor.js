@@ -18,7 +18,7 @@ app
 				groupFlag: "@sinGroup"
 			},
 			replace: true,
-			controller: function($scope, $sce) {
+			controller: function($scope, $sce, $sanitize) {
 				$scope.users = [];
 				$scope.editor;
 				$scope.hash = {
@@ -86,7 +86,7 @@ app
 							$scope.submit(obj);
 							if (isEditing) {
 								$scope.value.text = cvtHashInputToSpan(htmlText);
-								$scope.value.trustText = $sce.trustAsHtml($scope.value.text);
+								$scope.value.trustText = $sce.trustAsHtml($sanitize($scope.value.text));
 								$scope.value.edit = false;
 							} else {
 								initEditor();

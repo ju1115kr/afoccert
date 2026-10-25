@@ -1,0 +1,35 @@
+name: Legacy security regression checks
+
+on:
+  push:
+    branches: ['security/**']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  static-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile touched backend modules (syntax only)
+        run: |
+          python -m py_compile afoccert.wsgi app/config.py app/__init__.py app/models.py \
+            app/api_1_0/__init__.py app/api_1_0/access.py app/api_1_0/storage.py \
+            app/api_1_0/authentication.py app/api_1_0/users.py \
+            app/api_1_0/groups.py app/api_1_0/comments.py \
+            app/api_1_0/news.py app/api_1_0/search.py \
+            app/api_1_0/notice.py app/api_1_0/files.py
+      - name: Run dependency-free security unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Check frontend JavaScript syntax
+        run: |
+          node --check static/js/directive/dir-compile-html.js
+          node --check static/js/directive/dir-sin-editor.js
+          node --check static/js/service/processing.js
+          node --check static/js/service/search.js

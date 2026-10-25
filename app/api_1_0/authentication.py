@@ -40,8 +40,10 @@ def verify_password(username_or_token, password):
 def get_token():
     if g.token_used:
         return bad_request('token is already given')
-    return jsonify({'token': g.current_user.generate_auth_token(g.current_user, expiration=3600),
-                    'expiration': 3600}), 200
+    response = jsonify({'token': g.current_user.generate_auth_token(expiration=3600),
+                        'expiration': 3600})
+    response.headers['Cache-Control'] = 'no-store'
+    return response, 200
 
 
 

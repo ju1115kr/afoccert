@@ -1,16 +1,23 @@
-# AFOCCERT ¾÷¹«Çù¾÷Ã¼°è
+# AFOCCERT ì—…ë¬´í˜‘ì—…ì²´ê³„
 
-SPA(Single Page Application) Çü½ÄÀ¸·Î¼­ ¾÷¹« ³»¿ë Àü´Ş°ú °øÀ¯, ÇÇµå¹éÀ» Á¦°øÇÏ±â À§ÇÑ ¾÷¹«Çù¾÷Ã¼°èÀÔ´Ï´Ù.
+SPA(Single Page Application) í˜•ì‹ìœ¼ë¡œì„œ ì—…ë¬´ ë‚´ìš© ì „ë‹¬ê³¼ ê³µìœ , í”¼ë“œë°±ì„ ì œê³µí•˜ê¸° ìœ„í•œ ì—…ë¬´í˜‘ì—…ì²´ê³„ì…ë‹ˆë‹¤.
 
 ![afoccert Page](https://user-images.githubusercontent.com/16971994/31169916-3cc72d16-a935-11e7-852e-ada8cd1ec5ea.png)
 
+> **ë³´ì•ˆ ì•ˆë‚´ (2026-10-25):** ë³¸ í”„ë¡œì íŠ¸ëŠ” ì§€ì› ì¢…ë£Œëœ Python 2.7 ë° AngularJSë¥¼
+> ê¸°ë°˜ìœ¼ë¡œ í•œ ë ˆê±°ì‹œ ì˜ˆì œì…ë‹ˆë‹¤. ì‹¤ì œ ì—…ë¬´ì •ë³´ ì²˜ë¦¬ë‚˜ ì¸í„°ë„· ê³µê°œ ìš´ì˜ì— ì í•©í•œ
+> ìƒíƒœê°€ ì•„ë‹™ë‹ˆë‹¤. ë¹„ë°€í‚¤Â·DB ì•”í˜¸ êµì²´ ë° ìš´ì˜ ì „ ì ê²€ì‚¬í•­ì€
+> [SECURITY_MAINTENANCE.md](SECURITY_MAINTENANCE.md)ë¥¼ ì°¸ê³ í•˜ì„¸ìš”.
+> ì•„ë˜ ì„¤ì¹˜ ëª…ë ¹ì€ ë‹¹ì‹œì˜ ê¸°ë¡ì´ë©° í˜„ì¬ í™˜ê²½ì—ì„œ ì¬í˜„ ê°€ëŠ¥í•˜ê±°ë‚˜ ì•ˆì „í•˜ë‹¤ëŠ”
+> ì˜ë¯¸ê°€ ì•„ë‹™ë‹ˆë‹¤.
+
 ## Getting Started
 
-º» Ã¼°è´Â Apache Web Server, AngularJS, Flask(Python2.7) ±â¹İÀ¸·Î Á¦ÀÛµÇ¾ú½À´Ï´Ù.
+ë³¸ ì²´ê³„ëŠ” Apache Web Server, AngularJS, Flask(Python2.7) ê¸°ë°˜ìœ¼ë¡œ ì œì‘ë˜ì—ˆìŠµë‹ˆë‹¤.
 
 ### Prerequisites
 
-½ÇÇàÇÏ±â Àü ÇÊ¿äÇÑ ¼ÒÇÁÆ®¿ş¾î ¸ñ·Ï ¹× ¼³Ä¡¹ı
+ì‹¤í–‰í•˜ê¸° ì „ í•„ìš”í•œ ì†Œí”„íŠ¸ì›¨ì–´ ëª©ë¡ ë° ì„¤ì¹˜ë²•
 
 ```
 Apache HTTP Server
@@ -23,7 +30,7 @@ sudo yum -y install httpd python27 python-pip
 
 ### Installing
 
-Apache HTTP Server¿Í Python2.7, pip¸¦ ¼³Ä¡ÇÑ ÀÌÈÄ ÇÊ¿äÇÑ ¶óÀÌºê·¯¸® ¸ñ·Ï°ú ¼³Ä¡
+Apache HTTP Serverì™€ Python2.7, pipë¥¼ ì„¤ì¹˜í•œ ì´í›„ í•„ìš”í•œ ë¼ì´ë¸ŒëŸ¬ë¦¬ ëª©ë¡ê³¼ ì„¤ì¹˜
 
 ```
 sudo pip install -r requirements.txt
@@ -31,9 +38,9 @@ sudo pip install -r requirements.txt
 
 ## Running the tests
 
-### ÆÄÀÏ ¼¼ÆÃ ¹× IP¿¡ ¸Â°Ô ÄÚµå ¼öÁ¤
+### íŒŒì¼ ì„¸íŒ… ë° IPì— ë§ê²Œ ì½”ë“œ ìˆ˜ì •
 
-* Apache ¼³Á¤ ÆÄÀÏ º¹»ç
+* Apache ì„¤ì • íŒŒì¼ ë³µì‚¬
 
 ```
 sudo cp apache_configuration/* /etc/httpd/conf.d/
@@ -41,30 +48,30 @@ sudo cat "WSGISocketPrefix /var/run/wsgi" >> /etc/httpd/conf/httpd.conf
 sudo cp ./* /var/www/afoccert/
 ```
 
-* ¼­¹ö IP¿¡ ¸Â°Ô Ä¿½ºÅÍ¸¶ÀÌÂ¡
+* ì„œë²„ IPì— ë§ê²Œ ì»¤ìŠ¤í„°ë§ˆì´ì§•
 
-/var/www/afoccert/static/js/api.js ³»
+/var/www/afoccert/static/js/api.js ë‚´
 
 ```
     window.api_url ='http://{ServerIP}:9000/api/v1.0';
 ```
 
-/etc/httpd/conf.d/afoccert_app.conf ³»
+/etc/httpd/conf.d/afoccert_app.conf ë‚´
 
 ```
     ServerName {ServerIP}
 ```
-·Î º¯°æ
+ë¡œ ë³€ê²½
 
-### ¼­ºñ½º Àç±âµ¿ ¹× À¥ Á¢¼Ó
+### ì„œë¹„ìŠ¤ ì¬ê¸°ë™ ë° ì›¹ ì ‘ì†
 
-* Apache HTTP Server (httpd) Àç±âµ¿
+* Apache HTTP Server (httpd) ì¬ê¸°ë™
 
 ```
 sudo systemctl restart httpd
 ```
 
-* ¼­¹öIP:8080À¸·Î À¥ Á¢¼Ó
+* ì„œë²„IP:8080ìœ¼ë¡œ ì›¹ ì ‘ì†
 
 ```
 http://{ServerIP}:8080

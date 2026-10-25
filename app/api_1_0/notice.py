@@ -1,6 +1,8 @@
 # -*- coding:utf-8 -*-
 from flask import jsonify, g
 from . import api
+from .access import can_read_news
+from .. import db
 from authentication import auth
 from ..models import News
 from errors import not_found, forbidden
@@ -13,7 +15,7 @@ def get_notice_news():
 	if notice_news is None:
 		return not_found('News does not exist')
 	return jsonify({'notice' : [news.to_json() for news in notice_news\
-			if news.group is None or g.current_user in news.house.users]}), 200 
+			if can_read_news(news, g.current_user)]}), 200 
 
 
 @api.route('/notice/<int:news_id>', methods=['PUT'])  # 특정 신송 공지화
@@ -25,6 +27,7 @@ def put_notice_news(news_id):
 	if g.current_user.id != news.author_id:
 		return forbidden('Cannot change other user\'s news')
 	news.notice = True
+	db.session.commit()
 	return jsonify(news.to_json())
 
 
@@ -37,4 +40,5 @@ def delete_notice_news(news_id):
 	if g.current_user.id != news.author_id:
 		return forbidden('Cannot chang other user\'s news')
 	news.notice = False
+	db.session.commit()
 	return jsonify(news.to_json())
