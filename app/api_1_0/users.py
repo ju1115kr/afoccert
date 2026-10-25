@@ -47,7 +47,7 @@ def modify_user(user_id):
     user = User.query.filter_by(username=user_id).first()
     if user is None:  # 유저가 존재 하지 않을 경우
         return not_found('User does not exist')
-    if g.current_user.username is not user.username:  # 다른 유저를 수정하려고 하는 경우
+    if g.current_user.id != user.id:  # 다른 유저를 수정하려고 하는 경우
         return forbidden('Cannot modify other user')
     if request.json is None:  # 요청이 올바르지 않은 경우
         return bad_request('JSON Request is invaild')
