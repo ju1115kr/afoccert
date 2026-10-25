@@ -108,6 +108,20 @@ class StaticSafetyTests(unittest.TestCase):
         self.assertIn("$compile(attachments[i])(scope)", directive)
         self.assertNotIn('node.parentNode.insertBefore(replacementNode', directive)
 
+    def test_displayed_rich_text_is_sanitized(self):
+        for filename in (
+                'static/js/service/processing.js',
+                'static/js/service/search.js',
+                'static/js/directive/dir-sin-editor.js'):
+            source = (ROOT / filename).read_text(encoding='utf-8')
+            self.assertIn('$sanitize', source, filename)
+
+    def test_all_attachment_storage_paths_are_checked(self):
+        news = (ROOT / 'app/api_1_0/news.py').read_text(encoding='utf-8')
+        comments = (ROOT / 'app/api_1_0/comments.py').read_text(encoding='utf-8')
+        self.assertIn('safe_stored_path(UPLOAD_FOLDER, filename)', news)
+        self.assertIn('safe_stored_path(UPLOAD_FOLDER, filename)', comments)
+
     def test_database_and_flask_secrets_are_environmental(self):
         config = (ROOT / 'app/config.py').read_text(encoding='utf-8')
         self.assertIn("os.environ.get('AFOCCERT_SECRET_KEY')", config)
