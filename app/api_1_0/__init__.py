@@ -11,7 +11,7 @@ allowed_origins = [origin.strip() for origin in
                    os.environ.get('AFOCCERT_CORS_ORIGINS', '').split(',')
                    if origin.strip()]
 if allowed_origins:
-    CORS(api, origins=allowed_origins)
+    CORS(api, origins=allowed_origins, expose_headers=['Location'])
 
 # 어플리케이션 모듈들 임포트(여기서 api 구현들을 import 해줘야 flask app context 에 포함됨)
 from . import authentication, news, users, comments, errors, search, groups, notice, files
