@@ -24,6 +24,25 @@
   the obsolete dependencies are safe or installable on modern Python.**
 - Sanitized rich-text HTML before passing it to Angular's compiler.
 
+## Historical preservation and compatibility
+
+This work intentionally preserves the UI, routes, DB models, license, contributor
+history, and existing branches. It is not a Python 3 migration or a redesign.
+Do not squash, rewrite or force-push the historical repository merely to clean
+code. Existing exposed credentials should be **rotated**, even if the old source
+history is retained. For materialized deployments, review history exposure
+separately with the original collaborators.
+
+The historic frontend runs on port 8080, while the API runs on port 9000.
+**They are different browser origins even on the same host.** Set
+`AFOCCERT_CORS_ORIGINS` to the exact trusted frontend origin when reusing
+that deployment layout; the old `Location` response header remains exposed
+to approved origins. Avoid plain HTTP in any networked environment.
+
+This PR also narrows AngularJS trusted-HTML handling: post content is sanitized,
+and only application-created attachment nodes are compiled as Angular directives.
+Supported-stack migration is still necessary before processing real user data.
+
 ## Immediate manual actions (not automated by this PR)
 
 1. **Rotate** the previously committed Flask secret and the database user's
