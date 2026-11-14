@@ -50,7 +50,7 @@ Markdown==2.3.1
 MarkupSafe==0.23
 mccabe==0.3.1
 MySQL-python==1.2.5
-oauthlib==1.0.3
+oauthlib==4.0.1
 pep8==1.5.7
 permission==0.4.1
 Pillow==3.1.1
